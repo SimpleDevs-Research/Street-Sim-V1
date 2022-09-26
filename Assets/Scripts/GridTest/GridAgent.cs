@@ -23,6 +23,14 @@ public class GridAgent : MonoBehaviour
         if (parent == null) return;
         parent.UpdateAgentPosition(this, transform.position, radius);
     }
+    
+    public void SetAreaIndices(List<Vector2Int> indices) {
+        areaIndices = indices;
+    }
+
+    public bool CheckIfCloseToArea(Vector2Int areaIndex) {
+        return areaIndices.Contains(areaIndex);
+    }
 
     /*
     public void CheckAreas() {

@@ -68,7 +68,7 @@ public class DistrictController : MonoBehaviour
         /* StartCoroutine(CustomUpdate()); */
 
         // We run a coroutine that runs on occasion to reset areas that used to have obstacles but no longer do.
-        StartCoroutine(CheckAreas());
+        //StartCoroutine(CheckAreas());
     }
 
     /*
@@ -86,7 +86,7 @@ public class DistrictController : MonoBehaviour
         }
     }
     */
-
+    /*
     private IEnumerator CheckAreas() {
         float waitTime = 1f / (float)fps;
         while(true) {
@@ -109,6 +109,7 @@ public class DistrictController : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
     }
+    */
 
     private IEnumerator AddAreaWithAgents(AreaController area) {
         while(isCheckingAreasWithAgents) {
@@ -126,17 +127,23 @@ public class DistrictController : MonoBehaviour
         int minY = PositionToIndex(position.z - radius);
         int maxY = PositionToIndex(position.z + radius);
         
+        // We keep track of the indices that the agent is close to
+        List<Vector2Int> closeTo = new List<Vector2Int>();
         // Iterate through possible areas, confirming their hits and telling our Agent that we hit those areas
         for(int x = minX; x <= maxX; x++) {
             if (x < 0 || x >= areas.GetLength(0)) continue;
             for (int y = minY; y <= maxY; y++) {
                 if (y < 0 || y >= areas.GetLength(1)) continue;
+                // We add to our closeTo
+                closeTo.Add(new Vector2Int(x,y));
                 // We notify the area if they fit within the radius of the obstacle
                 areas[x,y].AddAgentInside(agent);
                 // We add that area to `areasWithAgents`
-                if (!areasWithAgents.Contains(areas[x,y])) StartCoroutine(AddAreaWithAgents(areas[x,y]));
+                //if (!areasWithAgents.Contains(areas[x,y])) StartCoroutine(AddAreaWithAgents(areas[x,y]));
             }
         }
+        // We notify the agent what indices they're closest to
+        agent.SetAreaIndices(closeTo);
     }
 
     public int PositionToIndex(float pos) {
