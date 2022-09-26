@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Agent : MonoBehaviour
 {
-    [SerializeField] private int index;
+    [SerializeField] public int index;
+    [SerializeField] private FlowFieldManager flowFieldManager;
     [SerializeField] private AgentController agentController; 
     [SerializeField] private CellController cellController;
     [SerializeField] 
@@ -15,15 +17,36 @@ public class Agent : MonoBehaviour
     }
     [SerializeField] private List<Vector2Int> cellIndices = new List<Vector2Int>();
 
-    public bool Initialize(int index, AgentController agentController, CellController cellController) {
+    [SerializeField] private Rigidbody rb;
+    private bool initialized = false;
+
+    private void OnGUI() {
+        Handles.DrawSolidDisc(transform.position, Vector3.up, 0.01f);
+    }
+
+    private void Awake() {
+        if (rb == null) rb = GetComponent<Rigidbody>();
+    }
+
+    public bool Initialize(int index, FlowFieldManager flowFieldManager, AgentController agentController, CellController cellController) {
         this.index = index;
+        this.flowFieldManager = flowFieldManager;
         this.agentController = agentController;
         this.cellController = cellController;
+        initialized = true;
         return true;
     }
 
     private void Update() {
+        if (!initialized) return;
         cellController.AgentToCellUpdate(this);
+        if (rb == null) return;
+        Vector2Int gridPos = cellController.Position3DToIndex(transform.position);
+        if (!cellController.ValidateCoords(gridPos)) return;
+        if (flowFieldManager.currentFlowField == null) return;
+        if (flowFieldManager.currentFlowField.flowFieldGrid == null) return;
+        rb.AddForce(flowFieldManager.currentFlowField.flowFieldGrid[gridPos.x,gridPos.y]);
+
     }
     
     public void SetCellIndices(List<Vector2Int> indices) {

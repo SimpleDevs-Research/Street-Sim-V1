@@ -12,15 +12,20 @@ public class CellNeighbor {
     }
 }
 
-public class Cell : MonoBehaviour {
+public class Cell {
 
     [Header("References")]
     //      [SerializeField] private Canvas canvas;
     //      [SerializeField] TextMeshProUGUI textbox;
-    [SerializeField] private Renderer r;
+    // [SerializeField] private Renderer r;
 
     public Vector2Int index = Vector2Int.zero;
     private CellController cellController;
+    private Vector3 m_worldPos = Vector3.zero;
+    public Vector3 worldPos {
+        get { return m_worldPos; }
+        set {}
+    }
 
     public enum CellType {
         Traversable,
@@ -42,28 +47,34 @@ public class Cell : MonoBehaviour {
     private float m_cost = 1;  // Range: 1 - 255 (there's no cell with purely 0 cost)
     public float cost { get { return m_cost; } set {}   }
 
-    private Color costColor = Color.white;
+    private Color m_costColor = Color.white;
+    public Color costColor {
+        get { return m_costColor; }
+        set {}
+    }
 
     public Dictionary<Cell,CellNeighbor> neighbors = new Dictionary<Cell,CellNeighbor>();
     public List<Agent> agentsInside = new List<Agent>();
 
+    /*
     private void Awake() {
         if (r == null) r = GetComponent<Renderer>();
     }
+    */
 
-    public void Initialize(CellController cellController, int x, int y) {
+    public Cell(CellController cellController, int x, int y) {
         // Set references
         this.cellController = cellController;
         index = new Vector2Int(x,y);
         // Set Pos
-        this.transform.position = 
+        m_worldPos = 
             this.cellController.transform.position + 
             new Vector3(
                 (index.x*this.cellController.resolution) + (this.cellController.resolution*0.5f), 
                 0f, 
                 (index.y*this.cellController.resolution) + (this.cellController.resolution*0.5f)
             );
-        this.transform.localScale = new Vector3(this.cellController.resolution,this.cellController.resolution,this.cellController.resolution);
+        // this.transform.localScale = new Vector3(this.cellController.resolution,this.cellController.resolution,this.cellController.resolution);
         // We need to determine if we're a Traversable, Rough, or Impassable cell. This will determine our cell's type
         CheckCellType();
 
@@ -74,8 +85,8 @@ public class Cell : MonoBehaviour {
     public void SetNeighbor(Cell neighbor) {
         if (!neighbors.ContainsKey(neighbor)) {
             // For now, we'll just do a Vector3.Distance for hte distance between this cell and the neighbor.
-            float d = Vector3.Distance(transform.position, neighbor.transform.position);
-            Vector3 dTo = Vector3.ClampMagnitude(neighbor.transform.position - transform.position,1f);
+            float d = Vector3.Distance(m_worldPos, neighbor.worldPos);
+            Vector3 dTo = (neighbor.worldPos - m_worldPos).normalized;
             neighbors.Add(neighbor,new CellNeighbor(d, dTo));
         }
     }
@@ -87,7 +98,7 @@ public class Cell : MonoBehaviour {
     private void CheckCellType() {
         // We essentially are just checking for colliders that match specific layers
         int terrainMask = LayerMask.GetMask("RoughTerrain", "ImpassableTerrain");
-        Collider[] obstacles = Physics.OverlapBox(transform.position, Vector3.one * cellController.resolution,Quaternion.identity,terrainMask);
+        Collider[] obstacles = Physics.OverlapBox(m_worldPos, Vector3.one * cellController.resolution,Quaternion.identity,terrainMask);
         bool hasHitLayer = false;   // Just a check
         foreach(Collider col in obstacles) {
             // If we find a collider that is impassable, then it's truly impassable, no joke (we're not taking into account moving agents - just the environment)
@@ -107,38 +118,33 @@ public class Cell : MonoBehaviour {
         return;        
     }
 
-    private void Update() {
-        // We only return early if this is an Impassable type (we shouldn't see any agents in here)
+    public void UpdateCell() {
         if (m_cellType == CellType.Impassable) return;
-
+        if (agentsInside.Count == 0) return;
         // Update # of agents inside this cell
         UpdateAgentNumbers();
         // Update appearance
         UpdateAppearance();
-        return;
     }
 
     private void UpdateAgentNumbers() {
-        // We end early if there aren't any agents to consider
-        if (agentsInside.Count == 0) {
-            return;
-        }
         // We need to check with each agent if they're still in range.
         // The Agent has a track record of which indices it's closest to.
         // We just need to check if our index is among those indices
-
         List<Agent> tempIn = new List<Agent>();
         foreach(Agent agent in agentsInside) {
             if (agent.CheckIfCloseToArea(index)) tempIn.Add(agent);
         }
-        bool hasAgents = tempIn.Count > 0;
         agentsInside = tempIn;
-        return;
     }
 
     public float GetCellCost() {
         float c = costDictionary[m_cellType] + (float)agentsInside.Count * 200f;  // For now, we're just setting the cost of a person to be 200
         return Mathf.Clamp(c, 1f, 255f);
+    }
+    public float GetPureCellCost() {
+        float c = costDictionary[m_cellType];
+        return Mathf.Clamp(c,1f,255f);
     }
 
     public Color GetCellColor() {
@@ -149,18 +155,38 @@ public class Cell : MonoBehaviour {
     }
 
     private void UpdateAppearance() {
-        Color costColor = GetCellColor();
-        r.material.SetColor("_Color", costColor);
+        m_costColor = GetCellColor();
+        // r.material.SetColor("_Color", costColor);
     }
 
     public Vector3[] GetVerts() {
         return new Vector3[]
         {
-            new Vector3(transform.position.x - cellController.resolution*0.5f, transform.position.y, transform.position.z - cellController.resolution*0.5f),
-            new Vector3(transform.position.x - cellController.resolution*0.5f, transform.position.y, transform.position.z + cellController.resolution*0.5f),
-            new Vector3(transform.position.x + cellController.resolution*0.5f, transform.position.y, transform.position.z + cellController.resolution*0.5f),
-            new Vector3(transform.position.x + cellController.resolution*0.5f, transform.position.y, transform.position.z - cellController.resolution*0.5f)
+            new Vector3(m_worldPos.x - cellController.resolution*0.5f, m_worldPos.y, m_worldPos.z - cellController.resolution*0.5f),
+            new Vector3(m_worldPos.x - cellController.resolution*0.5f, m_worldPos.y, m_worldPos.z + cellController.resolution*0.5f),
+            new Vector3(m_worldPos.x + cellController.resolution*0.5f, m_worldPos.y, m_worldPos.z + cellController.resolution*0.5f),
+            new Vector3(m_worldPos.x + cellController.resolution*0.5f, m_worldPos.y, m_worldPos.z - cellController.resolution*0.5f)
         };
-
     }
+
+    public string PrintCell() {
+        return "Cell ["+index.x+","+index.y+"] @ "+m_worldPos.ToString()+" of type "+m_cellType.ToString()+":\nAgents #: "+agentsInside.Count.ToString()+" || Cost: "+GetCellCost().ToString();
+    }
+    public string PrintCellInsideAgents() {
+        if (agentsInside.Count == 0) return "No agents inside...";
+        string s = "";
+        foreach(Agent agent in agentsInside) {
+            s += "["+agent.index+"]";
+        }
+        return s;
+    }
+    public string PrintCellNeighbors() {
+        if (neighbors.Count == 0) return "No neighbors...";
+        string s = "";
+        foreach(KeyValuePair<Cell, CellNeighbor> kvp in neighbors) {
+            s += "\t> ["+kvp.Key.index.x+","+kvp.Key.index.y+"] - World Pos:"+kvp.Key.worldPos.ToString()+" | Distance:"+kvp.Value.distance.ToString("F2")+" | Direction:"+kvp.Value.directionTo.ToString()+"\n";
+        }
+        return s;
+    }
+
 }

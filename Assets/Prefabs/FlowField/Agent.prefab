@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8263963791642465360}
   - component: {fileID: 8263963791642465366}
   - component: {fileID: 8263963791642465367}
+  - component: {fileID: 2820507370087467650}
   - component: {fileID: 2848324685748625407}
   m_Layer: 0
   m_Name: Agent
@@ -43,7 +44,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8263963791642465363}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cae386b58817a496980729fbae3fdf9c, type: 3}
   m_Name: 
@@ -56,7 +57,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8263963791642465363}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -85,6 +86,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2820507370087467650
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263963791642465363}
+  serializedVersion: 2
+  m_Mass: 2
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 84
+  m_CollisionDetection: 1
 --- !u!114 &2848324685748625407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,10 +115,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  flowFieldManager: {fileID: 0}
   agentController: {fileID: 0}
   cellController: {fileID: 0}
   m_radius: 0.25
   cellIndices: []
+  rb: {fileID: 0}
 --- !u!1 &8263963792554119898
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +182,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 07ad7298598524331b07344f211fb3d9, type: 2}
+  - {fileID: 2100000, guid: 78892827d0648432b9a4017892e09bd7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
