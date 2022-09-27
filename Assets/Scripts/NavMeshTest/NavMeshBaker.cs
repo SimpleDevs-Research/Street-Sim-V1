@@ -13,10 +13,10 @@ public class NavMeshBaker : MonoBehaviour
     private void Update()
     {
         for (int i = 0; i < objects.Length; i++) {
-            
+
         }
         for (int s = 0; s < surfaces.Length; s++) {
-            surfaces[i].BuildNavMesh();
+            surfaces[s].BuildNavMesh();
         }
     }
 }
