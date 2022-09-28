@@ -20,9 +20,11 @@ public class Agent : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     private bool initialized = false;
 
+#if UNITY_EDITOR
     private void OnGUI() {
         Handles.DrawSolidDisc(transform.position, Vector3.up, 0.01f);
     }
+#endif
 
     private void Awake() {
         if (rb == null) rb = GetComponent<Rigidbody>();

@@ -124,6 +124,7 @@ public class FlowFieldManager : MonoBehaviour
 
     private IEnumerator flowFieldGeneratingCoroutine = null;
 
+#if UNITY_EDITOR
     private void OnGUI() {
         GUIStyle style = new GUIStyle(GUI.skin.label);
         style.alignment = TextAnchor.MiddleCenter;
@@ -196,6 +197,7 @@ public class FlowFieldManager : MonoBehaviour
                 break;
         }
     }
+#endif
 
     private void Start() {
         /*
