@@ -4,14 +4,52 @@ using UnityEngine;
 
 public class IKManager : MonoBehaviour
 {
-
+    public enum LookBehavior {
+        ByProximity,
+        ByFirstInList,
+        ByLastInList
+    }
+    public class TargetTransformData {
+        public float horizontalAngleToTarget;
+        public float verticalAngleToTarget;
+        public float angleToTarget;
+        public TargetTransformData(Transform bodyForwardPivot, Transform targetPivot) {
+            CalculateAngles(bodyForwardPivot, targetPivot);
+        }
+        public void CalculateAngles(Transform bodyForwardPivot, Transform targetPivot) {
+            this.horizontalAngleToTarget = Vector3.Angle(
+                bodyForwardPivot.transform.forward,
+                new Vector3(
+                    targetPivot.transform.forward.x,
+                    bodyForwardPivot.transform.forward.y,
+                    targetPivot.transform.forward.z
+                )
+            );
+            this.verticalAngleToTarget = Vector3.Angle(
+                bodyForwardPivot.transform.forward,
+                new Vector3(
+                    bodyForwardPivot.transform.forward.x,
+                    targetPivot.transform.forward.y,
+                    targetPivot.transform.forward.z
+                )
+            );
+            this.angleToTarget = Vector3.Angle(
+                bodyForwardPivot.transform.forward, 
+                targetPivot.transform.forward
+            );
+        }
+    }
     private Animator animator;
     public bool ikActive = false;
-    public Transform targetTransform;
-    public Transform headTransform;
+    [SerializeField] private Transform headTransform;
+
+    [SerializeField] private LookBehavior lookPriority = LookBehavior.ByIndex;
+    [SerializeField] private Transform currentTargetTransform;
+    [SerializeField] private List<Transform> targetTransforms = new List<Transform>();
+    private Dictionary<Transform, TargetTransformData> targetData = new Dictionary<Transform, TargetTransformData>();
 
     public Vector2 fovAngles = new Vector2(120f,60f);
-    public float lookWeight;
+    private float lookWeight;
     // Pivots
     private GameObject headToTargetPivot, headToBodyForwardPivot;
 
@@ -31,15 +69,31 @@ public class IKManager : MonoBehaviour
 
     private void Update() {
         // We can't even do anything if ikActive is false or if targetTransform is null
-        if (!ikActive || targetTransform == null) {
+        if (!ikActive || targetTransforms.Count == 0) {
             ReduceLookWeight();
             return;
         }
 
-        // Rotate headToTargetPivot so that it always looks at the target transform
-        headToTargetPivot.transform.LookAt(targetTransform);
         // Rotate headToBodyForwardPivot so that it always looks in the same direction of the body
-        headToBodyForwardPivot.transform.rotation = transform.rotation;  
+        headToBodyForwardPivot.transform.rotation = transform.rotation; 
+        foreach(Transform tt in targetTransforms) {
+            // Rotate headToTargetPivot so that it looks at the target transform in this loop
+            headToTargetPivot.transform.LookAt(targetTransform);
+            headToBodyForwardPivot.transform.rotation = transform.rotation; 
+            if (targetData.ContainsKey(tt)) targetData[tt].CalculateAngles(headToBodyForwardPivot, headToTargetPivot);
+            else targetData.Add(tt, new TargetTransformData(headToBodyForwardPivot, headToTargetPivot));
+        }
+
+        switch(lookPriority) {
+            case LookBehavior.ByFirstInList:
+                // We look at the first item in the target transforms
+                
+                break;
+            case LookBehavior.ByLastInList:
+                break;
+            case LookBehavior.ByProximity:
+                break;
+        }
 
         // To get FOV angle correct, we need to consider 3 factors:
         // 1. X-axis difference
