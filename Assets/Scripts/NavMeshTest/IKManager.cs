@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class IKManager : MonoBehaviour
 {
+    /*
     public enum LookBehavior {
         ByProximity,
         ByFirstInList,
         ByLastInList
     }
+    */
+    /*
     public class TargetTransformData {
         public float horizontalAngleToTarget;
         public float verticalAngleToTarget;
         public float angleToTarget;
+        public bool visible = false;
         public TargetTransformData(Transform bodyForwardPivot, Transform targetPivot) {
             CalculateAngles(bodyForwardPivot, targetPivot);
         }
         public void CalculateAngles(Transform bodyForwardPivot, Transform targetPivot) {
+            // Calculate angles
             this.horizontalAngleToTarget = Vector3.Angle(
                 bodyForwardPivot.transform.forward,
                 new Vector3(
@@ -37,16 +42,26 @@ public class IKManager : MonoBehaviour
                 bodyForwardPivot.transform.forward, 
                 targetPivot.transform.forward
             );
+
+        }
+        public void CheckVisibilityGivenFOV(Vector2 fovAngles) {
+            this.visible = (
+                this.horizontalAngleToTarget <= fovAngles.x*0.5f 
+                && this.verticalAngleToTarget <= fovAngles.y*0.5f
+                && this.angleToTarget <= Mathf.Max(fovAngles.x,fovAngles.y)*0.5f
+            );
         }
     }
+    */
     private Animator animator;
     public bool ikActive = false;
     [SerializeField] private Transform headTransform;
 
-    [SerializeField] private LookBehavior lookPriority = LookBehavior.ByIndex;
+    //[SerializeField] private LookBehavior lookPriority = LookBehavior.ByProximity;
     [SerializeField] private Transform currentTargetTransform;
-    [SerializeField] private List<Transform> targetTransforms = new List<Transform>();
-    private Dictionary<Transform, TargetTransformData> targetData = new Dictionary<Transform, TargetTransformData>();
+    //[SerializeField] private List<Transform> targetTransforms = new List<Transform>();
+    //private Dictionary<Transform, TargetTransformData> targetData = new Dictionary<Transform, TargetTransformData>();
+    //private List<Transform> visibleTargets = new List<Transform>();
 
     public Vector2 fovAngles = new Vector2(120f,60f);
     private float lookWeight;
@@ -68,32 +83,78 @@ public class IKManager : MonoBehaviour
     }
 
     private void Update() {
-        // We can't even do anything if ikActive is false or if targetTransform is null
+        /*
+        // Reset `visibleTargets`
+        visibleTargets = new List<Transform>();
+        // We can't even do anything if ikActive is false or if there aren't any targets to look at
         if (!ikActive || targetTransforms.Count == 0) {
             ReduceLookWeight();
+            currentTargetTransform = null;
             return;
         }
 
         // Rotate headToBodyForwardPivot so that it always looks in the same direction of the body
         headToBodyForwardPivot.transform.rotation = transform.rotation; 
+        // Look at each transform, update its data into `targetData`
         foreach(Transform tt in targetTransforms) {
             // Rotate headToTargetPivot so that it looks at the target transform in this loop
-            headToTargetPivot.transform.LookAt(targetTransform);
+            headToTargetPivot.transform.LookAt(tt);
             headToBodyForwardPivot.transform.rotation = transform.rotation; 
-            if (targetData.ContainsKey(tt)) targetData[tt].CalculateAngles(headToBodyForwardPivot, headToTargetPivot);
-            else targetData.Add(tt, new TargetTransformData(headToBodyForwardPivot, headToTargetPivot));
+            if (targetData.ContainsKey(tt)) targetData[tt].CalculateAngles(headToBodyForwardPivot.transform, headToTargetPivot.transform);
+            else targetData.Add(tt, new TargetTransformData(headToBodyForwardPivot.transform, headToTargetPivot.transform));
+            targetData[tt].CheckVisibilityGivenFOV(fovAngles);
+            if (targetData[tt].visible) visibleTargets.Add(tt);
         }
 
+        // If we don't have any visible targets, stop there
+        if (visibleTargets.Count == 0) {
+            ReduceLookWeight();
+            currentTargetTransform = null;
+            return;
+        }
+
+        // Choose which to look at, based on the settings
+        Transform currentTarget = null;
         switch(lookPriority) {
             case LookBehavior.ByFirstInList:
-                // We look at the first item in the target transforms
-                
+                currentTarget = visibleTargets[0];
                 break;
             case LookBehavior.ByLastInList:
+                currentTarget = visibleTargets[visibleTargets.Count - 1];
                 break;
             case LookBehavior.ByProximity:
+                float closestDistance = 0f, currentDistance = 0f;
+                foreach(Transform target in visibleTargets) {
+                    // Calculate distance
+                    currentDistance = Vector3.Distance(headTransform.position,target.position);
+                    if (currentTarget == null) {
+                        currentTarget = target;
+                        closestDistance = currentDistance;
+                    }
+                    else if (currentDistance < closestDistance) {
+                        currentTarget = target;
+                        closestDistance = currentDistance;
+                    }
+                }
+                currentTargetTransform = currentClosest;
                 break;
         }
+        
+        // Final check
+        if (currentTarget == null) ReduceLookWeight();
+        else {
+            // We need to check if the current target our system has detected isthe same as the one our head is currently looking at
+            if (currentTarget == currentTargetTransform) {
+                currentTargetTransform = currenTarget;
+                IncreaseLookWeight();
+            } else {
+                // In this scenario, we need to interpolate between currentTargetTransform and currentTarget
+                // We only switch over if the angle is significantly small enough
+
+            }
+
+        }
+        */
 
         // To get FOV angle correct, we need to consider 3 factors:
         // 1. X-axis difference
@@ -141,13 +202,29 @@ public class IKManager : MonoBehaviour
     private void OnAnimatorIK() {
         if (animator) {
             if(ikActive) {
-                if (targetTransform != null) {
+                if (currentTargetTransform != null) {
                     animator.SetLookAtWeight(lookWeight);
-                    animator.SetLookAtPosition(targetTransform.position);
+                    animator.SetLookAtPosition(currentTargetTransform.position);
                 }
             } else {
                 animator.SetLookAtWeight(0);
             }
         }
+    }
+
+    /*
+    public void AddTarget(Transform target) {
+        if (!targetTransforms.Contains(target)) targetTransforms.Add(target);
+    }
+    public void RemoveTarget(Transform target) {
+        if (targetTransforms.Contains(target)) targetTransforms.Remove(target);
+    }
+    */
+
+    public void SetTarget(Transform target) {
+        currentTargetTransform = target;
+    }
+    public void RemoveTarget(Transform target) {
+        if (currentTargetTransform == target) currentTargetTransform = null;
     }
 }
