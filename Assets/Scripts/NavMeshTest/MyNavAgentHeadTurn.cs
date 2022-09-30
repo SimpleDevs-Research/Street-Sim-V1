@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IKManager : MonoBehaviour
+public class MyNavAgentHeadTurn : MonoBehaviour
 {
-
     private Animator animator;
     public bool ikActive = false;
     [SerializeField] private Transform currentTargetTransform;
@@ -13,7 +12,9 @@ public class IKManager : MonoBehaviour
     public Vector2 fovAngles = new Vector2(120f,60f);
     public float lookWeight;
     // Pivots
-    private GameObject headToTargetPivot, headToBodyForwardPivot;
+    private GameObject headToTargetPivot, headToBodyForwardPivot, headRotateToPivot;
+    [SerializeField] private float headMovementTime = 0.25f;
+    private Vector3 headMovementVelocity = Vector3.zero;
 
     private void Awake()
     {
@@ -27,19 +28,29 @@ public class IKManager : MonoBehaviour
         headToBodyForwardPivot = new GameObject("Head To Body Forward Pivot");
         headToBodyForwardPivot.transform.parent = headTransform;
         headToBodyForwardPivot.transform.localPosition = Vector3.zero;
+        // 3. headRotateToPivot
+        headRotateToPivot = new GameObject("Head Rotate To Pivot");
+        //headRotateToPivot.transform.parent = headTransform;
+        headRotateToPivot.transform.position = headToBodyForwardPivot.transform.position + headToBodyForwardPivot.transform.forward;
     }
 
     private void Update() {
+        // Rotate headToBodyForwardPivot so that it always looks in the same direction of the body
+        headToBodyForwardPivot.transform.rotation = transform.rotation;  
         // We can't even do anything if ikActive is false or if currentTargetTransform is null
         if (!ikActive || currentTargetTransform == null) {
+            // Lerp headRotateToPivot so that it's in front of the person
+            //targetPosition = headToBodyForwardPivot.transform.position + headToBodyForwardPivot.transform.forward;
+            //headRotateToPivot.transform.position = Vector3.Lerp(headRotateToPivot.transform.position, targetPosition, Time.deltaTime * 2.5f);
             ReduceLookWeight();
             return;
         }
 
+        // Relocate `headRotateToPivot` to `currentTargetTransform`'s position
+        //targetPosition = currentTargetTransform.position;
+        //headRotateToPivot.transform.position = Vector3.Lerp(headRotateToPivot.transform.position, targetPosition, Time.deltaTime * 2.5f);
         // Rotate headToTargetPivot so that it always looks at the target transform
-        headToTargetPivot.transform.LookAt(currentTargetTransform);
-        // Rotate headToBodyForwardPivot so that it always looks in the same direction of the body
-        headToBodyForwardPivot.transform.rotation = transform.rotation;  
+        headToTargetPivot.transform.LookAt(headRotateToPivot.transform);
 
         // To get FOV angle correct, we need to consider 3 factors:
         // 1. X-axis difference
@@ -76,6 +87,10 @@ public class IKManager : MonoBehaviour
             ReduceLookWeight();
         }
     }
+    private void LateUpdate() {
+        Vector3 targetPosition = (currentTargetTransform != null) ? currentTargetTransform.position : headToBodyForwardPivot.transform.position + headToBodyForwardPivot.transform.forward;
+        headRotateToPivot.transform.position = Vector3.SmoothDamp(headRotateToPivot.transform.position, targetPosition, ref headMovementVelocity, headMovementTime);
+    }
 
     private void ReduceLookWeight() {
         lookWeight = Mathf.Lerp(lookWeight, 0, Time.deltaTime * 2.5f);
@@ -89,7 +104,7 @@ public class IKManager : MonoBehaviour
             if(ikActive) {
                 if (currentTargetTransform != null) {
                     animator.SetLookAtWeight(lookWeight);
-                    animator.SetLookAtPosition(currentTargetTransform.position);
+                    animator.SetLookAtPosition(headRotateToPivot.transform.position);
                 }
             } else {
                 animator.SetLookAtWeight(0);
@@ -98,9 +113,11 @@ public class IKManager : MonoBehaviour
     }
 
     public void SetTarget(Transform target) {
+        if (target == null) return;
         currentTargetTransform = target;
     }
     public void RemoveTarget(Transform target) {
+        if (target == null) return;
         if (currentTargetTransform == target) currentTargetTransform = null;
     }
 }

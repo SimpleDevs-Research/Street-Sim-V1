@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18018606, g: 0.22559257, b: 0.30678663, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2124,9 +2124,9 @@ GameObject:
   - component: {fileID: 721829025}
   - component: {fileID: 721829024}
   - component: {fileID: 721829023}
-  - component: {fileID: 721829028}
   - component: {fileID: 721829029}
   - component: {fileID: 721829030}
+  - component: {fileID: 721829031}
   m_Layer: 0
   m_Name: AgentMain
   m_TagString: Untagged
@@ -2242,22 +2242,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &721829028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721829021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a808cb1433d4c0c9e3cb192331006b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ikActive: 1
-  headTransform: {fileID: 567412482}
-  currentTargetTransform: {fileID: 0}
-  fovAngles: {x: 120, y: 60}
 --- !u!114 &721829029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2282,6 +2266,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &721829031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721829021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f661a67eef06cee48840d0b4a7a3eff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ikActive: 1
+  currentTargetTransform: {fileID: 0}
+  headTransform: {fileID: 567412482}
+  fovAngles: {x: 120, y: 60}
+  lookWeight: 0
+  headMovementTime: 0.3
 --- !u!1 &751513380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2968,9 +2970,9 @@ GameObject:
   - component: {fileID: 1114567762}
   - component: {fileID: 1114567761}
   - component: {fileID: 1114567760}
-  - component: {fileID: 1114567759}
   - component: {fileID: 1114567758}
   - component: {fileID: 1114567765}
+  - component: {fileID: 1114567766}
   m_Layer: 0
   m_Name: RandomAgent
   m_TagString: Untagged
@@ -3006,22 +3008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c54cc28216024721ae7653dabb52565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1114567759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1114567756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a808cb1433d4c0c9e3cb192331006b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ikActive: 1
-  headTransform: {fileID: 1518306250}
-  currentTargetTransform: {fileID: 0}
-  fovAngles: {x: 120, y: 60}
 --- !u!114 &1114567760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3126,6 +3112,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1114567766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114567756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f661a67eef06cee48840d0b4a7a3eff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ikActive: 1
+  currentTargetTransform: {fileID: 0}
+  headTransform: {fileID: 1518306250}
+  fovAngles: {x: 120, y: 60}
+  lookWeight: 0
+  headMovementTime: 0.3
 --- !u!1001 &1139184493
 PrefabInstance:
   m_ObjectHideFlags: 0

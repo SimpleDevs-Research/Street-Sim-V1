@@ -40,47 +40,15 @@ public class MyNavAgentController : MonoBehaviour
     private IEnumerator PerformBehavior(MyNavAgentBehavior behavior) {
         Debug.Log("Starting Behavior: " + behavior.name);
         NavMeshPath navMeshPath = new NavMeshPath();
-        bool pathCalculated = false, arrivedAtTarget = false, isLookingAtTarget = false;
+        bool pathCalculated = false, arrivedAtTarget = false, isLookingAtTarget = false, shouldAdvance = false;
         int behaviorIndex;
         Transform currentDestination;
         string distancePrint;
         do {
             behaviorIndex = 0;
             while(behaviorIndex < behavior.movementBehavior.Length) {
-                // remove target designated under `dontLookAtTarget`
-                behavior.agent.gameObject.GetComponent<IKManager>().RemoveTarget(behavior.movementBehavior[behaviorIndex].dontLookAtTarget);
-                // Set the look at target
-                switch(behavior.movementBehavior[behaviorIndex].lookAtBehavior) {
-                    case MyNavAgentDestinationBehavior.LookAtBehavior.Always:
-                        //behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
-                        behavior.agent.gameObject.GetComponent<IKManager>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        break;
-                    case MyNavAgentDestinationBehavior.LookAtBehavior.Never:
-                        // behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = null;
-                        behavior.agent.gameObject.GetComponent<IKManager>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        break;
-                    case MyNavAgentDestinationBehavior.LookAtBehavior.WhenStill:
-                        if ( behavior.agent.gameObject.GetComponent<VelocityTracker>().velocity.magnitude <= 0.05f) {
-                             //behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
-                            behavior.agent.gameObject.GetComponent<IKManager>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        }
-                        else {
-                            //behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = null;
-                            behavior.agent.gameObject.GetComponent<IKManager>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        }
-                        break;
-                    case MyNavAgentDestinationBehavior.LookAtBehavior.WhenMoving:
-                        if ( behavior.agent.gameObject.GetComponent<VelocityTracker>().velocity.magnitude > 0.05f) {
-                            // behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
-                            behavior.agent.gameObject.GetComponent<IKManager>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        }
-                        else {
-                            //behavior.agent.gameObject.GetComponent<IKManager>().targetTransform = null;
-                            behavior.agent.gameObject.GetComponent<IKManager>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
-                        }
-                        break;
-                }
                 // Check if a path is calculated
+                shouldAdvance = false;
                 if (!pathCalculated) {
                     distancePrint = "-";
                     behavior.agent.CalculatePath(behavior.movementBehavior[behaviorIndex].destination.position, navMeshPath);
@@ -105,8 +73,50 @@ public class MyNavAgentController : MonoBehaviour
                         pathCalculated = false;
                         navMeshPath = new NavMeshPath();
                         behavior.agent.Stop();
-                        behaviorIndex++;
+                        shouldAdvance = true;
                     }
+                }
+
+                // remove target designated under `dontLookAtTarget`
+                if (behavior.movementBehavior[behaviorIndex].dontLookAtTarget != null) behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().RemoveTarget(behavior.movementBehavior[behaviorIndex].dontLookAtTarget);
+                if (behavior.movementBehavior[behaviorIndex].lookAtTarget == null) {
+                    yield return null;
+                    continue;
+                }
+                // Set the look at target
+                switch(behavior.movementBehavior[behaviorIndex].lookAtBehavior) {
+                    case MyNavAgentDestinationBehavior.LookAtBehavior.Always:
+                        //behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
+                        behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        break;
+                    case MyNavAgentDestinationBehavior.LookAtBehavior.Never:
+                        // behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = null;
+                        behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        break;
+                    case MyNavAgentDestinationBehavior.LookAtBehavior.WhenStill:
+                        if ( behavior.agent.gameObject.GetComponent<VelocityTracker>().velocity.magnitude <= 0.05f) {
+                             //behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
+                            behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        }
+                        else {
+                            //behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = null;
+                            behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        }
+                        break;
+                    case MyNavAgentDestinationBehavior.LookAtBehavior.WhenMoving:
+                        if ( behavior.agent.gameObject.GetComponent<VelocityTracker>().velocity.magnitude > 0.05f) {
+                            // behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = behavior.movementBehavior[behaviorIndex].lookAtTarget;
+                            behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().SetTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        }
+                        else {
+                            //behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().targetTransform = null;
+                            behavior.agent.gameObject.GetComponent<MyNavAgentHeadTurn>().RemoveTarget(behavior.movementBehavior[behaviorIndex].lookAtTarget);
+                        }
+                        break;
+                }
+
+                if (shouldAdvance) {
+                    behaviorIndex++;
                 }
                 //Debug.Log("Agent's remanining distance: " + distancePrint + "\nAgent's current velocity: " + behavior.agent.GetComponent<VelocityTracker>().velocity.magnitude.ToString("F3"));
                 yield return null;
