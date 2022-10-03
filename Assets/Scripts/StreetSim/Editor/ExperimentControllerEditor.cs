@@ -15,12 +15,24 @@ public class ExperimentControllerEditor : Editor
         if(GUILayout.Button("End Tracking")) {
             experimentController.EndTracking();
         }
+        if(GUILayout.Button("Start Replay")) {
+            experimentController.StartReplay();
+        }
+        if(GUILayout.Button("End Replay")) {
+            experimentController.EndReplay();
+        }
+        if(GUILayout.Button("Save Tracked Data")) {
+            experimentController.SaveTrackingData();
+        }
 
+        /*
         if(GUILayout.Button("End Tracking + Save Data")) {
             if (experimentController.EndTracking()) {
                 experimentController.SaveTrackingData();
             }
         }
+        */
+
         DrawDefaultInspector();
     }
 

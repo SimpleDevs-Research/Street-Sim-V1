@@ -1,0 +1,44 @@
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Helpers {
+    [System.Serializable]
+    public class HelperMethods {
+
+        public static bool HasComponent<T> (GameObject obj, out T toReturn) {
+            toReturn = obj.GetComponent<T>();
+            return toReturn != null;
+        }
+        public static bool HasComponent<T> (GameObject obj) {
+            return obj.GetComponent<T>() != null;
+        }
+        public static bool HasComponent<T> (Transform t, out T toReturn) {
+            return HasComponent<T>(t.gameObject, out toReturn);
+        }
+        public static bool HasComponent<T> (Transform t) {
+            return HasComponent<T>(t.gameObject);
+        }
+    }
+
+    [System.Serializable]
+    public class SaveSystemMethods {
+        public static bool CheckDirectoryExists(string dirPath) {
+            return Directory.Exists(dirPath);
+        }
+        public static bool CheckOrCreateDirectory(string dirPath) {
+            if (!CheckDirectoryExists(dirPath)) Directory.CreateDirectory(dirPath);
+            return true;
+        }
+        
+        public static string ConvertToJSON<T>(T data) {
+            return JsonUtility.ToJson(data, true);
+        }
+        public static bool SaveJSON(string filePath, string json) {
+            if (filePath.EndsWith(".json")) File.WriteAllText(filePath, json);
+            else File.WriteAllText(filePath + ".json", json);
+            return true;
+        }
+    }
+}

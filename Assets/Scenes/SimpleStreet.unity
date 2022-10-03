@@ -1637,7 +1637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.082
+      value: 10.62
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7205,10 +7205,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackedTransforms:
-  - key: Test
+  - objectId: AgentMain
     value: {fileID: 721829022}
-  trackIncrement: 0.1
+    trackTarget: 0
+  trackIncrement: 0.05
   savefilename: Test_Data
+  savefilefolder: Data
 --- !u!4 &2054830745
 Transform:
   m_ObjectHideFlags: 0

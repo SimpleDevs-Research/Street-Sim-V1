@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using SerializableTypes;
+using Helpers;
 
 [System.Serializable]
 public class PositionData {
@@ -17,49 +19,34 @@ public class PositionData {
     public PositionDataSave SaveData() {
         PositionDataSave s = new PositionDataSave();
         s.timestamp = this.timestamp;
-        s.position = new Vector3Save();
-        s.position.x = this.position.x;
-        s.position.y = this.position.y;
-        s.position.z = this.position.z;
-        s.rotation = new QuaternionSave();
-        s.rotation.x = this.rotation.x;
-        s.rotation.y = this.rotation.y;
-        s.rotation.z = this.rotation.z;
-        s.rotation.w = this.rotation.w;
+        s.position = this.position;
+        s.rotation = this.rotation;
         return s;
     }
 }
 
 [System.Serializable]
 public class TrackedData {
-    public string name;
-    public Transform transform;
-    public List<PositionData> positionData = new List<PositionData>();
-    public TrackedData(string name, Transform t) {
-        this.name = name;
-        this.transform = t;
+    public ExperimentTrackable trackable;
+    public List<PositionData> transformData = new List<PositionData>();
+    public TrackedData(ExperimentTrackable t) {
+        this.trackable = t;
     }
     public void ResetPositionData() {
-        this.positionData = new List<PositionData>();
+        this.transformData = new List<PositionData>();
     }
     public void AddPosition(float t) {
-        positionData.Add(new PositionData(t,transform.position, transform.rotation));
+        transformData.Add(new PositionData(t,trackable.transform.position, trackable.transform.rotation));
     }
     public TrackedDataSave SaveData() {
         TrackedDataSave d = new TrackedDataSave();
-        d.name = this.name;
-        d.positionData = new List<PositionDataSave>();
-        foreach(PositionData dataPoint in this.positionData) {
-            d.positionData.Add(dataPoint.SaveData());
+        d.objectId = this.trackable.experimentId;
+        d.transformData = new List<PositionDataSave>();
+        foreach(PositionData dataPoint in this.transformData) {
+            d.transformData.Add(dataPoint.SaveData());
         }
         return d;
     }
-}
-
-[System.Serializable]
-public class TransformKeyValuePair {
-    public string key;
-    public Transform value;
 }
 
 [System.Serializable]
@@ -68,37 +55,125 @@ public class PositionDataOfTransforms {
 }
 [System.Serializable]
 public class TrackedDataSave {
-    public string name;
-    public List<PositionDataSave> positionData;
+    public string objectId;
+    public List<PositionDataSave> transformData;
 }
 [System.Serializable]
 public class PositionDataSave {
     public float timestamp;
-    public Vector3Save position;
-    public QuaternionSave rotation;
+    public SVector3 position;
+    public SQuaternion rotation;
+}
+
+
+
+
+
+[System.Serializable]
+public class TransformToTrack {
+    public string trackableId;
+    public Transform trackable;
+}
+
+[System.Serializable]
+public class ExperimentDataSavePayload {
+    public List<TransformToTrackSavePayload> trackedTransforms;
 }
 [System.Serializable]
-public class Vector3Save {
-    public float x, y, z;
-}
-[System.Serializable]
-public class QuaternionSave {
-    public float x, y, z, w;
+public class TransformToTrackSavePayload {
+    public string trackableId;
+    public List<STrackableData> trackedData;
 }
 
 public class ExperimentController : MonoBehaviour
 {
 
+    [SerializeField] private List<TransformToTrack> trackedTransforms = new List<TransformToTrack>();
+    
+    [Header("File Saving and Uploading")]
+    [SerializeField] private string m_destinationFolder = "";
+    [SerializeField] private string m_destinationFilename = "test";
+
+
+    private void Awake() {
+        ExperimentTrackable et = null;
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            if (HelperMethods.HasComponent<ExperimentTrackable>(ttt.trackable, out et)) {
+                et.Initialize(this,ttt.trackableId);
+            } else {
+                et = ttt.trackable.gameObject.AddComponent<ExperimentTrackable>() as ExperimentTrackable;
+                et.Initialize(this,ttt.trackableId);
+            }
+        }
+    }
+
+    public bool StartTracking() {
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().StartTracking();
+        }
+        return true;
+    }
+    public bool EndTracking() {
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().EndTracking();
+        }
+        return true;
+    }
+    public bool StartReplay() {
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().StartReplay();
+        }
+        return true;
+    }
+    public bool EndReplay() {
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().EndReplay();
+        }
+        return true;
+    }
+    public bool ClearData() {
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().ClearData();
+        }
+        return true;
+    }
+
+    public string GetSaveDirectory() {
+        return (m_destinationFolder.Length > 0) ? Application.dataPath + "/" + m_destinationFolder + "/" : Application.dataPath + "/";
+    }
+    public bool SaveTrackingData() {
+        // Create JSON
+        ExperimentDataSavePayload payload = new ExperimentDataSavePayload();
+        payload.trackedTransforms = new List<TransformToTrackSavePayload>();
+        foreach(TransformToTrack ttt in trackedTransforms) {
+            TransformToTrackSavePayload newItemInPayload = new TransformToTrackSavePayload();
+            newItemInPayload.trackableId = ttt.trackableId;
+            newItemInPayload.trackedData = ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().data;
+            payload.trackedTransforms.Add(newItemInPayload);
+        }
+        string dataToSave = SaveSystemMethods.ConvertToJSON<ExperimentDataSavePayload>(payload);
+        // Create Save Directory
+        string dirToSaveIn = GetSaveDirectory();
+        if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+            SaveSystemMethods.SaveJSON(dirToSaveIn + m_destinationFilename, dataToSave);
+        }
+        return true;
+    }
+
+    /*
     [SerializeField] private List<TransformKeyValuePair> trackedTransforms = new List<TransformKeyValuePair>();
     private Dictionary<string, TrackedData> trackedTransformDict = new Dictionary<string, TrackedData>();
     private bool isTracking = false;
     [SerializeField] private float trackIncrement = 0.1f;
     private IEnumerator trackingCoroutine = null;
     [SerializeField] private string savefilename = "Test_Data";
+    [SerializeField] private string savefilefolder = "";
 
     private void Awake() {
         foreach(TransformKeyValuePair kvp in trackedTransforms) {
-            trackedTransformDict.Add(kvp.key, new TrackedData(kvp.key, kvp.value));
+            if (kvp.trackable == null) continue;
+            kvp.trackable.Initialize(this, kvp.trackableId);
+            trackedTransformDict.Add(kvp.trackableId, new TrackedData(kvp.trackable));
         }
     }
 
@@ -159,11 +234,14 @@ public class ExperimentController : MonoBehaviour
     }
 
     public IEnumerator SaveData(PositionDataOfTransforms d) {
-        Debug.Log(d.data[0].positionData[0].position.x.ToString());
+        //Debug.Log(d.data[0].positionData[0].position.x.ToString());
         Debug.Log("Saving tracking data for " + d.data.Count + " transforms into " + savefilename + ".json");
         string json = JsonUtility.ToJson(d, true);
-        Debug.Log(json);
-        File.WriteAllText(Application.dataPath + "/" + savefilename + ".json", json);
+        //Debug.Log(json);
+        string dir = (savefilefolder.Length > 0) ? Application.dataPath + "/" + savefilefolder + "/" : Application.dataPath + "/";
+        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+        File.WriteAllText(dir + savefilename + ".json", json);
         yield return null;
     }
+    */
 }
