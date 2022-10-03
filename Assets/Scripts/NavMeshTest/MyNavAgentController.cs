@@ -30,6 +30,7 @@ public class MyNavAgentController : MonoBehaviour
 {
 
     [SerializeField] private List<MyNavAgentBehavior> actions = new List<MyNavAgentBehavior>();
+    [SerializeField] private bool _debug = false;
 
     private void Start() {
         foreach(MyNavAgentBehavior action in actions) {
@@ -38,7 +39,7 @@ public class MyNavAgentController : MonoBehaviour
     }
 
     private IEnumerator PerformBehavior(MyNavAgentBehavior behavior) {
-        Debug.Log("Starting Behavior: " + behavior.name);
+        if (_debug) Debug.Log("Starting Behavior: " + behavior.name);
         NavMeshPath navMeshPath = new NavMeshPath();
         bool pathCalculated = false, arrivedAtTarget = false, isLookingAtTarget = false, shouldAdvance = false;
         int behaviorIndex;
@@ -56,20 +57,20 @@ public class MyNavAgentController : MonoBehaviour
                         // Our path is complete, let's set destination
                         behavior.agent.SetDestination(behavior.movementBehavior[behaviorIndex].destination.position);
                         pathCalculated = true;
-                        Debug.Log("Path has been calculated for " + behavior.name);
+                        if (_debug) Debug.Log("Path has been calculated for " + behavior.name);
                         behavior.agent.Resume();
                     } else {
                         // Our path can't be made... We have to stop the agent
                         behavior.agent.Stop();
                         pathCalculated = false;
-                        Debug.Log("Can't calculate path for " + behavior.name);
+                        if (_debug) Debug.Log("Can't calculate path for " + behavior.name);
                     }
                 }
                 // Only advance if we hit the target
                 else {
                     distancePrint = behavior.agent.remainingDistance.ToString("F3");
                     if (behavior.agent.remainingDistance <= behavior.agent.stoppingDistance) {
-                        Debug.Log("The agent has reached their destination. Prepping for next destination");
+                        if (_debug) Debug.Log("The agent has reached their destination. Prepping for next destination");
                         pathCalculated = false;
                         navMeshPath = new NavMeshPath();
                         behavior.agent.Stop();
