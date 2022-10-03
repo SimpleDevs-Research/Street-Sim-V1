@@ -93,7 +93,7 @@ BoxCollider:
   m_GameObject: {fileID: 6898363326661341108}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -305,7 +305,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898363327020393965}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.45000005, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: -0.07}
   m_LocalScale: {x: 0.0275, y: 1, z: 0.0275}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -372,7 +372,7 @@ MeshCollider:
   m_GameObject: {fileID: 6898363327020393965}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -387,8 +387,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6898363327028751713}
   - component: {fileID: 6898363327028751714}
+  - component: {fileID: 1867488275112097941}
+  - component: {fileID: 8111621882442107261}
   m_Layer: 0
-  m_Name: SouthWalkingSignal
+  m_Name: WalkingSignal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -432,6 +434,35 @@ MonoBehaviour:
   - {fileID: 6898363326789334270}
   stopSignals:
   - {fileID: 6898363326789334270}
+--- !u!65 &1867488275112097941
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6898363327028751712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 0.8, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8111621882442107261
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6898363327028751712}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &6898363327173948479
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +556,7 @@ BoxCollider:
   m_GameObject: {fileID: 6898363327173948479}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -622,7 +653,7 @@ BoxCollider:
   m_GameObject: {fileID: 6898363327297658325}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -636,7 +667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6898363327407548308}
   m_Layer: 0
-  m_Name: SignalLightCover (1)
+  m_Name: WalkSignalLightCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,7 +681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898363327407548307}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16200006, y: 0.049999952, z: 0.11800003}
+  m_LocalPosition: {x: -0.16200006, y: -0.175, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -670,7 +701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6898363327592132820}
   m_Layer: 0
-  m_Name: SignalLightCover
+  m_Name: StopSignalLightCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -684,7 +715,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898363327592132819}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16200006, y: 0.5, z: 0.11800003}
+  m_LocalPosition: {x: -0.16200006, y: 0.275, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -902,7 +933,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898363328109196780}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: -0.07}
   m_LocalScale: {x: 0.0275, y: 1, z: 0.0275}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -969,7 +1000,7 @@ MeshCollider:
   m_GameObject: {fileID: 6898363328109196780}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -1067,7 +1098,7 @@ BoxCollider:
   m_GameObject: {fileID: 6898363328375966311}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1098,7 +1129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898363328423766916}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.22500014, z: -0.052999973}
+  m_LocalPosition: {x: 0, y: 0, z: -0.125}
   m_LocalScale: {x: 0.35, y: 0.8, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1164,7 +1195,7 @@ BoxCollider:
   m_GameObject: {fileID: 6898363328423766916}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

@@ -5,7 +5,9 @@ using UnityEngine;
 using System.Linq;
 using SerializableTypes;
 using Helpers;
+using EVRA.Inputs;
 
+/*
 [System.Serializable]
 public class PositionData {
     public float timestamp;
@@ -64,17 +66,13 @@ public class PositionDataSave {
     public SVector3 position;
     public SQuaternion rotation;
 }
-
-
-
-
+*/
 
 [System.Serializable]
 public class TransformToTrack {
     public string trackableId;
     public Transform trackable;
 }
-
 [System.Serializable]
 public class ExperimentDataSavePayload {
     public List<TransformToTrackSavePayload> trackedTransforms;
@@ -113,30 +111,36 @@ public class ExperimentController : MonoBehaviour
         }
         return true;
     }
+    public bool StartTracking(InputEventDataPackage p) { return StartTracking(); }
     public bool EndTracking() {
         foreach(TransformToTrack ttt in trackedTransforms) {
             ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().EndTracking();
         }
         return true;
     }
+    public bool EndTracking(InputEventDataPackage p) { return EndTracking(); }
     public bool StartReplay() {
         foreach(TransformToTrack ttt in trackedTransforms) {
             ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().StartReplay();
         }
         return true;
     }
+    public bool StartReplay(InputEventDataPackage p) { return StartReplay(); }
     public bool EndReplay() {
         foreach(TransformToTrack ttt in trackedTransforms) {
             ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().EndReplay();
         }
         return true;
     }
+    public bool EndReplay(InputEventDataPackage p) { return EndReplay(); }
     public bool ClearData() {
         foreach(TransformToTrack ttt in trackedTransforms) {
             ttt.trackable.gameObject.GetComponent<ExperimentTrackable>().ClearData();
         }
         return true;
     }
+    public bool ClearData(InputEventDataPackage p) { return ClearData(); }
+
 
     public string GetSaveDirectory() {
         return (m_destinationFolder.Length > 0) ? Application.dataPath + "/" + m_destinationFolder + "/" : Application.dataPath + "/";
@@ -159,6 +163,7 @@ public class ExperimentController : MonoBehaviour
         }
         return true;
     }
+    public bool SaveTrackingData(InputEventDataPackage p) { return SaveTrackingData(); }
 
     /*
     [SerializeField] private List<TransformKeyValuePair> trackedTransforms = new List<TransformKeyValuePair>();

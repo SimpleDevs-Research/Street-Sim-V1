@@ -31,14 +31,31 @@ namespace Helpers {
             if (!CheckDirectoryExists(dirPath)) Directory.CreateDirectory(dirPath);
             return true;
         }
+        public static bool CheckFileExists(string filePath) {
+            return Directory.Exists(filePath);
+        }
         
         public static string ConvertToJSON<T>(T data) {
             return JsonUtility.ToJson(data, true);
+        }
+        public static T ConvertFromJSON<T>(string data) {
+            return JsonUtility.FromJson<T>(data);
         }
         public static bool SaveJSON(string filePath, string json) {
             if (filePath.EndsWith(".json")) File.WriteAllText(filePath, json);
             else File.WriteAllText(filePath + ".json", json);
             return true;
+        }
+        public static bool LoadJSON<T>(string filePath, out T output) {
+            string actualFilePath = (filePath.EndsWith(".json")) ? filePath : filePath+".json";
+            if (CheckFileExists(actualFilePath)) {
+                string fileContents = File.ReadAllText(actualFilePath);
+                output = ConvertFromJSON<T>(fileContents);
+                return true;
+            } else {
+                output = default(T);
+                return false;
+            }
         }
     }
 }
