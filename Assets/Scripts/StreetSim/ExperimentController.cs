@@ -165,6 +165,10 @@ public class ExperimentController : MonoBehaviour
     }
     public bool SaveTrackingData(InputEventDataPackage p) { return SaveTrackingData(); }
 
+    public bool LoadTrackingData() {
+        return false;
+    }
+
     /*
     [SerializeField] private List<TransformKeyValuePair> trackedTransforms = new List<TransformKeyValuePair>();
     private Dictionary<string, TrackedData> trackedTransformDict = new Dictionary<string, TrackedData>();

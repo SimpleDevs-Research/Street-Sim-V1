@@ -84,6 +84,10 @@ namespace SerializableTypes {
  
         public static SVector3 operator /(SVector3 a, float d)
             => new SVector3(a.x / d, a.y / d, a.z / d);
+        
+        public float magnitude {
+            get { return (float)Mathf.Sqrt(this.x * this.x + this.y * this.y + this.z * this.z); }
+        }
     }
 
     /// <summary> Serializable version of UnityEngine.Vector4. </summary>

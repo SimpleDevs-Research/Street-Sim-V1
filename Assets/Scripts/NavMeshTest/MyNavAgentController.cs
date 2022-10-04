@@ -15,7 +15,6 @@ public class MyNavAgentDestinationBehavior {
     public Transform lookAtTarget = null;
     public Transform dontLookAtTarget = null;
     public LookAtBehavior lookAtBehavior = LookAtBehavior.Always;
-
 }
 
 [System.Serializable]
@@ -28,6 +27,8 @@ public class MyNavAgentBehavior {
 
 public class MyNavAgentController : MonoBehaviour
 {
+
+    [SerializeField] private List<NavMeshAgent> agents = new List<NavMeshAgent>();
 
     [SerializeField] private List<MyNavAgentBehavior> actions = new List<MyNavAgentBehavior>();
     [SerializeField] private bool _debug = false;

@@ -102,7 +102,7 @@ public class ExperimentTrackable : MonoBehaviour
         if (m_trackingType == TrackingType.Raw) return;
         RaycastHit hit;
         if (Physics.Raycast(transform.position,transform.forward,out hit)) {
-            raycastTarget = 
+            raycastTarget = hit.transform;
         }
     }
     private void FixedUpdate() {
