@@ -4,6 +4,46 @@ using UnityEngine;
 
 namespace SerializableTypes {
 
+    /// <summary> Serializable version of UnityEngine.Vector2. </summary>
+    [System.Serializable]
+    public struct SVector2 {
+        public float x;
+        public float y;
+ 
+        public SVector2(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
+ 
+        public override string ToString() 
+            => $"[{x}, {y}]";
+ 
+        public static implicit operator Vector2(SVector2 s) 
+            => new Vector2(s.x, s.y);
+ 
+        public static implicit operator SVector2(Vector2 v)
+            => new SVector2(v.x, v.y);
+ 
+ 
+        public static SVector2 operator +(SVector2 a, SVector2 b) 
+            => new SVector2(a.x + b.x, a.y + b.y);
+ 
+        public static SVector2 operator -(SVector2 a, SVector2 b)
+            => new SVector2(a.x - b.x, a.y - b.y);
+ 
+        public static SVector2 operator -(SVector2 a)
+            => new SVector2(-a.x, -a.y);
+ 
+        public static SVector2 operator *(SVector2 a, float m)
+            => new SVector2(a.x * m, a.y * m);
+ 
+        public static SVector2 operator *(float m, SVector2 a)
+            => new SVector2(a.x * m, a.y * m);
+ 
+        public static SVector2 operator /(SVector2 a, float d)
+            => new SVector2(a.x / d, a.y / d);
+    }
+
     /// <summary> Serializable version of UnityEngine.Vector3. </summary>
     [System.Serializable]
     public struct SVector3 {
@@ -142,6 +182,60 @@ namespace SerializableTypes {
  
         public static implicit operator SColor32(Color32 rValue)
             => new SColor32(rValue.r, rValue.g, rValue.b);
+    }
+
+    [System.Serializable]
+    public struct SRaycastHit {
+        // The ones we generally want to care about
+        public float distance;
+        public SVector3 normal;
+        public SVector3 point;
+        // The things we generally don't care about
+        public SVector3 barycentricCoordinate;
+        public int colliderInstanceID;
+        public SVector2 lightmapCoord;
+        public SVector2 textureCoord;
+        public SVector2 textureCoord2;
+        public int triangleIndex;
+
+        public SRaycastHit(float distance, SVector3 normal, SVector3 point) {
+            this.distance = distance;
+            this.normal = normal;
+            this.point = point;
+            this.barycentricCoordinate = default(SVector3);
+            this.colliderInstanceID = default(int);
+            this.lightmapCoord = default(SVector2);
+            this.textureCoord = default(SVector2);
+            this.textureCoord2 = default(SVector2);
+            this.triangleIndex = default(int);
+        }
+        public SRaycastHit(
+            float distance, SVector3 normal, SVector3 point, 
+            SVector3 barycentricCoordinate, int colliderInstanceID,
+            SVector2 lightmapCoord, 
+            SVector2 textureCoord, SVector2 textureCoord2,
+            int triangleIndex
+        ) {
+            this.distance = distance;   this.normal = normal;   this.point = point;
+            this.barycentricCoordinate = barycentricCoordinate;
+            this.colliderInstanceID = colliderInstanceID;
+            this.lightmapCoord = lightmapCoord;
+            this.textureCoord = textureCoord;
+            this.textureCoord2 = textureCoord2;
+            this.triangleIndex = triangleIndex;
+        }
+
+        public override string ToString()
+            => $"Distance: {this.distance}\nNormal: {this.normal}\nPoint: {this.point}]";
+ 
+        public static implicit operator SRaycastHit(RaycastHit hit)
+            => new SRaycastHit(
+                hit.distance, hit.normal, hit.point,
+                hit.barycentricCoordinate, hit.colliderInstanceID,
+                hit.lightmapCoord,
+                hit.textureCoord, hit.textureCoord2,
+                hit.triangleIndex
+            );
     }
 
 }

@@ -10,27 +10,39 @@ public struct STrackableData {
     public float time;
     public SVector3 position;
     public SQuaternion rotation;
+    public string raycastTargetId;
  
     public STrackableData(float time, SVector3 position, SQuaternion rotation) {
         this.time = time;
         this.position = position;
         this.rotation = rotation;
+        this.raycastTargetId = null;
+    }
+    public STrackableData(float time, SVector3 position, SQuaternion rotation, string raycastTargetId) {
+        this.time = time;
+        this.position = position;
+        this.rotation = rotation;
+        this.raycastTargetId = raycastTargetId;
     }
  
     public override string ToString()
-        => $"Time: {this.time.ToString()} | Position: {this.position.ToString()} | Rotation: {this.rotation.ToString()}";
-    
-    /*
-    public static implicit operator TrackableData(STrackableData t)
-        => new TrackableData(t.time, t.position, t.rotation);
- 
-    public static implicit operator STrackableData(TrackableData t)
-        => new STrackableData(t.time, t.position, t.rotation);
-    */
+        => $"Time: {this.time.ToString()}\nPosition: {this.position.ToString()}\nRotation: {this.rotation.ToString()}\nTarget: {this.raycastTargetId}";
+
 }
 
 public class ExperimentTrackable : MonoBehaviour
 {
+
+    public enum TrackingType {
+        Raw,
+        WithRaycastTarget,
+    }
+    public enum TrackingStatus {
+        Off,
+        Tracking,
+        Replaying,
+    }
+    
     private ExperimentController controller;
     private string m_experimentId;
     public string experimentId {
@@ -46,13 +58,10 @@ public class ExperimentTrackable : MonoBehaviour
     private Rigidbody rigidbody;
     private bool previousKinematicSetting;
 
-    public enum TrackingStatus {
-        Off,
-        Tracking,
-        Replaying,
-    }
     private TrackingStatus m_status = TrackingStatus.Off;
     private int currentReplayIndex = 0;
+    private TrackingType m_trackingType = TrackingType.Raw;
+    private Transform raycastTarget = null;
 
     private void Awake() {
         HelperMethods.HasComponent<Rigidbody>(this.gameObject, out rigidbody);
@@ -89,10 +98,21 @@ public class ExperimentTrackable : MonoBehaviour
         if (m_status != TrackingStatus.Replaying) m_data = new List<STrackableData>();
     }
 
+    private void Update() {
+        if (m_trackingType == TrackingType.Raw) return;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position,transform.forward,out hit)) {
+            raycastTarget = 
+        }
+    }
     private void FixedUpdate() {
         switch(m_status) {
             case TrackingStatus.Tracking:
-                m_data.Add(new STrackableData(Time.time, transform.position, transform.rotation));
+                switch(m_trackingType) {
+                    case TrackingType.Raw:
+                        m_data.Add(new STrackableData(Time.time, transform.position, transform.rotation));
+                        break;
+                }
                 break;
             case TrackingStatus.Replaying:
                 int nextReplayIndex = currentReplayIndex + 1;
