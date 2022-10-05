@@ -18,6 +18,10 @@ public class ExperimentRaycastEditor : Editor
             experimentRaycast.EndCasting();
         }
 
+        if(GUILayout.Button("Load Gaze Data")) {
+            experimentRaycast.LoadGazeData();
+        }
+
         DrawDefaultInspector();
     }
 

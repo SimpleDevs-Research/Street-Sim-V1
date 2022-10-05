@@ -20,6 +20,10 @@ namespace Helpers {
         public static bool HasComponent<T> (Transform t) {
             return HasComponent<T>(t.gameObject);
         }
+
+        public static float Map(float value, float from1, float to1, float from2, float to2) {
+            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+        }
     }
 
     [System.Serializable]
@@ -35,7 +39,7 @@ namespace Helpers {
             return true;
         }
         public static bool CheckFileExists(string filePath) {
-            return Directory.Exists(filePath);
+            return File.Exists(filePath);
         }
         
         public static string ConvertToJSON<T>(T data) {
