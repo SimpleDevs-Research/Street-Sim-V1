@@ -24,6 +24,9 @@ namespace Helpers {
 
     [System.Serializable]
     public class SaveSystemMethods {
+        public static string GetSaveLoadDirectory(string path = "") {
+             return (path != null && path.Length > 0) ? (path.EndsWith("/")) ? Application.dataPath + "/" + path : Application.dataPath + "/" + path + "/" : Application.dataPath + "/";
+        }
         public static bool CheckDirectoryExists(string dirPath) {
             return Directory.Exists(dirPath);
         }

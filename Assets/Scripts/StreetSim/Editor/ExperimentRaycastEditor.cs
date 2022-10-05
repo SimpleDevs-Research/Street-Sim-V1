@@ -11,8 +11,11 @@ public class ExperimentRaycastEditor : Editor
     public override void OnInspectorGUI() {
         ExperimentRaycast experimentRaycast = (ExperimentRaycast)target;
         
-        if(GUILayout.Button("Start Tracking")) {
-            experimentRaycast.PrintClusters();
+        if(GUILayout.Button("Start Casting")) {
+            experimentRaycast.StartCasting();
+        }
+        if(GUILayout.Button("End Casting")) {
+            experimentRaycast.EndCasting();
         }
 
         DrawDefaultInspector();
