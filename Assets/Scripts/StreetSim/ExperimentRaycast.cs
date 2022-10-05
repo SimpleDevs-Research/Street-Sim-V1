@@ -57,20 +57,25 @@ public class ExperimentRaycast : MonoBehaviour
     [SerializeField] private List<SCluster> clusters = new List<SCluster>();
     [SerializeField] private Queue<SRaycastTarget> findClusterQueue = new Queue<SRaycastTarget>();
     [SerializeField] private float distanceThreshold = 0.025f;
+    [SerializeField] private float targetCheckDelay = 0.1f;
 
     private void Awake() {
         if (!HelperMethods.HasComponent<EVRA_Pointer>(this.gameObject, out pointer)) {
             pointer = this.gameObject.AddComponent<EVRA_Pointer>();
         }
+        StartCoroutine(CheckTarget());
         StartCoroutine(CalculateClusters());
     }
 
-    private void LateUpdate() {
-        target = pointer.raycastTarget;
-        if (target != null) {
-            SRaycastTarget point = new SRaycastTarget(Time.time, pointer.raycastHitPosition);
-            targetHits.Add(point);
-            findClusterQueue.Enqueue(point);
+    private IEnumerator CheckTarget() {
+        while(true) {
+            target = pointer.raycastTarget;
+            if (target != null) {
+                SRaycastTarget point = new SRaycastTarget(Time.time, pointer.raycastHitPosition);
+                targetHits.Add(point);
+                findClusterQueue.Enqueue(point);
+            }
+            yield return new WaitForSeconds(targetCheckDelay);
         }
     }
 
@@ -112,5 +117,8 @@ public class ExperimentRaycast : MonoBehaviour
         }
     }
 
+    public void PrintClusters() {
+        
+    }
 
 }
