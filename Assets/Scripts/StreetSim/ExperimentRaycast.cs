@@ -111,6 +111,8 @@ public class GazeDataTargetPayload {
 public class ExperimentRaycast : MonoBehaviour
 {
 
+    public static ExperimentRaycast current;
+
     private EVRA_Pointer pointer;
     [SerializeField] private Transform target = null;
     [SerializeField] private List<ExperimentRaycastTarget> allTargets = new List<ExperimentRaycastTarget>();
@@ -212,6 +214,7 @@ public class ExperimentRaycast : MonoBehaviour
     */
 
     private void Awake() {
+        current = this;
         if (!HelperMethods.HasComponent<EVRA_Pointer>(this.gameObject, out pointer)) {
             pointer = this.gameObject.AddComponent<EVRA_Pointer>();
         }
