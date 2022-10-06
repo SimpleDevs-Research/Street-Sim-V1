@@ -17,6 +17,7 @@ public class ExperimentRaycastTarget : MonoBehaviour
         get { return m_clusters; }
         set {}
     }
+    [SerializeField] private int minClusterSize, maxClusterSize;
 
     private void Awake() {
         experimentIDComp = GetComponent<ExperimentID>();
@@ -38,13 +39,31 @@ public class ExperimentRaycastTarget : MonoBehaviour
     }
     public void SetClusters(Dictionary<int,SCluster> newClusters) {
         m_clusters = newClusters;
-        Debug.Log(m_clusters.Count);
+        if (m_clusters.Count == 0) return;
+        SetClusterSizeDimensions();
+    }
+    private void SetClusterSizeDimensions() {
+        int min = -1, max = -1;
+        foreach(SCluster cluster in m_clusters.Values) {
+            if (min == -1 || cluster.points.Count < min) min = cluster.points.Count;
+            if (max == -1 || cluster.points.Count > max) max = cluster.points.Count;
+        }
+        minClusterSize = min;
+        maxClusterSize = max;
     }
 
-    public void DrawAllClusters(float minClusterSize, float maxClusterSize, float maxClusterRadius) {
+    public void DrawAllClusters(float maxClusterRadius) {
         foreach(SCluster cluster in m_clusters.Values) {
             if (!cluster.calibrated) continue;
-            float radius = HelperMethods.Map((float)cluster.points.Count, minClusterSize, maxClusterSize, 0.1f, 1f) * maxClusterRadius;
+            float radius = HelperMethods.Map((float)cluster.points.Count, (float)minClusterSize, (float)maxClusterSize, 0.1f, 1f) * maxClusterRadius;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.TransformPoint((Vector3)cluster.center), radius);
+        }
+    }
+    public void DrawAllClusters(float min, float max, float maxClusterRadius) {
+        foreach(SCluster cluster in m_clusters.Values) {
+            if (!cluster.calibrated) continue;
+            float radius = HelperMethods.Map((float)cluster.points.Count, min, max, 0.1f, 1f) * maxClusterRadius;
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.TransformPoint((Vector3)cluster.center), radius);
         }

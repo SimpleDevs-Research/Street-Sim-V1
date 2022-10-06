@@ -133,25 +133,38 @@ public class ExperimentRaycast : MonoBehaviour
     [SerializeField] private string m_saveFilename = "gazeData_raw";
     [SerializeField] private string m_loadFilename = "gazeData_processed";
 
+    public enum VisualizationLocality {
+        Globally,
+        Locally
+    }
     public enum VisualizationTimeRange {
         All,
         SpecificTime,
         TimeFrame
     }
     [Header("Visualization Controls")]
+    [SerializeField] private VisualizationLocality m_showLocality = VisualizationLocality.Globally;
     [SerializeField] private VisualizationTimeRange m_showType = VisualizationTimeRange.All;
     private float earliestPointBirthday, latestPointDeath;
     [SerializeField, Range(0f,1f)] private float minTimeRange = 0f;
     [SerializeField, Range(0f,1f)] private float maxTimeRange = 1f; 
     [SerializeField, Range(0f,1f)] private float pinpointTime = 0f;
 
-
     private void OnDrawGizmos() {
         if (allTargets.Count == 0) return;
         switch(m_showType) {
             case VisualizationTimeRange.All:
-                foreach(ExperimentRaycastTarget t in allTargets) {
-                    t.DrawAllClusters((float)minClusterSize,(float)maxClusterSize,maxClusterRadius);
+                switch(m_showLocality) {
+                    case VisualizationLocality.Globally:
+                        foreach(ExperimentRaycastTarget t in allTargets) {
+                            t.DrawAllClusters((float)minClusterSize,(float)maxClusterSize,maxClusterRadius);
+                        }
+                        break;
+                    case VisualizationLocality.Locally:
+                        foreach(ExperimentRaycastTarget t in allTargets) {
+                            t.DrawAllClusters(maxClusterRadius);
+                        }
+                        break;
                 }
                 break;
             /*
