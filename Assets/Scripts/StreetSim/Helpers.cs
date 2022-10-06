@@ -6,7 +6,6 @@ using UnityEngine;
 namespace Helpers {
     [System.Serializable]
     public class HelperMethods {
-
         public static bool HasComponent<T> (GameObject obj, out T toReturn) {
             toReturn = obj.GetComponent<T>();
             return toReturn != null;

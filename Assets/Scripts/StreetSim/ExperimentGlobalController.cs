@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEngine.Events;
 using Helpers;
 
 [System.Serializable]
@@ -20,6 +21,9 @@ public class ExperimentGlobalController : MonoBehaviour
 
     [SerializeField] private List<ExperimentIDRef> IDs = new List<ExperimentIDRef>();
     private Dictionary<string,ExperimentID> IDsDict = new Dictionary<string,ExperimentID>();
+
+    [SerializeField] private UnityEvent eventsOnAwake = new UnityEvent();
+    [SerializeField] private UnityEvent eventsOnStart = new UnityEvent();
 
     private void Awake() {
         current = this;

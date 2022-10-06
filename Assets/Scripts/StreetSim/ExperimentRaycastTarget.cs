@@ -7,6 +7,7 @@ using Helpers;
 public class ExperimentRaycastTarget : MonoBehaviour
 {
     private ExperimentID experimentIDComp;
+
     [SerializeField] private List<SRaycastTarget2> m_hits = new List<SRaycastTarget2>();
     public List<SRaycastTarget2> hits {
         get { return m_hits; }
@@ -33,10 +34,13 @@ public class ExperimentRaycastTarget : MonoBehaviour
     public void AddHit(SRaycastTarget2 newHit) {
         m_hits.Add(newHit);
     }
-
+    public void AddHits(List<SRaycastTarget2> newHits) {
+        m_hits.AddRange(newHits);
+    }
     public void SetHits(List<SRaycastTarget2> newHits) {
         m_hits = newHits;
     }
+
     public void SetClusters(Dictionary<int,SCluster> newClusters) {
         m_clusters = newClusters;
         if (m_clusters.Count == 0) return;

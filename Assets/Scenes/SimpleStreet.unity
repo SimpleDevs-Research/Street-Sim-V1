@@ -935,6 +935,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hits: []
+  minClusterSize: 0
+  maxClusterSize: 0
 --- !u!114 &512536500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1461,7 +1463,7 @@ GameObject:
   - component: {fileID: 721829031}
   - component: {fileID: 721829033}
   - component: {fileID: 721829032}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: AgentMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1534,7 +1536,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.05
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -1631,6 +1633,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hits: []
+  minClusterSize: 0
+  maxClusterSize: 0
 --- !u!114 &721829033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2254,6 +2258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hits: []
+  minClusterSize: 0
+  maxClusterSize: 0
 --- !u!114 &1114567768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3622,6 +3628,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4742838085081209417, guid: 4a7a8c0cfdd664ef2ad748d0f93a06f3, type: 3}
   m_PrefabInstance: {fileID: 1389201771}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1391801562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
+  m_PrefabInstance: {fileID: 1846435074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1391801566 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
+  m_PrefabInstance: {fileID: 1846435074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1391801567
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391801562}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
+--- !u!114 &1391801568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391801562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880451a3f381df34e94b57e9ded2f281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 1391801566}
+  collider: {fileID: 1391801567}
+  updateDelay: 0.05
 --- !u!1 &1418861118
 GameObject:
   m_ObjectHideFlags: 0
@@ -4534,6 +4579,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721829022}
     m_Modifications:
+    - target: {fileID: 100000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
       propertyPath: m_Name
       value: LowBody
@@ -5566,6 +5615,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IDs: []
+  eventsOnAwake:
+    m_PersistentCalls:
+      m_Calls: []
+  eventsOnStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2061541221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5847,8 +5902,9 @@ MonoBehaviour:
   hitLifespan: 3
   maxClusterRadius: 0.1
   m_dataFolder: GazeData
-  m_saveFilename: streetSim_raw
-  m_loadFilename: streetSim_processed
+  m_saveFilename: streetSim_raw3
+  m_loadFilename: streetSim_processed3
+  m_showLocality: 0
   m_showType: 0
   minTimeRange: 0
   maxTimeRange: 1
