@@ -368,6 +368,11 @@ public class ExperimentRaycast : MonoBehaviour
         return true;
     }
     public bool LoadGazeData() {
+        // We can only load if we're running the game...
+        if (ExperimentGlobalController.current == null) {
+            Debug.Log("ERROR - Must be running the game before loading");
+            return false;
+        }
         // Get Directory
         GazeDataPayload2 payload;
         string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(m_dataFolder) + m_loadFilename + ".json";
@@ -392,17 +397,14 @@ public class ExperimentRaycast : MonoBehaviour
     }
 
     public bool CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {
-        Debug.Log("CALIBRATING FOR " + targetPayloads.Count + " PAYLOADS");
         allTargets = new List<ExperimentRaycastTarget>();
         allHits = new List<SRaycastTarget2>();
         int min = -1, max = -1;
         ExperimentRaycastTarget possibleTarget;
         List<SRaycastTarget2> targs;
         foreach(GazeDataTargetPayload payload in targetPayloads) {
-            Debug.Log("LOOKING FOR " + payload.parentID);
             // First check if our item exists
             if (ExperimentGlobalController.current.FindID<ExperimentRaycastTarget>(payload.parentID, out possibleTarget)) {
-                Debug.Log("FOUND TARGET WITH MATCHING ID");
                 Dictionary<int,SCluster> tempClusters = new Dictionary<int,SCluster>();
                 allHits.AddRange(payload.gazePoints);
                 possibleTarget.SetHits(payload.gazePoints);
@@ -423,8 +425,6 @@ public class ExperimentRaycast : MonoBehaviour
                 }
                 possibleTarget.SetClusters(tempClusters);
                 allTargets.Add(possibleTarget);
-            } else {
-                Debug.Log("COULD NOT FIND TARGET WITH MATCHING ID");
             }
         }
         minClusterSize = min;
