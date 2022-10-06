@@ -7,20 +7,20 @@ using Helpers;
 [System.Serializable]
 public class SCluster {
     public int clusterId;
-    public List<SRaycastTarget> points;
+    public List<SRaycastTarget2> points;
     public SVector3 center;
     public SVector3 normal;
     public bool calibrated = false;
     public SCluster(int id) {
         this.clusterId = id;
-        this.points = new List<SRaycastTarget>();
+        this.points = new List<SRaycastTarget2>();
     }
     public void Calibrate() {
         calibrated = false;
         SVector3 pseudoCenter = new SVector3(0f,0f,0f);
         SVector3 pseudoNormal = new SVector3(0f,0f,0f);
-        foreach(SRaycastTarget point in points) {
-            pseudoCenter = pseudoCenter + point.worldPosition;
+        foreach(SRaycastTarget2 point in points) {
+            pseudoCenter = pseudoCenter + point.localPosition;
             pseudoNormal = pseudoNormal + point.normal;
         }
         center = pseudoCenter / (float)points.Count;
@@ -30,7 +30,7 @@ public class SCluster {
     public int GetPointsCountAtTime(float earliestBirth, float latestDeath, float specificTime, float pointAge) {
         float pointBirthTime, pointDeathTime;
         int pointsCount = 0;
-        foreach(SRaycastTarget point in points) {
+        foreach(SRaycastTarget2 point in points) {
             pointBirthTime = HelperMethods.Map(point.timestamp,earliestBirth,latestDeath,0f,1f);
             pointDeathTime = HelperMethods.Map(point.timestamp+pointAge,earliestBirth,latestDeath,0f,1f);
             if (specificTime >= pointBirthTime && specificTime <= pointDeathTime) pointsCount += 1;
@@ -40,7 +40,7 @@ public class SCluster {
     public int GetPointsCountInTimeRange(float earliestBirth, float latestDeath, float beginning, float ending, float pointAge) {
         float pointBirthTime, pointDeathTime;
         int pointsCount = 0;
-        foreach(SRaycastTarget point in points) {
+        foreach(SRaycastTarget2 point in points) {
             pointBirthTime = HelperMethods.Map(point.timestamp,earliestBirth,latestDeath,0f,1f);
             pointDeathTime = HelperMethods.Map(point.timestamp+pointAge,earliestBirth,latestDeath,0f,1f);
             if ((pointBirthTime >= beginning && pointBirthTime <= ending) || (pointDeathTime <= ending && pointDeathTime >= beginning)) pointsCount += 1;
@@ -52,6 +52,7 @@ public class SCluster {
 [System.Serializable]
 public class SRaycastTarget {
     public float timestamp;
+    public string parentID;
     public SVector3 worldPosition;
     public SVector3 normal;
     public int clusterIndex = -1;
@@ -64,10 +65,46 @@ public class SRaycastTarget {
 }
 
 [System.Serializable]
+public class SRaycastTarget2 {
+    public float timestamp;
+    public string parentID;
+    public SVector3 localPosition;
+    public SVector3 normal;
+    public int clusterIndex = -1;
+    public SRaycastTarget2(string parentID, float timestamp, Vector3 localPosition, Vector3 normal) {
+        this.parentID = parentID;
+        this.timestamp = timestamp;
+        this.localPosition = localPosition;
+        this.normal = normal;
+    }
+}
+
+[System.Serializable]
 public class GazeDataPayload {
     public float startTime;
     public float endTime;
     public List<SRaycastTarget> gazePoints;
+}
+
+[System.Serializable]
+public class GazeDataPayload2 {
+    public float startTime;
+    public float endTime;
+    public List<GazeDataTargetPayload> allData;
+    public GazeDataPayload2(float startTime, float endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.allData = new List<GazeDataTargetPayload>();
+    }
+}
+[System.Serializable]
+public class GazeDataTargetPayload {
+    public string parentID;
+    public List<SRaycastTarget2> gazePoints;
+    public GazeDataTargetPayload(string parentID, List<SRaycastTarget2> gazePoints) {
+        this.parentID = parentID;
+        this.gazePoints = gazePoints;
+    }
 }
 
 [RequireComponent(typeof(EVRA_Pointer))]
@@ -76,17 +113,17 @@ public class ExperimentRaycast : MonoBehaviour
 
     private EVRA_Pointer pointer;
     [SerializeField] private Transform target = null;
-    [SerializeField] private Queue<SRaycastTarget> activeHits = new Queue<SRaycastTarget>();
-    [SerializeField] private List<SRaycastTarget> allHits = new List<SRaycastTarget>();
-    [SerializeField] private Dictionary<int,SCluster> clusters = new Dictionary<int,SCluster>();
-    [SerializeField] private Queue<SRaycastTarget> findClusterQueue = new Queue<SRaycastTarget>();
-    [SerializeField] private float distanceThreshold = 0.025f;
+    [SerializeField] private List<ExperimentRaycastTarget> allTargets = new List<ExperimentRaycastTarget>();
+    //[SerializeField] private Queue<SRaycastTarget> activeHits = new Queue<SRaycastTarget>();
+    [SerializeField] private List<SRaycastTarget2> allHits = new List<SRaycastTarget2>();
+    //[SerializeField] private Dictionary<int,SCluster> clusters = new Dictionary<int,SCluster>();
+    //[SerializeField] private Queue<SRaycastTarget> findClusterQueue = new Queue<SRaycastTarget>();
+    //[SerializeField] private float distanceThreshold = 0.025f;
     [SerializeField] private float targetCheckDelay = 0.1f;
     [SerializeField] private float hitLifespan = 3f;
     private bool m_casting = false;
-    private IEnumerator checkCoroutine = null, 
-                        calculateCoroutine = null,
-                        removeHitAfterDelayCoroutine = null;
+    private IEnumerator checkCoroutine = null;
+    private IEnumerator calculateCoroutine = null, removeHitAfterDelayCoroutine = null;
     [SerializeField] private float maxClusterRadius = 0.1f;
     private int minClusterSize, maxClusterSize;
     private float startTime, endTime;
@@ -108,20 +145,30 @@ public class ExperimentRaycast : MonoBehaviour
     [SerializeField, Range(0f,1f)] private float maxTimeRange = 1f; 
     [SerializeField, Range(0f,1f)] private float pinpointTime = 0f;
 
+
     private void OnDrawGizmos() {
-        if (clusters.Count == 0) return;
+        if (allTargets.Count == 0) return;
         switch(m_showType) {
             case VisualizationTimeRange.All:
-                DrawAllClusters();
+                foreach(ExperimentRaycastTarget t in allTargets) {
+                    t.DrawAllClusters((float)minClusterSize,(float)maxClusterSize,maxClusterRadius);
+                }
                 break;
+            /*
             case VisualizationTimeRange.SpecificTime:
-                DrawClustersAtTme();
+                foreach(ExperimentRaycastTarget t in allTargets) {
+                    t.DrawClustersAtTme((float)minClusterSize,(float)maxClusterSize,maxClusterRadius,hitLifespan);
+                }
                 break;
+            */
+            /*
             case VisualizationTimeRange.TimeFrame:
                 DrawClustersInTimeRange();
                 break;
+            */
         }
     }
+    /*
     private void DrawAllClusters() {
         foreach(SCluster cluster in clusters.Values) {
             //float radius = (cluster.points.Count / targetHits.Count) * maxClusterSize;
@@ -149,6 +196,7 @@ public class ExperimentRaycast : MonoBehaviour
             Gizmos.DrawWireSphere((Vector3)cluster.center, radius);
         }
     }
+    */
 
     private void Awake() {
         if (!HelperMethods.HasComponent<EVRA_Pointer>(this.gameObject, out pointer)) {
@@ -157,16 +205,29 @@ public class ExperimentRaycast : MonoBehaviour
     }
 
     private IEnumerator CheckTarget() {
+        string parentID;
+        ExperimentRaycastTarget parentTarget;
+        Vector3 parentLocalPos;
         while(true) {
             target = pointer.raycastTarget;
-            if (target != null) {
-                SRaycastTarget point = new SRaycastTarget(Time.time - startTime, pointer.raycastHitPosition, pointer.raycastHitNormal);
-                //activeHits.Enqueue(point);
+            if (target != null && HelperMethods.HasComponent<ExperimentRaycastTarget>(target.gameObject, out parentTarget)) {
+                if (!allTargets.Contains(parentTarget)) allTargets.Add(parentTarget);
+                parentID = parentTarget.GetID();
+                parentLocalPos = parentTarget.GetLocalPosition(pointer.raycastHitPosition);
+                SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - startTime, parentLocalPos, pointer.raycastHitNormal);
                 allHits.Add(point);
-                //findClusterQueue.Enqueue(point);
+                parentTarget.AddHit(point);
             }
             yield return new WaitForSeconds(targetCheckDelay);
         }
+    }
+
+    private Vector3 FindUp(Vector3 normal) {
+        normal.Normalize();
+        if (normal == Vector3.zero) return Vector3.up;
+        if (normal == Vector3.up) return Vector3.forward;
+        float distance = -Vector3.Dot(normal, Vector3.up);
+        return (Vector3.up + normal * distance).normalized;
     }
 
     /*
@@ -291,11 +352,14 @@ public class ExperimentRaycast : MonoBehaviour
             return false;
         }
         // Create JSON
-        GazeDataPayload payload = new GazeDataPayload();
-        payload.gazePoints = allHits;
-        payload.startTime = startTime;
-        payload.endTime = endTime;
-        string dataToSave = SaveSystemMethods.ConvertToJSON<GazeDataPayload>(payload);
+        GazeDataPayload2 payload = new GazeDataPayload2(startTime, endTime);
+        //payload.gazePoints = allHits;
+        //payload.startTime = startTime;
+        //payload.endTime = endTime;
+        foreach(ExperimentRaycastTarget target in allTargets) {
+            payload.allData.Add(new GazeDataTargetPayload(target.GetID(),target.hits));
+        }
+        string dataToSave = SaveSystemMethods.ConvertToJSON<GazeDataPayload2>(payload);
         // Create Save Directory
         string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(m_dataFolder);
         if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
@@ -305,16 +369,16 @@ public class ExperimentRaycast : MonoBehaviour
     }
     public bool LoadGazeData() {
         // Get Directory
-        GazeDataPayload payload;
+        GazeDataPayload2 payload;
         string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(m_dataFolder) + m_loadFilename + ".json";
         Debug.Log("Loading " + filenameToLoad + " ...");
         if (SaveSystemMethods.CheckFileExists(filenameToLoad)) {
-            if (SaveSystemMethods.LoadJSON<GazeDataPayload>(filenameToLoad, out payload)) {
+            if (SaveSystemMethods.LoadJSON<GazeDataPayload2>(filenameToLoad, out payload)) {
                 //Debug.Log(payload.gazePoints[0]);
                 // Process clusters
                 startTime = payload.startTime;
                 endTime = payload.endTime;
-                return CalibrateClusters(payload.gazePoints);
+                return CalibrateClusters(payload.allData);
             } 
             else {
                 Debug.Log("ERROR - COULD NOT LOAD FILE");
@@ -327,38 +391,44 @@ public class ExperimentRaycast : MonoBehaviour
         }
     }
 
-    public bool CalibrateClusters(List<SRaycastTarget> raycastPoints) {
+    public bool CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {
+        Debug.Log("CALIBRATING FOR " + targetPayloads.Count + " PAYLOADS");
+        allTargets = new List<ExperimentRaycastTarget>();
+        allHits = new List<SRaycastTarget2>();
         int min = -1, max = -1;
-        //float birth = -1f, death = -1f;
-        Dictionary<int,SCluster> tempClusters = new Dictionary<int,SCluster>();
-        foreach(SRaycastTarget point in raycastPoints) {
-            if (!tempClusters.ContainsKey(point.clusterIndex)) {
-                tempClusters.Add(point.clusterIndex, new SCluster(point.clusterIndex));
+        ExperimentRaycastTarget possibleTarget;
+        List<SRaycastTarget2> targs;
+        foreach(GazeDataTargetPayload payload in targetPayloads) {
+            Debug.Log("LOOKING FOR " + payload.parentID);
+            // First check if our item exists
+            if (ExperimentGlobalController.current.FindID<ExperimentRaycastTarget>(payload.parentID, out possibleTarget)) {
+                Debug.Log("FOUND TARGET WITH MATCHING ID");
+                Dictionary<int,SCluster> tempClusters = new Dictionary<int,SCluster>();
+                allHits.AddRange(payload.gazePoints);
+                possibleTarget.SetHits(payload.gazePoints);
+                foreach(SRaycastTarget2 point in payload.gazePoints) {
+                    if (!tempClusters.ContainsKey(point.clusterIndex)) {
+                        tempClusters.Add(point.clusterIndex, new SCluster(point.clusterIndex));
+                    }
+                    tempClusters[point.clusterIndex].points.Add(point);
+                }
+                foreach(SCluster cluster in tempClusters.Values) {
+                    cluster.Calibrate();
+                    if (min == -1 || cluster.points.Count < min) {
+                        min = cluster.points.Count;
+                    }
+                    if (max == -1 || cluster.points.Count > max) {
+                        max = cluster.points.Count;
+                    }
+                }
+                possibleTarget.SetClusters(tempClusters);
+                allTargets.Add(possibleTarget);
+            } else {
+                Debug.Log("COULD NOT FIND TARGET WITH MATCHING ID");
             }
-            tempClusters[point.clusterIndex].points.Add(point);
-            /*
-            if (birth == -1f || point.timestamp < birth) {
-                birth = point.timestamp;
-            }
-            if (death == -1f || point.timestamp+hitLifespan > death) {
-                death = point.timestamp+hitLifespan;
-            }
-            */
         }
-        foreach(SCluster cluster in tempClusters.Values) {
-            cluster.Calibrate();
-            if (min == -1 || cluster.points.Count < min) {
-                min = cluster.points.Count;
-            }
-            if (max == -1 || cluster.points.Count > max) {
-                max = cluster.points.Count;
-            }
-        }
-        clusters = tempClusters;
         minClusterSize = min;
         maxClusterSize = max;
-        //earliestPointBirthday = birth;
-        //latestPointDeath = death;
         return true;
     }
 

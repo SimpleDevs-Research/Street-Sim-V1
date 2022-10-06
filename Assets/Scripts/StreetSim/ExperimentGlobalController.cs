@@ -25,7 +25,7 @@ public class ExperimentGlobalController : MonoBehaviour
         current = this;
     }
 
-    public void AddID(ExperimentID newID) {
+    public bool AddID(ExperimentID newID, out string finalID) {
         string id = newID.id;
         while(IDsDict.ContainsKey(id)) {
             // Keep finding alternatives until we find no match
@@ -40,11 +40,10 @@ public class ExperimentGlobalController : MonoBehaviour
                 id += "1";
             }
         }
-        // Let newID know its new id
-        newID.SetID(id);
-        // Do our adding thing
-        IDs.Add(new ExperimentIDRef(id, newID));
-        IDsDict.Add(id, newID);
+        finalID = id;
+        IDs.Add(new ExperimentIDRef(finalID, newID));
+        IDsDict.Add(finalID, newID);
+        return true;
     }
 
     public bool FindID<T>(string queryID, out T outComponent) {

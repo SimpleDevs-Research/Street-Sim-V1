@@ -9,12 +9,11 @@ public class ExperimentID : MonoBehaviour
         get { return m_id; }
         set {}
     }
+    private bool idSet = false;
 
     private void Start() {
-        if (ExperimentGlobalController.current != null) ExperimentGlobalController.current.AddID(this);
-    }
-
-    public void SetID(string newID) {
-        m_id = newID;
+        if (ExperimentGlobalController.current != null) {
+            idSet = ExperimentGlobalController.current.AddID(this, out m_id);
+        }
     }
 }
