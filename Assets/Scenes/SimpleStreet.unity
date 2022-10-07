@@ -1180,7 +1180,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &352576425
 PrefabInstance:
@@ -1607,11 +1607,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_Name
-      value: XYZ
+      value: RaycastTester
       objectReference: {fileID: 0}
     - target: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_RootOrder
@@ -1619,19 +1619,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -7.25
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1639,7 +1639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1651,7 +1651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -3061,7 +3061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toFollow: {fileID: 2136427357}
+  toFollow: {fileID: 1938301353}
   offset: {x: 0, y: -10, z: 0}
   followType: 0
   followRotation: 1
@@ -3115,9 +3115,8 @@ MonoBehaviour:
   targetCheckDelay: 0.1
   hitLifespan: 3
   maxClusterRadius: 0.1
-  m_dataFolder: GazeData
-  m_saveFilename: meshAndTransform_raw4
-  m_loadFilename: meshAndTransform_processed4
+  m_saveFilename: TESTGAZE_RAW
+  m_loadFilename: TESTGAZE_CLUSTERED
   m_showLocality: 0
   m_showType: 0
   minTimeRange: 0
@@ -6860,7 +6859,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1583364512
 MonoBehaviour:
@@ -8591,7 +8590,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1909950281
 MonoBehaviour:
@@ -8863,6 +8862,11 @@ MonoBehaviour:
   layersToDetect:
     serializedVersion: 2
     m_Bits: 4096
+--- !u!4 &1938301353 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+  m_PrefabInstance: {fileID: 505350899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1943185825 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100096, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -9722,10 +9726,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2054830745}
-  - component: {fileID: 2054830744}
   - component: {fileID: 2054830746}
+  - component: {fileID: 2054830744}
+  - component: {fileID: 2054830747}
   m_Layer: 0
-  m_Name: ExperimentController
+  m_Name: ExperimentGlobalController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9759,7 +9764,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2054830746
 MonoBehaviour:
@@ -9773,15 +9778,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e177043c557bd084697b0638ccd3ec29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sourceDirectory: GazeData
+  m_participantName: RyanKim
+  m_trialNumber: BETA
   IDs: []
-  m_startTime: 0
-  m_endTime: 0
+  m_timeDelay: 0.05
   startTrackingEvents:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 806931485}
         m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
         m_MethodName: StartCasting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  eventsToTrack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 806931485}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: CheckTargetHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9836,6 +9858,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  timestamp: 0
+--- !u!114 &2054830747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054830743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ed8c771a4649c43a76015dba5c7f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPointer: {fileID: 806931486}
+  transformPointer: {fileID: 806931484}
+  targetPointerResult: {fileID: 0}
+  transformPointerResult: {fileID: 0}
+  allTargets: []
+  allHits: []
+  targetCheckDelay: 0.1
+  hitLifespan: 3
+  maxClusterRadius: 0.1
+  m_saveFilename: meshAndTransform_raw4
+  m_loadFilename: meshAndTransform_processed4
+  m_showLocality: 0
+  m_showType: 0
+  minTimeRange: 0
+  maxTimeRange: 1
+  pinpointTime: 0
 --- !u!1001 &2061541221
 PrefabInstance:
   m_ObjectHideFlags: 0

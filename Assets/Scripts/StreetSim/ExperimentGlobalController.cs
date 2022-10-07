@@ -15,16 +15,58 @@ public class ExperimentIDRef {
     }
 }
 
+[System.Serializable]
+public class ExperimentDetailsPayload {
+    public string name;
+    public string trialNumber;
+    public float startTime;
+    public float endTime;
+    public ExperimentDetailsPayload(string name, string trialNumber, float startTime, float endTime) {
+        this.name = name;
+        this.trialNumber = trialNumber;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+}
+
 public class ExperimentGlobalController : MonoBehaviour
 {
     public static ExperimentGlobalController current;
+
+    [Header("Directory & Files")]
+    [SerializeField] private string m_sourceDirectory = "GazeData";
+    public string sourceDirectory {
+        get { return m_sourceDirectory; }
+        set {}
+    }
+    [SerializeField] private string m_participantName = "RyanKim";
+    public string participantName {
+        get { return m_participantName; }
+        set {}
+    }
+    [SerializeField] private string m_trialNumber = "0";
+    public string trialNumber {
+        get { return m_trialNumber; }
+        set {}
+    }
+    public string directoryPath {
+        get { return m_sourceDirectory + "/" + m_participantName + "/" + m_trialNumber + "/"; }
+        set {}
+    }
 
     [Header("IDs in the Experiment")]
     [SerializeField] private List<ExperimentIDRef> IDs = new List<ExperimentIDRef>();
     private Dictionary<string,ExperimentID> IDsDict = new Dictionary<string,ExperimentID>();
 
     [Header("Experiment Settings")]
-    [SerializeField] private float m_startTime, m_endTime;
+    [SerializeField] private float m_timeDelay = 0.05f;
+    private float m_currentTimeDelay = 0f, m_previousTimeDelay = 0f;
+    private float m_currentTime, m_startTime, m_endTime;
+    public float currentTime {
+        get { return m_currentTime; }
+        set {}
+    }
     public float startTime {
         get { return m_startTime; }
         set {}
@@ -38,10 +80,22 @@ public class ExperimentGlobalController : MonoBehaviour
         get { return m_isTracking; }
         set {}
     }
+
+    [Header("Experiment Events")]
     [SerializeField] private UnityEvent startTrackingEvents = new UnityEvent();
+    [SerializeField] private UnityEvent eventsToTrack = new UnityEvent();
     [SerializeField] private UnityEvent endTrackingEvents = new UnityEvent();
     [SerializeField] private UnityEvent saveTrackingEvents = new UnityEvent();
     [SerializeField] private UnityEvent loadTrackingEvents = new UnityEvent();
+
+    public enum PlaybackType {
+        TrialDuration,
+        RangedDuration,
+        Timestamp,
+    }
+    [Header("Trial Playback Controls")]
+    [SerializeField, Tooltip("0 = beginning, 1 = ending"), Range(0f,1f)]
+    private float timestamp;
 
     private void Awake() {
         current = this;
@@ -83,6 +137,7 @@ public class ExperimentGlobalController : MonoBehaviour
     public void StartTrackingEvents() {
         m_isTracking = true;
         m_startTime = Time.time;
+        m_previousTimeDelay = m_startTime;
         startTrackingEvents?.Invoke();
     }
 
@@ -93,10 +148,50 @@ public class ExperimentGlobalController : MonoBehaviour
     }
 
     public void SaveTrackingEvents() {
-        saveTrackingEvents?.Invoke();
+        if (m_isTracking) {
+            Debug.Log("[Global] ERROR: Cannot save while in the middle of tracking data.");
+            return;
+        }
+
+        ExperimentDetailsPayload payload = new ExperimentDetailsPayload(
+            m_participantName, m_trialNumber,
+            m_startTime, m_endTime
+        );
+        string dataToSave = SaveSystemMethods.ConvertToJSON<ExperimentDetailsPayload>(payload);
+        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(directoryPath);
+        if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+            if (SaveSystemMethods.SaveJSON(dirToSaveIn + "metadata", dataToSave)) {
+                saveTrackingEvents?.Invoke();
+            }
+        }
     }
 
     public void LoadTrackingEvents() {
-        saveTrackingEvents?.Invoke();
+        ExperimentDetailsPayload payload;
+        string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(directoryPath) + "metadata.json";
+        Debug.Log("[GLOBAL] Loading metadata contents...");
+        if (!SaveSystemMethods.CheckFileExists(filenameToLoad)) {
+            Debug.Log("[GLOBAL] ERROR: metadata file does not exist. Canceling load.");
+            return;
+        }
+        if (!SaveSystemMethods.LoadJSON<ExperimentDetailsPayload>(filenameToLoad, out payload)) {
+            Debug.Log("[GLOBAL] ERROR: metadata file could not be loaded. Canceling load.");
+            return;
+        }
+        
+        Debug.Log("GLOBAL: metadata loaded SUCCESS");
+        m_startTime = payload.startTime;
+        m_endTime = payload.endTime;
+
+        Debug.Log("GLOBAL: loading additional saved data if designated...");
+        loadTrackingEvents?.Invoke();
+    }
+
+    private void FixedUpdate() {
+        m_currentTime = Time.time;
+        if (m_timeDelay == 0f || (m_currentTime - m_previousTimeDelay) >= m_timeDelay) {
+            m_previousTimeDelay = m_currentTime;
+            eventsToTrack?.Invoke();
+        }
     }
 }

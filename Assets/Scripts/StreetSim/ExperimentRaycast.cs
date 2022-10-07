@@ -50,21 +50,6 @@ public class SCluster {
 }
 
 [System.Serializable]
-public class SRaycastTarget {
-    public float timestamp;
-    public string parentID;
-    public SVector3 worldPosition;
-    public SVector3 normal;
-    public int clusterIndex = -1;
-    public bool active = true;
-    public SRaycastTarget(float timestamp, Vector3 worldPosition, Vector3 normal) {
-        this.timestamp = timestamp;
-        this.worldPosition = worldPosition;
-        this.normal = normal;
-    }
-}
-
-[System.Serializable]
 public class SRaycastTarget2 {
     public float timestamp;
     public string parentID;
@@ -83,15 +68,8 @@ public class SRaycastTarget2 {
 public class GazeDataPayload {
     public float startTime;
     public float endTime;
-    public List<SRaycastTarget> gazePoints;
-}
-
-[System.Serializable]
-public class GazeDataPayload2 {
-    public float startTime;
-    public float endTime;
     public List<GazeDataTargetPayload> allData;
-    public GazeDataPayload2(float startTime, float endTime) {
+    public GazeDataPayload(float startTime, float endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.allData = new List<GazeDataTargetPayload>();
@@ -107,7 +85,6 @@ public class GazeDataTargetPayload {
     }
 }
 
-[RequireComponent(typeof(EVRA_Pointer))]
 public class ExperimentRaycast : MonoBehaviour
 {
 
@@ -128,10 +105,8 @@ public class ExperimentRaycast : MonoBehaviour
     private IEnumerator calculateCoroutine = null, removeHitAfterDelayCoroutine = null;
     [SerializeField] private float maxClusterRadius = 0.1f;
     private int minClusterSize, maxClusterSize;
-    private float startTime, endTime;
 
     [Header("File Save/Load System")]
-    [SerializeField] private string m_dataFolder = "GazeData";
     [SerializeField] private string m_saveFilename = "gazeData_raw";
     public string saveFilename {
         get { return m_saveFilename; }
@@ -225,6 +200,7 @@ public class ExperimentRaycast : MonoBehaviour
         current = this;
     }
 
+    /*
     private IEnumerator CheckTarget() {
         string parentID;
         ExperimentRaycastTarget targetComp, transformComp;
@@ -240,19 +216,49 @@ public class ExperimentRaycast : MonoBehaviour
             ) {
                 if (transformComp.GetParentID() == targetComp.GetID()) {
                     //if (!allTargets.Contains(targetComp)) allTargets.Add(targetComp);
-                    
                     if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
                     //parentID = targetComp.GetID();
                     parentID = transformComp.GetRefID();
                     //parentLocalPos = targetComp.GetLocalPosition(targetPointer.raycastHitPosition);
                     parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
-                    SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - startTime, parentLocalPos, targetPointer.raycastHitNormal);
+                    SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - ExperimentGlobalController.current.startTime, parentLocalPos, targetPointer.raycastHitNormal);
                     allHits.Add(point);
                     //targetComp.AddHit(point);
                     transformComp.AddHit(point);
                 }
             }
             yield return new WaitForSeconds(targetCheckDelay);
+        }
+    }
+    */
+
+    private ExperimentRaycastTarget targetComp, transformComp;
+    string parentID;
+    Vector3 parentLocalPos;
+
+    public void CheckTargetHit() {
+        if (!m_casting) return;
+        targetPointerResult = targetPointer.raycastTarget;
+        transformPointerResult = transformPointer.raycastTarget;
+
+        if (
+            targetPointerResult != null 
+            && HelperMethods.HasComponent<ExperimentRaycastTarget>(targetPointerResult.gameObject, out targetComp)
+            && transformPointerResult != null 
+            && HelperMethods.HasComponent<ExperimentRaycastTarget>(transformPointerResult.gameObject, out transformComp)
+        ) {
+            if (transformComp.GetParentID() != targetComp.GetID()) return;
+            if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
+            parentID = transformComp.GetRefID();
+            parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
+            SRaycastTarget2 point = new SRaycastTarget2(
+                parentID, 
+                ExperimentGlobalController.current.currentTime - ExperimentGlobalController.current.startTime, 
+                parentLocalPos, 
+                targetPointer.raycastHitNormal
+            );
+            allHits.Add(point);
+            transformComp.AddHit(point);
         }
     }
 
@@ -264,116 +270,21 @@ public class ExperimentRaycast : MonoBehaviour
         return (Vector3.up + normal * distance).normalized;
     }
 
-    /*
-    private IEnumerator RemovePointAfterDelay() {
-        SRaycastTarget point;
-        bool restartDelay = true;
-        while(true) {
-            if (activeHits.Count == 0) {
-                restartDelay = true;
-                yield return null;
-            }
-            else {
-                if (restartDelay) {
-                    restartDelay = false;
-                    yield return new WaitForSeconds(hitLifespan);
-                }
-                else {
-                    yield return new WaitForSeconds(targetCheckDelay);
-                }
-                point = activeHits.Dequeue();
-                point.active = false;
-                clusters[point.clusterIndex].CalculateCenter();
-            }
-        }
-    }
-    */
-
-    /*
-    private IEnumerator CalculateClusters() {
-        SCluster potentialCluster = null;
-        int clusterIndex = -1;
-        float closestClusterDistance, currentClusterDistance;
-        while(true) {
-            if (findClusterQueue.Count == 0) yield return null;
-            else {
-                SRaycastTarget point = findClusterQueue.Dequeue();
-                if (clusters.Count == 0) {
-                    // Create a cluster
-                    potentialCluster = new SCluster(distanceThreshold, point);
-                    clusters.Add(potentialCluster);
-                    clusterIndex = clusters.IndexOf(potentialCluster);
-                    point.clusterIndex = clusterIndex;
-                    yield return null;
-                } else {
-                    // Check clusters
-                    potentialCluster = null;
-                    closestClusterDistance = 0f;
-                    currentClusterDistance = 0f;
-                    foreach(SCluster cluster in clusters) {
-                        if (cluster.CheckPointInRange(point, out currentClusterDistance)) {
-                            if (potentialCluster == null) {
-                                potentialCluster = cluster;
-                                closestClusterDistance = currentClusterDistance;
-                            } else if (currentClusterDistance < closestClusterDistance) {
-                                potentialCluster = cluster;
-                                closestClusterDistance = currentClusterDistance;
-                            }
-                        }
-                        yield return null;
-                    }
-                    if (potentialCluster != null) {
-                        potentialCluster.AddPoint(point);
-                    } else {
-                        potentialCluster = new SCluster(distanceThreshold, point);
-                        clusters.Add(potentialCluster);
-                    }
-                    clusterIndex = clusters.IndexOf(potentialCluster);
-                    point.clusterIndex = clusterIndex;
-                    yield return null;
-                }
-            }
-        }
-    }
-    */
-
     public void StartCasting() {
         m_casting = true;
-        startTime = Time.time;
+        /*
         if (checkCoroutine == null) {
             checkCoroutine = CheckTarget();
             StartCoroutine(checkCoroutine);
-        }
-        /*
-        if (calculateCoroutine == null) {
-            calculateCoroutine = CalculateClusters();
-            StartCoroutine(calculateCoroutine);
-        }
-        */
-        /*
-        if (removeHitAfterDelayCoroutine == null) {
-            removeHitAfterDelayCoroutine = RemovePointAfterDelay();
-            StartCoroutine(removeHitAfterDelayCoroutine);
         }
         */
     }
     public void EndCasting() {
         m_casting = false;
-        endTime = Time.time;
+        /*
         if (checkCoroutine != null) {
             StopCoroutine(checkCoroutine);
             checkCoroutine = null;
-        }
-        /*
-        if (calculateCoroutine != null) {
-            StopCoroutine(calculateCoroutine);
-            calculateCoroutine = null;
-        }
-        */
-        /*
-        if (removeHitAfterDelayCoroutine != null) {
-            StopCoroutine(removeHitAfterDelayCoroutine);
-            removeHitAfterDelayCoroutine = null;
         }
         */
     }
@@ -383,17 +294,19 @@ public class ExperimentRaycast : MonoBehaviour
             Debug.Log("CANNOT SAVE - CURRENTLY TRACKING");
             return;
         }
+        
         // Create JSON
-        GazeDataPayload2 payload = new GazeDataPayload2(startTime, endTime);
-        //payload.gazePoints = allHits;
-        //payload.startTime = startTime;
-        //payload.endTime = endTime;
+        GazeDataPayload payload = new GazeDataPayload(
+            ExperimentGlobalController.current.startTime,
+            ExperimentGlobalController.current.endTime
+        );
         foreach(ExperimentRaycastTarget target in allTargets) {
             payload.allData.Add(new GazeDataTargetPayload(target.GetRefID(),target.hits));
         }
-        string dataToSave = SaveSystemMethods.ConvertToJSON<GazeDataPayload2>(payload);
+        string dataToSave = SaveSystemMethods.ConvertToJSON<GazeDataPayload>(payload);
+        
         // Create Save Directory
-        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(m_dataFolder);
+        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(ExperimentGlobalController.current.directoryPath);
         if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
             SaveSystemMethods.SaveJSON(dirToSaveIn + m_saveFilename, dataToSave);
         }
@@ -405,24 +318,18 @@ public class ExperimentRaycast : MonoBehaviour
             return;
         }
         // Get Directory
-        GazeDataPayload2 payload;
-        string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(m_dataFolder) + m_loadFilename + ".json";
+        GazeDataPayload payload;
+        string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(ExperimentGlobalController.current.directoryPath) + m_loadFilename + ".json";
         Debug.Log("Loading " + filenameToLoad + " ...");
-        if (SaveSystemMethods.CheckFileExists(filenameToLoad)) {
-            if (SaveSystemMethods.LoadJSON<GazeDataPayload2>(filenameToLoad, out payload)) {
-                //Debug.Log(payload.gazePoints[0]);
-                // Process clusters
-                startTime = payload.startTime;
-                endTime = payload.endTime;
-                CalibrateClusters(payload.allData);
-            } 
-            else {
-                Debug.Log("ERROR - COULD NOT LOAD FILE");
-            }
-        } 
-        else {
+        if (!SaveSystemMethods.CheckFileExists(filenameToLoad)) {
             Debug.Log("ERROR - LOAD FILE DOES NOT EXIST");
+            return;
         }
+        if (!SaveSystemMethods.LoadJSON<GazeDataPayload>(filenameToLoad, out payload)) {
+            Debug.Log("ERROR - COULD NOT LOAD FILE");
+            return;
+        }
+        CalibrateClusters(payload.allData); 
     }
 
     public void CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {

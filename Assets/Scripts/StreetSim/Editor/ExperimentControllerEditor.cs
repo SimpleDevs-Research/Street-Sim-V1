@@ -3,12 +3,15 @@ using UnityEngine;
     using UnityEditor;
 #endif
 
-[CustomEditor(typeof(ExperimentController))]
-public class ExperimentControllerEditor : Editor
+[CustomEditor(typeof(TransformTrackingController))]
+public class TransformTrackingControllerEditor : Editor
 {
 
     public override void OnInspectorGUI() {
-        ExperimentController experimentController = (ExperimentController)target;
+        TransformTrackingController experimentController = (TransformTrackingController)target;
+        
+        DrawDefaultInspector();
+        
         if(GUILayout.Button("Start Tracking")) {
             experimentController.StartTracking();
         }
@@ -24,16 +27,6 @@ public class ExperimentControllerEditor : Editor
         if(GUILayout.Button("Save Tracked Data")) {
             experimentController.SaveTrackingData();
         }
-
-        /*
-        if(GUILayout.Button("End Tracking + Save Data")) {
-            if (experimentController.EndTracking()) {
-                experimentController.SaveTrackingData();
-            }
-        }
-        */
-
-        DrawDefaultInspector();
     }
 
 }

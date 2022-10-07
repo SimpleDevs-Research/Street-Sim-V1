@@ -43,7 +43,7 @@ public class ExperimentTrackable : MonoBehaviour
         Replaying,
     }
     
-    private ExperimentController controller;
+    private TransformTrackingController controller;
     private string m_experimentId;
     public string experimentId {
         get { return m_experimentId; }
@@ -67,7 +67,7 @@ public class ExperimentTrackable : MonoBehaviour
         HelperMethods.HasComponent<Rigidbody>(this.gameObject, out rigidbody);
     }
 
-    public void Initialize(ExperimentController controller, string id) {
+    public void Initialize(TransformTrackingController controller, string id) {
         this.controller = controller;
         this.m_experimentId = id;
     }
