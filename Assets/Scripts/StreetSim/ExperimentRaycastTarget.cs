@@ -32,6 +32,9 @@ public class ExperimentRaycastTarget : MonoBehaviour
     public string GetID() {
         return experimentIDComp.id;
     }
+    public string GetRefID() {
+        return (experimentIDComp.ref_id.Length > 0) ? experimentIDComp.ref_id : experimentIDComp.id;
+    }
     public string GetParentID() {
         return (parent != null) ? parent.GetID() : GetID();
     }

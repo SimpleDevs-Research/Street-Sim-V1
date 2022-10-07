@@ -133,7 +133,15 @@ public class ExperimentRaycast : MonoBehaviour
     [Header("File Save/Load System")]
     [SerializeField] private string m_dataFolder = "GazeData";
     [SerializeField] private string m_saveFilename = "gazeData_raw";
+    public string saveFilename {
+        get { return m_saveFilename; }
+        set {}
+    }
     [SerializeField] private string m_loadFilename = "gazeData_processed";
+    public string loadFilename {
+        get { return m_loadFilename; }
+        set {}
+    }
 
     public enum VisualizationLocality {
         Globally,
@@ -232,9 +240,10 @@ public class ExperimentRaycast : MonoBehaviour
             ) {
                 if (transformComp.GetParentID() == targetComp.GetID()) {
                     //if (!allTargets.Contains(targetComp)) allTargets.Add(targetComp);
+                    
                     if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
                     //parentID = targetComp.GetID();
-                    parentID = transformComp.GetID();
+                    parentID = transformComp.GetRefID();
                     //parentLocalPos = targetComp.GetLocalPosition(targetPointer.raycastHitPosition);
                     parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
                     SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - startTime, parentLocalPos, targetPointer.raycastHitNormal);
@@ -355,8 +364,6 @@ public class ExperimentRaycast : MonoBehaviour
             StopCoroutine(checkCoroutine);
             checkCoroutine = null;
         }
-        // Output the results to JSON
-        SaveGazeData();
         /*
         if (calculateCoroutine != null) {
             StopCoroutine(calculateCoroutine);
@@ -371,10 +378,10 @@ public class ExperimentRaycast : MonoBehaviour
         */
     }
 
-    public bool SaveGazeData() {
+    public void SaveGazeData() {
         if (m_casting) {
             Debug.Log("CANNOT SAVE - CURRENTLY TRACKING");
-            return false;
+            return;
         }
         // Create JSON
         GazeDataPayload2 payload = new GazeDataPayload2(startTime, endTime);
@@ -382,7 +389,7 @@ public class ExperimentRaycast : MonoBehaviour
         //payload.startTime = startTime;
         //payload.endTime = endTime;
         foreach(ExperimentRaycastTarget target in allTargets) {
-            payload.allData.Add(new GazeDataTargetPayload(target.GetID(),target.hits));
+            payload.allData.Add(new GazeDataTargetPayload(target.GetRefID(),target.hits));
         }
         string dataToSave = SaveSystemMethods.ConvertToJSON<GazeDataPayload2>(payload);
         // Create Save Directory
@@ -390,13 +397,12 @@ public class ExperimentRaycast : MonoBehaviour
         if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
             SaveSystemMethods.SaveJSON(dirToSaveIn + m_saveFilename, dataToSave);
         }
-        return true;
     }
-    public bool LoadGazeData() {
+    public void LoadGazeData() {
         // We can only load if we're running the game...
         if (ExperimentGlobalController.current == null) {
             Debug.Log("ERROR - Must be running the game before loading");
-            return false;
+            return;
         }
         // Get Directory
         GazeDataPayload2 payload;
@@ -408,20 +414,18 @@ public class ExperimentRaycast : MonoBehaviour
                 // Process clusters
                 startTime = payload.startTime;
                 endTime = payload.endTime;
-                return CalibrateClusters(payload.allData);
+                CalibrateClusters(payload.allData);
             } 
             else {
                 Debug.Log("ERROR - COULD NOT LOAD FILE");
-                return false;
             }
         } 
         else {
             Debug.Log("ERROR - LOAD FILE DOES NOT EXIST");
-            return false;
         }
     }
 
-    public bool CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {
+    public void CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {
         allTargets = new List<ExperimentRaycastTarget>();
         allHits = new List<SRaycastTarget2>();
         int min = -1, max = -1;
@@ -454,7 +458,6 @@ public class ExperimentRaycast : MonoBehaviour
         }
         minClusterSize = min;
         maxClusterSize = max;
-        return true;
     }
 
 }

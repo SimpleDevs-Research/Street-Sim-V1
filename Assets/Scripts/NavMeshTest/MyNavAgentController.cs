@@ -21,6 +21,7 @@ public class MyNavAgentDestinationBehavior {
 public class MyNavAgentBehavior {
     public string name;
     public NavMeshAgent agent;
+    public bool enabled = true;
     public MyNavAgentDestinationBehavior[] movementBehavior;
     public bool repeat;
 }
@@ -47,6 +48,10 @@ public class MyNavAgentController : MonoBehaviour
         Transform currentDestination;
         string distancePrint;
         do {
+            if (behavior.enabled == false) {
+                yield return null;
+                continue;
+            }
             behaviorIndex = 0;
             while(behaviorIndex < behavior.movementBehavior.Length) {
                 // Check if a path is calculated

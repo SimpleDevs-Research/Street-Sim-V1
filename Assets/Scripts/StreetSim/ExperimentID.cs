@@ -20,6 +20,11 @@ public class ExperimentID : MonoBehaviour
         get { return m_id; }
         set {}
     }
+    [SerializeField] private string m_ref_id;
+    public string ref_id {
+        get { return m_ref_id; }
+        set {}
+    }
     private bool idSet = false;
 
     private void Awake() {
@@ -57,6 +62,5 @@ public class ExperimentID : MonoBehaviour
             }
         }
         return output.Count == 0;
-
     }
 }

@@ -19,11 +19,29 @@ public class ExperimentGlobalController : MonoBehaviour
 {
     public static ExperimentGlobalController current;
 
+    [Header("IDs in the Experiment")]
     [SerializeField] private List<ExperimentIDRef> IDs = new List<ExperimentIDRef>();
     private Dictionary<string,ExperimentID> IDsDict = new Dictionary<string,ExperimentID>();
 
-    [SerializeField] private UnityEvent eventsOnAwake = new UnityEvent();
-    [SerializeField] private UnityEvent eventsOnStart = new UnityEvent();
+    [Header("Experiment Settings")]
+    [SerializeField] private float m_startTime, m_endTime;
+    public float startTime {
+        get { return m_startTime; }
+        set {}
+    }
+    public float endTime {
+        get { return m_endTime; }
+        set {}
+    }
+    private bool m_isTracking = false;
+    public bool isTracking {
+        get { return m_isTracking; }
+        set {}
+    }
+    [SerializeField] private UnityEvent startTrackingEvents = new UnityEvent();
+    [SerializeField] private UnityEvent endTrackingEvents = new UnityEvent();
+    [SerializeField] private UnityEvent saveTrackingEvents = new UnityEvent();
+    [SerializeField] private UnityEvent loadTrackingEvents = new UnityEvent();
 
     private void Awake() {
         current = this;
@@ -60,5 +78,25 @@ public class ExperimentGlobalController : MonoBehaviour
             outComponent = default(T);
             return false;
         }
-    }  
+    }
+
+    public void StartTrackingEvents() {
+        m_isTracking = true;
+        m_startTime = Time.time;
+        startTrackingEvents?.Invoke();
+    }
+
+    public void EndTrackingEvents() {
+        m_isTracking = false;
+        m_endTime = Time.time;
+        endTrackingEvents?.Invoke();
+    }
+
+    public void SaveTrackingEvents() {
+        saveTrackingEvents?.Invoke();
+    }
+
+    public void LoadTrackingEvents() {
+        saveTrackingEvents?.Invoke();
+    }
 }

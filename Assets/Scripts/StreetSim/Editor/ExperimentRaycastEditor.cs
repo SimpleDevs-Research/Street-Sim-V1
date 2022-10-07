@@ -10,17 +10,12 @@ public class ExperimentRaycastEditor : Editor
 
     public override void OnInspectorGUI() {
         ExperimentRaycast experimentRaycast = (ExperimentRaycast)target;
-        
-        if(GUILayout.Button("Start Casting")) {
-            experimentRaycast.StartCasting();
-        }
-        if(GUILayout.Button("End Casting")) {
-            experimentRaycast.EndCasting();
-        }
 
-        if(GUILayout.Button("Load Gaze Data")) {
-            experimentRaycast.LoadGazeData();
-        }
+        if(GUILayout.Button("Start Casting")) experimentRaycast.StartCasting();
+
+        if(GUILayout.Button("End Casting")) experimentRaycast.EndCasting();
+        if(GUILayout.Button("Save Casting Data")) experimentRaycast.SaveGazeData();
+        if(GUILayout.Button("Load Gaze Data")) experimentRaycast.LoadGazeData();
 
         DrawDefaultInspector();
     }
