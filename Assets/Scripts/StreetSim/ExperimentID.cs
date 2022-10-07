@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
 
 public class ExperimentID : MonoBehaviour
 {
@@ -44,5 +45,18 @@ public class ExperimentID : MonoBehaviour
 
     public void AddChild(ExperimentID child) {
         if (!m_children.Contains(child)) m_children.Add(child);
+    }
+
+    public bool GetChildrenOfType<T>(out List<T> output) {
+        output = new List<T>();
+        if (m_children.Count == 0) return false;
+        foreach(ExperimentID child in m_children) {
+            T potential = default(T);
+            if (HelperMethods.HasComponent<T>(child.gameObject, out potential)) {
+                output.Add(potential);
+            }
+        }
+        return output.Count == 0;
+
     }
 }

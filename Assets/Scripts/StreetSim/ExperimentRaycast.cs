@@ -113,8 +113,8 @@ public class ExperimentRaycast : MonoBehaviour
 
     public static ExperimentRaycast current;
 
-    private EVRA_Pointer pointer;
-    [SerializeField] private Transform target = null;
+    [SerializeField] private EVRA_Pointer targetPointer, transformPointer;
+    [SerializeField] private Transform targetPointerResult = null, transformPointerResult = null;
     [SerializeField] private List<ExperimentRaycastTarget> allTargets = new List<ExperimentRaycastTarget>();
     //[SerializeField] private Queue<SRaycastTarget> activeHits = new Queue<SRaycastTarget>();
     [SerializeField] private List<SRaycastTarget2> allHits = new List<SRaycastTarget2>();
@@ -215,24 +215,33 @@ public class ExperimentRaycast : MonoBehaviour
 
     private void Awake() {
         current = this;
-        if (!HelperMethods.HasComponent<EVRA_Pointer>(this.gameObject, out pointer)) {
-            pointer = this.gameObject.AddComponent<EVRA_Pointer>();
-        }
     }
 
     private IEnumerator CheckTarget() {
         string parentID;
-        ExperimentRaycastTarget parentTarget;
+        ExperimentRaycastTarget targetComp, transformComp;
         Vector3 parentLocalPos;
         while(true) {
-            target = pointer.raycastTarget;
-            if (target != null && HelperMethods.HasComponent<ExperimentRaycastTarget>(target.gameObject, out parentTarget)) {
-                if (!allTargets.Contains(parentTarget)) allTargets.Add(parentTarget);
-                parentID = parentTarget.GetID();
-                parentLocalPos = parentTarget.GetLocalPosition(pointer.raycastHitPosition);
-                SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - startTime, parentLocalPos, pointer.raycastHitNormal);
-                allHits.Add(point);
-                parentTarget.AddHit(point);
+            targetPointerResult = targetPointer.raycastTarget;
+            transformPointerResult = transformPointer.raycastTarget;
+            if (
+                targetPointerResult != null 
+                && HelperMethods.HasComponent<ExperimentRaycastTarget>(targetPointerResult.gameObject, out targetComp)
+                && transformPointerResult != null 
+                && HelperMethods.HasComponent<ExperimentRaycastTarget>(transformPointerResult.gameObject, out transformComp)
+            ) {
+                if (transformComp.GetParentID() == targetComp.GetID()) {
+                    //if (!allTargets.Contains(targetComp)) allTargets.Add(targetComp);
+                    if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
+                    //parentID = targetComp.GetID();
+                    parentID = transformComp.GetID();
+                    //parentLocalPos = targetComp.GetLocalPosition(targetPointer.raycastHitPosition);
+                    parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
+                    SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - startTime, parentLocalPos, targetPointer.raycastHitNormal);
+                    allHits.Add(point);
+                    //targetComp.AddHit(point);
+                    transformComp.AddHit(point);
+                }
             }
             yield return new WaitForSeconds(targetCheckDelay);
         }

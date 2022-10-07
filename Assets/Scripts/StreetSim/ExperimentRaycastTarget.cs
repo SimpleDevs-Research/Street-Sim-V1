@@ -6,16 +6,9 @@ using Helpers;
 [RequireComponent(typeof(ExperimentID))]
 public class ExperimentRaycastTarget : MonoBehaviour
 {
-    public enum TargetType {
-        Parent,
-        Child
-    }
-    
     private ExperimentID experimentIDComp;
-
-    [SerializeField] private TargetType targetType = TargetType.Parent;
     [SerializeField] private ExperimentRaycastTarget parent;
-    [SerializeField] private List<ExperimentRaycastTarget> children = new List<ExperimentRaycastTarget>();
+    
     [SerializeField] private List<SRaycastTarget2> m_hits = new List<SRaycastTarget2>();
     public List<SRaycastTarget2> hits {
         get { return m_hits; }
@@ -30,10 +23,17 @@ public class ExperimentRaycastTarget : MonoBehaviour
 
     private void Awake() {
         experimentIDComp = GetComponent<ExperimentID>();
+        // Check if we have a parent
+        if (experimentIDComp.parent != null) {
+            HelperMethods.HasComponent<ExperimentRaycastTarget>(experimentIDComp.parent.gameObject, out parent);
+        }
     }
 
     public string GetID() {
         return experimentIDComp.id;
+    }
+    public string GetParentID() {
+        return (parent != null) ? parent.GetID() : GetID();
     }
     public Vector3 GetLocalPosition(Vector3 worldPosition) {
         return transform.InverseTransformPoint(worldPosition);
@@ -41,12 +41,15 @@ public class ExperimentRaycastTarget : MonoBehaviour
 
     public void AddHit(SRaycastTarget2 newHit) {
         m_hits.Add(newHit);
+        if (parent != null) parent.AddHit(newHit);
     }
     public void AddHits(List<SRaycastTarget2> newHits) {
         m_hits.AddRange(newHits);
+        if (parent != null) parent.AddHits(newHits);
     }
     public void SetHits(List<SRaycastTarget2> newHits) {
         m_hits = newHits;
+        if (parent != null) parent.AddHits(newHits);
     }
 
     public void SetClusters(Dictionary<int,SCluster> newClusters) {
