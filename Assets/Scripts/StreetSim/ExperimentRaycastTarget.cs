@@ -6,8 +6,16 @@ using Helpers;
 [RequireComponent(typeof(ExperimentID))]
 public class ExperimentRaycastTarget : MonoBehaviour
 {
+    public enum TargetType {
+        Parent,
+        Child
+    }
+    
     private ExperimentID experimentIDComp;
 
+    [SerializeField] private TargetType targetType = TargetType.Parent;
+    [SerializeField] private ExperimentRaycastTarget parent;
+    [SerializeField] private List<ExperimentRaycastTarget> children = new List<ExperimentRaycastTarget>();
     [SerializeField] private List<SRaycastTarget2> m_hits = new List<SRaycastTarget2>();
     public List<SRaycastTarget2> hits {
         get { return m_hits; }
