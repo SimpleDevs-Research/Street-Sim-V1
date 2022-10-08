@@ -80,6 +80,11 @@ public class ExperimentGlobalController : MonoBehaviour
         get { return m_isTracking; }
         set {}
     }
+    private int m_currentIndex = -1;
+    public int currentIndex {
+        get { return m_currentIndex; }
+        set {}
+    }
 
     [Header("Experiment Events")]
     [SerializeField] private UnityEvent startTrackingEvents = new UnityEvent();
@@ -137,6 +142,7 @@ public class ExperimentGlobalController : MonoBehaviour
     public void StartTrackingEvents() {
         m_isTracking = true;
         m_startTime = Time.time;
+        m_currentIndex = -1;
         m_previousTimeDelay = m_startTime;
         startTrackingEvents?.Invoke();
     }
@@ -189,6 +195,7 @@ public class ExperimentGlobalController : MonoBehaviour
 
     private void FixedUpdate() {
         m_currentTime = Time.time;
+        m_currentIndex += 1;
         if (m_timeDelay == 0f || (m_currentTime - m_previousTimeDelay) >= m_timeDelay) {
             m_previousTimeDelay = m_currentTime;
             eventsToTrack?.Invoke();

@@ -51,12 +51,14 @@ public class SCluster {
 
 [System.Serializable]
 public class SRaycastTarget2 {
+    public int index;
     public float timestamp;
     public string parentID;
     public SVector3 localPosition;
     public SVector3 normal;
     public int clusterIndex = -1;
-    public SRaycastTarget2(string parentID, float timestamp, Vector3 localPosition, Vector3 normal) {
+    public SRaycastTarget2(int index, string parentID, float timestamp, Vector3 localPosition, Vector3 normal) {
+        this.index = index;
         this.parentID = parentID;
         this.timestamp = timestamp;
         this.localPosition = localPosition;
@@ -94,7 +96,7 @@ public class ExperimentRaycast : MonoBehaviour
     [SerializeField] private Transform targetPointerResult = null, transformPointerResult = null;
     [SerializeField] private List<ExperimentRaycastTarget> allTargets = new List<ExperimentRaycastTarget>();
     //[SerializeField] private Queue<SRaycastTarget> activeHits = new Queue<SRaycastTarget>();
-    [SerializeField] private List<SRaycastTarget2> allHits = new List<SRaycastTarget2>();
+    [SerializeField] private Dictionary<int,SRaycastTarget2> allHits = new Dictionary<int,SRaycastTarget2>();
     //[SerializeField] private Dictionary<int,SCluster> clusters = new Dictionary<int,SCluster>();
     //[SerializeField] private Queue<SRaycastTarget> findClusterQueue = new Queue<SRaycastTarget>();
     //[SerializeField] private float distanceThreshold = 0.025f;
@@ -252,12 +254,13 @@ public class ExperimentRaycast : MonoBehaviour
             parentID = transformComp.GetRefID();
             parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
             SRaycastTarget2 point = new SRaycastTarget2(
+                ExperimentGlobalController.current.currentIndex,
                 parentID, 
                 ExperimentGlobalController.current.currentTime - ExperimentGlobalController.current.startTime, 
                 parentLocalPos, 
                 targetPointer.raycastHitNormal
             );
-            allHits.Add(point);
+            allHits.Add(ExperimentGlobalController.current.currentIndex,point);
             transformComp.AddHit(point);
         }
     }
@@ -334,7 +337,7 @@ public class ExperimentRaycast : MonoBehaviour
 
     public void CalibrateClusters(List<GazeDataTargetPayload> targetPayloads) {
         allTargets = new List<ExperimentRaycastTarget>();
-        allHits = new List<SRaycastTarget2>();
+        allHits = new Dictionary<int,SRaycastTarget2>();
         int min = -1, max = -1;
         ExperimentRaycastTarget possibleTarget;
         List<SRaycastTarget2> targs;
@@ -342,7 +345,10 @@ public class ExperimentRaycast : MonoBehaviour
             // First check if our item exists
             if (ExperimentGlobalController.current.FindID<ExperimentRaycastTarget>(payload.parentID, out possibleTarget)) {
                 Dictionary<int,SCluster> tempClusters = new Dictionary<int,SCluster>();
-                allHits.AddRange(payload.gazePoints);
+                foreach(SRaycastTarget2 point in payload.gazePoints) {
+                    allHits.Add(point.index,point);
+                }
+                //allHits.AddRange(payload.gazePoints);
                 possibleTarget.SetHits(payload.gazePoints);
                 foreach(SRaycastTarget2 point in payload.gazePoints) {
                     if (!tempClusters.ContainsKey(point.clusterIndex)) {

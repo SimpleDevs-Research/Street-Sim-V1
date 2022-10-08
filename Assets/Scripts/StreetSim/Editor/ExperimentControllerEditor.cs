@@ -12,6 +12,7 @@ public class TransformTrackingControllerEditor : Editor
         
         DrawDefaultInspector();
         
+        /*
         if(GUILayout.Button("Start Tracking")) {
             experimentController.StartTracking();
         }
@@ -27,6 +28,7 @@ public class TransformTrackingControllerEditor : Editor
         if(GUILayout.Button("Save Tracked Data")) {
             experimentController.SaveTrackingData();
         }
+        */
     }
 
 }

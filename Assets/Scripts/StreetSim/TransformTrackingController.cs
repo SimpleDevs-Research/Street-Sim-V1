@@ -9,31 +9,176 @@ using EVRA.Inputs;
 
 [System.Serializable]
 public class TransformToTrack {
-    public string trackableId;
-    public Transform trackable;
+    public ExperimentID trackableID;
+    public Dictionary<int,STransformTrackPackage> trackedData = new Dictionary<int,STransformTrackPackage>();
+    public bool trackPosition;
+    public bool trackRotation;
+    public bool trackLocalScale;
+    public TransformToTrack(ExperimentID trackableID, bool trackPosition, bool trackRotation, bool trackLocalScale) {
+        this.trackableID = trackableID;
+        this.trackPosition = trackPosition;
+        this.trackRotation = trackRotation;
+        this.trackLocalScale = trackLocalScale;
+    }
 }
 [System.Serializable]
 public class STransformToTrack {
-    
+    public string trackableID;
+    public List<STransformTrackPackage> trackedData;
+    public bool trackPosition;
+    public bool trackRotation;
+    public bool trackLocalScale;
+    public STransformToTrack(string id, List<STransformTrackPackage> trackedData, bool trackPosition, bool trackRotation, bool trackLocalScale) {
+        this.trackableID = id;
+        this.trackedData = trackedData;
+        this.trackPosition = trackPosition;
+        this.trackRotation = trackRotation;
+        this.trackLocalScale = trackLocalScale;
+    }
+}
+[System.Serializable]
+public class STransformTrackPackage {
+    public int index;
+    public float timestamp;
+    public SVector3 position;
+    public SQuaternion rotation;
+    public SVector3 localScale;
+    public STransformTrackPackage(int index, float timestamp, Vector3 pos, Quaternion rot, Vector3 scal) {
+        this.index = index;
+        this.timestamp = timestamp;
+        this.position = pos;
+        this.rotation = rot;
+        this.localScale = scal;
+    }
 }
 
-
-
+/*
 [System.Serializable]
 public class ExperimentDataSavePayload {
     public List<TransformToTrackSavePayload> trackedTransforms;
 }
+*/
 [System.Serializable]
 public class TransformToTrackSavePayload {
-    public string trackableId;
-    public List<STrackableData> trackedData;
+    public List<STransformToTrack> data = new List<STransformToTrack>();
+
 }
 
 public class TransformTrackingController : MonoBehaviour
 {
 
-    [SerializeField] private List<TransformToTrack> trackedTransforms = new List<TransformToTrack>();
+    [SerializeField] private List<TransformToTrack> m_trackedTransforms = new List<TransformToTrack>();
+    private bool m_isTracking = false;
+
+    private Vector3 currentPos, currentScale;
+    private Quaternion currentRot;
+
+    [SerializeField] private string m_saveFilename = "TRACKEDDATA";
+    public string saveFilename {
+        get { return m_saveFilename; }
+        set {}
+    }
+    [SerializeField] private string m_loadFilename = "TRACKEDDATA";
+    public string loadFilename {
+        get { return m_loadFilename; }
+        set {}
+    }
+
+    public void StartTracking() {
+        m_isTracking = true;
+    }
+    public void EndTracking() {
+        m_isTracking = false;
+    }
+
+    public void UpdateTrackers() {
+        if (m_isTracking) {
+            foreach(TransformToTrack t in m_trackedTransforms) {
+                currentPos = (t.trackPosition) ? t.trackableID.transform.position : Vector3.zero;
+                currentRot = (t.trackRotation) ? t.trackableID.transform.rotation : Quaternion.identity;
+                currentScale = (t.trackLocalScale) ? t.trackableID.transform.localScale : Vector3.zero;
+                t.trackedData.Add(
+                    ExperimentGlobalController.current.currentIndex, 
+                    new STransformTrackPackage(
+                        ExperimentGlobalController.current.currentIndex,
+                        ExperimentGlobalController.current.currentTime - ExperimentGlobalController.current.startTime, 
+                        currentPos,
+                        currentRot,
+                        currentScale
+                    )
+                );
+            }
+        }
+    }
+
+    public void SaveTrackingData() {
+        if (m_isTracking) {
+            Debug.Log("[Transform Tracking] ERROR: Cannot save while tracking.");
+            return;
+        }
+        // Generate JSON by creating a new payload
+        TransformToTrackSavePayload payload = new TransformToTrackSavePayload();
+        foreach(TransformToTrack t in m_trackedTransforms) {
+            payload.data.Add(new STransformToTrack(
+                t.trackableID.id,
+                t.trackedData.Values.ToList(),
+                t.trackPosition,
+                t.trackRotation,
+                t.trackLocalScale
+            ));
+        }
+        string dataToSave = SaveSystemMethods.ConvertToJSON<TransformToTrackSavePayload>(payload);
+         // Create Save Directory
+        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(ExperimentGlobalController.current.directoryPath);
+        if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+            SaveSystemMethods.SaveJSON(dirToSaveIn + m_saveFilename, dataToSave);
+        }
+
+    }
+    public void LoadTrackingData() {
+        // We can only load if we're running the game...
+        if (ExperimentGlobalController.current == null) {
+            Debug.Log("[Transform Tracking] ERROR - Must be running the game before loading");
+            return;
+        }
+        if (m_isTracking) {
+            Debug.Log("[Transform Tracking] ERRROR: Cannot load while tracking");
+            return;
+        }
+        // Get Directory
+        TransformToTrackSavePayload payload;
+        string filenameToLoad = SaveSystemMethods.GetSaveLoadDirectory(ExperimentGlobalController.current.directoryPath) + m_loadFilename + ".json";
+        Debug.Log("[Transform Tracking] Loading " + filenameToLoad + " ...");
+        if (!SaveSystemMethods.CheckFileExists(filenameToLoad)) {
+            Debug.Log("[Transform Tracking] ERROR: LOAD FILE DOES NOT EXIST");
+            return;
+        }
+        if (!SaveSystemMethods.LoadJSON<TransformToTrackSavePayload>(filenameToLoad, out payload)) {
+            Debug.Log("[Transform Tracking] ERROR: COULD NOT LOAD FILE");
+            return;
+        }
+        // Process loaded data
+        ExperimentID reference;
+        TransformToTrack tempT;
+        foreach(STransformToTrack t in payload.data) {
+            if (!ExperimentGlobalController.current.FindID<ExperimentID>(t.trackableID, out reference)) {
+                Debug.Log("[Transform Tracking] ERROR: Could not find experiment ID of " + t.trackableID);
+                continue;
+            }
+            tempT = new TransformToTrack(
+                reference,
+                t.trackPosition,
+                t.trackRotation,
+                t.trackLocalScale
+            );
+            foreach(STransformTrackPackage point in t.trackedData) {
+                tempT.trackedData.Add(point.index, point);
+            }
+            m_trackedTransforms.Add(tempT);
+        } 
+    }
     
+    /*
     [Header("File Saving and Uploading")]
     [SerializeField] private string m_destinationFolder = "";
     [SerializeField] private string m_destinationFilename = "test";
@@ -114,5 +259,5 @@ public class TransformTrackingController : MonoBehaviour
     public bool LoadTrackingData() {
         return false;
     }
-
+    */
 }
