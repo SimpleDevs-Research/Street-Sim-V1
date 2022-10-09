@@ -1311,6 +1311,7 @@ MonoBehaviour:
   trackPosition: 1
   trackRotation: 1
   trackLocalScale: 1
+  dataList: []
 --- !u!114 &369155300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9858,6 +9859,18 @@ MonoBehaviour:
   startTrackingEvents:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2054830747}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: StartCasting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2054830744}
         m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
         m_MethodName: StartTracking
@@ -9873,6 +9886,18 @@ MonoBehaviour:
   eventsToTrack:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2054830747}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: CheckTargetHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2054830744}
         m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
         m_MethodName: UpdateTrackers
@@ -9888,6 +9913,18 @@ MonoBehaviour:
   endTrackingEvents:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2054830747}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: EndCasting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2054830744}
         m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
         m_MethodName: EndTracking
@@ -9903,6 +9940,18 @@ MonoBehaviour:
   saveTrackingEvents:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2054830747}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: SaveGazeData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2054830744}
         m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
         m_MethodName: SaveTrackingData
@@ -9918,6 +9967,18 @@ MonoBehaviour:
   loadTrackingEvents:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2054830747}
+        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
+        m_MethodName: LoadGazeData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2054830744}
         m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
         m_MethodName: LoadTrackingData
