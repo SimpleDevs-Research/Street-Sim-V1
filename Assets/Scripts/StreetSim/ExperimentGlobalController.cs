@@ -194,10 +194,10 @@ public class ExperimentGlobalController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        m_currentTime = Time.time;
-        m_currentIndex += 1;
+        m_currentTime = Time.time - m_startTime;
         if (m_timeDelay == 0f || (m_currentTime - m_previousTimeDelay) >= m_timeDelay) {
             m_previousTimeDelay = m_currentTime;
+            m_currentIndex += 1;
             eventsToTrack?.Invoke();
         }
     }

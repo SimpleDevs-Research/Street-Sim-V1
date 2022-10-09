@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Helpers;
 
 public class ExperimentID : MonoBehaviour
@@ -33,6 +34,10 @@ public class ExperimentID : MonoBehaviour
         }
     }
 
+    private UnityEvent targetsToNotify = new UnityEvent();
+    public delegate void MyTargetDelegate();
+    public MyTargetDelegate onConfirmedID;
+
     private void Start() {
         if (m_parent == null) Initialize();
     }
@@ -45,6 +50,7 @@ public class ExperimentID : MonoBehaviour
                     child.Initialize();
                 }
             }
+            onConfirmedID?.Invoke();
         }
     }
 

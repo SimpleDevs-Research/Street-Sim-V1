@@ -1291,6 +1291,42 @@ MonoBehaviour:
   m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &369155298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+  m_PrefabInstance: {fileID: 531229656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &369155299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369155298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66364de92ea813c4bb6eae98e4685450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackPosition: 1
+  trackRotation: 1
+  trackLocalScale: 1
+--- !u!114 &369155300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369155298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: TransformTargetTester1
+  m_ref_id: 
 --- !u!1 &394588575
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,6 +1958,67 @@ MonoBehaviour:
   m_hits: []
   minClusterSize: 0
   maxClusterSize: 0
+--- !u!1001 &531229656
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_Name
+      value: PositionTester1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -18.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
 --- !u!4 &567412482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400066, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -9723,9 +9820,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cabbef972d7af44e8fae881591826b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_trackedTransforms: []
   m_saveFilename: TRACKEDDATA
   m_loadFilename: TRACKEDDATA
+  m_targets: []
 --- !u!4 &2054830745
 Transform:
   m_ObjectHideFlags: 0
@@ -9755,15 +9852,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_sourceDirectory: GazeData
   m_participantName: RyanKim
-  m_trialNumber: BETA
+  m_trialNumber: BETA2
   IDs: []
   m_timeDelay: 0.05
   startTrackingEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806931485}
-        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
-        m_MethodName: StartCasting
+      - m_Target: {fileID: 2054830744}
+        m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
+        m_MethodName: StartTracking
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9776,9 +9873,9 @@ MonoBehaviour:
   eventsToTrack:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806931485}
-        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
-        m_MethodName: CheckTargetHit
+      - m_Target: {fileID: 2054830744}
+        m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
+        m_MethodName: UpdateTrackers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9791,9 +9888,9 @@ MonoBehaviour:
   endTrackingEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806931485}
-        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
-        m_MethodName: EndCasting
+      - m_Target: {fileID: 2054830744}
+        m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
+        m_MethodName: EndTracking
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9806,9 +9903,9 @@ MonoBehaviour:
   saveTrackingEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806931485}
-        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
-        m_MethodName: SaveGazeData
+      - m_Target: {fileID: 2054830744}
+        m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
+        m_MethodName: SaveTrackingData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9821,9 +9918,9 @@ MonoBehaviour:
   loadTrackingEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806931485}
-        m_TargetAssemblyTypeName: ExperimentRaycast, Assembly-CSharp
-        m_MethodName: LoadGazeData
+      - m_Target: {fileID: 2054830744}
+        m_TargetAssemblyTypeName: TransformTrackingController, Assembly-CSharp
+        m_MethodName: LoadTrackingData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
