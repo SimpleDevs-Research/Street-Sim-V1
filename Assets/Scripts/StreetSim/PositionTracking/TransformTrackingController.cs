@@ -85,7 +85,7 @@ public class TransformTrackingController : MonoBehaviour
 
     [SerializeField] private List<TransformTrackingTarget> m_targets = new List<TransformTrackingTarget>();
     public delegate void MyTrackDelegate(); 
-    public MyTrackDelegate onTrackEvent;
+    public MyTrackDelegate onTrackEvent, onPrepareReplayEvent, onReplayEvent, onEndReplayEvent;
 
     private void Awake() {
         current = this;
@@ -108,6 +108,9 @@ public class TransformTrackingController : MonoBehaviour
         if(!m_targets.Contains(target)) {
             m_targets.Add(target);
             onTrackEvent += target.AddDataPoint;
+            onPrepareReplayEvent += target.PrepareForReplay;
+            onReplayEvent += target.ReplayAtIndex;
+            onEndReplayEvent += target.EndReplay;
         }
     }
 
@@ -127,7 +130,6 @@ public class TransformTrackingController : MonoBehaviour
         if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
             SaveSystemMethods.SaveJSON(dirToSaveIn + m_saveFilename, dataToSave);
         }
-
     }
     public void LoadTrackingData() {
         // We can only load if we're running the game...
@@ -182,6 +184,18 @@ public class TransformTrackingController : MonoBehaviour
             m_trackedTransforms.Add(tempT);
         } 
         */
+    }
+
+    public void PrepareForReplay() {
+        onPrepareReplayEvent?.Invoke();
+    }
+
+    public void ReplayDataAtIndex() {
+        onReplayEvent?.Invoke();
+    }
+
+    public void EndReplay() {
+        onEndReplayEvent?.Invoke();
     }
     
     /*

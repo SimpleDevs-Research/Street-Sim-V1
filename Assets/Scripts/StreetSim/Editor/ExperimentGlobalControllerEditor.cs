@@ -28,6 +28,16 @@ public class ExperimentGlobalControllerEditor : Editor
             experimentGlobalController.LoadTrackingEvents();
         }
 
+        if(GUILayout.Button("Prepare Replay")) {
+            experimentGlobalController.PrepareReplay();
+        }
+        if(GUILayout.Button("Replay")) {
+            experimentGlobalController.ReplayLoadedEvents();
+        }
+        if(GUILayout.Button("End Replay")) {
+            experimentGlobalController.EndReplay();
+        }
+
     }
 
 }

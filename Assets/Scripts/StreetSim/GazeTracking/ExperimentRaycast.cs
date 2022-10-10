@@ -54,12 +54,14 @@ public class SRaycastTarget2 {
     public int index;
     public float timestamp;
     public string parentID;
+    public string superParentID;
     public SVector3 localPosition;
     public SVector3 normal;
     public int clusterIndex = -1;
-    public SRaycastTarget2(int index, string parentID, float timestamp, Vector3 localPosition, Vector3 normal) {
+    public SRaycastTarget2(int index, string parentID, string superParentID, float timestamp, Vector3 localPosition, Vector3 normal) {
         this.index = index;
         this.parentID = parentID;
+        this.superParentID = superParentID;
         this.timestamp = timestamp;
         this.localPosition = localPosition;
         this.normal = normal;
@@ -202,40 +204,8 @@ public class ExperimentRaycast : MonoBehaviour
         current = this;
     }
 
-    /*
-    private IEnumerator CheckTarget() {
-        string parentID;
-        ExperimentRaycastTarget targetComp, transformComp;
-        Vector3 parentLocalPos;
-        while(true) {
-            targetPointerResult = targetPointer.raycastTarget;
-            transformPointerResult = transformPointer.raycastTarget;
-            if (
-                targetPointerResult != null 
-                && HelperMethods.HasComponent<ExperimentRaycastTarget>(targetPointerResult.gameObject, out targetComp)
-                && transformPointerResult != null 
-                && HelperMethods.HasComponent<ExperimentRaycastTarget>(transformPointerResult.gameObject, out transformComp)
-            ) {
-                if (transformComp.GetParentID() == targetComp.GetID()) {
-                    //if (!allTargets.Contains(targetComp)) allTargets.Add(targetComp);
-                    if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
-                    //parentID = targetComp.GetID();
-                    parentID = transformComp.GetRefID();
-                    //parentLocalPos = targetComp.GetLocalPosition(targetPointer.raycastHitPosition);
-                    parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
-                    SRaycastTarget2 point = new SRaycastTarget2(parentID, Time.time - ExperimentGlobalController.current.startTime, parentLocalPos, targetPointer.raycastHitNormal);
-                    allHits.Add(point);
-                    //targetComp.AddHit(point);
-                    transformComp.AddHit(point);
-                }
-            }
-            yield return new WaitForSeconds(targetCheckDelay);
-        }
-    }
-    */
-
     private ExperimentRaycastTarget targetComp, transformComp;
-    string parentID;
+    string parentID, superParentID;
     Vector3 parentLocalPos;
 
     public void CheckTargetHit() {
@@ -252,10 +222,12 @@ public class ExperimentRaycast : MonoBehaviour
             if (transformComp.GetParentID() != targetComp.GetID()) return;
             if (!allTargets.Contains(transformComp)) allTargets.Add(transformComp);
             parentID = transformComp.GetRefID();
+            superParentID = transformComp.GetParentIDOfRef();
             parentLocalPos = transformComp.GetLocalPosition(targetPointer.raycastHitPosition);
             SRaycastTarget2 point = new SRaycastTarget2(
                 ExperimentGlobalController.current.currentIndex,
                 parentID, 
+                superParentID,
                 ExperimentGlobalController.current.currentTime - ExperimentGlobalController.current.startTime, 
                 parentLocalPos, 
                 targetPointer.raycastHitNormal
@@ -275,21 +247,9 @@ public class ExperimentRaycast : MonoBehaviour
 
     public void StartCasting() {
         m_casting = true;
-        /*
-        if (checkCoroutine == null) {
-            checkCoroutine = CheckTarget();
-            StartCoroutine(checkCoroutine);
-        }
-        */
     }
     public void EndCasting() {
         m_casting = false;
-        /*
-        if (checkCoroutine != null) {
-            StopCoroutine(checkCoroutine);
-            checkCoroutine = null;
-        }
-        */
     }
 
     public void SaveGazeData() {
@@ -372,5 +332,4 @@ public class ExperimentRaycast : MonoBehaviour
         minClusterSize = min;
         maxClusterSize = max;
     }
-
 }

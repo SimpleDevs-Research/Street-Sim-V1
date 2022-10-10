@@ -38,6 +38,18 @@ public class ExperimentRaycastTarget : MonoBehaviour
     public string GetParentID() {
         return (parent != null) ? parent.GetID() : GetID();
     }
+    public string GetParentIDOfRef() {
+        if (experimentIDComp.ref_id.Length > 0) {
+            ExperimentID parentIDComp;
+            if (ExperimentGlobalController.current.FindID<ExperimentID>(experimentIDComp.ref_id, out parentIDComp)) {
+                return (parentIDComp.parent != null) ? parentIDComp.parent.id : parentIDComp.id;
+            } else {
+                return GetParentID();
+            }
+        } else {
+            return GetParentID();
+        }
+    }
     public Vector3 GetLocalPosition(Vector3 worldPosition) {
         return transform.InverseTransformPoint(worldPosition);
     }

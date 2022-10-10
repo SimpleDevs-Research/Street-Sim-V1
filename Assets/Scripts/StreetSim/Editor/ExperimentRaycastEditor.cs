@@ -7,7 +7,7 @@ using UnityEngine;
 [CustomEditor(typeof(ExperimentRaycast))]
 public class ExperimentRaycastEditor : Editor
 {
-
+    /*
     public override void OnInspectorGUI() {
         ExperimentRaycast experimentRaycast = (ExperimentRaycast)target;
 
@@ -19,5 +19,6 @@ public class ExperimentRaycastEditor : Editor
 
         DrawDefaultInspector();
     }
+    */
 
 }

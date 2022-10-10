@@ -2,39 +2,79 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SignalLightTuple {
+    public Renderer renderer;
+    public Light light;
+}
+
 public class TrafficSignal : MonoBehaviour
 {
 
-    [SerializeField] private Renderer[] goSignals, warningSignals, stopSignals;
+    [SerializeField] private SignalLightTuple[] goSignals, warningSignals, stopSignals;
     private IEnumerator currentFluctuator = null;
     
-    public void ToggleGoSignals(bool shouldBeOn) {
-        foreach(Renderer r in goSignals) r.enabled = shouldBeOn;
+    public void ToggleGoSignals(bool shouldBeOn, bool shouldFluctuate) {
+        foreach(SignalLightTuple r in goSignals) {
+            r.renderer.enabled = shouldBeOn;
+            r.light.enabled = shouldBeOn;
+        }
+        if (currentFluctuator != null) {
+            StopCoroutine(currentFluctuator);
+            currentFluctuator = null;
+        }
+        if (shouldFluctuate) {
+            currentFluctuator = FluctuateSignals(goSignals);
+            StartCoroutine(currentFluctuator);
+        }
     } 
-    public void ToggleWarningSignals(bool shouldBeOn) {
-        foreach(Renderer r in warningSignals) r.enabled = shouldBeOn;
-        if (shouldBeOn) {
-            if (currentFluctuator == null) {
-                currentFluctuator = FluctuateWarningSignals();
-                StartCoroutine(currentFluctuator);
-            }
-        } else {
-            if (currentFluctuator != null) {
-                StopCoroutine(currentFluctuator);
-                currentFluctuator = null;
+    public void ToggleWarningSignals(bool shouldBeOn, bool shouldFluctuate) {
+        foreach(SignalLightTuple r in warningSignals) {
+            r.renderer.enabled = shouldBeOn;
+            r.light.enabled = shouldBeOn;
+        }
+        if (currentFluctuator != null) {
+            StopCoroutine(currentFluctuator);
+            currentFluctuator = null;
+        }
+        if (shouldFluctuate) {
+            currentFluctuator = FluctuateSignals(warningSignals);
+            StartCoroutine(currentFluctuator);
+        }
+    }
+    public void ToggleStopSignals(bool shouldBeOn, bool shouldFluctuate) {
+        foreach(SignalLightTuple r in stopSignals) {
+            r.renderer.enabled = shouldBeOn;
+            r.light.enabled = shouldBeOn;
+        }
+        if (currentFluctuator != null) {
+            StopCoroutine(currentFluctuator);
+            currentFluctuator = null;
+        }
+        if (shouldFluctuate) {
+            currentFluctuator = FluctuateSignals(stopSignals);
+            StartCoroutine(currentFluctuator);
+        }
+    }
+
+    private IEnumerator FluctuateSignals(SignalLightTuple[] signals) {
+        while(true) {
+            yield return new WaitForSeconds(0.5f);
+            foreach(SignalLightTuple r in signals) {
+                r.renderer.enabled = !r.renderer.enabled;
+                r.light.enabled = !r.light.enabled;
             }
         }
     }
-    public void ToggleStopSignals(bool shouldBeOn) {
-        foreach(Renderer r in stopSignals) r.enabled = shouldBeOn;
-    }
 
+    /*
     private IEnumerator FluctuateWarningSignals() {
         while(true) {
             yield return new WaitForSeconds(0.5f);
             foreach(Renderer r in warningSignals) r.enabled = !r.enabled;
         }
     }
+    */
 
 
     /*

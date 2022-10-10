@@ -4,9 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
+public class SignalFluctationTuple {
+    public TrafficSignal signal;
+    public bool shouldFluctuate;
+}
+
+[System.Serializable]
 public class SignalSession {
     public string name;
-    public TrafficSignal[] goSignals, warningSignals, stopSignals;
+    public SignalFluctationTuple[] goSignals, warningSignals, stopSignals;
     public NavMeshObstacle[] obstacles;
     public float duration;
 
@@ -25,20 +31,20 @@ public class SignalSession {
 
     public void ToggleGoSignals(bool isOn) {
         if (goSignals.Length == 0) return;
-        foreach(TrafficSignal signal in goSignals) {
-            signal.ToggleGoSignals(isOn);
+        foreach(SignalFluctationTuple signalTuple in goSignals) {
+            signalTuple.signal.ToggleGoSignals(isOn, signalTuple.shouldFluctuate);
         }
     }
     public void ToggleWarningSignals(bool isOn) {
         if (warningSignals.Length == 0) return;
-        foreach(TrafficSignal signal in warningSignals) {
-            signal.ToggleWarningSignals(isOn);
+        foreach(SignalFluctationTuple signalTuple in warningSignals) {
+            signalTuple.signal.ToggleWarningSignals(isOn, signalTuple.shouldFluctuate);
         }
     }
     public void ToggleStopSignals(bool isOn) {
         if (stopSignals.Length == 0) return;
-        foreach(TrafficSignal signal in stopSignals) {
-            signal.ToggleStopSignals(isOn);
+        foreach(SignalFluctationTuple signalTuple in stopSignals) {
+            signalTuple.signal.ToggleStopSignals(isOn, signalTuple.shouldFluctuate);
         }
     }
     public void ToggleObstacles(bool isOn) {
@@ -59,7 +65,6 @@ public class TrafficSignalController : MonoBehaviour
 
     private void Start() {
         StartCoroutine(CycleSignalSessions());
-
     }
 
     private IEnumerator CycleSignalSessions() {
@@ -73,36 +78,4 @@ public class TrafficSignalController : MonoBehaviour
             }
         }
     }
-
-    /*
-    // Start is called before the first frame update
-    void Awake() {
-        foreach(WalkingSignal signal in walkingSignals) {
-            signal.Initialize(this);
-        }
-        StartCoroutine(SignalCycle());
-    }
-
-    private IEnumerator SignalCycle() {
-        while(true) {
-            if (pedestriansCanWalk) {
-                // This will allow pedestrians to walk across the road
-                SetWalkingStatus(pedestriansCanWalk, m_walkTime);
-                yield return new WaitForSeconds(walkTime);
-            }
-            else {
-                // This forces pedestrians to wait until they can walk
-                SetWalkingStatus(pedestriansCanWalk, m_vehicleTime);
-                yield return new WaitForSeconds(vehicleTime);
-            }
-            pedestriansCanWalk = !pedestriansCanWalk;
-        }
-    }
-
-    private void SetWalkingStatus(bool pedestriansCanCross, float t) {
-        foreach(WalkingSignal signal in walkingSignals) {
-            StartCoroutine(signal.SetStatus(pedestriansCanCross, t, m_warningTime));
-        }
-    }
-    */
 }
