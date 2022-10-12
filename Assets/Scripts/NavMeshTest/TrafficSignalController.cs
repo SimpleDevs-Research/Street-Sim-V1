@@ -13,7 +13,7 @@ public class SignalFluctationTuple {
 public class SignalSession {
     public string name;
     public SignalFluctationTuple[] goSignals, warningSignals, stopSignals;
-    public NavMeshObstacle[] obstacles;
+    public GameObject[] obstacles;
     public float duration;
 
     public void TurnOn() {
@@ -49,8 +49,8 @@ public class SignalSession {
     }
     public void ToggleObstacles(bool isOn) {
         if (obstacles.Length == 0) return;
-        foreach(NavMeshObstacle obstacle in obstacles) {
-            obstacle.enabled = isOn;
+        foreach(GameObject obstacle in obstacles) {
+            obstacle.SetActive(isOn);
         }
     }
 }

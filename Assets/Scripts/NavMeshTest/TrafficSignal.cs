@@ -10,15 +10,25 @@ public class SignalLightTuple {
 
 public class TrafficSignal : MonoBehaviour
 {
-
+    public enum TrafficSignalStatus {
+        Go,
+        Stop,
+        Warning
+    }
     [SerializeField] private SignalLightTuple[] goSignals, warningSignals, stopSignals;
     private IEnumerator currentFluctuator = null;
+    [SerializeField] private TrafficSignalStatus m_status = TrafficSignalStatus.Stop;
+    public TrafficSignalStatus status {
+        get { return m_status; }
+        set {}
+    }
     
     public void ToggleGoSignals(bool shouldBeOn, bool shouldFluctuate) {
         foreach(SignalLightTuple r in goSignals) {
             r.renderer.enabled = shouldBeOn;
             r.light.enabled = shouldBeOn;
         }
+        if (shouldBeOn) m_status = TrafficSignalStatus.Go;
         if (currentFluctuator != null) {
             StopCoroutine(currentFluctuator);
             currentFluctuator = null;
@@ -33,6 +43,7 @@ public class TrafficSignal : MonoBehaviour
             r.renderer.enabled = shouldBeOn;
             r.light.enabled = shouldBeOn;
         }
+        if (shouldBeOn) m_status = TrafficSignalStatus.Warning;
         if (currentFluctuator != null) {
             StopCoroutine(currentFluctuator);
             currentFluctuator = null;
@@ -47,6 +58,7 @@ public class TrafficSignal : MonoBehaviour
             r.renderer.enabled = shouldBeOn;
             r.light.enabled = shouldBeOn;
         }
+        if (shouldBeOn) m_status = TrafficSignalStatus.Stop;
         if (currentFluctuator != null) {
             StopCoroutine(currentFluctuator);
             currentFluctuator = null;
