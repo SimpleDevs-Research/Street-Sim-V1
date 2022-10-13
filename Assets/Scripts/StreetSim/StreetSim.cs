@@ -34,17 +34,30 @@ public class StreetSim : MonoBehaviour
     }
 
     private void InitializeTrial(StreetSimTrial trial) {
-        StreetSimAgent modelAgent = Instantiate(trial.modelPath.agent, trial.modelPath.targets[0].position, trial.modelPath.targets[0].rotation) as StreetSimAgent;
-        modelAgent.Initialize(trial.modelPath.targets, trial.modelPath.shouldLoop, trial.modelPath.shouldWarpOnLoop);
+        InitializeNPC(trial.modelPath, trial.modelBehavior);
+        foreach(StreetSimModelPath npcPath in trial.npcPaths) {
+            InitializeNPC(npcPath);
+        }
+    }
+
+    private void InitializeNPC(StreetSimModelPath modelPath, StreetSimTrial.ModelBehavior behave = StreetSimTrial.ModelBehavior.Safe) {
+        StreetSimAgent npc = Instantiate(modelPath.agent, modelPath.targets[0].position, modelPath.targets[0].rotation) as StreetSimAgent;
+        npc.Initialize(modelPath.targets, behave, modelPath.shouldLoop, modelPath.shouldWarpOnLoop);
     }
 }
 
 [System.Serializable]
 public class StreetSimTrial {
+    public enum ModelBehavior {
+        Safe,
+        Risky
+    }
     [Tooltip("Name of the trial; must be unique from other trials.")] 
     public string name;
     [Tooltip("The Model's Path")] 
     public StreetSimModelPath modelPath;
+    [Tooltip("How should the model behave regarding crossing?")]
+    public ModelBehavior modelBehavior;
     [Tooltip("NPC Behaviors")]
     public StreetSimModelPath[] npcPaths;
 }

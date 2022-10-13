@@ -84,7 +84,7 @@ public class TrafficSignalController : MonoBehaviour
         }
     }
 
-    public TrafficSignal GetFacingWalkingSignal(Vector3 dir) {
+    public TrafficSignal GetFacingWalkingSignal(Vector3 dir, out float finalDiff) {
         float diff = 1f, curDiff = 1f;
         TrafficSignal closestSignal = null;
         foreach(TrafficSignal signal in walkSignals) {
@@ -94,6 +94,7 @@ public class TrafficSignalController : MonoBehaviour
                 diff = curDiff;
             }
         }
+        finalDiff = diff;
         return closestSignal;
     }
 }

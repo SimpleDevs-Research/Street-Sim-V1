@@ -4,15 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityStandardAssets.Characters.ThirdPerson;
 
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(ThirdPersonCharacter))]
+//[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(ThirdPersonCharacter))]
 public class StreetSimAgent : MonoBehaviour
 {
-    public enum CrosswalkStatus {
-        Normal,
-        InFrontOfCrosswalk,
-        OnCrosswalk
-    }
-
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
@@ -20,25 +14,27 @@ public class StreetSimAgent : MonoBehaviour
     private int currentTargetIndex = -1;
     [SerializeField] private float currentSpeed = 0f;
     private bool shouldLoop, shouldWarpOnLoop;
-    [SerializeField] private CrosswalkStatus crosswalkStatus = CrosswalkStatus.Normal;
-    public bool stoppedMoving = false;
+
+    private StreetSimTrial.ModelBehavior behavior;
+    
 
     private void Awake() {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (character == null) character = GetComponent<ThirdPersonCharacter>();
     }
 
-    public void Initialize(Transform[] targets, bool shouldLoop, bool shouldWarpOnLoop) {
+    public void Initialize(Transform[] targets, StreetSimTrial.ModelBehavior behavior, bool shouldLoop, bool shouldWarpOnLoop) {
         targetPositions = targets;
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
+        this.behavior = behavior;
+        agent.isStopped = false;
         SetNextTarget();
-        StartCoroutine(UpdatePosition());
     }
 
-    private IEnumerator UpdatePosition() {
-        float dist;
-        while(targetPositions != null && targetPositions.Length != 0) {
+    private void Update() {
+        float dist = 0f, angleDiff;
+        if (targetPositions != null && targetPositions.Length != 0) {
             // Check distance betweenn current target and our position
             if (CheckDistanceToCurrentTarget(out dist)) {
                 // We've reached our destination; setting new target
@@ -47,41 +43,41 @@ public class StreetSimAgent : MonoBehaviour
                 // We haven't reached our target yet, so let's adjust the speed
                 // We need to first check if we're normally walking or if we're at a crosswalk
                 if (forwardPointer.raycastTarget != null || downwardPointer.raycastTarget != null) {
-                    Debug.Log(forwardPointer.raycastTarget.gameObject.name + " | " + downwardPointer.raycastTarget.gameObject.name);
                     // We're at a crosswalk - we need to worry about the crosswalk signals
+                    // This will be entirely dependent on the model's
                     // We need to intuite which crosswalk signal to look at. We can use the dot product for that. CLosest to -1 is the most relevant
                     // To get the walking signals, we refer to TrafficSignalController.current
-                    TrafficSignal signal = TrafficSignalController.current.GetFacingWalkingSignal(transform.forward);
+                    TrafficSignal signal = TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff);
                     switch(signal.status) {
                         case TrafficSignal.TrafficSignalStatus.Go:
                             // GO GO GO
-                            Debug.Log("GO GO GO");
+                            agent.isStopped = false;
                             character.Move(agent.desiredVelocity,false,false);
-                            stoppedMoving = false;
                             break;
                         case TrafficSignal.TrafficSignalStatus.Warning:
                             // HURRY HURRY HURRY
-                            Debug.Log("HURRY HURRY HURRY");
+                            agent.isStopped = false;
                             character.Move(agent.desiredVelocity,false,false);
-                            stoppedMoving = false;
                             break;
                         case TrafficSignal.TrafficSignalStatus.Stop:
-                            // STOOOOOP
-                            Debug.Log("STOOOOOOP");
-                            if (!stoppedMoving) character.Move(Vector3.zero,false,false);
-                            stoppedMoving = true;
+                            // STOOOOOP... unless you're still on the crosswalk
+                            if (downwardPointer.raycastTarget != null) {
+                                // GET OFF THE CROSSWALK
+                                agent.isStopped = false;
+                                character.Move(agent.desiredVelocity * 2f,false,false);
+                            } else {
+                                character.Move(Vector3.zero,false,false);
+                                agent.isStopped = true;
+                            }
                             break;
                     }
-                } else {
+                } 
+                else {
                     // No worries, we're not at a crosswalk, so we can move at our desired velocity
-                    Debug.Log("I CAN MOOOOOVE");
+                    agent.isStopped = false;
                     character.Move(agent.desiredVelocity,false,false);
-                    stoppedMoving = false;
                 }
-                //character.Move(agent.desiredVelocity,false,false);
-                //character.Move(Vector3.zero,false,false);
             }
-            yield return null;
         }
     }
 
