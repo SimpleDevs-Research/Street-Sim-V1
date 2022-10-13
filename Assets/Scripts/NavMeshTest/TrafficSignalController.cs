@@ -58,10 +58,15 @@ public class SignalSession {
 
 public class TrafficSignalController : MonoBehaviour
 {
-
+    public static TrafficSignalController current;
+    public TrafficSignal[] walkSignals, carSignals;
     [SerializeField] private NavMeshObstacle crossingObstacle;
     [SerializeField] private List<SignalSession> sessions = new List<SignalSession>();
     private SignalSession currentSession = null;
+
+    private void Awake() {
+        current = this;
+    }
 
     private void Start() {
         StartCoroutine(CycleSignalSessions());
@@ -77,5 +82,18 @@ public class TrafficSignalController : MonoBehaviour
                 yield return new WaitForSeconds(currentSession.duration);
             }
         }
+    }
+
+    public TrafficSignal GetFacingWalkingSignal(Vector3 dir) {
+        float diff = 1f, curDiff = 1f;
+        TrafficSignal closestSignal = null;
+        foreach(TrafficSignal signal in walkSignals) {
+            curDiff = Vector3.Dot(dir,signal.transform.forward);
+            if (closestSignal == null || curDiff < diff) {
+                closestSignal = signal;
+                diff = curDiff;
+            }
+        }
+        return closestSignal;
     }
 }
