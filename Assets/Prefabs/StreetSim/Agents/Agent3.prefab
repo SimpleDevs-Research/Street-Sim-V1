@@ -943,6 +943,7 @@ GameObject:
   - component: {fileID: 1695906792098141317}
   - component: {fileID: 3442657962878485532}
   - component: {fileID: 4304357993951493041}
+  - component: {fileID: 8083485529428547943}
   m_Layer: 0
   m_Name: Agent3
   m_TagString: Untagged
@@ -1057,7 +1058,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.75
-  m_Speed: 0.6
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1076,7 +1077,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112097786499193239}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
@@ -1625,6 +1626,22 @@ LODGroup:
     - renderer: {fileID: 1614626279351797712}
     - renderer: {fileID: 694262378716087126}
   m_Enabled: 1
+--- !u!114 &8083485529428547943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112097786499193239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  character: {fileID: 0}
+  targetPositions: []
+  currentSpeed: 0
 --- !u!1 &1188182516288009257
 GameObject:
   m_ObjectHideFlags: 0

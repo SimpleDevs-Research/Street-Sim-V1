@@ -8184,6 +8184,7 @@ GameObject:
   - component: {fileID: 5843506549474616079}
   - component: {fileID: 7590706325399417750}
   - component: {fileID: 9020000631739616315}
+  - component: {fileID: 3768517212799132479}
   m_Layer: 0
   m_Name: Agent18
   m_TagString: Untagged
@@ -8294,7 +8295,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.75
-  m_Speed: 0.6
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -8313,7 +8314,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5332168541271272989}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
@@ -8463,7 +8464,7 @@ MonoBehaviour:
     - {fileID: 8953631396423518244}
     - {fileID: 4766438691199326830}
   prefabPath: Assets/Prefabs/StreetSim/Agents/Agent18.prefab
-  instanceStatus: 1
+  instanceStatus: 6
   originHip: {fileID: 8018450434611157059}
   headHip: {fileID: 5192800141167699152}
   clothesAnchors:
@@ -8852,6 +8853,22 @@ LODGroup:
     - renderer: {fileID: 1362172536069791008}
     - renderer: {fileID: 2173206135365349560}
   m_Enabled: 1
+--- !u!114 &3768517212799132479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332168541271272989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  character: {fileID: 0}
+  targetPositions: []
+  currentSpeed: 0
 --- !u!1 &5337267506680167063
 GameObject:
   m_ObjectHideFlags: 0

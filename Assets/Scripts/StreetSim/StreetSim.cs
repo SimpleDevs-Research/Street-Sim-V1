@@ -27,33 +27,31 @@ public class StreetSim : MonoBehaviour
         S = this;
     }
 
-    void Start()
-    {
-        
+    private void Start() {
+        foreach(StreetSimTrial trial in m_trials) {
+            InitializeTrial(trial);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void InitializeTrial(StreetSimTrial trial) {
+        StreetSimAgent modelAgent = Instantiate(trial.modelPath.agent, trial.modelPath.targets[0].position, trial.modelPath.targets[0].rotation) as StreetSimAgent;
+        modelAgent.Initialize(trial.modelPath.targets, trial.modelPath.shouldLoop, trial.modelPath.shouldWarpOnLoop);
     }
 }
 
 [System.Serializable]
 public class StreetSimTrial {
-
-    public enum ModelBehavior {
-        Safe,
-        SemiSafe,
-        Risky
-    }
-
     [Tooltip("Name of the trial; must be unique from other trials.")] 
     public string name;
-    [Tooltip("Prefab for the model used in this trial.")] 
-    public NavMeshAgent modelAgent;
-    [Tooltip("What kind of behavior should the model follow?")]
-    public ModelBehavior modelBehavior;
-    [Tooltip("Which path should the model follow?")]
-    public Transform[] modelPath;
+    [Tooltip("The Model's Path")] 
+    public StreetSimModelPath modelPath;
+    [Tooltip("NPC Behaviors")]
+    public StreetSimModelPath[] npcPaths;
+}
+
+[System.Serializable]
+public class StreetSimModelPath {
+    public StreetSimAgent agent;
+    public Transform[] targets;
+    public bool shouldLoop, shouldWarpOnLoop;
 }

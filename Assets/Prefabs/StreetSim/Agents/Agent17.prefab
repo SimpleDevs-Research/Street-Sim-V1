@@ -12757,6 +12757,7 @@ GameObject:
   - component: {fileID: 7226132770524693468}
   - component: {fileID: 6631467337466467141}
   - component: {fileID: 5223425219017239784}
+  - component: {fileID: 760556212924000926}
   m_Layer: 0
   m_Name: Agent17
   m_TagString: Untagged
@@ -12867,7 +12868,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.75
-  m_Speed: 0.6
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -12886,7 +12887,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8984545254351425230}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
@@ -13425,6 +13426,22 @@ LODGroup:
     - renderer: {fileID: 2861835198793711091}
     - renderer: {fileID: 3132508834779877483}
   m_Enabled: 1
+--- !u!114 &760556212924000926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984545254351425230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  character: {fileID: 0}
+  targetPositions: []
+  currentSpeed: 0
 --- !u!1 &9004038294891341222
 GameObject:
   m_ObjectHideFlags: 0

@@ -10052,6 +10052,7 @@ GameObject:
   - component: {fileID: 8200270997024132426}
   - component: {fileID: 5297044699149475283}
   - component: {fileID: 6771166375977558654}
+  - component: {fileID: 9109131124472235346}
   m_Layer: 0
   m_Name: LowStatusFemale
   m_TagString: Untagged
@@ -10162,7 +10163,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.75
-  m_Speed: 0.6
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10181,7 +10182,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7578100430017200216}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5724d0018a58345a0986507538197b2b, type: 3}
   m_Name: 
@@ -10720,6 +10721,22 @@ LODGroup:
     - renderer: {fileID: 9024342417341166414}
     - renderer: {fileID: 156978713056650829}
   m_Enabled: 1
+--- !u!114 &9109131124472235346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7578100430017200216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  character: {fileID: 0}
+  targetPositions: []
+  currentSpeed: 0
 --- !u!1 &7623754483379471961
 GameObject:
   m_ObjectHideFlags: 0
