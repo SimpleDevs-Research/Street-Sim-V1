@@ -7,6 +7,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 //[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(ThirdPersonCharacter))]
 public class StreetSimAgent : MonoBehaviour
 {
+
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;

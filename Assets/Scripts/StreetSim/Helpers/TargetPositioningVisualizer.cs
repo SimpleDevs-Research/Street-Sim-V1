@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [System.Serializable]
 public class NPCPath {
@@ -16,7 +17,9 @@ public class TargetPositioningVisualizer : MonoBehaviour
     public static TargetPositioningVisualizer current;
     public List<Transform> targets = new List<Transform>();
     public List<NPCPath> templatePaths = new List<NPCPath>();
+    public Dictionary<string, NPCPath> pathDict = new Dictionary<string,NPCPath>();
 
+    #if UNITY_EDITOR
     void OnDrawGizmosSelected() {
         DrawTargets();
         DrawPaths();
@@ -24,22 +27,29 @@ public class TargetPositioningVisualizer : MonoBehaviour
     public void DrawTargets() {
         // For each child transform within this...
         foreach(Transform child in transform) {
-            UnityEditor.Handles.color = Color.green;
-            UnityEditor.Handles.DrawWireDisc(child.position , child.up, 0.5f);
+            Handles.color = Color.green;
+            Handles.DrawWireDisc(child.position , child.up, 0.5f);
         }
     }
     public void DrawPaths() {
         foreach(NPCPath path in templatePaths) {
             if (path.points.Length < 2) continue;
-            for(int i = 0; i <= path.points.Length-2; i++) {
-                UnityEditor.Handles.color = path.pathColor;
-                UnityEditor.Handles.DrawLine(path.points[i].position,path.points[i+1].position,path.pathWidth);
-            }
+            TargetPositioningVisualizer.DrawPath(path);
         }
     }
+    public static void DrawPath(NPCPath path) {
+        for(int i = 0; i <= path.points.Length-2; i++) {
+            Handles.color = path.pathColor;
+            Handles.DrawLine(path.points[i].position,path.points[i+1].position,path.pathWidth);
+        }
+    }
+    #endif
 
     void Awake() {
         current = this;
+        foreach(NPCPath template in templatePaths) {
+            pathDict.Add(template.name, template);
+        }
     }
 
     void OnGUI() {
@@ -52,5 +62,14 @@ public class TargetPositioningVisualizer : MonoBehaviour
 
         }
         targets = newTargets;
+    }
+
+    public bool GetPathFromName(string name, out NPCPath path) {
+        if (pathDict.ContainsKey(name)) {
+            path = pathDict[name];
+            return true;
+        }
+        path = default(NPCPath);
+        return false;
     }
 }
