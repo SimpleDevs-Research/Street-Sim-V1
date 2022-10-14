@@ -16,14 +16,14 @@ public class ExperimentID : MonoBehaviour
         get { return m_children; }
         set {}
     }
-    [SerializeField] private string m_id;
+    [SerializeField] private string m_id = "";
     public string id {
         get { return m_id; }
         set {}
     }
-    [SerializeField] private string m_ref_id;
+    [SerializeField] private string m_ref_id = "";
     public string ref_id {
-        get { return m_ref_id; }
+        get { return (m_ref_id.Length > 0) ? m_ref_id : m_id; }
         set {}
     }
     private bool idSet = false;

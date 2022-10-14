@@ -10,6 +10,7 @@ public class StreetSimAgent : MonoBehaviour
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
+    [SerializeField] private SkinnedMeshRenderer renderer;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
     [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
     private int currentTargetIndex = -1;
@@ -111,5 +112,9 @@ public class StreetSimAgent : MonoBehaviour
     private bool CheckDistanceToCurrentTarget(out float distance) {
         distance = Vector3.Distance(transform.position,targetPositions[currentTargetIndex].position);
         return distance <= agent.stoppingDistance;
+    }
+
+    public SkinnedMeshRenderer GetRenderer() {
+        return renderer;
     }
 }

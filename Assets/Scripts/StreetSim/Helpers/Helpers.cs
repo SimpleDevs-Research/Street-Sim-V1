@@ -2,10 +2,14 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
+using System.Linq;
 
 namespace Helpers {
     [System.Serializable]
-    public class HelperMethods {
+    public static class HelperMethods {
+        //public static Random rng = new Random();  
+
         public static bool HasComponent<T> (GameObject obj, out T toReturn) {
             toReturn = obj.GetComponent<T>();
             return toReturn != null;
@@ -22,6 +26,21 @@ namespace Helpers {
 
         public static float Map(float value, float from1, float to1, float from2, float to2) {
             return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+        }
+
+        // Adapted from Fisher-Yates Shuffle, code adopted from https://stackoverflow.com/questions/273313/randomize-a-listt
+        public static List<T> Shuffle<T>(this List<T> list) {
+            Random rng = new Random();
+            List<T> newList = new List<T>(list);
+            int n = newList.Count;
+            while (n > 1) {
+                n--; 
+                int k = rng.Next(n + 1); 
+                T value = newList[k]; 
+                newList[k] = newList[n]; 
+                newList[n] = value; 
+            }
+            return newList;
         }
     }
 

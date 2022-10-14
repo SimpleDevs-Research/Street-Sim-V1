@@ -5,18 +5,26 @@ using UnityEngine;
 public class SkinnedMeshRendererHelper : MonoBehaviour
 {
 
-    [SerializeField] private SkinnedMeshRenderer meshRenderer = null;
-    [SerializeField] private MeshCollider collider = null;
-    [SerializeField] private float updateDelay = 0.1f;
+    public SkinnedMeshRenderer meshRenderer = null;
+    public MeshCollider collider = null;
+    public float updateDelay = 0.1f;
+    private bool initialized = false;
 
     // Start is called before the first frame update
     private void Start() {
         if (meshRenderer == null) meshRenderer = GetComponent<SkinnedMeshRenderer>();
         if (collider == null) collider = GetComponent<MeshCollider>();
-        StartCoroutine(UpdateCollider());
+        Initialize();
+    }
+
+    public void Initialize() {
+        if (meshRenderer != null && collider != null) {
+            if (!initialized) StartCoroutine(UpdateCollider());
+        }
     }
 
     private IEnumerator UpdateCollider() {
+        initialized = true;
         while(true) {
             Mesh colliderMesh = new Mesh();
             meshRenderer.BakeMesh(colliderMesh);
