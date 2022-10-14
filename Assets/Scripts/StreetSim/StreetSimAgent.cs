@@ -44,30 +44,39 @@ public class StreetSimAgent : MonoBehaviour
                 // We need to first check if we're normally walking or if we're at a crosswalk
                 if (forwardPointer.raycastTarget != null || downwardPointer.raycastTarget != null) {
                     // We're at a crosswalk - we need to worry about the crosswalk signals
-                    // This will be entirely dependent on the model's
-                    // We need to intuite which crosswalk signal to look at. We can use the dot product for that. CLosest to -1 is the most relevant
-                    // To get the walking signals, we refer to TrafficSignalController.current
-                    TrafficSignal signal = TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff);
-                    switch(signal.status) {
-                        case TrafficSignal.TrafficSignalStatus.Go:
-                            // GO GO GO
+                    // This will be entirely dependent on the model's behavior, which we've passed during initialization
+                    switch(behavior) {
+                        case StreetSimTrial.ModelBehavior.Risky:
+                            // This will go no matter what the light signal is.
                             agent.isStopped = false;
                             character.Move(agent.desiredVelocity,false,false);
                             break;
-                        case TrafficSignal.TrafficSignalStatus.Warning:
-                            // HURRY HURRY HURRY
-                            agent.isStopped = false;
-                            character.Move(agent.desiredVelocity,false,false);
-                            break;
-                        case TrafficSignal.TrafficSignalStatus.Stop:
-                            // STOOOOOP... unless you're still on the crosswalk
-                            if (downwardPointer.raycastTarget != null) {
-                                // GET OFF THE CROSSWALK
-                                agent.isStopped = false;
-                                character.Move(agent.desiredVelocity * 2f,false,false);
-                            } else {
-                                character.Move(Vector3.zero,false,false);
-                                agent.isStopped = true;
+                        case StreetSimTrial.ModelBehavior.Safe:
+                            // We need to intuite which crosswalk signal to look at. We can use the dot product for that. CLosest to -1 is the most relevant
+                            // To get the walking signals, we refer to TrafficSignalController.current
+                            TrafficSignal signal = TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff);
+                            switch(signal.status) {
+                                case TrafficSignal.TrafficSignalStatus.Go:
+                                    // GO GO GO
+                                    agent.isStopped = false;
+                                    character.Move(agent.desiredVelocity,false,false);
+                                    break;
+                                case TrafficSignal.TrafficSignalStatus.Warning:
+                                    // HURRY HURRY HURRY
+                                    agent.isStopped = false;
+                                    character.Move(agent.desiredVelocity,false,false);
+                                    break;
+                                case TrafficSignal.TrafficSignalStatus.Stop:
+                                    // STOOOOOP... unless you're still on the crosswalk
+                                    if (downwardPointer.raycastTarget != null) {
+                                        // GET OFF THE CROSSWALK
+                                        agent.isStopped = false;
+                                        character.Move(agent.desiredVelocity * 2f,false,false);
+                                    } else {
+                                        character.Move(Vector3.zero,false,false);
+                                        agent.isStopped = true;
+                                    }
+                                    break;
                             }
                             break;
                     }
