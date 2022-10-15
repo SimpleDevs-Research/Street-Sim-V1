@@ -48,6 +48,8 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
 
+    [SerializeField, Tooltip("NPC Behaviors")] private StreetSimModelPath[] npcPaths;
+
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
     [SerializeField] private float m_simulationStartTime = 0f, m_simulationEndTime = 0f, m_simulationDuration = 0f;
