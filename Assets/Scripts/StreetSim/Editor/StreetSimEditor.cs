@@ -17,8 +17,19 @@ public class StreetSimEditor : Editor
         }
 
         if(GUILayout.Button("End Simulation")) {
-            streetSim.EndSimulation();
+            streetSim.EndSimulation(true);
         }
+
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Save")) {
+            streetSim.SaveSimulationData();
+        }
+        if (GUILayout.Button("Load")) {
+
+        }
+
+        GUILayout.EndHorizontal();
 
         /*
         if(GUILayout.Button("Save Tracking Data")) {

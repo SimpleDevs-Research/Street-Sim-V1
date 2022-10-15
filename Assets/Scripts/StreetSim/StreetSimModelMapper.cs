@@ -23,7 +23,7 @@ public class StreetSimModelMapper : MonoBehaviour
 
     public bool MapMeshToModel(StreetSimAgent model) {
         if (!mapDict.ContainsKey(model.gameObject.GetComponent<ExperimentID>().id)) return false;
-        ExperimentID newMesh = Instantiate(mapDict[model.gameObject.GetComponent<ExperimentID>().id],model.transform.position,model.transform.rotation) as ExperimentID;
+        ExperimentID newMesh = Instantiate(mapDict[model.gameObject.GetComponent<ExperimentID>().id],model.transform.position,model.transform.rotation, StreetSim.S.agentMeshParent) as ExperimentID;
         // Need to make the following changes:
         //      [1] Follow Position: Set the followed model to `model`
         newMesh.GetComponent<FollowPosition>().toFollow = model.transform;

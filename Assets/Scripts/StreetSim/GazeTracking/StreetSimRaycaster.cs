@@ -29,7 +29,8 @@ public class StreetSimRaycaster : MonoBehaviour
     public static StreetSimRaycaster R;
 
     [SerializeField] private EVRA_Pointer pointer;
-    [SerializeField] private List<RaycastHitRow> hits = new List<RaycastHitRow>();
+    [SerializeField] private List<RaycastHitRow> m_hits = new List<RaycastHitRow>();
+    public List<RaycastHitRow> hits { get { return m_hits; } set{} }
 
     [SerializeField] private float m_timestamp;
     [SerializeField] private int m_triangleIndex;
@@ -54,7 +55,7 @@ public class StreetSimRaycaster : MonoBehaviour
             m_agentID = target.ref_id;
             m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(pointer.raycastHitPosition);
             m_localPositionOfHitTarget = closestTarget.transform.localPosition;
-            hits.Add(
+            m_hits.Add(
                 new RaycastHitRow(
                     StreetSim.S.trialFrameIndex,
                     StreetSim.S.trialFrameTimestamp, 
