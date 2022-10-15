@@ -1,6 +1,10 @@
 # NavMeshTest
 
 ## Asset References
+
+### Tools
+* (https://assetstore.unity.com/packages/tools/utilities/b-zier-path-creator-136082)[https://assetstore.unity.com/packages/tools/utilities/b-zier-path-creator-136082]
+
 ### Human Agent Models & Vehicles
 * (https://assetstore.unity.com/packages/3d/characters/humanoids/humans/advanced-people-pack-2-170756)[https://assetstore.unity.com/packages/3d/characters/humanoids/humans/advanced-people-pack-2-170756]
 * (https://assetstore.unity.com/packages/3d/vehicles/land/stylized-vehicles-pack-low-poly-121593)[https://assetstore.unity.com/packages/3d/vehicles/land/stylized-vehicles-pack-low-poly-121593]

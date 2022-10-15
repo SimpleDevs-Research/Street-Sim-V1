@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.AI;
 using Helpers;
 using SerializableTypes;
+using PathCreation;
 
 public class StreetSim : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class StreetSim : MonoBehaviour
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
 
     [SerializeField, Tooltip("NPC Behaviors")] private StreetSimModelPath[] npcPaths;
+    [SerializeField, Tooltip("Car Behaviors")] private StreetSimCarPath[] carPaths;
 
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
@@ -223,6 +225,28 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
         }
     }
+    private void Update() {
+        /*
+        switch(m_streetSimStatus) {
+            case StreetSimStatus.Tracking:
+                // We can actually run the cars now
+                if (carPaths.Length > 0) {
+                    // We need to manage our cars
+                    foreach(StreetSimCarPath carPath in carPaths) {
+                        switch(carPath.pathDensity) {
+                            case StreetSimCarPath.StreetPathDensity.Sparse:
+                                if()
+                                break;
+                            case StreetSimCarPath.StreetPathDensity.Congested:
+
+                                break;
+                        }
+                    }
+                }
+                break;
+        }
+        */
+    }
     private void FixedUpdate() {
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
@@ -317,6 +341,19 @@ public class StreetSimModelPath {
     public StreetSimAgent agent;
     public string pathName;
     public bool reversePath = false, shouldLoop, shouldWarpOnLoop;
+}
+[System.Serializable]
+public class StreetSimCarPath {
+    public PathCreator path;
+    public CarPathFollower[] carPrefabs;
+    public enum StreetPathDensity {
+        None,
+        Sparse,
+        Congested
+    }
+    public StreetPathDensity pathDensity = StreetPathDensity.Sparse;
+    
+    public List<CarPathFollower> activeCars = new List<CarPathFollower>();
 }
 
 [System.Serializable]

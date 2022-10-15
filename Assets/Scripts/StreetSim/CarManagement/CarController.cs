@@ -16,9 +16,9 @@ public class CarRoute {
     public CarInstantiation[] cars;
 }
 
-public class CarController : MonoBehaviour
+public class StreetSimCarController : MonoBehaviour
 {
-    public static CarController current;
+    public static StreetSimCarController C;
 
     [SerializeField] private GameObject[] carPrefabs;
     // [SerializeField] private List<CarAgent> m_cars = new List<CarAgent>();
@@ -27,13 +27,10 @@ public class CarController : MonoBehaviour
     // private Dictionary<string, CarRoute> m_routeDict = new Dictionary<string, CarRoute>();
 
     private void Awake() {
-        current = this;
-        //foreach(CarRoute route in m_routes) {
-        //    m_routeDict.Add(route.name, route);
-        //}
+        C = this;
     }
 
-    private void Start() {
+    private void StartCarController() {
         foreach(CarRoute route in m_routes) {
             StartCoroutine(StartPath(route));
         }
@@ -49,7 +46,6 @@ public class CarController : MonoBehaviour
     }
 
     /*
-
     public void AddCar(CarAgent car) {
         if (!m_cars.Contains(car)) m_cars.Add(car);
     }
