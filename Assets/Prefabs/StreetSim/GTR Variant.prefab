@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliders: []
+  parent: {fileID: 0}
 --- !u!1 &2375550175270171739
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliders: []
+  parent: {fileID: 0}
 --- !u!1 &4856019094715393861
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,10 +358,6 @@ MonoBehaviour:
   maxSpeed: 7.5
   currentSpeed: 0
   acceleration: 4
-  frontOfCar: {fileID: 6845908044298213497}
-  pointer: {fileID: 0}
-  checkBoxRef: {fileID: 284536251779164085}
-  checkBoxRefSize: {x: 3, y: 0.5, z: 3}
   m_status: 0
   farCollider: {fileID: 3241827908834238104}
   closeCollider: {fileID: 976078443343651478}
