@@ -475,6 +475,7 @@ MonoBehaviour:
   maxSpeed: 5
   currentSpeed: 0
   acceleration: 2.5
+  deceleration: 5
   m_status: 0
   closeCollider: {fileID: 5388641264551690442}
   farCollider: {fileID: 228968395876642501}
@@ -483,7 +484,6 @@ MonoBehaviour:
   - {fileID: 2457524849675166515}
   - {fileID: 2457524849675166517}
   - {fileID: 2457524849675166519}
-  wheelRadius: 0
 --- !u!65 &8683595757753538900
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -460,7 +460,8 @@ MonoBehaviour:
   pathCreator: {fileID: 0}
   maxSpeed: 5
   currentSpeed: 0
-  acceleration: 2.5
+  acceleration: 3
+  deceleration: 5
   m_status: 0
   closeCollider: {fileID: 5702759621005899677}
   farCollider: {fileID: 8667135362319961394}
@@ -469,7 +470,6 @@ MonoBehaviour:
   - {fileID: 8874494022745870847}
   - {fileID: 8874494022745870837}
   - {fileID: 8874494022745870839}
-  wheelRadius: 0
 --- !u!65 &8687870251225333285
 BoxCollider:
   m_ObjectHideFlags: 0

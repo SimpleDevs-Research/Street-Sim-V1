@@ -16,6 +16,7 @@ public class CarPathFollower : MonoBehaviour
     public float maxSpeed = 5f;
     public float currentSpeed = 0f;
     public float acceleration = 2.5f;
+    public float deceleration = 5f;
     private float distanceTraveled;
 
     [SerializeField] private CarStatus m_status = CarStatus.Moving;
@@ -24,7 +25,6 @@ public class CarPathFollower : MonoBehaviour
     [SerializeField] private RemoteCollider farCollider;
 
     [SerializeField] private Transform[] wheels;
-    [SerializeField] private float wheelRadius;
     private Vector3 prevPosition;
 
     private void Start() {
@@ -39,7 +39,7 @@ public class CarPathFollower : MonoBehaviour
         UpdateSpeed();
         distanceTraveled += currentSpeed * Time.deltaTime;
         transform.position = pathCreator.path.GetPointAtDistance(distanceTraveled);
-        transform.rotation = Quaternion.LookRotation(transform.position - prevPosition, Vector3.up);
+        if(Vector3.Distance(transform.position,prevPosition)>0.05f) transform.rotation = Quaternion.LookRotation(transform.position - prevPosition, Vector3.up);
         prevPosition = transform.position;
         if (wheels.Length > 0) {
             foreach(Transform wheel in wheels) {
@@ -54,10 +54,10 @@ public class CarPathFollower : MonoBehaviour
             CarPathFollower potentialFollower;
             if (HelperMethods.HasComponent<CarPathFollower>(closest.gameObject, out potentialFollower)) {
                 m_status = CarStatus.Moving;
-                currentSpeed = (currentSpeed < potentialFollower.currentSpeed) ? currentSpeed += acceleration * Time.deltaTime : (currentSpeed > potentialFollower.currentSpeed) ? currentSpeed -= acceleration * Time.deltaTime : potentialFollower.currentSpeed;
+                currentSpeed = (currentSpeed < potentialFollower.currentSpeed) ? currentSpeed += acceleration * Time.deltaTime : (currentSpeed > potentialFollower.currentSpeed) ? currentSpeed -= deceleration * Time.deltaTime : potentialFollower.currentSpeed;
             } else {
                 m_status = CarStatus.FastStopping;
-                currentSpeed = (currentSpeed > 0f) ? currentSpeed -= acceleration * 2f * Time.deltaTime : 0f;
+                currentSpeed = (currentSpeed > 0f) ? currentSpeed -= deceleration * 2f * Time.deltaTime : 0f;
             }
         }
         else if (farCollider.colliders.Count > 0) {
@@ -65,15 +65,17 @@ public class CarPathFollower : MonoBehaviour
             CarPathFollower potentialFollower;
             if (HelperMethods.HasComponent<CarPathFollower>(closest.gameObject, out potentialFollower)) {
                 m_status = CarStatus.Moving;
-                currentSpeed = (currentSpeed < potentialFollower.currentSpeed) ? currentSpeed += acceleration * Time.deltaTime : (currentSpeed > potentialFollower.currentSpeed) ? currentSpeed -= acceleration * Time.deltaTime : potentialFollower.currentSpeed;
+                currentSpeed = (currentSpeed < potentialFollower.currentSpeed) ? currentSpeed += acceleration * Time.deltaTime : (currentSpeed > potentialFollower.currentSpeed) ? currentSpeed -= deceleration * Time.deltaTime : potentialFollower.currentSpeed;
             } else {
                 m_status = CarStatus.SlowlyStopping;
-                currentSpeed = (currentSpeed > 0f) ? currentSpeed - acceleration * Time.deltaTime: 0f;
+                currentSpeed = (currentSpeed > 0f) ? currentSpeed - deceleration * Time.deltaTime: 0f;
             }
         }
         else {
             m_status = CarStatus.Moving;
             currentSpeed = (currentSpeed < maxSpeed) ? currentSpeed + acceleration * Time.deltaTime : maxSpeed;
         }
+
+        currentSpeed = Mathf.Clamp(currentSpeed,0f,Mathf.Infinity);
     }
 }
