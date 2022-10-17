@@ -36,7 +36,7 @@ public class CarPathFollower : MonoBehaviour
             distanceTraveled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
         }
     }
-    private void Update() {
+    private void FixedUpdate() {
         if (pathCreator == null) return;
         UpdateSpeed();
         movingAudioSource.volume = currentSpeed / maxSpeed;
@@ -113,7 +113,7 @@ public class CarPathFollower : MonoBehaviour
             : (currentSpeed > currentMaxSpeed) 
                 ? currentSpeed -= deceleration * Time.deltaTime
                 : currentMaxSpeed;
-        currentSpeed = Mathf.Clamp(currentSpeed,0f,Mathf.Infinity);
+        currentSpeed = Mathf.Clamp(currentSpeed,0f,currentMaxSpeed);
 
         /*
         if (closeCollider.colliders.Count > 0) {

@@ -33,7 +33,7 @@ public class StreetSim : MonoBehaviour
         Tracking,
     }
 
-    [SerializeField] private OVRCameraRig cameraRigRef;
+    [SerializeField] private Transform xrTrackingSpace;
     [SerializeField] private Transform m_agentParent, m_agentMeshParent;
     public Transform agentParent { get { return m_agentParent; } set{} }
     public Transform agentMeshParent { get { return m_agentMeshParent; } set{} }
@@ -94,8 +94,8 @@ public class StreetSim : MonoBehaviour
     }
 
     private void PositionPlayerAtStart(Transform start) {
-        cameraRigRef.transform.position = start.position;
-        cameraRigRef.transform.rotation = start.rotation;
+        xrTrackingSpace.transform.position = start.position;
+        xrTrackingSpace.transform.rotation = start.rotation;
     }
 
     private void InitializeNPC(StreetSimModelPath modelPath, StreetSimTrial.ModelBehavior behave = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
@@ -259,11 +259,11 @@ public class StreetSim : MonoBehaviour
                     // advance the frame by 1
                     m_trialFrameIndex += 1;
                     // Track GazeData
-                    StreetSimRaycaster.R.CheckRaycast();
+                    //StreetSimRaycaster.R.CheckRaycast();
                 }
                 // We check if the user has reached the end or not.
                 foreach(Transform endPosTransform in m_currentTrial.endPositionRefs) {
-                    if (Vector3.Distance(cameraRigRef.transform.position,endPosTransform.position) < 0.05f) {
+                    if (Vector3.Distance(xrTrackingSpace.transform.position,endPosTransform.position) < 0.05f) {
                         EndTrial();
                     }
                 }
