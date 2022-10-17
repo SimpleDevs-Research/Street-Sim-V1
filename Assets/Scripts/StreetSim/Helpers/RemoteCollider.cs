@@ -6,6 +6,7 @@ public class RemoteCollider : MonoBehaviour
 {
     public Dictionary<Collider, float> colliders = new Dictionary<Collider,float>();
     public Transform parent;
+    [SerializeField] private int numColliders = 0;
 
     private void Update() {
         Dictionary<Collider,float> updatedList = new Dictionary<Collider,float>();
@@ -15,6 +16,7 @@ public class RemoteCollider : MonoBehaviour
             }
         }
         colliders = updatedList;
+        numColliders = colliders.Count;
     }
 
     private void OnTriggerEnter(Collider col) {
