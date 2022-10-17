@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7947957437358161600}
   - component: {fileID: 6761741002152441202}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4345788954497315609}
   - component: {fileID: 1263921208182574858}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5022900253910961567}
   - component: {fileID: 7024553671820121568}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MicroBus1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 60898838491886714}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -979,6 +979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 3093605862813230357}
+  numColliders: 0
 --- !u!1 &5755819204880313701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 3093605862813230357}
+  numColliders: 0
 --- !u!1 &8359734298872172827
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9051565045913113550}
   - component: {fileID: 7572041040007445130}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031969645039758472}
   - component: {fileID: 284503768471416501}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3446149646016132452}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +775,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6258709264976679530}
   - component: {fileID: 4245406291821296221}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4700516880895817767}
   - component: {fileID: 552974635478899915}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -900,7 +900,7 @@ GameObject:
   - component: {fileID: 6088757489088569724}
   - component: {fileID: 7273747485757685432}
   - component: {fileID: 5388641264551690442}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: CloseCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -964,6 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2457524849675166523}
+  numColliders: 0
 --- !u!1 &6789868545360305084
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7211517440985507905}
   - component: {fileID: 1455104212211922139}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1022,7 +1023,7 @@ GameObject:
   - component: {fileID: 5365053119001668790}
   - component: {fileID: 7937983187748882654}
   - component: {fileID: 228968395876642501}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: FarCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1086,6 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2457524849675166523}
+  numColliders: 0
 --- !u!1 &9029435220698744383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2121795039321173606}
   - component: {fileID: 7925391856164293029}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Jeep3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9000294262027770119}
   - component: {fileID: 2054814284642275051}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}

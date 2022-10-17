@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6490053075694343148}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5057711212368800721}
   - component: {fileID: 3034062001516522780}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Jeep2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1680414908293461888}
+  numColliders: 0
 --- !u!1 &4278054786377626378
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,7 +867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5924227607148109035}
   - component: {fileID: 1225997793133993321}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 364314317730536876}
   - component: {fileID: 2442365650012489854}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3110894242362090984}
   - component: {fileID: 6476691886831262708}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1132,6 +1133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1680414908293461888}
+  numColliders: 0
 --- !u!1 &8543509597074665440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,7 +1144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8518154677410481411}
   - component: {fileID: 5468325266424732257}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

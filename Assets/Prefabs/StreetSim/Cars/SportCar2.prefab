@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 8753452145167439809}
+  numColliders: 0
 --- !u!1 &348847926953922994
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046246942119148891}
   - component: {fileID: 4826317773085948810}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SportCar2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5838010926818455219}
   - component: {fileID: 4826009801923969291}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1892017107528403501}
   - component: {fileID: 1861591941265101149}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,6 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 8753452145167439809}
+  numColliders: 0
 --- !u!1 &3099442689372403792
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1048245548433745610}
   - component: {fileID: 6545659806372639549}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,7 +409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8877948043274940613}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8428779953918955801}
   - component: {fileID: 3981842975687195101}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 907685259199746630}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8500490571388441848}
   - component: {fileID: 2112086880526719805}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2796490528450612233}
   - component: {fileID: 8508008632682397496}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 8038261308700297647}
+  numColliders: 0
 --- !u!1 &6415457913567879741
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4087406103969727723}
   - component: {fileID: 6633055484788118702}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1086,6 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 8038261308700297647}
+  numColliders: 0
 --- !u!1 &8382017164996593751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8676980081684858804}
   - component: {fileID: 4969739656428600402}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6880655539218923476}
   - component: {fileID: 752632262629561934}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MicroBus5
   m_TagString: Untagged
   m_Icon: {fileID: 0}

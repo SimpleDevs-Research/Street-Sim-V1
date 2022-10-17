@@ -40,7 +40,7 @@ public class CarPathFollower : MonoBehaviour
         if (pathCreator == null) return;
         UpdateSpeed();
         movingAudioSource.volume = currentSpeed / maxSpeed;
-        idleAudioSource.volume = 1 - movingAudioSource.volume;
+        //idleAudioSource.volume = 1 - movingAudioSource.volume;
         distanceTraveled += currentSpeed * Time.deltaTime;
         transform.position = pathCreator.path.GetPointAtDistance(distanceTraveled);
         if(Vector3.Distance(transform.position,prevPosition)>0.05f) transform.rotation = Quaternion.LookRotation(transform.position - prevPosition, Vector3.up);

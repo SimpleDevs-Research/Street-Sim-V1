@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 6400904079161560845}
+  numColliders: 0
 --- !u!1 &1905900134661455341
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2350932693295287496}
   - component: {fileID: 7929048246510983914}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 6400904079161560845}
+  numColliders: 0
 --- !u!1 &3234207993350851932
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8622149051655621602}
   - component: {fileID: 866117293902542263}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Truck1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1198,7 +1200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8300505823264537618}
   - component: {fileID: 8843195221574865157}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1244,7 +1246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5731534257381240697}
   - component: {fileID: 1221446289589090258}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1289,7 +1291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1822925965611399760}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1328,7 +1330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4110992824417789988}
   - component: {fileID: 1718700470472690419}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1374,7 +1376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5560985203065272284}
   - component: {fileID: 3297651805160802600}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1420,7 +1422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7138162121783302588}
   - component: {fileID: 8973506443981706492}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

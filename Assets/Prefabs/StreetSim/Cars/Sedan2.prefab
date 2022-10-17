@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1473439052560375033}
   - component: {fileID: 5359264184210848712}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2135178410316361178}
+  numColliders: 0
 --- !u!1 &2135178410316198384
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2135178410316361178}
+  numColliders: 0
 --- !u!1 &4959536449199472448
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3328722117754163287}
   - component: {fileID: 4309726483528405026}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -951,7 +953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4098395197166715708}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -988,7 +990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 981122540065312615}
   - component: {fileID: 2488688176097894202}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1034,7 +1036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2082334613791267941}
   - component: {fileID: 4772894040458394116}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89595527407278361}
   - component: {fileID: 5773132164308331245}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sedan2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
