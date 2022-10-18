@@ -98,15 +98,17 @@ public class StreetSimAgent : MonoBehaviour
             if (shouldLoop) {
                 if (shouldWarpOnLoop) agent.Warp(targetPositions[0].position);
                 currentTargetIndex = 0;
+                agent.SetDestination(targetPositions[currentTargetIndex].position);
             } else {
                 // Tell StreetSim to destroy this agent
                 character.Move(Vector3.zero,false,false);
                 // ...Which we'll implement later
+                StreetSimAgentManager.AM.DestroyAgent(this);
             }
         } else {
             currentTargetIndex += 1;
+            agent.SetDestination(targetPositions[currentTargetIndex].position);
         }
-        agent.SetDestination(targetPositions[currentTargetIndex].position);
     }
 
     private bool CheckDistanceToCurrentTarget(out float distance) {

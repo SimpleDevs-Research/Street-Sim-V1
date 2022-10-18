@@ -39,15 +39,6 @@ public class StreetSimCarManager : MonoBehaviour
         { CarManagerStatus.SomeCongestion, new Vector2(2f,15f) },
         { CarManagerStatus.Congested, new Vector2(1f,25f) }
     };
-    /*
-    private Dictionary<CarManagerStatus, float> waitValues = new Dictionary<CarManagerStatus, float> {
-        { CarManagerStatus.Off, Mathf.Infinity },
-        { CarManagerStatus.NoCongestion, 3f },
-        { CarManagerStatus.MinimalCongestion, 2f },
-        { CarManagerStatus.SomeCongestion, 1f },
-        { CarManagerStatus.Congested, 0.5f}
-    };
-    */
 
     [SerializeField] private Transform InactiveCarTargetRef;
 
@@ -64,23 +55,6 @@ public class StreetSimCarManager : MonoBehaviour
     void Update()
     {
         if (activeCars.Count + GetWaitingCarsInQueue() < waitValues[m_status].y) QueueNextCar();
-        /*
-        switch(m_status) {
-            case CarManagerStatus.NoCongestion:
-                // Active cars = 5
-                // Check how many cars we currently have active
-                if (activeCars.Count + GetWaitingCarsInQueue() < 5) QueueNextCar();
-                break;
-            case CarManagerStatus.MinimalCongestion:
-                // Active cars = 10
-                if (activeCars.Count + GetWaitingCarsInQueue() < 10) QueueNextCar();
-                break;
-            case CarManagerStatus.Congested:
-                // Active cars = ALL OF THEM (that can reasonabily fit)
-                if (activeCars.Count + GetWaitingCarsInQueue() < m_cars.Count) QueueNextCar();
-                break;
-        }
-        */
     }
 
     private IEnumerator PrintCars() {

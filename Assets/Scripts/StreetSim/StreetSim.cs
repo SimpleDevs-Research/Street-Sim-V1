@@ -86,11 +86,14 @@ public class StreetSim : MonoBehaviour
 
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
         InitializeNPC(trial.modelPath, trial.modelBehavior, true);
+        yield return null;
+        /*
         foreach(StreetSimModelPath npcPath in trial.npcPaths) {
             PositionPlayerAtStart(trial.startPositionRef);
             InitializeNPC(npcPath);
             yield return new WaitForSeconds(0.25f);
         }
+        */
     }
 
     private void PositionPlayerAtStart(Transform start) {

@@ -14,7 +14,7 @@ public class StreetSimCar : MonoBehaviour
     [SerializeField] private RemoteCollider frontCollider;
     public TrafficSignal trafficSignal;
     public Transform startTarget, middleTarget, endTarget;
-    [SerializeField] private Collider gazeCollider;
+    [SerializeField] private Collider[] gazeColliders;
 
     [SerializeField] private float m_lengthOfCar = 0f;
     [SerializeField] private float maxSpeed = 0.5f;
@@ -81,7 +81,9 @@ public class StreetSimCar : MonoBehaviour
 
         // Make sure our collider is off if we're idle
         if (m_status == StreetSimCarStatus.Idle) {
-            gazeCollider.enabled = false;
+            foreach(Collider col in gazeColliders) {
+                col.enabled = false;
+            }
             return;
         }
 
@@ -94,7 +96,9 @@ public class StreetSimCar : MonoBehaviour
         // We also pause if any values are missing
         if (trafficSignal == null || middleTarget == null || endTarget == null) return;
 
-        gazeCollider.enabled = true;
+        foreach(Collider col in gazeColliders) {
+            col.enabled = true;
+        }
         
         // We need to determine which target position to aim towards.
         // Just because the traffic light shines red that doesn't mean we should stop.

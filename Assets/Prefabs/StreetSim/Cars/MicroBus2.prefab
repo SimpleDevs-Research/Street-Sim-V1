@@ -765,7 +765,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8431274330711720882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 098ca53f105d055448359ccd8a32bc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frontOfCar: {fileID: 2170014245107215311}
@@ -775,13 +775,14 @@ MonoBehaviour:
   startTarget: {fileID: 0}
   middleTarget: {fileID: 0}
   endTarget: {fileID: 0}
-  gazeCollider: {fileID: 3110915652856732652}
+  gazeColliders:
+  - {fileID: 3110915652856732652}
   m_lengthOfCar: 0
-  maxSpeed: 20
+  maxSpeed: 10
   shouldStop: 0
   m_status: 0
   acceleration: 5
-  deceleration: 15
+  deceleration: 3
   currentVelocity: {x: 0, y: 0, z: 0}
   currentSpeed: 0
   wheels:
