@@ -313,7 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathCreator: {fileID: 0}
   frontOfCar: {fileID: 9081058790907702727}
   backOfCar: {fileID: 8592485771445431485}
   frontCollider: {fileID: 6992929277755489549}
@@ -321,11 +320,13 @@ MonoBehaviour:
   startTarget: {fileID: 0}
   middleTarget: {fileID: 0}
   endTarget: {fileID: 0}
+  gazeCollider: {fileID: 8391754916609832906}
   m_lengthOfCar: 0
-  maxSpeed: 5
+  maxSpeed: 20
   shouldStop: 0
+  m_status: 0
   acceleration: 5
-  deceleration: 7.5
+  deceleration: 15
   currentVelocity: {x: 0, y: 0, z: 0}
   currentSpeed: 0
   wheels:

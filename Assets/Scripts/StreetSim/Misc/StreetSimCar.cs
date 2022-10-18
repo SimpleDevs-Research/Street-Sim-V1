@@ -6,16 +6,21 @@ using Helpers;
 
 public class StreetSimCar : MonoBehaviour
 {
-
-    [SerializeField] private PathCreator pathCreator;
+    public enum StreetSimCarStatus {
+        Idle,
+        Active,
+    }
     public Transform frontOfCar, backOfCar;
     [SerializeField] private RemoteCollider frontCollider;
-    [SerializeField] private TrafficSignal trafficSignal;
-    [SerializeField] private Transform startTarget, middleTarget, endTarget;
+    public TrafficSignal trafficSignal;
+    public Transform startTarget, middleTarget, endTarget;
+    [SerializeField] private Collider gazeCollider;
 
     [SerializeField] private float m_lengthOfCar = 0f;
     [SerializeField] private float maxSpeed = 0.5f;
     [SerializeField] private bool shouldStop = false;
+    [SerializeField] private StreetSimCarStatus m_status = StreetSimCarStatus.Idle;
+    public StreetSimCarStatus status { get { return m_status; } set{} }
     private float smoothTime;
     private float currentTime = 0f;
 
@@ -33,11 +38,22 @@ public class StreetSimCar : MonoBehaviour
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
     }
 
-    private void Start() {
-        transform.position = pathCreator.path.GetClosestPointOnPath(transform.position);
+    public void Initialize() {
+        //transform.position = pathCreator.path.GetClosestPointOnPath(transform.position);
+        transform.position = startTarget.position;
+        transform.rotation = startTarget.rotation;
+
         currentTarget = endTarget;
         prevPos = transform.position;
         prevTargetPos = endTarget.position;
+        
+        m_status = StreetSimCarStatus.Active;
+    }
+
+    private void ReturnToIdle() {
+        Debug.Log("RETURNING TO IDLE");
+        m_status = StreetSimCarStatus.Idle;
+        StreetSimCarManager.CM.SetCarToIdle(this);
     }
 
     private float CalculateDistanceUntilDeceleration() {
@@ -63,6 +79,23 @@ public class StreetSimCar : MonoBehaviour
 
     private void FixedUpdate() {
 
+        // Make sure our collider is off if we're idle
+        if (m_status == StreetSimCarStatus.Idle) {
+            gazeCollider.enabled = false;
+            return;
+        }
+
+        // We end out of the loop if we've reached our target and that target happens to be the same position as the endtarget
+        if (Vector3.Distance(transform.position,endTarget.position) <= 0.01f) {
+            ReturnToIdle();
+            return;
+        }
+
+        // We also pause if any values are missing
+        if (trafficSignal == null || middleTarget == null || endTarget == null) return;
+
+        gazeCollider.enabled = true;
+        
         // We need to determine which target position to aim towards.
         // Just because the traffic light shines red that doesn't mean we should stop.
         // overall, we should prioritize if there's something in front of us first
@@ -77,15 +110,16 @@ public class StreetSimCar : MonoBehaviour
         //  IF NOT... we keep going to `endTarget`.
 
         StreetSimCar potentialFrontCar;
-        Vector3 positionToStopAt = (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
-            ? (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar)) // Traffic light is WARNING or STOP
+        Vector3 positionToStopAt = (trafficSignal != null && trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
+            ? (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active) // Traffic light is WARNING or STOP
                 ? GetPositionBeforeCar(potentialFrontCar)    // The car is still before the traffic point. Let's follow it.
                 : (Vector3.Dot(transform.forward,(middleTarget.position-transform.position)) < 0) // Nothing's in front of us
                     ? endTarget.position        // We're beyond the traffic point, so we keep going until the end target
                     : middleTarget.position     // We're still before the traffic point. So we stop in front of the light
-            : (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar))  // Traffic light is GO
+            : (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active)  // Traffic light is GO
                 ? GetPositionBeforeCar(potentialFrontCar)                                   // It's a car in front of us. Let's follow it
                 : endTarget.position;   // We don't have something in front of us. Let's keep going until the end.
+        
         /*
         Vector3 positionToStopAt =  (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop || trafficSignal.status == TrafficSignal.TrafficSignalStatus.Warning) 
             ? (frontCollider.numColliders > 0) // Traffic light is WARNING or STOP
