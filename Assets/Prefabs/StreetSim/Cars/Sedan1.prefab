@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 1983318412569075785}
   - component: {fileID: 5430880789529868296}
   - component: {fileID: 6458638505839170196}
+  - component: {fileID: 1291577420093971923}
   m_Layer: 0
   m_Name: Sedan1
   m_TagString: Untagged
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492798767141990770}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
@@ -317,6 +318,29 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan1
   m_ref_id: 
+--- !u!114 &1291577420093971923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492798767141990770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathCreator: {fileID: 0}
+  movingTo: 1
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
 --- !u!1 &1492798767141990776
 GameObject:
   m_ObjectHideFlags: 0

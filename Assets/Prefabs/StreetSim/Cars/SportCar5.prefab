@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 4408320504426059374}
   - component: {fileID: 6952370336747516372}
   - component: {fileID: 5489546924761412865}
+  - component: {fileID: 3795555317629315158}
   m_Layer: 0
   m_Name: SportCar5
   m_TagString: Untagged
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463214125921513970}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
@@ -286,6 +287,29 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar5
   m_ref_id: 
+--- !u!114 &3795555317629315158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463214125921513970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathCreator: {fileID: 0}
+  movingTo: 1
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
 --- !u!1 &463214125921513976
 GameObject:
   m_ObjectHideFlags: 0
