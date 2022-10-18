@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8412736238201459164
 Transform:
   m_ObjectHideFlags: 0
@@ -169,6 +169,66 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300006, guid: 12c6fb87009f5d14ba0ee7a319f1ed57, type: 3}
+--- !u!1 &3246044005570178585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2248042796633752732}
+  - component: {fileID: 173041361038596416}
+  - component: {fileID: 8225653165105452740}
+  m_Layer: 0
+  m_Name: FrontCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2248042796633752732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246044005570178585}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7476230369877772181}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &173041361038596416
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246044005570178585}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.75, y: 1, z: 6}
+  m_Center: {x: 0, y: 1, z: 6.55}
+--- !u!114 &8225653165105452740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246044005570178585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 272575689561258645}
+  numColliders: 0
 --- !u!1 &3559308822120454097
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5839825054168303765
 Transform:
   m_ObjectHideFlags: 0
@@ -389,7 +449,7 @@ Transform:
   - {fileID: 5323298439620333814}
   - {fileID: 8024479418762626834}
   m_Father: {fileID: 7476230369877772181}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6502085164710945048
 GameObject:
@@ -415,12 +475,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6502085164710945048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -3.3}
+  m_LocalPosition: {x: 0, y: 0, z: -3.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7476230369877772181}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7295872762658155357
 GameObject:
@@ -446,12 +506,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7295872762658155357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 3.6}
+  m_LocalPosition: {x: 0, y: 0, z: 3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7476230369877772181}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7408296142693188366
 GameObject:
@@ -508,11 +568,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7476230369877772181}
-  - component: {fileID: -8891229766397734409}
-  - component: {fileID: 8791275009934165921}
-  - component: {fileID: 5254838319026204678}
   - component: {fileID: 5982137783627808324}
   - component: {fileID: 4000194385071903332}
+  - component: {fileID: 8791275009934165921}
+  - component: {fileID: -3533447930792522519}
+  - component: {fileID: 5254838319026204678}
+  - component: {fileID: -8891229766397734409}
   m_Layer: 0
   m_Name: MicroBus4
   m_TagString: Untagged
@@ -539,36 +600,56 @@ Transform:
   - {fileID: 7476230369877772183}
   - {fileID: 5839825054168303765}
   - {fileID: 8412736238201459164}
+  - {fileID: 2248042796633752732}
   - {fileID: 272575689561258645}
   - {fileID: 4465158272697768179}
   - {fileID: 252488307232551379}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8891229766397734409
+--- !u!114 &5982137783627808324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7476230369877613493}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: MicroBus4
+  m_ref_id: 
+--- !u!114 &4000194385071903332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476230369877613493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 8753343909120614027}
-  farCollider: {fileID: 2285166890712503454}
   frontOfCar: {fileID: 272575689561258645}
   backOfCar: {fileID: 4465158272697768179}
-  movingAudioSource: {fileID: 5254838319026204678}
-  idleAudioSource: {fileID: 0}
+  frontCollider: {fileID: 8225653165105452740}
+  trafficSignal: {fileID: 0}
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  m_lengthOfCar: 0
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
   wheels:
   - {fileID: 7476230369877772191}
   - {fileID: 7476230369877772189}
@@ -587,6 +668,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.75, y: 3, z: 6.75}
   m_Center: {x: 0, y: 1.5, z: 0.1}
+--- !u!54 &-3533447930792522519
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476230369877613493}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!82 &5254838319026204678
 AudioSource:
   m_ObjectHideFlags: 0
@@ -683,45 +780,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5982137783627808324
+--- !u!114 &-8891229766397734409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7476230369877613493}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_parent: {fileID: 0}
-  m_children: []
-  m_id: MicroBus4
-  m_ref_id: 
---- !u!114 &4000194385071903332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7476230369877613493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  movingTo: 1
-  startTarget: {fileID: 0}
-  middleTarget: {fileID: 0}
-  endTarget: {fileID: 0}
-  maxSpeed: 5
-  shouldStop: 0
-  acceleration: 5
-  deceleration: 7.5
-  currentVelocity: {x: 0, y: 0, z: 0}
+  maxSpeed: 7
   currentSpeed: 0
+  acceleration: 3
+  deceleration: 15
+  m_status: 0
+  closeCollider: {fileID: 8753343909120614027}
+  farCollider: {fileID: 2285166890712503454}
+  frontOfCar: {fileID: 272575689561258645}
+  backOfCar: {fileID: 4465158272697768179}
+  movingAudioSource: {fileID: 5254838319026204678}
+  idleAudioSource: {fileID: 0}
+  wheels:
+  - {fileID: 7476230369877772191}
+  - {fileID: 7476230369877772189}
+  - {fileID: 7476230369877772187}
+  - {fileID: 7476230369877772185}
 --- !u!1 &7476230369877613495
 GameObject:
   m_ObjectHideFlags: 0

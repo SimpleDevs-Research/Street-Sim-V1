@@ -143,8 +143,68 @@ Transform:
   - {fileID: 3358092627966711575}
   - {fileID: 8982636582287642043}
   m_Father: {fileID: 5663179641002666928}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1127597327182331159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1759010943680759699}
+  - component: {fileID: 664851338148240305}
+  - component: {fileID: 3235527474525736008}
+  m_Layer: 0
+  m_Name: FrontCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1759010943680759699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127597327182331159}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5663179641002666928}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &664851338148240305
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127597327182331159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.75, y: 1, z: 6}
+  m_Center: {x: 0, y: 1, z: 6.2}
+--- !u!114 &3235527474525736008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127597327182331159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 8957778502937115859}
+  numColliders: 0
 --- !u!1 &2638983517005805926
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,12 +229,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2638983517005805926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -3.2}
+  m_LocalPosition: {x: 0, y: 0, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5663179641002666928}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3158396456826575898
 GameObject:
@@ -240,7 +300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4360110832007128507
 Transform:
   m_ObjectHideFlags: 0
@@ -317,7 +377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3328603859987798164
 Transform:
   m_ObjectHideFlags: 0
@@ -385,11 +445,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5663179641002666928}
-  - component: {fileID: 2576268925816938591}
-  - component: {fileID: 4731257736884156418}
-  - component: {fileID: -7511410382322352084}
   - component: {fileID: 5500682733898405700}
   - component: {fileID: 8906828853969145472}
+  - component: {fileID: 4731257736884156418}
+  - component: {fileID: 4916544702648330513}
+  - component: {fileID: -7511410382322352084}
+  - component: {fileID: 2576268925816938591}
   m_Layer: 0
   m_Name: Sedan5
   m_TagString: Untagged
@@ -416,36 +477,56 @@ Transform:
   - {fileID: 5663179641002666930}
   - {fileID: 3328603859987798164}
   - {fileID: 4360110832007128507}
+  - {fileID: 1759010943680759699}
   - {fileID: 8957778502937115859}
   - {fileID: 2662206595764140642}
   - {fileID: 4369630570431145040}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2576268925816938591
+--- !u!114 &5500682733898405700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663179641003161488}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Sedan5
+  m_ref_id: 
+--- !u!114 &8906828853969145472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663179641003161488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 8148201662629904600}
-  farCollider: {fileID: 6120478129220805579}
   frontOfCar: {fileID: 8957778502937115859}
   backOfCar: {fileID: 2662206595764140642}
-  movingAudioSource: {fileID: -7511410382322352084}
-  idleAudioSource: {fileID: 0}
+  frontCollider: {fileID: 3235527474525736008}
+  trafficSignal: {fileID: 0}
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  m_lengthOfCar: 0
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
   wheels:
   - {fileID: 5663179641002666938}
   - {fileID: 5663179641002666936}
@@ -464,6 +545,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.75, y: 2.25, z: 6.25}
   m_Center: {x: 0, y: 1.125, z: 0}
+--- !u!54 &4916544702648330513
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663179641003161488}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!82 &-7511410382322352084
 AudioSource:
   m_ObjectHideFlags: 0
@@ -560,45 +657,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5500682733898405700
+--- !u!114 &2576268925816938591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663179641003161488}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_parent: {fileID: 0}
-  m_children: []
-  m_id: Sedan5
-  m_ref_id: 
---- !u!114 &8906828853969145472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5663179641003161488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  movingTo: 1
-  startTarget: {fileID: 0}
-  middleTarget: {fileID: 0}
-  endTarget: {fileID: 0}
-  maxSpeed: 5
-  shouldStop: 0
-  acceleration: 5
-  deceleration: 7.5
-  currentVelocity: {x: 0, y: 0, z: 0}
+  maxSpeed: 7
   currentSpeed: 0
+  acceleration: 3
+  deceleration: 15
+  m_status: 0
+  closeCollider: {fileID: 8148201662629904600}
+  farCollider: {fileID: 6120478129220805579}
+  frontOfCar: {fileID: 8957778502937115859}
+  backOfCar: {fileID: 2662206595764140642}
+  movingAudioSource: {fileID: -7511410382322352084}
+  idleAudioSource: {fileID: 0}
+  wheels:
+  - {fileID: 5663179641002666938}
+  - {fileID: 5663179641002666936}
+  - {fileID: 5663179641002666942}
+  - {fileID: 5663179641002666940}
 --- !u!1 &5663179641003161490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,10 +1267,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7937829324687920590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 3.15}
+  m_LocalPosition: {x: 0, y: 0, z: 3.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5663179641002666928}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

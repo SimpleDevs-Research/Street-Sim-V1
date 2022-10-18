@@ -35,7 +35,7 @@ Transform:
   - {fileID: 3428771113282739791}
   - {fileID: 1582411752452222672}
   m_Father: {fileID: 5147027268417772774}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &679306130358226070
 GameObject:
@@ -201,7 +201,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1404232613786260362}
   - component: {fileID: 3066599957959425487}
-  - component: {fileID: 9214328222153322752}
   - component: {fileID: 1233763454237342458}
   m_Layer: 13
   m_Name: FarCollider
@@ -209,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1404232613786260362
 Transform:
   m_ObjectHideFlags: 0
@@ -238,22 +237,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 1, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &9214328222153322752
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785564025252610132}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!114 &1233763454237342458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 5147027268417772774}
+  parent: {fileID: 8008234297628454324}
   numColliders: 0
 --- !u!1 &2873917669497823412
 GameObject:
@@ -338,12 +321,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4090659408316388941}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -3.2}
+  m_LocalPosition: {x: 0, y: 0, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5147027268417772774}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4112256981307050969
 GameObject:
@@ -369,12 +352,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4112256981307050969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 3.7}
+  m_LocalPosition: {x: 0, y: 0, z: 3.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5147027268417772774}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5147027268417994948
 GameObject:
@@ -472,11 +455,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5147027268417772774}
-  - component: {fileID: 2089003719983323299}
-  - component: {fileID: 3478184481422376687}
-  - component: {fileID: -6329943933588982971}
   - component: {fileID: 1025815364675276609}
   - component: {fileID: 5813253662625806476}
+  - component: {fileID: 3478184481422376687}
+  - component: {fileID: -302229527815534875}
+  - component: {fileID: -6329943933588982971}
+  - component: {fileID: 2089003719983323299}
   m_Layer: 0
   m_Name: MicroBus3
   m_TagString: Untagged
@@ -503,36 +487,56 @@ Transform:
   - {fileID: 5147027268417772772}
   - {fileID: 3643246664686126730}
   - {fileID: 1404232613786260362}
+  - {fileID: 6801297288720162833}
   - {fileID: 8008234297628454324}
   - {fileID: 8764540852523329077}
   - {fileID: 9012053612610245545}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2089003719983323299
+--- !u!114 &1025815364675276609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5147027268417994950}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: MicroBus3
+  m_ref_id: 
+--- !u!114 &5813253662625806476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147027268417994950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 4069958697845248435}
-  farCollider: {fileID: 1233763454237342458}
   frontOfCar: {fileID: 8008234297628454324}
   backOfCar: {fileID: 8764540852523329077}
-  movingAudioSource: {fileID: -6329943933588982971}
-  idleAudioSource: {fileID: 0}
+  frontCollider: {fileID: 8704970336252726726}
+  trafficSignal: {fileID: 0}
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  m_lengthOfCar: 0
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
   wheels:
   - {fileID: 5147027268417772780}
   - {fileID: 5147027268417772782}
@@ -551,6 +555,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.75, y: 3, z: 6.75}
   m_Center: {x: 0, y: 1.5, z: 0.1}
+--- !u!54 &-302229527815534875
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147027268417994950}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!82 &-6329943933588982971
 AudioSource:
   m_ObjectHideFlags: 0
@@ -647,45 +667,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1025815364675276609
+--- !u!114 &2089003719983323299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5147027268417994950}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_parent: {fileID: 0}
-  m_children: []
-  m_id: MicroBus3
-  m_ref_id: 
---- !u!114 &5813253662625806476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5147027268417994950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  movingTo: 1
-  startTarget: {fileID: 0}
-  middleTarget: {fileID: 0}
-  endTarget: {fileID: 0}
-  maxSpeed: 5
-  shouldStop: 0
-  acceleration: 5
-  deceleration: 7.5
-  currentVelocity: {x: 0, y: 0, z: 0}
+  maxSpeed: 7
   currentSpeed: 0
+  acceleration: 3
+  deceleration: 15
+  m_status: 0
+  closeCollider: {fileID: 4069958697845248435}
+  farCollider: {fileID: 1233763454237342458}
+  frontOfCar: {fileID: 8008234297628454324}
+  backOfCar: {fileID: 8764540852523329077}
+  movingAudioSource: {fileID: -6329943933588982971}
+  idleAudioSource: {fileID: 0}
+  wheels:
+  - {fileID: 5147027268417772780}
+  - {fileID: 5147027268417772782}
+  - {fileID: 5147027268417772776}
+  - {fileID: 5147027268417772778}
 --- !u!1 &5147027268417994952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,7 +1138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3643246664686126730
 Transform:
   m_ObjectHideFlags: 0
@@ -1186,4 +1196,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 5147027268417772774}
+  numColliders: 0
+--- !u!1 &8667785946268326378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6801297288720162833}
+  - component: {fileID: 4635933839315012010}
+  - component: {fileID: 8704970336252726726}
+  m_Layer: 0
+  m_Name: FrontCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6801297288720162833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667785946268326378}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5147027268417772774}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4635933839315012010
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667785946268326378}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.75, y: 1, z: 6}
+  m_Center: {x: 0, y: 1, z: 6.55}
+--- !u!114 &8704970336252726726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667785946268326378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea3823f78fe604383308a42ccd4b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 8008234297628454324}
   numColliders: 0

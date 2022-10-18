@@ -490,11 +490,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7573667122186748304}
-  - component: {fileID: 4496181824883799059}
-  - component: {fileID: 5934493775226576478}
-  - component: {fileID: 3681727062117821815}
   - component: {fileID: 6336192292147621355}
   - component: {fileID: 5405749736973041266}
+  - component: {fileID: 5934493775226576478}
+  - component: {fileID: 3727724228914116822}
+  - component: {fileID: 3681727062117821815}
+  - component: {fileID: 4496181824883799059}
   m_Layer: 0
   m_Name: Car5
   m_TagString: Untagged
@@ -528,30 +529,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4496181824883799059
+--- !u!114 &6336192292147621355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7573667122186329520}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Car5
+  m_ref_id: 
+--- !u!114 &5405749736973041266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7573667122186329520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 2115153852647458699}
-  farCollider: {fileID: 662715000075957461}
   frontOfCar: {fileID: 298427882402917092}
   backOfCar: {fileID: 8032491983001376359}
-  movingAudioSource: {fileID: 3681727062117821815}
-  idleAudioSource: {fileID: 0}
+  frontCollider: {fileID: 1377209964632634582}
+  trafficSignal: {fileID: 0}
+  startTarget: {fileID: 0}
+  middleTarget: {fileID: 0}
+  endTarget: {fileID: 0}
+  m_lengthOfCar: 0
+  maxSpeed: 5
+  shouldStop: 0
+  acceleration: 5
+  deceleration: 7.5
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
   wheels:
   - {fileID: 7573667122186748310}
   - {fileID: 7573667122186748308}
@@ -570,6 +590,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.75, y: 2, z: 5.75}
   m_Center: {x: 0, y: 1, z: -0.1}
+--- !u!54 &3727724228914116822
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7573667122186329520}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!82 &3681727062117821815
 AudioSource:
   m_ObjectHideFlags: 0
@@ -666,49 +702,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6336192292147621355
+--- !u!114 &4496181824883799059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7573667122186329520}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_parent: {fileID: 0}
-  m_children: []
-  m_id: Car5
-  m_ref_id: 
---- !u!114 &5405749736973041266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7573667122186329520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7462d2c87956b144f85ca50f510f0b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 0}
+  maxSpeed: 7
+  currentSpeed: 0
+  acceleration: 3
+  deceleration: 15
+  m_status: 0
+  closeCollider: {fileID: 2115153852647458699}
+  farCollider: {fileID: 662715000075957461}
   frontOfCar: {fileID: 298427882402917092}
   backOfCar: {fileID: 8032491983001376359}
-  frontCollider: {fileID: 1377209964632634582}
-  trafficSignal: {fileID: 0}
-  startTarget: {fileID: 0}
-  middleTarget: {fileID: 0}
-  endTarget: {fileID: 0}
-  m_lengthOfCar: 0
-  maxSpeed: 5
-  shouldStop: 0
-  acceleration: 5
-  deceleration: 7.5
-  currentVelocity: {x: 0, y: 0, z: 0}
-  currentSpeed: 0
+  movingAudioSource: {fileID: 3681727062117821815}
+  idleAudioSource: {fileID: 0}
   wheels:
   - {fileID: 7573667122186748310}
   - {fileID: 7573667122186748308}

@@ -833,11 +833,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6389178171811411278}
-  - component: {fileID: -7921806186399895467}
-  - component: {fileID: 957215506680825444}
-  - component: {fileID: 5205755907833817134}
-  - component: {fileID: 8283639847882004811}
   - component: {fileID: 7769712984652447609}
+  - component: {fileID: -7921806186399895467}
+  - component: {fileID: 5205755907833817134}
+  - component: {fileID: 3384581454529063458}
+  - component: {fileID: 8283639847882004811}
+  - component: {fileID: 957215506680825444}
   m_Layer: 0
   m_Name: Jeep4
   m_TagString: Untagged
@@ -871,6 +872,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7769712984652447609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389178171810916718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Jeep4
+  m_ref_id: 
 --- !u!114 &-7921806186399895467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,35 +920,6 @@ MonoBehaviour:
   - {fileID: 6389178171811411270}
   - {fileID: 6389178171811411264}
   - {fileID: 6389178171811411266}
---- !u!114 &957215506680825444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6389178171810916718}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 6663186105865493999}
-  farCollider: {fileID: 905452929992640941}
-  frontOfCar: {fileID: 1822353133897104618}
-  backOfCar: {fileID: 4011501845068507999}
-  movingAudioSource: {fileID: 8283639847882004811}
-  idleAudioSource: {fileID: 0}
-  wheels:
-  - {fileID: 6389178171811411268}
-  - {fileID: 6389178171811411270}
-  - {fileID: 6389178171811411264}
-  - {fileID: 6389178171811411266}
 --- !u!65 &5205755907833817134
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -945,6 +933,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.75, y: 2.5, z: 6}
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!54 &3384581454529063458
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389178171810916718}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!82 &8283639847882004811
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1041,22 +1045,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7769712984652447609
+--- !u!114 &957215506680825444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6389178171810916718}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_parent: {fileID: 0}
-  m_children: []
-  m_id: Jeep4
-  m_ref_id: 
+  pathCreator: {fileID: 0}
+  maxSpeed: 7
+  currentSpeed: 0
+  acceleration: 3
+  deceleration: 15
+  m_status: 0
+  closeCollider: {fileID: 6663186105865493999}
+  farCollider: {fileID: 905452929992640941}
+  frontOfCar: {fileID: 1822353133897104618}
+  backOfCar: {fileID: 4011501845068507999}
+  movingAudioSource: {fileID: 8283639847882004811}
+  idleAudioSource: {fileID: 0}
+  wheels:
+  - {fileID: 6389178171811411268}
+  - {fileID: 6389178171811411270}
+  - {fileID: 6389178171811411264}
+  - {fileID: 6389178171811411266}
 --- !u!1 &7668028596045797586
 GameObject:
   m_ObjectHideFlags: 0

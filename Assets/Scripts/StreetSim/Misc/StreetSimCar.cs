@@ -48,6 +48,19 @@ public class StreetSimCar : MonoBehaviour
         return yt - (yt - y0) / (k*t) + f * Mathf.Exp(-k*t);
     }
 
+    private Vector3 GetPositionBeforeObject(Transform obstacle) {
+        // Z and Y axis positions must be consistent
+        Vector3 pos = obstacle.position + (-transform.forward.normalized * 0.5f) + (-transform.forward.normalized * 0.5f * m_lengthOfCar);
+        return new Vector3(
+            pos.x,
+            transform.position.y,
+            transform.position.z
+        );
+    }
+    private Vector3 GetPositionBeforeCar(StreetSimCar otherCar) {
+        return otherCar.backOfCar.position + (-otherCar.transform.forward.normalized * 0.5f) + (-otherCar.transform.forward.normalized * 0.5f * m_lengthOfCar);
+    }
+
     private void FixedUpdate() {
 
         // We need to determine which target position to aim towards.
@@ -63,8 +76,45 @@ public class StreetSimCar : MonoBehaviour
         //  At this point, there's nothing stopping us. Just keep going!
         //  IF NOT... we keep going to `endTarget`.
 
-        StreetSimCar potentialFrontCar = null;
-        Vector3 positionToStopAt = (frontCollider.numColliders > 0)
+        StreetSimCar potentialFrontCar;
+        Vector3 positionToStopAt = (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
+            ? (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar)) // Traffic light is WARNING or STOP
+                ? GetPositionBeforeCar(potentialFrontCar)    // The car is still before the traffic point. Let's follow it.
+                : (Vector3.Dot(transform.forward,(middleTarget.position-transform.position)) < 0) // Nothing's in front of us
+                    ? endTarget.position        // We're beyond the traffic point, so we keep going until the end target
+                    : middleTarget.position     // We're still before the traffic point. So we stop in front of the light
+            : (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar))  // Traffic light is GO
+                ? GetPositionBeforeCar(potentialFrontCar)                                   // It's a car in front of us. Let's follow it
+                : endTarget.position;   // We don't have something in front of us. Let's keep going until the end.
+        /*
+        Vector3 positionToStopAt =  (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop || trafficSignal.status == TrafficSignal.TrafficSignalStatus.Warning) 
+            ? (frontCollider.numColliders > 0) // Traffic light is WARNING or STOP
+                ? (HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar))   // Something's in front of us
+                    ? (Vector3.Dot(potentialFrontCar.transform.forward,(middleTarget.position-potentialFrontCar.transform.position)) < 0)     // It's a car in front of us
+                        ? middleTarget.position                      // the car in front is beyond the traffic point. We stop at the middle target
+                        : GetPositionBeforeCar(potentialFrontCar)    // The car is still before the traffic point. Let's follow it.
+                    : (Mathf.Abs(transform.position.x - middleTarget.position.x) > Mathf.Abs(frontOfCar.position.x - frontCollider.GetClosestCollider().transform.position.x))   // It's not a car in front of us.
+                        ? GetPositionBeforeObject(frontCollider.GetClosestCollider().transform)     // Obstacle is closer to us. We stop before it.
+                        : middleTarget.position // The traffic stop point is closer. We prioritize that.
+                : (Vector3.Dot(transform.forward,(middleTarget.position-transform.position)) < 0) // Nothing's in front of us
+                    ? endTarget.position        // We're beyond the traffic point, so we keep going until the end target
+                    : middleTarget.position     // We're still before the traffic point. So we stop in front of the light
+            : (frontCollider.numColliders > 0)  // Traffic light is GO
+                ? (HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar))   // We have something in front of us
+                    ? GetPositionBeforeCar(potentialFrontCar)                                   // It's a car in front of us. Let's follow it
+                    : GetPositionBeforeObject(frontCollider.GetClosestCollider().transform)     // It's not a car in front of us. We have to stop before we hit it
+                : endTarget.position;   // We don't have something in front of us. Let's keep going until the end.
+        */
+        
+        /*
+        (frontCollider.numColliders > 0) // do we have anything in front of us?
+            ? (HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar)) // Yes, we do. But is it a car?
+                ? GetPositionBeforeCar(potentialFrontCar)   // It is a car, so we just tandem follow it.
+                : GetPositionBeforeObject(frontCollider.GetClosestCollider().transform) // No it isn't. So we stop before we hit it
+            : endTarget.position;
+        */
+        /*
+        (frontCollider.numColliders > 0)
             ? (HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar))
                 ? potentialFrontCar.backOfCar.position + (-potentialFrontCar.transform.forward.normalized * 0.5f) + (-potentialFrontCar.transform.forward.normalized * 0.5f * m_lengthOfCar)
                 : frontCollider.GetClosestCollider().transform.position + (-transform.forward.normalized * 0.5f) + (-transform.forward.normalized * 0.5f * m_lengthOfCar)
@@ -73,6 +123,7 @@ public class StreetSimCar : MonoBehaviour
                     ? endTarget.position 
                     : middleTarget.position
                 : endTarget.position;
+        */
 
         /*
         StreetSimCar potentialFrontCar = null;
