@@ -50,7 +50,6 @@ public class StreetSim : MonoBehaviour
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
 
     [SerializeField, Tooltip("NPC Behaviors")] private StreetSimModelPath[] npcPaths;
-    [SerializeField, Tooltip("Car Behaviors")] private StreetSimCarPath[] carPaths;
 
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
@@ -87,13 +86,6 @@ public class StreetSim : MonoBehaviour
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
         InitializeNPC(trial.modelPath, trial.modelBehavior, true);
         yield return null;
-        /*
-        foreach(StreetSimModelPath npcPath in trial.npcPaths) {
-            PositionPlayerAtStart(trial.startPositionRef);
-            InitializeNPC(npcPath);
-            yield return new WaitForSeconds(0.25f);
-        }
-        */
     }
 
     private void PositionPlayerAtStart(Transform start) {
@@ -228,28 +220,8 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
         }
     }
-    private void Update() {
-        /*
-        switch(m_streetSimStatus) {
-            case StreetSimStatus.Tracking:
-                // We can actually run the cars now
-                if (carPaths.Length > 0) {
-                    // We need to manage our cars
-                    foreach(StreetSimCarPath carPath in carPaths) {
-                        switch(carPath.pathDensity) {
-                            case StreetSimCarPath.StreetPathDensity.Sparse:
-                                if()
-                                break;
-                            case StreetSimCarPath.StreetPathDensity.Congested:
+    private void Update() {}
 
-                                break;
-                        }
-                    }
-                }
-                break;
-        }
-        */
-    }
     private void FixedUpdate() {
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
@@ -331,8 +303,6 @@ public class StreetSimTrial {
     public StreetSimModelPath modelPath;
     [Tooltip("How should the model behave regarding crossing?")]
     public ModelBehavior modelBehavior;
-    [Tooltip("NPC Behaviors")]
-    public StreetSimModelPath[] npcPaths;
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
     [Tooltip("Which target points should we consider that the person has successfully crossed the street?")]
@@ -344,19 +314,6 @@ public class StreetSimModelPath {
     public StreetSimAgent agent;
     public string pathName;
     public bool reversePath = false, shouldLoop, shouldWarpOnLoop;
-}
-[System.Serializable]
-public class StreetSimCarPath {
-    public PathCreator path;
-    public CarPathFollower[] carPrefabs;
-    public enum StreetPathDensity {
-        None,
-        Sparse,
-        Congested
-    }
-    public StreetPathDensity pathDensity = StreetPathDensity.Sparse;
-    
-    public List<CarPathFollower> activeCars = new List<CarPathFollower>();
 }
 
 [System.Serializable]

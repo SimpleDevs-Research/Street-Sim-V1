@@ -39,10 +39,15 @@ public class ExperimentID : MonoBehaviour
     public MyTargetDelegate onConfirmedID;
 
     private void Start() {
-        if (m_parent == null) Initialize();
+        Initialize();
     }
 
     public void Initialize() {
+        idSet = StreetSimIDController.ID.AddID(this, out m_id);
+        if (idSet && m_children.Count > 0) {
+            StreetSimIDController.ID.AddChildren(this);
+        }
+        /*
         if (ExperimentGlobalController.current != null) {
             idSet = ExperimentGlobalController.current.AddID(this, out m_id);
             if (m_children.Count > 0) {
@@ -52,6 +57,7 @@ public class ExperimentID : MonoBehaviour
             }
             onConfirmedID?.Invoke();
         }
+        */
     }
 
     public void AddChild(ExperimentID child) {

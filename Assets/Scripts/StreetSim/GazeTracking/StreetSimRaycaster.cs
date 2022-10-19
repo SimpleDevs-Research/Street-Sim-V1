@@ -39,6 +39,7 @@ public class StreetSimRaycaster : MonoBehaviour
     [SerializeField] private SVector3 m_localPositionOfHitPosition;
     [SerializeField] private SVector3 m_localPositionOfHitTarget;
 
+    [SerializeField] private LayerMask layerMask;
 
     private void Awake() {
         R = this;
@@ -49,6 +50,36 @@ public class StreetSimRaycaster : MonoBehaviour
         if (pointer == null) return;
         // Get pointer data
         ExperimentID target, closestTarget;
+        RaycastHit hit;
+        RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 0.5f, pointer.transform.forward, 20f, layerMask);
+        if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
+            m_triangleIndex = hit.triangleIndex;
+            m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
+            m_agentID = target.ref_id;
+            m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
+            m_localPositionOfHitTarget = closestTarget.transform.localPosition;
+            m_hits.Add(
+                new RaycastHitRow(
+                    StreetSim.S.trialFrameIndex,
+                    StreetSim.S.trialFrameTimestamp, 
+                    m_triangleIndex, 
+                    m_hitID, 
+                    m_agentID, 
+                    new float[3]{
+                        m_localPositionOfHitPosition.x,
+                        m_localPositionOfHitPosition.y,
+                        m_localPositionOfHitPosition.z
+                    }, 
+                    new float[3]{
+                        m_localPositionOfHitTarget.x,
+                        m_localPositionOfHitTarget.y,
+                        m_localPositionOfHitTarget.z
+                    }
+                )
+            );
+        }
+            
+        /*
         if (pointer.raycastTarget != null && HelperMethods.HasComponent<ExperimentID>(pointer.raycastTarget, out target)) {
             m_triangleIndex = pointer.raycastHitTriangleIndex;
             m_hitID = GetClosestPoint(pointer.raycastHitPosition, target, out closestTarget);
@@ -75,6 +106,7 @@ public class StreetSimRaycaster : MonoBehaviour
                 )
             );
         } 
+        */
         /*
         else {
             m_timestamp = -1f;
@@ -105,5 +137,24 @@ public class StreetSimRaycaster : MonoBehaviour
             }
         }
         return closestTarget.ref_id;
+    }
+
+    private bool CalculateClosestTarget(RaycastHit[] potentials, Vector3 pos, Vector3 dir, out RaycastHit target, out ExperimentID targetID) {
+        RaycastHit closestHit = default(RaycastHit);
+        ExperimentID closestID = null, potentialID = null;
+        float closestDistance = Mathf.Infinity, currentDistance = 0f;
+        foreach(RaycastHit hit in potentials) {
+            if (HelperMethods.HasComponent<ExperimentID>(hit.transform.gameObject, out potentialID)) {
+                currentDistance = (Vector3.Cross(dir, hit.point - pos)).magnitude;
+                if (closestID == null || currentDistance < closestDistance) {
+                    closestHit = hit;
+                    closestID = potentialID;
+                    closestDistance = currentDistance;
+                }
+            }
+        }
+        target = closestHit;
+        targetID = closestID;
+        return (closestID != null);
     }
 }

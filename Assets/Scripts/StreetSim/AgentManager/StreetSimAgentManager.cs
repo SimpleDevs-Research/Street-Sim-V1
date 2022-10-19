@@ -25,6 +25,7 @@ public class StreetSimAgentManager : MonoBehaviour
     [SerializeField] private List<StreetSimAgent> agentPrefabs = new List<StreetSimAgent>();
     [SerializeField] private List<StreetSimAgent> activeAgents = new List<StreetSimAgent>();
     [SerializeField] private List<NPCPath> nonModelPaths = new List<NPCPath>();
+    [SerializeField] private List<NPCPath> modelPaths = new List<NPCPath>();
 
     private void Awake() {
         AM = this;
