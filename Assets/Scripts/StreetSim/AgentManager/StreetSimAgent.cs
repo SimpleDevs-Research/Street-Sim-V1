@@ -31,6 +31,7 @@ public class StreetSimAgent : MonoBehaviour
         this.shouldWarpOnLoop = shouldWarpOnLoop;
         this.behavior = behavior;
         agent.isStopped = false;
+        currentTargetIndex = -1;
         SetNextTarget();
     }
 

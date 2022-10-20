@@ -13,7 +13,8 @@ public class RaycastHitRow {
     public string agentID;
     public float[] localPositionOfHitPosition;
     public float[] localPositionOfHitTarget;
-    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt) {
+    public float[] raycastDirection;
+    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] rd) {
         this.frameIndex = index;
         this.timestamp = t;
         this.triangleIndex = i;
@@ -21,6 +22,7 @@ public class RaycastHitRow {
         this.agentID = a;
         this.localPositionOfHitPosition = lpp;
         this.localPositionOfHitTarget = lpt;
+        this.raycastDirection = rd;
     }
 }
 
@@ -40,9 +42,15 @@ public class StreetSimRaycaster : MonoBehaviour
     [SerializeField] private SVector3 m_localPositionOfHitTarget;
 
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private ExperimentID currentTarget;
+    [SerializeField] private bool debugIndependently;
 
     private void Awake() {
         R = this;
+    }
+
+    private void Update() {
+        if (debugIndependently) CheckRaycast();
     }
 
     // This only runs when `StreetSim` calls it
@@ -53,6 +61,7 @@ public class StreetSimRaycaster : MonoBehaviour
         RaycastHit hit;
         RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 0.5f, pointer.transform.forward, 20f, layerMask);
         if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
+            currentTarget = target;
             m_triangleIndex = hit.triangleIndex;
             m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
             m_agentID = target.ref_id;
@@ -74,9 +83,16 @@ public class StreetSimRaycaster : MonoBehaviour
                         m_localPositionOfHitTarget.x,
                         m_localPositionOfHitTarget.y,
                         m_localPositionOfHitTarget.z
+                    },
+                    new float[3]{
+                        pointer.transform.forward.x,
+                        pointer.transform.forward.y,
+                        pointer.transform.forward.z
                     }
                 )
             );
+        } else {
+            currentTarget = null;
         }
             
         /*

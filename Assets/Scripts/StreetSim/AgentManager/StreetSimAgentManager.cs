@@ -96,4 +96,14 @@ public class StreetSimAgentManager : MonoBehaviour
             PrintAgent(agent,nonModelPaths[pathIndex].points);
         }
     }
+
+    public void SetCongestionStatus(AgentManagerStatus newStatus, bool shouldReset = false) {
+        status = newStatus;
+        if (shouldReset && activeAgents.Count > 0) {
+            Queue<StreetSimAgent> deleteQueue = new Queue<StreetSimAgent>(activeAgents);
+            while(deleteQueue.Count > 0) {
+                DestroyAgent(deleteQueue.Dequeue());
+            }
+        }
+    }
 }

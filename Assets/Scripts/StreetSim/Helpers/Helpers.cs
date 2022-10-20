@@ -42,6 +42,12 @@ namespace Helpers {
             }
             return newList;
         }
+
+        // Adapted from: https://stackoverflow.com/questions/19141259/how-to-enqueue-a-list-of-items-in-c
+        public static void AddRange<T>(this Queue<T> queue, IEnumerable<T> enu) {
+            foreach (T obj in enu)
+                queue.Enqueue(obj);
+        }
     }
 
     [System.Serializable]

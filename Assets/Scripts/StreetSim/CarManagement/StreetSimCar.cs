@@ -19,8 +19,7 @@ public class StreetSimCar : MonoBehaviour
     [SerializeField] private float m_lengthOfCar = 0f;
     [SerializeField] private float maxSpeed = 0.5f;
     [SerializeField] private bool shouldStop = false;
-    [SerializeField] private StreetSimCarStatus m_status = StreetSimCarStatus.Idle;
-    public StreetSimCarStatus status { get { return m_status; } set{} }
+    public StreetSimCarStatus status = StreetSimCarStatus.Idle;
     private float smoothTime;
     private float currentTime = 0f;
 
@@ -47,12 +46,11 @@ public class StreetSimCar : MonoBehaviour
         prevPos = transform.position;
         prevTargetPos = endTarget.position;
         
-        m_status = StreetSimCarStatus.Active;
+        status = StreetSimCarStatus.Active;
     }
 
     private void ReturnToIdle() {
         Debug.Log("RETURNING TO IDLE");
-        m_status = StreetSimCarStatus.Idle;
         StreetSimCarManager.CM.SetCarToIdle(this);
     }
 
@@ -80,7 +78,7 @@ public class StreetSimCar : MonoBehaviour
     private void FixedUpdate() {
 
         // Make sure our collider is off if we're idle
-        if (m_status == StreetSimCarStatus.Idle) {
+        if (status == StreetSimCarStatus.Idle) {
             foreach(Collider col in gazeColliders) {
                 col.enabled = false;
             }

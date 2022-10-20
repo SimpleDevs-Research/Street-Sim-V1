@@ -71,10 +71,15 @@ public class StreetSim : MonoBehaviour
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
         //InitializeNPC(trial.modelPath, trial.modelBehavior, true);
         // Got to set the following:
+        // Tracking space - place the player at the desired location
         // Agent - instantiate a model to follow a path with an associated behavior
-        // Traffic - how congested should the traffic be?
         // NPCs - how congested should the NPCs be?
+        // Traffic - how congested should the traffic be?
+        PositionPlayerAtStart(trial.startPositionRef);
         StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion,true);
+        StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion,true);
+        TrafficSignalController.current.StartAtSessionIndex(0);
         yield return null;
     }
 
@@ -156,7 +161,6 @@ public class StreetSim : MonoBehaviour
             Debug.Log("[STREET SIM] ERROR: Cannot start a trial for a simulation that isn't instantiated yet.");
             return;
         }
-        Debug.Log("[STREET SIM] TRIALS REMAINING: " + m_trialQueue.Count);
         // m_trialQueue is a Queue, so we just need to pop from the queue
         m_currentTrial = m_trialQueue.Dequeue();
         // Set up our trial payload
@@ -213,7 +217,6 @@ public class StreetSim : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        /*
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
                 // Calculate frame timestamp
@@ -225,7 +228,7 @@ public class StreetSim : MonoBehaviour
                     // advance the frame by 1
                     m_trialFrameIndex += 1;
                     // Track GazeData
-                    //StreetSimRaycaster.R.CheckRaycast();
+                    StreetSimRaycaster.R.CheckRaycast();
                 }
                 // We check if the user has reached the end or not.
                 foreach(Transform endPosTransform in m_currentTrial.endPositionRefs) {
@@ -236,7 +239,6 @@ public class StreetSim : MonoBehaviour
                 break;
         }
         // No case for Idle...
-        */
     }
 
     public void SaveSimulationData() {
@@ -305,6 +307,10 @@ public class StreetSimTrial {
     public Transform startPositionRef;
     [Tooltip("Which target points should we consider that the person has successfully crossed the street?")]
     public Transform[] endPositionRefs;
+    [Tooltip("What should the congestion of the cars be?")]
+    public StreetSimCarManager.CarManagerStatus trafficCongestion;
+    [Tooltip("What should the the congestion of the pedestrians be?")]
+    public StreetSimAgentManager.AgentManagerStatus NPCCongestion;
 }
 
 [System.Serializable]

@@ -63,18 +63,20 @@ public class TrafficSignalController : MonoBehaviour
     [SerializeField] private NavMeshObstacle crossingObstacle;
     [SerializeField] private List<SignalSession> sessions = new List<SignalSession>();
     private SignalSession currentSession = null;
+    private IEnumerator cycleSession = null;
 
     private void Awake() {
         current = this;
     }
 
     private void Start() {
-        StartCoroutine(CycleSignalSessions());
+        cycleSession = CycleSignalSessions(0);
+        StartCoroutine(cycleSession);
     }
 
-    private IEnumerator CycleSignalSessions() {
+    private IEnumerator CycleSignalSessions(int startIndex) {
         while(sessions.Count > 0) {
-            for(int i = 0; i < sessions.Count; i++) {
+            for(int i = startIndex; i < sessions.Count; i++) {
                 if (currentSession != null) currentSession.TurnOff();
                 currentSession = sessions[i];
                 currentSession.TurnOn();
@@ -96,5 +98,12 @@ public class TrafficSignalController : MonoBehaviour
         }
         finalDiff = diff;
         return closestSignal;
+    }
+
+    public void StartAtSessionIndex(int index) {
+        if (index >= sessions.Count) { Debug.Log("[TRAFFIC SIGNAL CONTROLLER] ERROR: Cannot start at an index that is nonexistent in our sessions"); return; }
+        if (cycleSession != null) StopCoroutine(cycleSession);
+        cycleSession = CycleSignalSessions(index);
+        StartCoroutine(cycleSession);
     }
 }

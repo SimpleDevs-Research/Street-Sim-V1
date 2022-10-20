@@ -25,7 +25,7 @@ public class StreetSimCarManager : MonoBehaviour
         Congested
     }
 
-    public CarManagerStatus m_status = CarManagerStatus.Off;
+    public CarManagerStatus status = CarManagerStatus.Off;
     [SerializeField] private List<CarPath> m_carPaths = new List<CarPath>();
     private Dictionary<string, int> m_carPathDict = new Dictionary<string, int>();
     [SerializeField] private List<StreetSimCar> m_cars = new List<StreetSimCar>();
@@ -54,16 +54,16 @@ public class StreetSimCarManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (activeCars.Count + GetWaitingCarsInQueue() < waitValues[m_status].y) QueueNextCar();
+        if (activeCars.Count + GetWaitingCarsInQueue() < waitValues[status].y) QueueNextCar();
     }
 
     private IEnumerator PrintCars() {
         while(true) {
-            if (m_status == CarManagerStatus.Off) {
+            if (status == CarManagerStatus.Off) {
                 yield return null;
                 continue;
             }
-            if (activeCars.Count >= waitValues[m_status].y) {
+            if (activeCars.Count >= waitValues[status].y) {
                 yield return null;
                 continue;
             }
@@ -77,7 +77,7 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.trafficSignal = path.trafficSignal;
                         nextCar.Initialize();
                         activeCars.Add(nextCar);
-                        yield return new WaitForSeconds(waitValues[m_status].x);
+                        yield return new WaitForSeconds(waitValues[status].x);
                     }
                 }
                 yield return null;
@@ -95,6 +95,7 @@ public class StreetSimCarManager : MonoBehaviour
 
     public void SetCarToIdle(StreetSimCar car) {
         if (activeCars.Contains(car)) activeCars.Remove(car);
+        car.status = StreetSimCar.StreetSimCarStatus.Idle;
         car.startTarget = null;
         car.middleTarget = null;
         car.endTarget = null;
@@ -118,4 +119,20 @@ public class StreetSimCarManager : MonoBehaviour
         if (m_carPathDict.ContainsKey(name)) return m_carPaths[m_carPathDict[name]];
         return null;
     }
+
+    public void SetCongestionStatus(CarManagerStatus newStatus, bool shouldReset = false) {
+        status = newStatus;
+        if (shouldReset) {
+            if (activeCars.Count > 0) {
+                Queue<StreetSimCar> deleteActiveQueue = new Queue<StreetSimCar>(activeCars);
+                while(deleteActiveQueue.Count > 0) {
+                    SetCarToIdle(deleteActiveQueue.Dequeue());
+                }
+            }
+            foreach(CarPath path in m_carPaths) {
+                path.waitingCars.Clear();
+            }
+        }
+    }
+
 }
