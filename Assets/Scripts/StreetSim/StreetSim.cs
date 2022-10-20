@@ -10,19 +10,6 @@ using PathCreation;
 
 public class StreetSim : MonoBehaviour
 {
-    #if UNITY_EDITOR
-    void OnDrawGizmosSelected() {
-        if (TargetPositioningVisualizer.current == null || m_trials.Count == 0) return;
-        NPCPath path;
-        foreach(StreetSimTrial trial in m_trials) {
-            if (TargetPositioningVisualizer.current.GetPathFromName(trial.modelPath.pathName, out path)) {
-                Debug.Log("FOUND PATH");
-                TargetPositioningVisualizer.DrawPath(path);
-            }
-        }
-    }
-    #endif
-
     public static StreetSim S;
     public enum TrialRotation {
         InOrder,
@@ -48,8 +35,6 @@ public class StreetSim : MonoBehaviour
     private Queue<StreetSimTrial> m_trialQueue;
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
-
-    [SerializeField, Tooltip("NPC Behaviors")] private StreetSimModelPath[] npcPaths;
 
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
@@ -84,7 +69,12 @@ public class StreetSim : MonoBehaviour
     }
 
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
-        InitializeNPC(trial.modelPath, trial.modelBehavior, true);
+        //InitializeNPC(trial.modelPath, trial.modelBehavior, true);
+        // Got to set the following:
+        // Agent - instantiate a model to follow a path with an associated behavior
+        // Traffic - how congested should the traffic be?
+        // NPCs - how congested should the NPCs be?
+        StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
         yield return null;
     }
 
@@ -166,14 +156,15 @@ public class StreetSim : MonoBehaviour
             Debug.Log("[STREET SIM] ERROR: Cannot start a trial for a simulation that isn't instantiated yet.");
             return;
         }
+        Debug.Log("[STREET SIM] TRIALS REMAINING: " + m_trialQueue.Count);
         // m_trialQueue is a Queue, so we just need to pop from the queue
         m_currentTrial = m_trialQueue.Dequeue();
         // Set up our trial payload
         trialPayload = new TrialData(
             m_currentTrial.name,
-            m_currentTrial.modelPath.agent.GetComponent<ExperimentID>().id,
+            m_currentTrial.agent.GetComponent<ExperimentID>().id,
             m_currentTrial.modelBehavior.ToString(),
-            m_currentTrial.modelPath.pathName,
+            m_currentTrial.modelPathIndex,
             m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
         );
         // Set up the trial
@@ -220,9 +211,9 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
         }
     }
-    private void Update() {}
 
     private void FixedUpdate() {
+        /*
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
                 // Calculate frame timestamp
@@ -245,6 +236,7 @@ public class StreetSim : MonoBehaviour
                 break;
         }
         // No case for Idle...
+        */
     }
 
     public void SaveSimulationData() {
@@ -299,9 +291,15 @@ public class StreetSimTrial {
     }
     [Tooltip("Name of the trial; must be unique from other trials.")] 
     public string name;
+    [Tooltip("The agent prefab we'll be instantiating")]
+    public StreetSimAgent agent;
+    [Tooltip("Which path (via index) should we put the agent on?")]
+    public int modelPathIndex;
+    /*
     [Tooltip("The Model's Path")] 
     public StreetSimModelPath modelPath;
     [Tooltip("How should the model behave regarding crossing?")]
+    */
     public ModelBehavior modelBehavior;
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
@@ -340,25 +338,25 @@ public class TrialData {
     public string name;
     public string modelID;
     public string modelBehavior;
-    public string modelPathName;
+    public int modelPathIndex;
     public string participantStartPositionID;
     public float duration;
     public List<RaycastHitRow> participantGazeData;
     
-    public TrialData(string name, string modelID, string modelBehavior, string modelPathName, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData) {
+    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData) {
         this.name = name;
         this.modelID = modelID;
         this.modelBehavior = modelBehavior;
-        this.modelPathName = modelPathName;
+        this.modelPathIndex = modelPathIndex;
         this.participantStartPositionID = participantStartPositionID;
         this.duration = duration;
         this.participantGazeData = participantGazeData;
     }
-    public TrialData(string name, string modelID, string modelBehavior, string modelPathName, string participantStartPositionID) {
+    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID) {
         this.name = name;
         this.modelID = modelID;
         this.modelBehavior = modelBehavior;
-        this.modelPathName = modelPathName;
+        this.modelPathIndex = modelPathIndex;
         this.participantStartPositionID = participantStartPositionID;
         this.participantGazeData = new List<RaycastHitRow>();
     }

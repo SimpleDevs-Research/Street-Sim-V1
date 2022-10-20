@@ -17,7 +17,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private float currentSpeed = 0f;
     private bool shouldLoop, shouldWarpOnLoop;
 
-    private StreetSimTrial.ModelBehavior behavior;
+    [SerializeField] private StreetSimTrial.ModelBehavior behavior;
     
 
     private void Awake() {
@@ -37,14 +37,18 @@ public class StreetSimAgent : MonoBehaviour
     private void Update() {
         float dist = 0f, angleDiff;
         if (targetPositions != null && targetPositions.Length != 0) {
+            Debug.Log("WE HAVE POSITIONS TO CHECK");
             // Check distance betweenn current target and our position
             if (CheckDistanceToCurrentTarget(out dist)) {
                 // We've reached our destination; setting new target
+                Debug.Log("WE'VE REACHED OUR DESTINATION. SETTING NEXT TARGET");
                 SetNextTarget();
             } else {
+                Debug.Log("HAVEN'T REACHED TARGET YET");
                 // We haven't reached our target yet, so let's adjust the speed
                 // We need to first check if we're normally walking or if we're at a crosswalk
                 if (forwardPointer.raycastTarget != null || downwardPointer.raycastTarget != null) {
+                    Debug.Log("WE'RE AT A CROSSWALK!!!");
                     // We're at a crosswalk - we need to worry about the crosswalk signals
                     // This will be entirely dependent on the model's behavior, which we've passed during initialization
                     switch(behavior) {
@@ -84,6 +88,7 @@ public class StreetSimAgent : MonoBehaviour
                     }
                 } 
                 else {
+                    Debug.Log("WE'RE SAFE");
                     // No worries, we're not at a crosswalk, so we can move at our desired velocity
                     agent.isStopped = false;
                     character.Move(agent.desiredVelocity,false,false);
