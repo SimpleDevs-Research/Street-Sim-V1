@@ -76,7 +76,8 @@ public class StreetSim : MonoBehaviour
         // NPCs - how congested should the NPCs be?
         // Traffic - how congested should the traffic be?
         PositionPlayerAtStart(trial.startPositionRef);
-        StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        StreetSimModelMapper.M.MapMeshToModel(modelAgent);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion,true);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion,true);
         TrafficSignalController.current.StartAtSessionIndex(0);

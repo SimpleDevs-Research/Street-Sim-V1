@@ -49,24 +49,27 @@ public class StreetSimAgentManager : MonoBehaviour
                 } else {
                     newPathTargets = newPath.points;
                 }
+                StreetSimAgent agent;
                 PrintAgent(
                     agentPrefabs[newAgentIndex],
-                    newPathTargets
+                    newPathTargets,
+                    out agent
                 );
                 yield return new WaitForSeconds(1f);
             }
         }
     }
 
-    private void PrintAgent(
+    private bool PrintAgent(
         StreetSimAgent prefab, 
         Transform[] path,
-        StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe,  
+        out StreetSimAgent newAgent,
+        StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, 
         bool shouldLoop = false, 
         bool shouldWarpOnLoop = false, 
         bool shouldAddToActive = true
     ) {
-        StreetSimAgent newAgent = Instantiate(
+        newAgent = Instantiate(
             prefab,
             path[0].position,
             path[1].rotation,
@@ -74,6 +77,7 @@ public class StreetSimAgentManager : MonoBehaviour
         ) as StreetSimAgent;
         newAgent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop);
         if (shouldAddToActive) activeAgents.Add(newAgent);
+        return true;
     }
 
     public void DestroyAgent(StreetSimAgent agent) {
@@ -81,19 +85,22 @@ public class StreetSimAgentManager : MonoBehaviour
         Destroy(agent.gameObject);
     }
 
-    public void AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
+    public StreetSimAgent AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
+        StreetSimAgent newAgent = default(StreetSimAgent);
         if (isModel) {
             if (pathIndex < 0 && pathIndex > modelPaths.Count-1) {
                 Debug.Log("[AGENT MANAGER] ERROR: path index does not exist among model paths");
-                return;
+                return newAgent;
             }
-            PrintAgent(agent,modelPaths[pathIndex].points, behavior, false, false, false);
+            PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
+            return newAgent;
         } else {
             if (pathIndex < 0 || pathIndex > nonModelPaths.Count-1) {
                 Debug.Log("[AGENT MANAGER] ERROR: path index does not exist among non-model paths");
-                return;
+                return newAgent;
             }
-            PrintAgent(agent,nonModelPaths[pathIndex].points);
+            PrintAgent(agent,nonModelPaths[pathIndex].points, out newAgent);
+            return newAgent;
         }
     }
 
