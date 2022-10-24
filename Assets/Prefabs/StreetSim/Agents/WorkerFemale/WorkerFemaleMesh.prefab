@@ -385,8 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_LeftAnkleMesh
-  m_ref_id: WorkFem_LeftAnkle
+  m_id: WorkFem_AnkleLeftMesh
+  m_ref_id: WorkFem_AnkleLeft
 --- !u!1 &4211761515460084255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,8 +1079,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_RightToesMesh
-  m_ref_id: WorkFem_RightToes
+  m_id: WorkFem_ToesRightMesh
+  m_ref_id: WorkFem_ToesRight
 --- !u!1 &4211761516011791313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,8 +1128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_RightKneeMesh
-  m_ref_id: WorkFem_RightKnee
+  m_id: WorkFem_KneeRightMesh
+  m_ref_id: WorkFem_KneeRight
 --- !u!1 &4211761516013272438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,8 +1240,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_RightAnkleMesh
-  m_ref_id: WorkFem_RightAnkle
+  m_id: WorkFem_AnkleRightMesh
+  m_ref_id: WorkFem_AnkleRight
 --- !u!1 &4211761516191679654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,8 +1384,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_LeftThighMesh
-  m_ref_id: WorkFem_LeftThigh
+  m_id: WorkFem_ThighLeftMesh
+  m_ref_id: WorkFem_ThighLeft
 --- !u!1 &4211761516323735923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,7 +1625,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4211761516590276362}
-  - component: {fileID: 4211761516590276364}
   - component: {fileID: 4211761516590276365}
   m_Layer: 0
   m_Name: Root
@@ -1652,20 +1651,6 @@ Transform:
   m_Father: {fileID: 4211761516490463593}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &4211761516590276364
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4211761516590276363}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.125
-  m_Height: 0.45
-  m_Direction: 0
-  m_Center: {x: 0, y: -0.03, z: 0.025}
 --- !u!114 &4211761516590276365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,8 +2209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_LeftToesMesh
-  m_ref_id: WorkFem_LeftToes
+  m_id: WorkFem_ToesLeftMesh
+  m_ref_id: WorkFem_ToesLeft
 --- !u!1 &4211761517170570363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2493,8 +2478,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_RightThighMesh
-  m_ref_id: WorkFem_RightThigh
+  m_id: WorkFem_ThighRightMesh
+  m_ref_id: WorkFem_ThighRight
 --- !u!1 &4211761517287420817
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,8 +2527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 4211761515306081640}
   m_children: []
-  m_id: WorkFem_LeftKneeMesh
-  m_ref_id: WorkFem_LeftKnee
+  m_id: WorkFem_KneeLeftMesh
+  m_ref_id: WorkFem_KneeLeft
 --- !u!1 &4211761517323281185
 GameObject:
   m_ObjectHideFlags: 0
