@@ -27,6 +27,8 @@ public class StreetSimAgentManager : MonoBehaviour
     [SerializeField] private List<NPCPath> nonModelPaths = new List<NPCPath>();
     [SerializeField] private List<NPCPath> modelPaths = new List<NPCPath>();
 
+    private StreetSimAgent m_currentModel = null;
+
     private void Awake() {
         AM = this;
         if (agentParentFolder == null) agentParentFolder = this.transform;
@@ -92,7 +94,10 @@ public class StreetSimAgentManager : MonoBehaviour
                 Debug.Log("[AGENT MANAGER] ERROR: path index does not exist among model paths");
                 return newAgent;
             }
+            DestroyModel();
             PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
+            m_currentModel = newAgent;
+            StreetSimModelMapper.M.MapMeshToModel(m_currentModel);
             return newAgent;
         } else {
             if (pathIndex < 0 || pathIndex > nonModelPaths.Count-1) {
@@ -112,5 +117,12 @@ public class StreetSimAgentManager : MonoBehaviour
                 DestroyAgent(deleteQueue.Dequeue());
             }
         }
+    }
+
+    public void DestroyModel() {
+        StreetSimModelMapper.M.DestroyMesh();
+        if (m_currentModel == null) return;
+        DestroyAgent(m_currentModel);
+        m_currentModel = null;
     }
 }

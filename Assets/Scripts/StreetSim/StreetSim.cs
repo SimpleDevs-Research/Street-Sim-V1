@@ -75,9 +75,9 @@ public class StreetSim : MonoBehaviour
         // Agent - instantiate a model to follow a path with an associated behavior
         // NPCs - how congested should the NPCs be?
         // Traffic - how congested should the traffic be?
+        // Save a ref to the model agent into our current trial data
         PositionPlayerAtStart(trial.startPositionRef);
         StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
-        StreetSimModelMapper.M.MapMeshToModel(modelAgent);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion,true);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion,true);
         TrafficSignalController.current.StartAtSessionIndex(0);
@@ -162,6 +162,7 @@ public class StreetSim : MonoBehaviour
             Debug.Log("[STREET SIM] ERROR: Cannot start a trial for a simulation that isn't instantiated yet.");
             return;
         }
+        StreetSimAgentManager.AM.DestroyModel();
         // m_trialQueue is a Queue, so we just need to pop from the queue
         m_currentTrial = m_trialQueue.Dequeue();
         // Set up our trial payload

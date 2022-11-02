@@ -14,6 +14,8 @@ public class StreetSimModelMapper : MonoBehaviour
     public List<ModelMeshMapper> maps = new List<ModelMeshMapper>();
     private Dictionary<string, ExperimentID> mapDict = new Dictionary<string, ExperimentID>();
 
+    private ExperimentID m_currentMesh = null;
+
     private void Awake() {
         M = this;
         foreach(ModelMeshMapper mapper in maps) {
@@ -31,6 +33,13 @@ public class StreetSimModelMapper : MonoBehaviour
         newMesh.GetComponent<SkinnedMeshRendererHelper>().meshRenderer = model.GetRenderer();
         newMesh.GetComponent<SkinnedMeshRendererHelper>().Initialize();
         // And we're set!
+        m_currentMesh = newMesh;
         return true;
+    }
+
+    public void DestroyMesh() {
+        if (m_currentMesh == null) return;
+        Destroy(m_currentMesh.gameObject);
+        m_currentMesh = null;
     }
 }
