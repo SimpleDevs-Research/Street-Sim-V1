@@ -50,6 +50,11 @@ public class StreetSim : MonoBehaviour
 
     private SimulationData simulationPayload;
     private TrialData trialPayload;
+    [SerializeField] private float closestDistance = Mathf.Infinity;
+    [SerializeField] private TrialAttempt m_currentAttempt;
+    private bool m_currentlyAttempting = false;
+    [SerializeField] private LayerMask downwardMask;
+    [SerializeField] private Transform[] roadTransforms;
 
     private void Awake() {
         S = this;
@@ -183,6 +188,8 @@ public class StreetSim : MonoBehaviour
         m_prevTrialFrameTimestamp = 0f;
         // Set status to "Tracking"
         m_streetSimStatus = StreetSimStatus.Tracking;
+        //
+        closestDistance = Mathf.Infinity;
     }
     private void EndTrial() {
         if (simulationPayload == null) {
@@ -223,6 +230,41 @@ public class StreetSim : MonoBehaviour
             case StreetSimStatus.Tracking:
                 // Calculate frame timestamp
                 m_trialFrameTimestamp = Time.time - m_trialStartTime;
+                // Check the current attempt
+                RaycastHit hit;
+                if (Physics.Raycast(xrTrackingSpace.position, -Vector3.up, out hit, 3f, downwardMask)) {
+                    Debug.Log("Current attempt exists? " + (m_currentAttempt != null).ToString());
+                    Debug.Log("Hitting a road? " + (Array.IndexOf(roadTransforms, hit.transform) > -1).ToString());
+                    if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
+                        if (!m_currentlyAttempting) {
+                            // Create a new attempt
+                            m_currentAttempt = new TrialAttempt(m_trialFrameTimestamp);
+                            m_currentlyAttempting = true;
+                            Debug.Log("Starting new attempt");
+                        }
+                    }
+                    else if (hit.transform == m_currentTrial.startSidewalk) {
+                        if (m_currentlyAttempting) {
+                            // Attempt ended in failure, reset
+                            m_currentAttempt.endTime = m_trialFrameTimestamp;
+                            m_currentAttempt.successful = false;
+                            m_currentAttempt.reason = "Returned to start sidewalk";
+                            trialPayload.attempts.Add(m_currentAttempt);
+                            m_currentlyAttempting = false;
+                            Debug.Log("Ending Attempt, unsuccessful one");
+                        }
+                    }
+                    else if (hit.transform == m_currentTrial.endSidewalk) {
+                        if (m_currentlyAttempting) {
+                            m_currentAttempt.endTime = m_trialFrameTimestamp;
+                            m_currentAttempt.successful = true;
+                            trialPayload.attempts.Add(m_currentAttempt);
+                            m_currentlyAttempting = false;
+                            Debug.Log("Ending Attempt, SUCCESSFUL!");
+                        }
+                        EndTrial();
+                    }
+                }
                 // Only track if we've surpassed the frame offset
                 if (m_trialFrameTimestamp - m_prevTrialFrameTimestamp >= m_trialFrameOffset) {
                     // save the current timestamp to the previous one
@@ -232,12 +274,17 @@ public class StreetSim : MonoBehaviour
                     // Track GazeData
                     StreetSimRaycaster.R.CheckRaycast();
                 }
+                /*
                 // We check if the user has reached the end or not.
+                float currentDistance = Mathf.Infinity;
                 foreach(Transform endPosTransform in m_currentTrial.endPositionRefs) {
-                    if (Vector3.Distance(xrTrackingSpace.transform.position,endPosTransform.position) < 0.05f) {
+                    currentDistance = Vector3.Distance(xrTrackingSpace.transform.position,endPosTransform.position);
+                    if (currentDistance < closestDistance) closestDistance = currentDistance;
+                    if (currentDistance < 0.1f) {
                         EndTrial();
                     }
                 }
+                */
                 break;
         }
         // No case for Idle...
@@ -307,6 +354,10 @@ public class StreetSimTrial {
     public ModelBehavior modelBehavior;
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
+    [Tooltip("Which sidewalk does the participant start at?")]
+    public Transform startSidewalk;
+    [Tooltip("Which sidewalk does the participant need to reach?")]
+    public Transform endSidewalk;
     [Tooltip("Which target points should we consider that the person has successfully crossed the street?")]
     public Transform[] endPositionRefs;
     [Tooltip("What should the congestion of the cars be?")]
@@ -350,6 +401,7 @@ public class TrialData {
     public string participantStartPositionID;
     public float duration;
     public List<RaycastHitRow> participantGazeData;
+    public List<TrialAttempt> attempts;
     
     public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData) {
         this.name = name;
@@ -359,6 +411,7 @@ public class TrialData {
         this.participantStartPositionID = participantStartPositionID;
         this.duration = duration;
         this.participantGazeData = participantGazeData;
+        this.attempts = new List<TrialAttempt>();
     }
     public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID) {
         this.name = name;
@@ -367,6 +420,17 @@ public class TrialData {
         this.modelPathIndex = modelPathIndex;
         this.participantStartPositionID = participantStartPositionID;
         this.participantGazeData = new List<RaycastHitRow>();
+        this.attempts = new List<TrialAttempt>();
     }
+}
 
+[System.Serializable]
+public class TrialAttempt {
+    public float startTime;
+    public float endTime;
+    public bool successful;
+    public string reason;
+    public TrialAttempt(float startTime) {
+        this.startTime = startTime;
+    }
 }
