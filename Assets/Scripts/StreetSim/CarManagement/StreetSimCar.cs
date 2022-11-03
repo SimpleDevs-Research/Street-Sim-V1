@@ -217,4 +217,8 @@ public class StreetSimCar : MonoBehaviour
             }
         }
     }
+
+    public float GetCurrentSpeed() {
+        return currentSpeed;
+    }
 }

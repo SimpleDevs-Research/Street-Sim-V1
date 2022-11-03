@@ -188,8 +188,6 @@ public class StreetSim : MonoBehaviour
         m_prevTrialFrameTimestamp = 0f;
         // Set status to "Tracking"
         m_streetSimStatus = StreetSimStatus.Tracking;
-        //
-        closestDistance = Mathf.Infinity;
     }
     private void EndTrial() {
         if (simulationPayload == null) {
@@ -223,6 +221,20 @@ public class StreetSim : MonoBehaviour
             // End the simulation
             EndSimulation();
         }
+    }
+    public void ResetTrial() {
+        if (m_currentlyAttempting) {
+                // Attempt ended in failure, reset
+                m_currentAttempt.endTime = m_trialFrameTimestamp;
+                m_currentAttempt.successful = false;
+                m_currentAttempt.reason = "Vehicle Collision";
+                trialPayload.attempts.Add(m_currentAttempt);
+                m_currentlyAttempting = false;
+                Debug.Log("Ending Attempt, Got hit by vehicle");
+        }
+        StreetSimAgentManager.AM.DestroyModel();
+        StartCoroutine(InitializeTrial(m_currentTrial));
+
     }
 
     private void FixedUpdate() {
