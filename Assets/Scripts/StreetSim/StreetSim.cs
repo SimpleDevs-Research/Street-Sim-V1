@@ -50,7 +50,6 @@ public class StreetSim : MonoBehaviour
 
     private SimulationData simulationPayload;
     private TrialData trialPayload;
-    [SerializeField] private float closestDistance = Mathf.Infinity;
     [SerializeField] private TrialAttempt m_currentAttempt;
     private bool m_currentlyAttempting = false;
     [SerializeField] private LayerMask downwardMask;
@@ -286,17 +285,6 @@ public class StreetSim : MonoBehaviour
                     // Track GazeData
                     StreetSimRaycaster.R.CheckRaycast();
                 }
-                /*
-                // We check if the user has reached the end or not.
-                float currentDistance = Mathf.Infinity;
-                foreach(Transform endPosTransform in m_currentTrial.endPositionRefs) {
-                    currentDistance = Vector3.Distance(xrTrackingSpace.transform.position,endPosTransform.position);
-                    if (currentDistance < closestDistance) closestDistance = currentDistance;
-                    if (currentDistance < 0.1f) {
-                        EndTrial();
-                    }
-                }
-                */
                 break;
         }
         // No case for Idle...
@@ -370,8 +358,6 @@ public class StreetSimTrial {
     public Transform startSidewalk;
     [Tooltip("Which sidewalk does the participant need to reach?")]
     public Transform endSidewalk;
-    [Tooltip("Which target points should we consider that the person has successfully crossed the street?")]
-    public Transform[] endPositionRefs;
     [Tooltip("What should the congestion of the cars be?")]
     public StreetSimCarManager.CarManagerStatus trafficCongestion;
     [Tooltip("What should the the congestion of the pedestrians be?")]
