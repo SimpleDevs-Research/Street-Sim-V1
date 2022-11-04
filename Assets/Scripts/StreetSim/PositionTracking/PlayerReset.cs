@@ -15,7 +15,7 @@ public class PlayerReset : MonoBehaviour
     private void CheckCarCollision(Collision other) {
         StreetSimCar car = other.gameObject.GetComponent<StreetSimCar>();
         if (car != null && car.GetCurrentSpeed() > 0.25f) {
-            StreetSim.S.ResetTrial();
+            transform.position = new Vector3(transform.position.x, -6f, transform.position.z);
             return;
         }
     }

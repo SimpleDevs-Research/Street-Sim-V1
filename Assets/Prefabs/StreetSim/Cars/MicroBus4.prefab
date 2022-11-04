@@ -647,7 +647,7 @@ MonoBehaviour:
   m_lengthOfCar: 0
   maxSpeed: 10
   shouldStop: 0
-  m_status: 0
+  status: 0
   acceleration: 5
   deceleration: 3
   currentVelocity: {x: 0, y: 0, z: 0}
@@ -657,6 +657,7 @@ MonoBehaviour:
   - {fileID: 7476230369877772189}
   - {fileID: 7476230369877772187}
   - {fileID: 7476230369877772185}
+  m_audioSource: {fileID: 5254838319026204678}
 --- !u!65 &8791275009934165921
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -693,7 +694,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7476230369877613493}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dee60c0fc78e0ad438dc814680fdf891, type: 3}

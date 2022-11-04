@@ -32,6 +32,7 @@ public class StreetSimCar : MonoBehaviour
     private Vector3 prevTargetPos;
 
     [SerializeField] private Transform[] wheels;
+    [SerializeField] private AudioSource m_audioSource;
 
     private void Awake() {
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
@@ -47,11 +48,13 @@ public class StreetSimCar : MonoBehaviour
         prevTargetPos = endTarget.position;
         
         status = StreetSimCarStatus.Active;
+        m_audioSource.enabled = true;
     }
 
     private void ReturnToIdle() {
         Debug.Log("RETURNING TO IDLE");
         StreetSimCarManager.CM.SetCarToIdle(this);
+        m_audioSource.enabled = false;
     }
 
     private float CalculateDistanceUntilDeceleration() {
