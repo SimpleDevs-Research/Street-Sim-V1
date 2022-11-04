@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class PlayerReset : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private bool attachedToPlayer = false;
 
     private void OnCollisionEnter(Collision other) {
+        if (attachedToPlayer) CheckCarCollision(other);
+        else CheckPlayerCollision(other);
+    }
+
+    private void CheckCarCollision(Collision other) {
         StreetSimCar car = other.gameObject.GetComponent<StreetSimCar>();
         if (car != null && car.GetCurrentSpeed() > 0.25f) {
             StreetSim.S.ResetTrial();
+            return;
+        }
+    }
+
+    private void CheckPlayerCollision(Collision other) {
+        if (other.gameObject.GetComponent<EVRA_CharacterController>() != null) {
+            StreetSim.S.ResetTrial();
+            return;
         }
     }
 }

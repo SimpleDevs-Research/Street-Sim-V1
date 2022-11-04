@@ -31,8 +31,9 @@ public class StreetSim : MonoBehaviour
     public string participantName { get{ return m_participantName; } set{}}
     public string saveDirectory { get{ return m_sourceDirectory + "/" + simulationPayload.startTime + "_" + m_participantName + "/"; } set{} }
 
+    [SerializeField] private StreetSimTrial m_initialSetup;
     [SerializeField] private List<StreetSimTrial> m_trials = new List<StreetSimTrial>();
-    private Queue<StreetSimTrial> m_trialQueue;
+    private LinkedList<StreetSimTrial> m_trialQueue;
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
 
@@ -54,6 +55,9 @@ public class StreetSim : MonoBehaviour
     private bool m_currentlyAttempting = false;
     [SerializeField] private LayerMask downwardMask;
     [SerializeField] private Transform[] roadTransforms;
+    [SerializeField] private Transform m_southSidewalk,m_northSidewalk;
+    [SerializeField] private Transform m_resetCube;
+    [SerializeField] private Transform m_southResetPoint, m_northResetPoint;
 
     private void Awake() {
         S = this;
@@ -64,12 +68,13 @@ public class StreetSim : MonoBehaviour
     private void Start() {
         switch(trialRotation) {
             case TrialRotation.InOrder:
-                m_trialQueue = new Queue<StreetSimTrial>(m_trials);
+                m_trialQueue = new LinkedList<StreetSimTrial>(m_trials);
                 break;
             case TrialRotation.Randomized:
-                m_trialQueue = new Queue<StreetSimTrial>(m_trials.Shuffle<StreetSimTrial>());
+                m_trialQueue = new LinkedList<StreetSimTrial>(m_trials.Shuffle<StreetSimTrial>());
                 break;
         }
+        m_trialQueue.AddFirst(m_initialSetup);
     }
 
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
@@ -81,7 +86,9 @@ public class StreetSim : MonoBehaviour
         // Traffic - how congested should the traffic be?
         // Save a ref to the model agent into our current trial data
         PositionPlayerAtStart(trial.startPositionRef);
-        StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        if (trial.agent != null) {
+            StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        }
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion,true);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion,true);
         TrafficSignalController.current.StartAtSessionIndex(0);
@@ -160,7 +167,7 @@ public class StreetSim : MonoBehaviour
             // Save the data
             simulationPayload.duration = m_simulationDuration;
         }
-    }   
+    }
     private void StartTrial() {
         if (simulationPayload == null) {
             Debug.Log("[STREET SIM] ERROR: Cannot start a trial for a simulation that isn't instantiated yet.");
@@ -168,11 +175,20 @@ public class StreetSim : MonoBehaviour
         }
         StreetSimAgentManager.AM.DestroyModel();
         // m_trialQueue is a Queue, so we just need to pop from the queue
-        m_currentTrial = m_trialQueue.Dequeue();
+        m_currentTrial = m_trialQueue.First.Value;
+        m_trialQueue.RemoveFirst();
+        string agentID = (m_currentTrial.agent != null) ? m_currentTrial.agent.GetComponent<ExperimentID>().id : "No Agent";
+        if (m_currentTrial.direction == StreetSimTrial.TrialDirection.SouthToNorth) {
+            m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
+            m_resetCube.position = m_southResetPoint.position;
+        } else {
+            m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
+            m_resetCube.position = m_northResetPoint.position;
+        }
         // Set up our trial payload
         trialPayload = new TrialData(
             m_currentTrial.name,
-            m_currentTrial.agent.GetComponent<ExperimentID>().id,
+            agentID,
             m_currentTrial.modelBehavior.ToString(),
             m_currentTrial.modelPathIndex,
             m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
@@ -254,7 +270,7 @@ public class StreetSim : MonoBehaviour
                             Debug.Log("Starting new attempt");
                         }
                     }
-                    else if (hit.transform == m_currentTrial.startSidewalk) {
+                    else if (hit.transform == m_currentTrial.GetStartSidewalk()) {
                         if (m_currentlyAttempting) {
                             // Attempt ended in failure, reset
                             m_currentAttempt.endTime = m_trialFrameTimestamp;
@@ -265,7 +281,7 @@ public class StreetSim : MonoBehaviour
                             Debug.Log("Ending Attempt, unsuccessful one");
                         }
                     }
-                    else if (hit.transform == m_currentTrial.endSidewalk) {
+                    else if (hit.transform == m_currentTrial.GetEndSidewalk()) {
                         if (m_currentlyAttempting) {
                             m_currentAttempt.endTime = m_trialFrameTimestamp;
                             m_currentAttempt.successful = true;
@@ -336,6 +352,10 @@ public class StreetSim : MonoBehaviour
 
 [System.Serializable]
 public class StreetSimTrial {
+    public enum TrialDirection {
+        SouthToNorth,
+        NorthToSouth,
+    }
     public enum ModelBehavior {
         Safe,
         Risky
@@ -346,22 +366,27 @@ public class StreetSimTrial {
     public StreetSimAgent agent;
     [Tooltip("Which path (via index) should we put the agent on?")]
     public int modelPathIndex;
-    /*
-    [Tooltip("The Model's Path")] 
-    public StreetSimModelPath modelPath;
-    [Tooltip("How should the model behave regarding crossing?")]
-    */
     public ModelBehavior modelBehavior;
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
-    [Tooltip("Which sidewalk does the participant start at?")]
-    public Transform startSidewalk;
-    [Tooltip("Which sidewalk does the participant need to reach?")]
-    public Transform endSidewalk;
+    [Tooltip("Which direction (North to South, or South to North) should the player move?")]
+    public TrialDirection direction;
     [Tooltip("What should the congestion of the cars be?")]
     public StreetSimCarManager.CarManagerStatus trafficCongestion;
     [Tooltip("What should the the congestion of the pedestrians be?")]
     public StreetSimAgentManager.AgentManagerStatus NPCCongestion;
+
+    private Transform startSidewalk, endSidewalk;
+    public void SetSidewalks(Transform start, Transform end) {
+        startSidewalk = start;
+        endSidewalk = end;
+    }
+    public Transform GetStartSidewalk() {
+        return startSidewalk;
+    }
+    public Transform GetEndSidewalk() {
+        return endSidewalk;
+    }
 }
 
 [System.Serializable]
