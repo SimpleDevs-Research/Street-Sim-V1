@@ -65,6 +65,13 @@ public class TrafficSignalController : MonoBehaviour
     private SignalSession currentSession = null;
     private IEnumerator cycleSession = null;
 
+    [SerializeField] private Transform m_northCarDetector, m_southCarDetector;
+    [SerializeField] private bool m_safeToCross = false; 
+    public bool safeToCross {
+        get { return m_safeToCross; }
+        set {}
+    }
+
     private void Awake() {
         current = this;
     }
@@ -72,6 +79,11 @@ public class TrafficSignalController : MonoBehaviour
     private void Start() {
         cycleSession = CycleSignalSessions(0);
         StartCoroutine(cycleSession);
+    }
+
+    private void Update() {
+        RaycastHit hit;
+        m_safeToCross = (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 45f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 45f));
     }
 
     private IEnumerator CycleSignalSessions(int startIndex) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VelocityTracker : MonoBehaviour
 {
-    private Vector3 m_estimatedVelocity = Vector3.zero;
+    [SerializeField] private Vector3 m_estimatedVelocity = Vector3.zero;
     public Vector3 velocity {
         get { return m_estimatedVelocity; }
         set {}

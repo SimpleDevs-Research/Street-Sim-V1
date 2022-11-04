@@ -54,9 +54,14 @@ public class StreetSimAgent : MonoBehaviour
                     // This will be entirely dependent on the model's behavior, which we've passed during initialization
                     switch(behavior) {
                         case StreetSimTrial.ModelBehavior.Risky:
-                            // This will go no matter what the light signal is.
-                            agent.isStopped = false;
-                            character.Move(agent.desiredVelocity,false,false);
+                            // This will go no matter what the light signal is, but only if there aren't any incoming cars
+                            if (TrafficSignalController.current.safeToCross) {
+                                agent.isStopped = false;
+                                character.Move(agent.desiredVelocity,false,false);
+                            } else {
+                                character.Move(Vector3.zero,false,false);
+                                agent.isStopped = true;
+                            }
                             break;
                         case StreetSimTrial.ModelBehavior.Safe:
                             // We need to intuite which crosswalk signal to look at. We can use the dot product for that. CLosest to -1 is the most relevant

@@ -56,8 +56,9 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private LayerMask downwardMask;
     [SerializeField] private Transform[] roadTransforms;
     [SerializeField] private Transform m_southSidewalk,m_northSidewalk;
-    [SerializeField] private Transform m_resetCube;
-    [SerializeField] private Transform m_southResetPoint, m_northResetPoint;
+    [SerializeField] private Transform m_resetCube, m_nextCylinder;
+    [SerializeField] private Transform m_southResetPoint, m_northResetPoint, m_southNextPoint, m_northNextPoint;
+    private bool nextTrialTriggered = false;
 
     private void Awake() {
         S = this;
@@ -85,12 +86,12 @@ public class StreetSim : MonoBehaviour
         // NPCs - how congested should the NPCs be?
         // Traffic - how congested should the traffic be?
         // Save a ref to the model agent into our current trial data
-        PositionPlayerAtStart(trial.startPositionRef);
+        if (trial.startPositionRef != null) PositionPlayerAtStart(trial.startPositionRef);
         if (trial.agent != null) {
             StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
         }
-        StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion,true);
-        StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion,true);
+        StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
+        StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
         TrafficSignalController.current.StartAtSessionIndex(0);
         yield return null;
     }
@@ -145,6 +146,8 @@ public class StreetSim : MonoBehaviour
 
         // Set the start time
         m_simulationStartTime = Time.time;
+        // Enable the next cylinder
+        m_nextCylinder.gameObject.SetActive(true);
         // Start the simulation, starting from the first trial in `m_trialQueue`.
         StartTrial();
     }
@@ -163,9 +166,12 @@ public class StreetSim : MonoBehaviour
             m_simulationEndTime = Time.time;
             // Calculate duration
             m_simulationDuration = m_simulationEndTime - m_simulationStartTime;
+            // Set the next cylinder to be deactivated
+            m_nextCylinder.gameObject.SetActive(false);
             
             // Save the data
             simulationPayload.duration = m_simulationDuration;
+            SaveSimulationData();
         }
     }
     private void StartTrial() {
@@ -178,12 +184,17 @@ public class StreetSim : MonoBehaviour
         m_currentTrial = m_trialQueue.First.Value;
         m_trialQueue.RemoveFirst();
         string agentID = (m_currentTrial.agent != null) ? m_currentTrial.agent.GetComponent<ExperimentID>().id : "No Agent";
+        string startRef;
         if (m_currentTrial.direction == StreetSimTrial.TrialDirection.SouthToNorth) {
             m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
             m_resetCube.position = m_southResetPoint.position;
+            m_nextCylinder.position = m_northNextPoint.position;
+            startRef = "South";
         } else {
             m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
             m_resetCube.position = m_northResetPoint.position;
+            m_nextCylinder.position = m_southNextPoint.position;
+            startRef = "North";
         }
         // Set up our trial payload
         trialPayload = new TrialData(
@@ -191,7 +202,8 @@ public class StreetSim : MonoBehaviour
             agentID,
             m_currentTrial.modelBehavior.ToString(),
             m_currentTrial.modelPathIndex,
-            m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
+            startRef
+            //m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
         );
         // Set up the trial
         StartCoroutine(InitializeTrial(m_currentTrial));
@@ -203,6 +215,8 @@ public class StreetSim : MonoBehaviour
         m_prevTrialFrameTimestamp = 0f;
         // Set status to "Tracking"
         m_streetSimStatus = StreetSimStatus.Tracking;
+        // Reset next trial triggered statuis
+        nextTrialTriggered = false;
     }
     private void EndTrial() {
         if (simulationPayload == null) {
@@ -239,22 +253,28 @@ public class StreetSim : MonoBehaviour
     }
     public void ResetTrial() {
         if (m_currentlyAttempting) {
-                // Attempt ended in failure, reset
-                m_currentAttempt.endTime = m_trialFrameTimestamp;
-                m_currentAttempt.successful = false;
-                m_currentAttempt.reason = "Vehicle Collision";
-                trialPayload.attempts.Add(m_currentAttempt);
-                m_currentlyAttempting = false;
-                Debug.Log("Ending Attempt, Got hit by vehicle");
+            // Attempt ended in failure, reset
+            m_currentAttempt.endTime = m_trialFrameTimestamp;
+            m_currentAttempt.successful = false;
+            m_currentAttempt.reason = "Vehicle Collision";
+            trialPayload.attempts.Add(m_currentAttempt);
+            m_currentlyAttempting = false;
+            Debug.Log("Ending Attempt, Got hit by vehicle");
         }
         StreetSimAgentManager.AM.DestroyModel();
         StartCoroutine(InitializeTrial(m_currentTrial));
-
+        xrTrackingSpace.transform.position = new Vector3(xrTrackingSpace.transform.position.x, 0f, xrTrackingSpace.transform.position.z);
+    }
+    public void TriggerNextTrial() {
+        nextTrialTriggered = true;
+        EndTrial();
     }
 
     private void FixedUpdate() {
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
+                // Don't do anything if we triggered the next trial.
+                if (nextTrialTriggered) return;
                 // Calculate frame timestamp
                 m_trialFrameTimestamp = Time.time - m_trialStartTime;
                 // Check the current attempt
@@ -289,7 +309,7 @@ public class StreetSim : MonoBehaviour
                             m_currentlyAttempting = false;
                             Debug.Log("Ending Attempt, SUCCESSFUL!");
                         }
-                        EndTrial();
+                        //StartCoroutine(TriggerNextTrial());
                     }
                 }
                 // Only track if we've surpassed the frame offset
