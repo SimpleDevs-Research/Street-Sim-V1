@@ -1,0 +1,156 @@
+{
+    "name": "Training",
+    "modelID": "No Agent",
+    "modelBehavior": "Safe",
+    "modelPathIndex": 0,
+    "participantStartPositionID": "North",
+    "duration": -22.534313201904298,
+    "participantGazeData": [
+        {
+            "frameIndex": 6,
+            "timestamp": 3.506535530090332,
+            "triangleIndex": -1,
+            "hitID": "Car4",
+            "agentID": "Car4",
+            "localPositionOfHitPosition": [
+                -1.3750042915344239,
+                1.0,
+                -1.2157995700836182
+            ],
+            "localPositionOfHitTarget": [
+                -1.0426139831542969,
+                -20.0,
+                -2.5
+            ],
+            "raycastDirection": [
+                -0.20791170001029969,
+                0.0,
+                -0.9781476259231567
+            ]
+        },
+        {
+            "frameIndex": 7,
+            "timestamp": 4.006535530090332,
+            "triangleIndex": -1,
+            "hitID": "Car4",
+            "agentID": "Car4",
+            "localPositionOfHitPosition": [
+                -1.3750015497207642,
+                1.0,
+                -1.8920775651931763
+            ],
+            "localPositionOfHitTarget": [
+                3.957366943359375,
+                -20.0,
+                -2.5
+            ],
+            "raycastDirection": [
+                0.1908089816570282,
+                0.0,
+                -0.9816272258758545
+            ]
+        },
+        {
+            "frameIndex": 27,
+            "timestamp": 14.006536483764649,
+            "triangleIndex": -1,
+            "hitID": "Agent11",
+            "agentID": "Agent11",
+            "localPositionOfHitPosition": [
+                0.40269145369529726,
+                0.9166679382324219,
+                0.2963729500770569
+            ],
+            "localPositionOfHitTarget": [
+                -13.977048873901368,
+                -19.916667938232423,
+                15.788069725036621
+            ],
+            "raycastDirection": [
+                -0.9396927356719971,
+                0.0,
+                0.3420199751853943
+            ]
+        },
+        {
+            "frameIndex": 31,
+            "timestamp": 16.00653648376465,
+            "triangleIndex": -1,
+            "hitID": "Sedan4",
+            "agentID": "Sedan4",
+            "localPositionOfHitPosition": [
+                1.3750016689300538,
+                1.0,
+                1.232186198234558
+            ],
+            "localPositionOfHitTarget": [
+                0.6257620453834534,
+                -20.0,
+                2.5
+            ],
+            "raycastDirection": [
+                -0.10452848672866821,
+                0.0,
+                -0.9945220947265625
+            ]
+        },
+        {
+            "frameIndex": 32,
+            "timestamp": 16.50653648376465,
+            "triangleIndex": -1,
+            "hitID": "Sedan4",
+            "agentID": "Sedan4",
+            "localPositionOfHitPosition": [
+                1.3748890161514283,
+                1.0,
+                -3.180042266845703
+            ],
+            "localPositionOfHitTarget": [
+                -4.374201774597168,
+                -20.0,
+                2.5
+            ],
+            "raycastDirection": [
+                -0.10452848672866821,
+                0.0,
+                -0.9945220947265625
+            ]
+        },
+        {
+            "frameIndex": 38,
+            "timestamp": 19.50653648376465,
+            "triangleIndex": -1,
+            "hitID": "SportsCar4",
+            "agentID": "SportsCar4",
+            "localPositionOfHitPosition": [
+                -1.3750020265579224,
+                1.0,
+                -0.23890161514282227
+            ],
+            "localPositionOfHitTarget": [
+                -0.6259489059448242,
+                -20.0,
+                -2.5
+            ],
+            "raycastDirection": [
+                -0.06975649297237396,
+                0.0,
+                -0.9975640773773193
+            ]
+        }
+    ],
+    "attempts": [
+        {
+            "startTime": 6.395425796508789,
+            "endTime": 12.173202514648438,
+            "successful": false,
+            "reason": "Vehicle Collision"
+        },
+        {
+            "startTime": 19.589868545532228,
+            "endTime": 21.645423889160158,
+            "successful": true,
+            "reason": ""
+        }
+    ]
+}

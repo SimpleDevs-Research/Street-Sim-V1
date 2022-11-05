@@ -1330,10 +1330,12 @@ MonoBehaviour:
   agent: {fileID: 5144102622666300407}
   character: {fileID: 6824888062195555523}
   renderer: {fileID: 7901543431652255374}
+  collider: {fileID: 3782255374397079901}
   forwardPointer: {fileID: 450114154070868623}
   downwardPointer: {fileID: 8424501784020276232}
   targetPositions: []
   currentSpeed: 0
+  m_meshCollider: {fileID: 0}
   behavior: 0
 --- !u!114 &6491586782744159184
 MonoBehaviour:

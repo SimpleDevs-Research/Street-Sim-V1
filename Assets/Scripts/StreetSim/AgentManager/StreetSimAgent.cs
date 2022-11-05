@@ -11,18 +11,23 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
     [SerializeField] private SkinnedMeshRenderer renderer;
+    [SerializeField] private Collider collider;
+    [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
     [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
     private int currentTargetIndex = -1;
     [SerializeField] private float currentSpeed = 0f;
     private bool shouldLoop, shouldWarpOnLoop;
+    [SerializeField] private Collider m_meshCollider;
 
     [SerializeField] private StreetSimTrial.ModelBehavior behavior;
+    private bool riskyButCrossing = false;
     
 
     private void Awake() {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (character == null) character = GetComponent<ThirdPersonCharacter>();
+        if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
     }
 
     public void Initialize(Transform[] targets, StreetSimTrial.ModelBehavior behavior, bool shouldLoop, bool shouldWarpOnLoop) {
@@ -30,8 +35,14 @@ public class StreetSimAgent : MonoBehaviour
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
         this.behavior = behavior;
+        collider.enabled = true;
+        rigidbody.isKinematic = false;
+        agent.enabled = true;
+        character.enabled = true;
         agent.isStopped = false;
         currentTargetIndex = -1;
+        m_meshCollider.enabled = true;
+        riskyButCrossing = false;
         SetNextTarget();
     }
 
@@ -55,7 +66,8 @@ public class StreetSimAgent : MonoBehaviour
                     switch(behavior) {
                         case StreetSimTrial.ModelBehavior.Risky:
                             // This will go no matter what the light signal is, but only if there aren't any incoming cars
-                            if (TrafficSignalController.current.safeToCross) {
+                            riskyButCrossing = riskyButCrossing || TrafficSignalController.current.GetSafety(transform.position.z < 0);
+                            if (riskyButCrossing) {
                                 agent.isStopped = false;
                                 character.Move(agent.desiredVelocity,false,false);
                             } else {
@@ -113,7 +125,7 @@ public class StreetSimAgent : MonoBehaviour
             } else {
                 // Tell StreetSim to destroy this agent
                 character.Move(Vector3.zero,false,false);
-                // ...Which we'll implement later
+                DeactiveAgentManually();
                 StreetSimAgentManager.AM.DestroyAgent(this);
             }
         } else {
@@ -129,5 +141,13 @@ public class StreetSimAgent : MonoBehaviour
 
     public SkinnedMeshRenderer GetRenderer() {
         return renderer;
+    }
+
+    public void DeactiveAgentManually() {
+        agent.enabled = false;
+        character.enabled = false;
+        collider.enabled = false;
+        rigidbody.isKinematic = true;
+        m_meshCollider.enabled = false;
     }
 }

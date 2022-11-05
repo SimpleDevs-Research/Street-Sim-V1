@@ -1,0 +1,46 @@
+{
+    "name": "Training",
+    "modelID": "No Agent",
+    "modelBehavior": "Safe",
+    "modelPathIndex": 0,
+    "participantStartPositionID": "North",
+    "duration": -13.281152725219727,
+    "participantGazeData": [
+        {
+            "frameIndex": 6,
+            "timestamp": 3.5033750534057619,
+            "triangleIndex": -1,
+            "hitID": "SportsCar5",
+            "agentID": "SportsCar5",
+            "localPositionOfHitPosition": [
+                1.3750008344650269,
+                1.0,
+                2.338059902191162
+            ],
+            "localPositionOfHitTarget": [
+                0.3481665253639221,
+                -20.0,
+                2.5
+            ],
+            "raycastDirection": [
+                -0.017452422529459,
+                0.0,
+                -0.9998476505279541
+            ]
+        }
+    ],
+    "attempts": [
+        {
+            "startTime": 3.5867080688476564,
+            "endTime": 6.933930397033691,
+            "successful": false,
+            "reason": "Vehicle Collision"
+        },
+        {
+            "startTime": 10.336708068847657,
+            "endTime": 12.392263412475586,
+            "successful": true,
+            "reason": ""
+        }
+    ]
+}

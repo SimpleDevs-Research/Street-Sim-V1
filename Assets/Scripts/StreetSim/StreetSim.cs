@@ -87,9 +87,7 @@ public class StreetSim : MonoBehaviour
         // Traffic - how congested should the traffic be?
         // Save a ref to the model agent into our current trial data
         if (trial.startPositionRef != null) PositionPlayerAtStart(trial.startPositionRef);
-        if (trial.agent != null) {
-            StreetSimAgent modelAgent = StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
-        }
+        if (trial.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
         TrafficSignalController.current.StartAtSessionIndex(0);
@@ -101,6 +99,7 @@ public class StreetSim : MonoBehaviour
         xrTrackingSpace.transform.rotation = start.rotation;
     }
 
+    /*
     private void InitializeNPC(StreetSimModelPath modelPath, StreetSimTrial.ModelBehavior behave = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
         NPCPath path;
         if (TargetPositioningVisualizer.current.GetPathFromName(modelPath.pathName, out path)) {
@@ -129,6 +128,7 @@ public class StreetSim : MonoBehaviour
             Debug.Log("[StreetSim] ERROR: No path fits " + modelPath.pathName);
         }
     }
+    */
 
     public void StartSimulation() {
         Debug.Log("[STREET SIM] Starting Simulation...");

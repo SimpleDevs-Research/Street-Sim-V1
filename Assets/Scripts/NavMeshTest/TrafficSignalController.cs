@@ -81,9 +81,12 @@ public class TrafficSignalController : MonoBehaviour
         StartCoroutine(cycleSession);
     }
 
-    private void Update() {
-        RaycastHit hit;
-        m_safeToCross = (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 45f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 45f));
+    public bool GetSafety(bool onSouth) {
+        if (onSouth) {
+            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 40f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 20f));
+        } else {
+            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 20f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 40f));
+        }
     }
 
     private IEnumerator CycleSignalSessions(int startIndex) {
