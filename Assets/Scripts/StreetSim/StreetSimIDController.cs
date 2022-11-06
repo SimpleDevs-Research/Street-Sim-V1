@@ -1,7 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using SerializableTypes;
 using System.Text.RegularExpressions;
+
+[System.Serializable]
+public class StreetSimTrackablePayload {
+    public int frameIndex;
+    public float timestamp;
+    public List<StreetSimTrackable> trackables;
+    public StreetSimTrackablePayload(int frameIndex, float timestamp) {
+        this.frameIndex = frameIndex;
+        this.timestamp = timestamp;
+        trackables = new List<StreetSimTrackable>();
+    }
+}
+
+[System.Serializable]
+public class StreetSimTrackable {
+    public string id;
+    public SVector3 localPosition;
+    public SQuaternion localRotation;
+    public SVector3 localScale;
+    public StreetSimTrackable(string id, Vector3 localPosition, Quaternion localRotation, Vector3 localScale) {
+        this.id = id;
+        this.localPosition = localPosition;
+        this.localRotation = localRotation;
+        this.localScale = localScale;
+    }
+    public StreetSimTrackable(string id, Transform t) {
+        this.id = id;
+        this.localPosition = t.localPosition;
+        this.localRotation = t.localRotation;
+        this.localScale = t.localScale;
+    }
+}
 
 public class StreetSimIDController : MonoBehaviour
 {
@@ -10,6 +44,8 @@ public class StreetSimIDController : MonoBehaviour
     [SerializeField] private List<ExperimentID> ids = new List<ExperimentID>();
     [SerializeField] private List<string> idNames = new List<string>();
     private Dictionary<ExperimentID, Queue<ExperimentID>> parentChildQueue = new Dictionary<ExperimentID, Queue<ExperimentID>>();
+
+    [SerializeField] private List<StreetSimTrackablePayload> payloads = new List<StreetSimTrackablePayload>();
 
     private void Awake() {
         ID = this;
@@ -63,17 +99,22 @@ public class StreetSimIDController : MonoBehaviour
         }
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void TrackPositions() {
+        StreetSimTrackablePayload payload = new StreetSimTrackablePayload(
+            StreetSim.S.trialFrameIndex, 
+            StreetSim.S.trialFrameTimestamp
+        );
+        foreach(ExperimentID id in ids) {
+            Debug.Log("Tracking ID WITH " + id.id);
+            payload.trackables.Add(new StreetSimTrackable(
+                id.id,
+                id.transform
+            ));
+        }
+        payloads.Add(payload);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void ClearData() {
+        payloads = new List<StreetSimTrackablePayload>();
     }
 }

@@ -237,7 +237,10 @@ public class StreetSim : MonoBehaviour
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
         trialPayload.participantGazeData = StreetSimRaycaster.R.hits;
         trialPayload.duration = m_trialDuration;
-        SaveTrialData();
+        if (SaveTrialData()) {
+            StreetSimRaycaster.R.ClearData();
+            StreetSimIDController.ID.ClearData();
+        }
 
         // Set status to "Idle", which will stop tracking
         m_streetSimStatus = StreetSimStatus.Idle;
@@ -320,6 +323,8 @@ public class StreetSim : MonoBehaviour
                     m_trialFrameIndex += 1;
                     // Track GazeData
                     StreetSimRaycaster.R.CheckRaycast();
+                    // Track positional data
+                    StreetSimIDController.ID.TrackPositions();
                 }
                 break;
         }

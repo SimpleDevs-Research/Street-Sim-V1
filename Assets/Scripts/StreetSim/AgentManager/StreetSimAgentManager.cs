@@ -114,7 +114,6 @@ public class StreetSimAgentManager : MonoBehaviour
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        Debug.Log("agent with name " + agent.gameObject.name + " has a position that is now " + agent.transform.position);
         agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }

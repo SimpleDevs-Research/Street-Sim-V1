@@ -173,4 +173,8 @@ public class StreetSimRaycaster : MonoBehaviour
         targetID = closestID;
         return (closestID != null);
     }
+
+    public void ClearData() {
+        m_hits = new List<RaycastHitRow>();
+    }
 }
