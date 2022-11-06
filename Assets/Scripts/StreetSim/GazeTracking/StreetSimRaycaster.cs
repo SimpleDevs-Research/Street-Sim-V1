@@ -13,8 +13,9 @@ public class RaycastHitRow {
     public string agentID;
     public float[] localPositionOfHitPosition;
     public float[] localPositionOfHitTarget;
+    public float[] localPosition;
     public float[] raycastDirection;
-    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] rd) {
+    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] lp, float[] rd) {
         this.frameIndex = index;
         this.timestamp = t;
         this.triangleIndex = i;
@@ -22,6 +23,7 @@ public class RaycastHitRow {
         this.agentID = a;
         this.localPositionOfHitPosition = lpp;
         this.localPositionOfHitTarget = lpt;
+        this.localPosition = lp;
         this.raycastDirection = rd;
     }
 }
@@ -40,6 +42,7 @@ public class StreetSimRaycaster : MonoBehaviour
     [SerializeField] private string m_agentID;
     [SerializeField] private SVector3 m_localPositionOfHitPosition;
     [SerializeField] private SVector3 m_localPositionOfHitTarget;
+    [SerializeField] private SVector3 m_localPosition;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private ExperimentID currentTarget;
@@ -68,7 +71,8 @@ public class StreetSimRaycaster : MonoBehaviour
                 m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
                 m_agentID = target.ref_id;
                 m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
-                m_localPositionOfHitTarget = closestTarget.transform.localPosition;
+                m_localPositionOfHitTarget = (closestTarget.parent != null) ? closestTarget.transform.localPosition : Vector3.zero;
+                m_localPosition = m_localPositionOfHitPosition + m_localPositionOfHitTarget;
                 m_hits.Add(
                     new RaycastHitRow(
                         StreetSim.S.trialFrameIndex,
@@ -85,6 +89,11 @@ public class StreetSimRaycaster : MonoBehaviour
                             m_localPositionOfHitTarget.x,
                             m_localPositionOfHitTarget.y,
                             m_localPositionOfHitTarget.z
+                        },
+                        new float[3]{
+                            m_localPosition.x,
+                            m_localPosition.y,
+                            m_localPosition.z
                         },
                         new float[3]{
                             pointer.transform.forward.x,

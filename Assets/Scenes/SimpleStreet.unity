@@ -20057,6 +20057,10 @@ PrefabInstance:
       propertyPath: m_ref_id
       value: South Traffic Pole
       objectReference: {fileID: 0}
+    - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3050809932296305316, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -20157,6 +20161,10 @@ PrefabInstance:
       propertyPath: m_id
       value: South Traffic Pole
       objectReference: {fileID: 0}
+    - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5442809148677763709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -20224,6 +20232,10 @@ PrefabInstance:
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
       value: South Walking Signal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7727800863714253806, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20744,9 +20756,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 10
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -20769,9 +20789,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -52847,6 +52875,10 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
+  m_localPosition:
+    x: 0
+    y: 0
+    z: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -58080,9 +58112,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -58642,7 +58682,7 @@ MonoBehaviour:
   m_trialDuration: 0
   m_trialFrameIndex: -1
   m_trialFrameTimestamp: -1
-  m_trialFrameOffset: 0.5
+  m_trialFrameOffset: 0.1
   m_currentTrial:
     name: 
     agent: {fileID: 0}
@@ -61670,6 +61710,10 @@ PrefabInstance:
       propertyPath: m_ref_id
       value: North Walking Pole
       objectReference: {fileID: 0}
+    - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3050809932296305316, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -61770,6 +61814,10 @@ PrefabInstance:
       propertyPath: m_id
       value: North Walking Pole
       objectReference: {fileID: 0}
+    - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5442809148677763709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -61837,6 +61885,10 @@ PrefabInstance:
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
       value: North Walking Signal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_isStatic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7727800863714253806, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -62687,7 +62739,7 @@ MonoBehaviour:
   m_centerEyeCamera: {fileID: 849277707}
   m_footColliders: []
   m_trackFeetUnderCenterEye: 1
-  m_maxSpeed: 5
+  m_maxSpeed: 2.5
   m_maxAcceleration: 10
   m_maxAirAcceleration: 5
   m_maxGroundAngle: 25
@@ -64648,9 +64700,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
