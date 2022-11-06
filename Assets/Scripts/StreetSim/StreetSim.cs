@@ -236,6 +236,7 @@ public class StreetSim : MonoBehaviour
 
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
         trialPayload.participantGazeData = StreetSimRaycaster.R.hits;
+        trialPayload.positionData = StreetSimIDController.ID.payloads;
         trialPayload.duration = m_trialDuration;
         if (SaveTrialData()) {
             StreetSimRaycaster.R.ClearData();
@@ -283,14 +284,11 @@ public class StreetSim : MonoBehaviour
                 // Check the current attempt
                 RaycastHit hit;
                 if (Physics.Raycast(xrTrackingSpace.position, -Vector3.up, out hit, 3f, downwardMask)) {
-                    Debug.Log("Current attempt exists? " + (m_currentAttempt != null).ToString());
-                    Debug.Log("Hitting a road? " + (Array.IndexOf(roadTransforms, hit.transform) > -1).ToString());
                     if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
                         if (!m_currentlyAttempting) {
                             // Create a new attempt
                             m_currentAttempt = new TrialAttempt(m_trialFrameTimestamp);
                             m_currentlyAttempting = true;
-                            Debug.Log("Starting new attempt");
                         }
                     }
                     else if (hit.transform == m_currentTrial.GetStartSidewalk()) {
@@ -301,7 +299,6 @@ public class StreetSim : MonoBehaviour
                             m_currentAttempt.reason = "Returned to start sidewalk";
                             trialPayload.attempts.Add(m_currentAttempt);
                             m_currentlyAttempting = false;
-                            Debug.Log("Ending Attempt, unsuccessful one");
                         }
                     }
                     else if (hit.transform == m_currentTrial.GetEndSidewalk()) {
@@ -310,9 +307,7 @@ public class StreetSim : MonoBehaviour
                             m_currentAttempt.successful = true;
                             trialPayload.attempts.Add(m_currentAttempt);
                             m_currentlyAttempting = false;
-                            Debug.Log("Ending Attempt, SUCCESSFUL!");
                         }
-                        //StartCoroutine(TriggerNextTrial());
                     }
                 }
                 // Only track if we've surpassed the frame offset
@@ -448,10 +443,11 @@ public class TrialData {
     public int modelPathIndex;
     public string participantStartPositionID;
     public float duration;
-    public List<RaycastHitRow> participantGazeData;
     public List<TrialAttempt> attempts;
+    public List<RaycastHitRow> participantGazeData;
+    public List<StreetSimTrackablePayload> positionData;
     
-    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData) {
+    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData, List<StreetSimTrackablePayload> positionData) {
         this.name = name;
         this.modelID = modelID;
         this.modelBehavior = modelBehavior;
@@ -459,6 +455,7 @@ public class TrialData {
         this.participantStartPositionID = participantStartPositionID;
         this.duration = duration;
         this.participantGazeData = participantGazeData;
+        this.positionData = positionData;
         this.attempts = new List<TrialAttempt>();
     }
     public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID) {
@@ -468,6 +465,7 @@ public class TrialData {
         this.modelPathIndex = modelPathIndex;
         this.participantStartPositionID = participantStartPositionID;
         this.participantGazeData = new List<RaycastHitRow>();
+        this.positionData = new List<StreetSimTrackablePayload>();
         this.attempts = new List<TrialAttempt>();
     }
 }

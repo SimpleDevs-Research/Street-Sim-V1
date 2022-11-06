@@ -11,6 +11,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
     [SerializeField] private SkinnedMeshRenderer renderer;
+    [SerializeField] private Animator animator;
     [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
@@ -27,6 +28,7 @@ public class StreetSimAgent : MonoBehaviour
     private void Awake() {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (character == null) character = GetComponent<ThirdPersonCharacter>();
+        if (animator == null) animator = GetComponent<Animator>();
         if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -39,6 +41,7 @@ public class StreetSimAgent : MonoBehaviour
         rigidbody.isKinematic = false;
         agent.enabled = true;
         character.enabled = true;
+        animator.enabled = true;
         agent.isStopped = false;
         currentTargetIndex = -1;
         m_meshCollider.enabled = true;
@@ -139,8 +142,10 @@ public class StreetSimAgent : MonoBehaviour
     }
 
     public void DeactiveAgentManually() {
+        targetPositions = new Transform[0];
         agent.enabled = false;
         character.enabled = false;
+        animator.enabled = false;
         collider.enabled = false;
         rigidbody.isKinematic = true;
         m_meshCollider.enabled = false;

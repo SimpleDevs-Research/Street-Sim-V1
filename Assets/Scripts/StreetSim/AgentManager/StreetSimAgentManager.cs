@@ -118,7 +118,10 @@ public class StreetSimAgentManager : MonoBehaviour
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
-        if (m_activeAgents.Contains(agent)) m_activeAgents.Remove(agent);
+        if (m_activeAgents.Contains(agent)) {
+            m_activeAgents.Remove(agent);
+            m_inactiveAgents.Enqueue(agent);
+        }
         agent.transform.position = idleTargetRef.position;
     }
 

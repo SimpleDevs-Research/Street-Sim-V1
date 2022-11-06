@@ -45,7 +45,12 @@ public class StreetSimIDController : MonoBehaviour
     [SerializeField] private List<string> idNames = new List<string>();
     private Dictionary<ExperimentID, Queue<ExperimentID>> parentChildQueue = new Dictionary<ExperimentID, Queue<ExperimentID>>();
 
-    [SerializeField] private List<StreetSimTrackablePayload> payloads = new List<StreetSimTrackablePayload>();
+    [SerializeField] private bool m_shouldTrackPositions = true;
+    [SerializeField] private List<StreetSimTrackablePayload> m_payloads = new List<StreetSimTrackablePayload>();
+    public List<StreetSimTrackablePayload> payloads {
+        get { return m_payloads; }
+        set {}
+    }
 
     private void Awake() {
         ID = this;
@@ -100,21 +105,35 @@ public class StreetSimIDController : MonoBehaviour
     }
 
     public void TrackPositions() {
+        if (m_shouldTrackPositions) StartCoroutine(TrackPositionsCoroutine());
+    }
+
+    public IEnumerator TrackPositionsCoroutine() {
         StreetSimTrackablePayload payload = new StreetSimTrackablePayload(
             StreetSim.S.trialFrameIndex, 
             StreetSim.S.trialFrameTimestamp
         );
-        foreach(ExperimentID id in ids) {
-            Debug.Log("Tracking ID WITH " + id.id);
+        Queue<ExperimentID> temp = new Queue<ExperimentID>(ids);
+
+        int count = 0;
+        while(temp.Count > 0) {
+            ExperimentID id = temp.Dequeue();
             payload.trackables.Add(new StreetSimTrackable(
                 id.id,
                 id.transform
             ));
+            count++;
+            if (count >= 50) {
+                yield return null;
+                count = 0;
+            }
         }
-        payloads.Add(payload);
+
+        m_payloads.Add(payload);
+        yield return null;
     }
 
     public void ClearData() {
-        payloads = new List<StreetSimTrackablePayload>();
+        m_payloads = new List<StreetSimTrackablePayload>();
     }
 }

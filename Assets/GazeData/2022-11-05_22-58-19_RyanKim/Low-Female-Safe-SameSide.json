@@ -1,0 +1,128 @@
+{
+    "name": "Low-Female-Safe-SameSide",
+    "modelID": "LowFem",
+    "modelBehavior": "Safe",
+    "modelPathIndex": 0,
+    "participantStartPositionID": "South",
+    "duration": -9.097221374511719,
+    "participantGazeData": [
+        {
+            "frameIndex": 4,
+            "timestamp": 2.5,
+            "triangleIndex": 657,
+            "hitID": "LowFem_ThighRight",
+            "agentID": "LowFemMesh",
+            "localPositionOfHitPosition": [
+                0.16808433830738069,
+                0.19016608595848084,
+                0.12319041788578034
+            ],
+            "localPositionOfHitTarget": [
+                0.09209999442100525,
+                -0.01727670431137085,
+                0.001984629314392805
+            ],
+            "raycastDirection": [
+                -0.5877853035926819,
+                0.0,
+                0.80901700258255
+            ]
+        },
+        {
+            "frameIndex": 5,
+            "timestamp": 3.0,
+            "triangleIndex": 1649,
+            "hitID": "LowFem_ThighRight",
+            "agentID": "LowFemMesh",
+            "localPositionOfHitPosition": [
+                0.022518552839756013,
+                0.0499710813164711,
+                0.16311149299144746
+            ],
+            "localPositionOfHitTarget": [
+                0.09209999442100525,
+                -0.01727670431137085,
+                0.001984629314392805
+            ],
+            "raycastDirection": [
+                -0.46947166323661806,
+                0.0,
+                0.882947564125061
+            ]
+        },
+        {
+            "frameIndex": 6,
+            "timestamp": 3.5,
+            "triangleIndex": 298,
+            "hitID": "LowFem_ThighRight",
+            "agentID": "LowFemMesh",
+            "localPositionOfHitPosition": [
+                0.1104118824005127,
+                0.14275209605693818,
+                0.10929373651742935
+            ],
+            "localPositionOfHitTarget": [
+                0.09209999442100525,
+                -0.01727670431137085,
+                0.001984629314392805
+            ],
+            "raycastDirection": [
+                -0.10452855378389359,
+                0.0,
+                0.9945218563079834
+            ]
+        },
+        {
+            "frameIndex": 7,
+            "timestamp": 4.0,
+            "triangleIndex": 298,
+            "hitID": "LowFem_ThighRight",
+            "agentID": "LowFemMesh",
+            "localPositionOfHitPosition": [
+                0.12721244990825654,
+                0.13133357465267182,
+                0.1130688488483429
+            ],
+            "localPositionOfHitTarget": [
+                0.09209999442100525,
+                -0.01727670431137085,
+                0.001984629314392805
+            ],
+            "raycastDirection": [
+                -0.2756374776363373,
+                0.0,
+                0.9612616896629334
+            ]
+        },
+        {
+            "frameIndex": 8,
+            "timestamp": 4.5,
+            "triangleIndex": -1,
+            "hitID": "MicroBus3",
+            "agentID": "MicroBus3",
+            "localPositionOfHitPosition": [
+                -1.375001311302185,
+                1.0,
+                3.0305914878845217
+            ],
+            "localPositionOfHitTarget": [
+                -0.3464394807815552,
+                -20.0,
+                2.5
+            ],
+            "raycastDirection": [
+                -0.2756374776363373,
+                0.0,
+                0.9612616896629334
+            ]
+        }
+    ],
+    "attempts": [
+        {
+            "startTime": 6.125,
+            "endTime": 8.166666030883789,
+            "successful": true,
+            "reason": ""
+        }
+    ]
+}

@@ -52,7 +52,6 @@ public class StreetSimCar : MonoBehaviour
     }
 
     private void ReturnToIdle() {
-        Debug.Log("RETURNING TO IDLE");
         StreetSimCarManager.CM.SetCarToIdle(this);
         m_audioSource.enabled = false;
     }

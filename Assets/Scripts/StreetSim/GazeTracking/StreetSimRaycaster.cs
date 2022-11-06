@@ -59,38 +59,43 @@ public class StreetSimRaycaster : MonoBehaviour
         // Get pointer data
         ExperimentID target, closestTarget;
         RaycastHit hit;
-        RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 0.5f, pointer.transform.forward, 20f, layerMask);
-        if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
-            currentTarget = target;
-            m_triangleIndex = hit.triangleIndex;
-            m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
-            m_agentID = target.ref_id;
-            m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
-            m_localPositionOfHitTarget = closestTarget.transform.localPosition;
-            m_hits.Add(
-                new RaycastHitRow(
-                    StreetSim.S.trialFrameIndex,
-                    StreetSim.S.trialFrameTimestamp, 
-                    m_triangleIndex, 
-                    m_hitID, 
-                    m_agentID, 
-                    new float[3]{
-                        m_localPositionOfHitPosition.x,
-                        m_localPositionOfHitPosition.y,
-                        m_localPositionOfHitPosition.z
-                    }, 
-                    new float[3]{
-                        m_localPositionOfHitTarget.x,
-                        m_localPositionOfHitTarget.y,
-                        m_localPositionOfHitTarget.z
-                    },
-                    new float[3]{
-                        pointer.transform.forward.x,
-                        pointer.transform.forward.y,
-                        pointer.transform.forward.z
-                    }
-                )
-            );
+        // RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 1f, pointer.transform.forward, 50f, layerMask);
+        //if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
+        if (Physics.SphereCast(pointer.transform.position, 0.5f, pointer.transform.forward, out hit, 50f, layerMask)) {
+            if (HelperMethods.HasComponent<ExperimentID>(hit.transform, out target)) {
+                currentTarget = target;
+                m_triangleIndex = hit.triangleIndex;
+                m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
+                m_agentID = target.ref_id;
+                m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
+                m_localPositionOfHitTarget = closestTarget.transform.localPosition;
+                m_hits.Add(
+                    new RaycastHitRow(
+                        StreetSim.S.trialFrameIndex,
+                        StreetSim.S.trialFrameTimestamp, 
+                        m_triangleIndex, 
+                        m_hitID, 
+                        m_agentID, 
+                        new float[3]{
+                            m_localPositionOfHitPosition.x,
+                            m_localPositionOfHitPosition.y,
+                            m_localPositionOfHitPosition.z
+                        }, 
+                        new float[3]{
+                            m_localPositionOfHitTarget.x,
+                            m_localPositionOfHitTarget.y,
+                            m_localPositionOfHitTarget.z
+                        },
+                        new float[3]{
+                            pointer.transform.forward.x,
+                            pointer.transform.forward.y,
+                            pointer.transform.forward.z
+                        }
+                    )
+                );
+            } else {
+                currentTarget = null;
+            }
         } else {
             currentTarget = null;
         }
