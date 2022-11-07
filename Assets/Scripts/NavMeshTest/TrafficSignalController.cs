@@ -83,9 +83,9 @@ public class TrafficSignalController : MonoBehaviour
 
     public bool GetSafety(bool onSouth) {
         if (onSouth) {
-            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 40f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 20f));
+            return (!Physics.Raycast(m_northCarDetector.position + (m_northCarDetector.forward * 20f) , m_northCarDetector.forward, 20f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 20f));
         } else {
-            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 20f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 40f));
+            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 20f) && !Physics.Raycast(m_southCarDetector.position + (m_southCarDetector.forward * 20f), m_southCarDetector.forward, 20f));
         }
     }
 

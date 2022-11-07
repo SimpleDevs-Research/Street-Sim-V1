@@ -860,6 +860,7 @@ GameObject:
   - component: {fileID: 8042957294900116185}
   - component: {fileID: -926418822590774888}
   - component: {fileID: 491071493199036307}
+  - component: {fileID: -2195013406391729252}
   m_Layer: 0
   m_Name: Jeep5
   m_TagString: Untagged
@@ -1098,6 +1099,19 @@ MonoBehaviour:
   - {fileID: 6559892761097264353}
   - {fileID: 6559892761097264359}
   - {fileID: 6559892761097264357}
+--- !u!114 &-2195013406391729252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559892761097289929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &6559892761097289931
 GameObject:
   m_ObjectHideFlags: 0

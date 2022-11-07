@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 6272492818190914042}
   - component: {fileID: 6952370336747516372}
   - component: {fileID: -6916057105234343495}
+  - component: {fileID: 8333855037547403429}
   m_Layer: 0
   m_Name: SportCar5
   m_TagString: Untagged
@@ -340,6 +341,19 @@ MonoBehaviour:
   - {fileID: 463214125921152474}
   - {fileID: 463214125921152476}
   - {fileID: 463214125921152478}
+--- !u!114 &8333855037547403429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463214125921513970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &463214125921513976
 GameObject:
   m_ObjectHideFlags: 0

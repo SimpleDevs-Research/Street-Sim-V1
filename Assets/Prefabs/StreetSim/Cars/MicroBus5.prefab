@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 5357112918426025197}
   - component: {fileID: -6770593643973776731}
   - component: {fileID: 1026040736492636196}
+  - component: {fileID: -250026787480693479}
   m_Layer: 0
   m_Name: MicroBus5
   m_TagString: Untagged
@@ -1108,6 +1109,19 @@ MonoBehaviour:
   - {fileID: 8038261308700297639}
   - {fileID: 8038261308700297633}
   - {fileID: 8038261308700297635}
+--- !u!114 &-250026787480693479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8038261308700661135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &8279816808116866035
 GameObject:
   m_ObjectHideFlags: 0

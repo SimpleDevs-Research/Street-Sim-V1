@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerNext : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.GetComponent<EVRA_CharacterController>() != null) {
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.GetComponent<EVRA_CharacterController>() != null || other.gameObject.layer == 7) {
             StreetSim.S.TriggerNextTrial();
             return;
         }

@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 2615496594104393444}
   - component: {fileID: 4562488653207351180}
   - component: {fileID: -2770316258154104138}
+  - component: {fileID: -8268543518286508732}
   m_Layer: 0
   m_Name: SportCar4
   m_TagString: Untagged
@@ -705,6 +706,19 @@ MonoBehaviour:
   - {fileID: 6354789718526919853}
   - {fileID: 6354789718526919851}
   - {fileID: 6354789718526919849}
+--- !u!114 &-8268543518286508732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6354789718527154309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &6354789718527154311
 GameObject:
   m_ObjectHideFlags: 0

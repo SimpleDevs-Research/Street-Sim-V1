@@ -96,7 +96,7 @@ public class StreetSim : MonoBehaviour
 
     private void PositionPlayerAtStart(Transform start) {
         xrTrackingSpace.transform.position = start.position;
-        xrTrackingSpace.transform.rotation = start.rotation;
+        // xrTrackingSpace.transform.rotation = start.rotation;
     }
 
     /*

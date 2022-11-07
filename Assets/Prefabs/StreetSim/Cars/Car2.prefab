@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 8507315181612216954}
   - component: {fileID: -3884753852499553189}
   - component: {fileID: 6554213839052852468}
+  - component: {fileID: -9017062398295057772}
   m_Layer: 0
   m_Name: Car2
   m_TagString: Untagged
@@ -623,6 +624,19 @@ MonoBehaviour:
   - {fileID: 5116513396555620199}
   - {fileID: 5116513396555620205}
   - {fileID: 5116513396555620207}
+--- !u!114 &-9017062398295057772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116513396555907907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &5116513396555907909
 GameObject:
   m_ObjectHideFlags: 0

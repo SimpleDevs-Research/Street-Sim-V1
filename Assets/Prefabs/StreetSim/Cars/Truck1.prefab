@@ -958,6 +958,7 @@ GameObject:
   - component: {fileID: 7094656912204941189}
   - component: {fileID: -8096553958221371401}
   - component: {fileID: -3509165893919357242}
+  - component: {fileID: -7709508470562195261}
   m_Layer: 0
   m_Name: Truck1
   m_TagString: Untagged
@@ -1216,6 +1217,19 @@ MonoBehaviour:
   - {fileID: 6400904079161560837}
   - {fileID: 6400904079161560843}
   - {fileID: 6400904079161560841}
+--- !u!114 &-7709508470562195261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400904079161266989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e156ab559da284baab3fe0bab4740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendBelow: 1
 --- !u!1 &6400904079161266991
 GameObject:
   m_ObjectHideFlags: 0
