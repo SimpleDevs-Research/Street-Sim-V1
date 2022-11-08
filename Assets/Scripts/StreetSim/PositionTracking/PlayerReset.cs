@@ -15,7 +15,8 @@ public class PlayerReset : MonoBehaviour
         Debug.Log("Collision with trigger detected");
         if (other.gameObject.GetComponent<EVRA_CharacterController>() != null || other.gameObject.layer == 7 ) {
             Debug.Log("Collision with player detected");
-            if (sendBelow) other.transform.position = new Vector3(other.transform.position.x, -6f, other.transform.position.z);
+            if (sendBelow) StreetSim.S.FailTrial();
+            //if (sendBelow) StreetSim.S.transform.position = new Vector3(StreetSim.S.transform.position.x, 6f, StreetSim.S.transform.position.z);
             else StreetSim.S.ResetTrial();
             return;
         }

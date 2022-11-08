@@ -114,6 +114,9 @@ public class StreetSimCar : MonoBehaviour
         //  IF NOT... we keep going to `endTarget`.
 
         StreetSimCar potentialFrontCar;
+        RaycastHit hit;
+        bool foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out hit, 6f);
+        /*
         Vector3 positionToStopAt = (trafficSignal != null && trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
             ? (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active) // Traffic light is WARNING or STOP
                 ? GetPositionBeforeCar(potentialFrontCar)    // The car is still before the traffic point. Let's follow it.
@@ -121,6 +124,16 @@ public class StreetSimCar : MonoBehaviour
                     ? endTarget.position        // We're beyond the traffic point, so we keep going until the end target
                     : middleTarget.position     // We're still before the traffic point. So we stop in front of the light
             : (frontCollider.numColliders > 0 && HelperMethods.HasComponent<StreetSimCar>(frontCollider.GetClosestCollider().gameObject,out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active)  // Traffic light is GO
+                ? GetPositionBeforeCar(potentialFrontCar)                                   // It's a car in front of us. Let's follow it
+                : endTarget.position;   // We don't have something in front of us. Let's keep going until the end.
+        */
+        Vector3 positionToStopAt = (trafficSignal != null && trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
+            ? (foundInFront && HelperMethods.HasComponent<StreetSimCar>(hit.transform, out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active) // Traffic light is WARNING or STOP
+                ? GetPositionBeforeCar(potentialFrontCar)    // The car is still before the traffic point. Let's follow it.
+                : (Vector3.Dot(transform.forward,(middleTarget.position-transform.position)) < 0) // Nothing's in front of us
+                    ? endTarget.position        // We're beyond the traffic point, so we keep going until the end target
+                    : middleTarget.position     // We're still before the traffic point. So we stop in front of the light
+            : (foundInFront && HelperMethods.HasComponent<StreetSimCar>(hit.transform, out potentialFrontCar) && potentialFrontCar.status == StreetSimCarStatus.Active)  // Traffic light is GO
                 ? GetPositionBeforeCar(potentialFrontCar)                                   // It's a car in front of us. Let's follow it
                 : endTarget.position;   // We don't have something in front of us. Let's keep going until the end.
 

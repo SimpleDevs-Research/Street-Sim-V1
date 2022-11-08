@@ -20,7 +20,8 @@ public class StreetSim : MonoBehaviour
         Tracking,
     }
 
-    [SerializeField] private Transform xrTrackingSpace;
+    public Transform xrTrackingSpace;
+    public Transform xrCamera;
     [SerializeField] private Transform m_agentParent, m_agentMeshParent;
     public Transform agentParent { get { return m_agentParent; } set{} }
     public Transform agentMeshParent { get { return m_agentMeshParent; } set{} }
@@ -76,6 +77,7 @@ public class StreetSim : MonoBehaviour
                 break;
         }
         m_trialQueue.AddFirst(m_initialSetup);
+        StartSimulation();
     }
 
     private IEnumerator InitializeTrial(StreetSimTrial trial) {
@@ -95,7 +97,9 @@ public class StreetSim : MonoBehaviour
     }
 
     private void PositionPlayerAtStart(Transform start) {
-        xrTrackingSpace.transform.position = start.position;
+        xrTrackingSpace.transform.position = Vector3.zero;
+        xrCamera.transform.position = start.position;
+        xrCamera.GetComponent<AudioListener>().enabled = true;
         // xrTrackingSpace.transform.rotation = start.rotation;
     }
 
@@ -255,6 +259,10 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
         }
     }
+    public void FailTrial() {
+        xrTrackingSpace.position = new Vector3(0f, -6f, 0f);
+        xrCamera.GetComponent<AudioListener>().enabled = false;
+    }
     public void ResetTrial() {
         if (m_currentlyAttempting) {
             // Attempt ended in failure, reset
@@ -267,7 +275,7 @@ public class StreetSim : MonoBehaviour
         }
         StreetSimAgentManager.AM.DestroyModel();
         StartCoroutine(InitializeTrial(m_currentTrial));
-        xrTrackingSpace.transform.position = new Vector3(xrTrackingSpace.transform.position.x, 0f, xrTrackingSpace.transform.position.z);
+        //xrCamera.transform.position = new Vector3(xrCamera.transform.position.x, 0f, xrCamera.transform.position.z);
     }
     public void TriggerNextTrial() {
         nextTrialTriggered = true;
