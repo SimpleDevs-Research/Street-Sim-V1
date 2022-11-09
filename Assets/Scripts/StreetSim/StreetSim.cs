@@ -76,6 +76,7 @@ public class StreetSim : MonoBehaviour
                 m_trialQueue = new LinkedList<StreetSimTrial>(m_trials.Shuffle<StreetSimTrial>());
                 break;
         }
+        m_initialSetup.isFirstTrial = true;
         m_trialQueue.AddFirst(m_initialSetup);
         StartSimulation();
     }
@@ -88,8 +89,7 @@ public class StreetSim : MonoBehaviour
         // NPCs - how congested should the NPCs be?
         // Traffic - how congested should the traffic be?
         // Save a ref to the model agent into our current trial data
-        //if (trial.startPositionRef != null) 
-        PositionPlayerAtStart(trial.startPositionRef);
+        PositionPlayerAtStart();
         if (trial.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
@@ -97,10 +97,9 @@ public class StreetSim : MonoBehaviour
         yield return null;
     }
 
-    private void PositionPlayerAtStart(Transform start) {
+    private void PositionPlayerAtStart() {
         Debug.Log("Positioning player during initialization of trial");
         xrTrackingSpace.position = Vector3.zero;
-        //xrCamera.transform.position = start.position;
         AudioListener.volume = 1;
         // xrTrackingSpace.transform.rotation = start.rotation;
     }
@@ -190,17 +189,69 @@ public class StreetSim : MonoBehaviour
         m_currentTrial = m_trialQueue.First.Value;
         m_trialQueue.RemoveFirst();
         string agentID = (m_currentTrial.agent != null) ? m_currentTrial.agent.GetComponent<ExperimentID>().id : "No Agent";
-        string startRef;
-        if (m_currentTrial.direction == StreetSimTrial.TrialDirection.SouthToNorth) {
-            m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
-            m_resetCube.position = m_southResetPoint.position;
-            m_nextCylinder.position = m_northNextPoint.position;
-            startRef = "South";
-        } else {
+        if (m_currentTrial.isFirstTrial) {
+            // Normally, the first trial should be from NORTH to SOUTH. We'll set that accordingly
             m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
             m_resetCube.position = m_northResetPoint.position;
             m_nextCylinder.position = m_southNextPoint.position;
-            startRef = "North";
+            m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
+            /*
+            if (m_currentTrial.direction == StreetSimTrial.TrialDirection.SouthToNorth) {
+                m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
+                m_resetCube.position = m_southResetPoint.position;
+                m_nextCylinder.position = m_northNextPoint.position;
+                startRef = "South";
+            } else {
+                m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
+                m_resetCube.position = m_northResetPoint.position;
+                m_nextCylinder.position = m_southNextPoint.position;
+                startRef = "North";
+            }
+            */
+        } else if (xrCamera.position.z > 0f) {
+            // The player is currently NORTH. So we switch the destination to South. Direction is [N -> S]
+            m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
+            m_resetCube.position = m_northResetPoint.position;
+            m_nextCylinder.position = m_southNextPoint.position;
+            m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
+        } else {
+            // The player is currently SOUTH. So we switch the destination to North. Direction is [S -> N]
+            m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
+            m_resetCube.position = m_southResetPoint.position;
+            m_nextCylinder.position = m_northNextPoint.position;
+            m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
+        }
+        if (m_currentTrial.agent == null) m_currentTrial.modelPathIndex = -1;
+        else {
+            switch(m_currentTrial.modelStartOrientation) {
+                case StreetSimTrial.ModelStartOrientation.West:
+                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(0,3) 
+                            : UnityEngine.Random.Range(6,9)
+                        : (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(6,9)
+                            : UnityEngine.Random.Range(0,3);
+                    break;
+                case StreetSimTrial.ModelStartOrientation.East:
+                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(3,6) 
+                            : UnityEngine.Random.Range(9,12)
+                        : (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(9,12)
+                            : UnityEngine.Random.Range(3,6);
+                    break;
+                default:
+                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(0,6) 
+                            : UnityEngine.Random.Range(6,12)
+                        : (m_currentTrial.modelStartOnSameSide)
+                            ? UnityEngine.Random.Range(6,12)
+                            : UnityEngine.Random.Range(0,6);
+                    break;
+            }
         }
         // Set up our trial payload
         trialPayload = new TrialData(
@@ -208,7 +259,9 @@ public class StreetSim : MonoBehaviour
             agentID,
             m_currentTrial.modelBehavior.ToString(),
             m_currentTrial.modelPathIndex,
-            startRef
+            m_currentTrial.direction.ToString(),
+            m_currentTrial.modelStartOnSameSide,
+            m_currentTrial.modelStartOrientation.ToString()
             //m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
         );
         // Set up the trial
@@ -238,11 +291,13 @@ public class StreetSim : MonoBehaviour
         // Get the end time of the trial
         m_trialEndTime = Time.time;
         // Calculate the trial dureation
-        m_trialDuration = m_trialStartTime - m_trialEndTime;
+        m_trialDuration =  m_trialEndTime - m_trialStartTime;
 
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
         trialPayload.participantGazeData = StreetSimRaycaster.R.hits;
         trialPayload.positionData = StreetSimIDController.ID.payloads;
+        trialPayload.startTime = m_trialStartTime;
+        trialPayload.endTime = m_trialEndTime;
         trialPayload.duration = m_trialDuration;
         if (SaveTrialData()) {
             StreetSimRaycaster.R.ClearData();
@@ -387,6 +442,11 @@ public class StreetSimTrial {
         SouthToNorth,
         NorthToSouth,
     }
+    public enum ModelStartOrientation {
+        West,
+        East,
+        Random
+    }
     public enum ModelBehavior {
         Safe,
         Risky
@@ -395,19 +455,37 @@ public class StreetSimTrial {
     public string name;
     [Tooltip("The agent prefab we'll be instantiating")]
     public StreetSimAgent agent;
-    [Tooltip("Which path (via index) should we put the agent on?")]
-    public int modelPathIndex;
+    [Tooltip("Should the model be safe or risky?")]
     public ModelBehavior modelBehavior;
+    [Tooltip("Should the model start on the same or opposite direction as the player?")]
+    public bool modelStartOnSameSide;
+    [Tooltip("Should the model start on the left or the right side of the player?")]
+    public ModelStartOrientation modelStartOrientation;
+    /*
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
-    [Tooltip("Which direction (North to South, or South to North) should the player move?")]
-    public TrialDirection direction;
+    */
     [Tooltip("What should the congestion of the cars be?")]
     public StreetSimCarManager.CarManagerStatus trafficCongestion;
     [Tooltip("What should the the congestion of the pedestrians be?")]
     public StreetSimAgentManager.AgentManagerStatus NPCCongestion;
 
+    private int m_modelPathIndex;
+    public int modelPathIndex {
+        get { return m_modelPathIndex; }
+        set { m_modelPathIndex = value; }
+    }
+    private TrialDirection m_direction;
+    public TrialDirection direction {
+        get { return m_direction; }
+        set { m_direction = value; }
+    }
     private Transform startSidewalk, endSidewalk;
+    private bool m_isFirstTrial = false;
+    public bool isFirstTrial {
+        get { return m_isFirstTrial; }
+        set { m_isFirstTrial = value; }
+    }
     public void SetSidewalks(Transform start, Transform end) {
         startSidewalk = start;
         endSidewalk = end;
@@ -418,6 +496,7 @@ public class StreetSimTrial {
     public Transform GetEndSidewalk() {
         return endSidewalk;
     }
+
 }
 
 [System.Serializable]
@@ -452,29 +531,37 @@ public class TrialData {
     public string modelID;
     public string modelBehavior;
     public int modelPathIndex;
-    public string participantStartPositionID;
-    public float duration;
+    public bool modelStartOnSameSide;
+    public string modelStartOrientation;
+    public string direction;
+    public float startTime, endTime, duration;
     public List<TrialAttempt> attempts;
     public List<RaycastHitRow> participantGazeData;
     public List<StreetSimTrackablePayload> positionData;
     
-    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID, float duration, List<RaycastHitRow> participantGazeData, List<StreetSimTrackablePayload> positionData) {
+    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation, float startTime, float endTime, float duration, List<RaycastHitRow> participantGazeData, List<StreetSimTrackablePayload> positionData) {
         this.name = name;
         this.modelID = modelID;
         this.modelBehavior = modelBehavior;
         this.modelPathIndex = modelPathIndex;
-        this.participantStartPositionID = participantStartPositionID;
+        this.direction = direction;
+        this.modelStartOnSameSide = modelStartOnSameSide;
+        this.modelStartOrientation = modelStartOrientation;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.duration = duration;
         this.participantGazeData = participantGazeData;
         this.positionData = positionData;
         this.attempts = new List<TrialAttempt>();
     }
-    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string participantStartPositionID) {
+    public TrialData(string name, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation) {
         this.name = name;
         this.modelID = modelID;
         this.modelBehavior = modelBehavior;
         this.modelPathIndex = modelPathIndex;
-        this.participantStartPositionID = participantStartPositionID;
+        this.direction = direction;
+        this.modelStartOnSameSide = modelStartOnSameSide;
+        this.modelStartOrientation = modelStartOrientation;
         this.participantGazeData = new List<RaycastHitRow>();
         this.positionData = new List<StreetSimTrackablePayload>();
         this.attempts = new List<TrialAttempt>();

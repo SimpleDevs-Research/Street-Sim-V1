@@ -7219,7 +7219,7 @@ Transform:
   m_GameObject: {fileID: 112212709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -30}
-  m_LocalScale: {x: 20, y: 1, z: 5.4}
+  m_LocalScale: {x: 20, y: 1, z: 5.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 602058445}
@@ -8933,7 +8933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4050403524429934, guid: 2791553a612d84e7c9f3c0a95308376f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5
+      value: -1.75
       objectReference: {fileID: 0}
     - target: {fileID: 4050403524429934, guid: 2791553a612d84e7c9f3c0a95308376f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10761,7 +10761,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270106146}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1.6, y: 0.005, z: 6}
+  m_LocalPosition: {x: -1.5, y: 0.005, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12001,7 +12001,7 @@ Transform:
   m_GameObject: {fileID: 324449118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 30}
-  m_LocalScale: {x: 20, y: 1, z: 5.4}
+  m_LocalScale: {x: 20, y: 1, z: 5.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 602058445}
@@ -12197,7 +12197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4050403524429934, guid: 2791553a612d84e7c9f3c0a95308376f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.5
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 4050403524429934, guid: 2791553a612d84e7c9f3c0a95308376f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13854,7 +13854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385162316}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0.005, z: -6}
+  m_LocalPosition: {x: -1.5, y: 0.005, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16526,7 +16526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512695090}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 5.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21092,7 +21092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -4.25
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23064,6 +23064,103 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   followType: 1
   followRotation: 1
+--- !u!1 &868495216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 868495217}
+  - component: {fileID: 868495220}
+  - component: {fileID: 868495219}
+  - component: {fileID: 868495218}
+  m_Layer: 29
+  m_Name: RoadMark (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &868495217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868495216}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
+  m_LocalScale: {x: 5, y: 0.01, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &868495218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868495216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &868495219
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868495216}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8e8bca684736f46909cc8ddcfaea0c7a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &868495220
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868495216}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &869892540
 GameObject:
   m_ObjectHideFlags: 0
@@ -24342,7 +24439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947653033}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 0.005, z: -6}
+  m_LocalPosition: {x: 1.5, y: 0.005, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25602,12 +25699,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017018466}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.5, y: 1, z: -2.5}
+  m_LocalPosition: {x: -2.5, y: 1, z: -2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1021262760
 GameObject:
@@ -36058,7 +36155,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1075097360
 MeshCollider:
@@ -36449,7 +36546,7 @@ MonoBehaviour:
         m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_movementMultiplier: {x: 1, y: 1, z: 1}
+  m_movementMultiplier: {x: 1.5, y: 1, z: 1.5}
   m_PositionAction:
     m_Name: 
     m_Type: 0
@@ -37644,7 +37741,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126469257}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.005, z: 6}
+  m_LocalPosition: {x: 0, y: 0.005, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44735,7 +44832,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236367141}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6, z: -5}
+  m_LocalPosition: {x: 0, y: -6, z: -5.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52272,113 +52369,219 @@ MonoBehaviour:
     - {fileID: 1911911258}
     pathColor: {r: 0.62320215, g: 0.5801887, b: 1, a: 1}
     pathWidth: 0
-  modelPaths:
-  - name: Cross-SWF-NW
+  modelPaths_NorthToSouth:
+  - name: NW-SW
     points:
-    - {fileID: 318699062}
-    - {fileID: 680009846}
-    - {fileID: 1409091762}
-    - {fileID: 1287731597}
-    - {fileID: 314154594}
-    pathColor: {r: 0, g: 0, b: 0, a: 1}
-    pathWidth: 1
-  - name: Cross-SWB-NW
-    points:
-    - {fileID: 846477062}
-    - {fileID: 385162317}
     - {fileID: 270106147}
-    - {fileID: 1885041598}
-    - {fileID: 379197245}
-    pathColor: {r: 1, g: 1, b: 1, a: 1}
-    pathWidth: 1
-  - name: Cross-SMF-NM
-    points:
-    - {fileID: 131438001}
-    - {fileID: 231105269}
-    - {fileID: 1126469258}
-    - {fileID: 523066925}
-    - {fileID: 361500571}
-    pathColor: {r: 0, g: 0.054017544, b: 1, a: 1}
-    pathWidth: 1
-  - name: Cross-SMB-NM
-    points:
-    - {fileID: 1563195793}
-    - {fileID: 1559175314}
-    - {fileID: 1126469258}
-    - {fileID: 1242182258}
-    - {fileID: 803441950}
-    pathColor: {r: 1, g: 0.98607576, b: 0.08018869, a: 1}
-    pathWidth: 1
-  - name: Cross-SEF-NE
-    points:
-    - {fileID: 361939292}
-    - {fileID: 1437538474}
-    - {fileID: 1267473248}
-    - {fileID: 1755061045}
-    - {fileID: 2008022798}
-    pathColor: {r: 0, g: 0.87161016, b: 1, a: 1}
-    pathWidth: 1
-  - name: Cross-SEB-NE
-    points:
-    - {fileID: 1524534617}
-    - {fileID: 947653034}
-    - {fileID: 1759061551}
-    - {fileID: 746898629}
-    - {fileID: 1814938164}
-    pathColor: {r: 0.08611488, g: 0, b: 1, a: 1}
-    pathWidth: 1
-  - name: Cross-NWF-SW
-    points:
-    - {fileID: 1287731597}
     - {fileID: 1409091762}
-    - {fileID: 680009846}
-    - {fileID: 318699062}
-    - {fileID: 2131971898}
+    - {fileID: 385162317}
+    - {fileID: 1156560877}
+    - {fileID: 765579100}
     pathColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
     pathWidth: 5
-  - name: Cross-NWB-SW
+  - name: NW-SS
     points:
-    - {fileID: 1885041598}
     - {fileID: 270106147}
-    - {fileID: 385162317}
-    - {fileID: 846477062}
-    - {fileID: 448348593}
+    - {fileID: 1409091762}
+    - {fileID: 1559175314}
+    - {fileID: 1236262650}
     pathColor: {r: 1, g: 0.9632401, b: 0, a: 1}
     pathWidth: 5
-  - name: Cross-NMF-SM
+  - name: NW-SE
     points:
-    - {fileID: 1758124438}
-    - {fileID: 353951450}
-    - {fileID: 1559175314}
-    - {fileID: 1044125005}
-    - {fileID: 1271629100}
+    - {fileID: 270106147}
+    - {fileID: 1409091762}
+    - {fileID: 947653034}
+    - {fileID: 1441764352}
+    - {fileID: 2080125696}
     pathColor: {r: 0, g: 1, b: 0.036759853, a: 1}
     pathWidth: 5
-  - name: Cross-NMB-SM
+  - name: NE-SW
     points:
-    - {fileID: 493900113}
-    - {fileID: 1126469258}
-    - {fileID: 1559175314}
-    - {fileID: 1983983380}
-    - {fileID: 713151736}
+    - {fileID: 1759061551}
+    - {fileID: 1267473248}
+    - {fileID: 385162317}
+    - {fileID: 1156560877}
+    - {fileID: 765579100}
     pathColor: {r: 0, g: 0, b: 0, a: 1}
     pathWidth: 5
-  - name: Cross-NEF-SE
+  - name: NE-SS
     points:
-    - {fileID: 1755061045}
+    - {fileID: 1759061551}
     - {fileID: 1267473248}
-    - {fileID: 1437538474}
-    - {fileID: 361939292}
-    - {fileID: 1351747069}
+    - {fileID: 1559175314}
+    - {fileID: 1236262650}
     pathColor: {r: 0.08611488, g: 0, b: 1, a: 1}
     pathWidth: 5
-  - name: Cross-NEB-SE
+  - name: NE-SE
     points:
-    - {fileID: 746898629}
     - {fileID: 1759061551}
+    - {fileID: 1267473248}
     - {fileID: 947653034}
-    - {fileID: 1524534617}
-    - {fileID: 174636397}
+    - {fileID: 1441764352}
+    - {fileID: 2080125696}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  modelPaths_SouthToNorth:
+  - name: SW-NW
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 270106147}
+    - {fileID: 1150078867}
+    - {fileID: 125556523}
+    pathColor: {r: 0, g: 0, b: 0, a: 1}
+    pathWidth: 1
+  - name: SW-NN
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 1126469258}
+    - {fileID: 761134729}
+    pathColor: {r: 1, g: 1, b: 1, a: 1}
+    pathWidth: 1
+  - name: SW-NE
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 1759061551}
+    - {fileID: 523066925}
+    - {fileID: 237412342}
+    - {fileID: 1911911258}
+    pathColor: {r: 0, g: 0.054017544, b: 1, a: 1}
+    pathWidth: 1
+  - name: SE-NW
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1126469258}
+    - {fileID: 270106147}
+    - {fileID: 1150078867}
+    - {fileID: 125556523}
+    pathColor: {r: 1, g: 0.98607576, b: 0.08018869, a: 1}
+    pathWidth: 1
+  - name: SE-NN
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1126469258}
+    - {fileID: 761134729}
+    pathColor: {r: 0, g: 0.87161016, b: 1, a: 1}
+    pathWidth: 1
+  - name: SE-NE
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1759061551}
+    - {fileID: 237412342}
+    - {fileID: 1911911258}
+    pathColor: {r: 0.08611488, g: 0, b: 1, a: 1}
+    pathWidth: 1
+  modelPaths:
+  - name: NW-SW
+    points:
+    - {fileID: 270106147}
+    - {fileID: 1409091762}
+    - {fileID: 385162317}
+    - {fileID: 1156560877}
+    - {fileID: 765579100}
+    pathColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
+    pathWidth: 5
+  - name: NW-SS
+    points:
+    - {fileID: 270106147}
+    - {fileID: 1409091762}
+    - {fileID: 1559175314}
+    - {fileID: 1236262650}
+    pathColor: {r: 1, g: 0.9632401, b: 0, a: 1}
+    pathWidth: 5
+  - name: NW-SE
+    points:
+    - {fileID: 270106147}
+    - {fileID: 1409091762}
+    - {fileID: 947653034}
+    - {fileID: 1441764352}
+    - {fileID: 2080125696}
+    pathColor: {r: 0, g: 1, b: 0.036759853, a: 1}
+    pathWidth: 5
+  - name: NE-SW
+    points:
+    - {fileID: 1759061551}
+    - {fileID: 1267473248}
+    - {fileID: 385162317}
+    - {fileID: 1156560877}
+    - {fileID: 765579100}
+    pathColor: {r: 0, g: 0, b: 0, a: 1}
+    pathWidth: 5
+  - name: NE-SS
+    points:
+    - {fileID: 1759061551}
+    - {fileID: 1267473248}
+    - {fileID: 1559175314}
+    - {fileID: 1236262650}
+    pathColor: {r: 0.08611488, g: 0, b: 1, a: 1}
+    pathWidth: 5
+  - name: NE-SE
+    points:
+    - {fileID: 1759061551}
+    - {fileID: 1267473248}
+    - {fileID: 947653034}
+    - {fileID: 1441764352}
+    - {fileID: 2080125696}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SW-NW
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 270106147}
+    - {fileID: 1150078867}
+    - {fileID: 125556523}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SW-NN
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 1126469258}
+    - {fileID: 761134729}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SW-NE
+    points:
+    - {fileID: 385162317}
+    - {fileID: 680009846}
+    - {fileID: 1759061551}
+    - {fileID: 523066925}
+    - {fileID: 237412342}
+    - {fileID: 1911911258}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SE-NW
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1126469258}
+    - {fileID: 270106147}
+    - {fileID: 1150078867}
+    - {fileID: 125556523}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SE-NN
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1126469258}
+    - {fileID: 761134729}
+    pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
+    pathWidth: 5
+  - name: SE-NE
+    points:
+    - {fileID: 947653034}
+    - {fileID: 1437538474}
+    - {fileID: 1759061551}
+    - {fileID: 237412342}
+    - {fileID: 1911911258}
     pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
     pathWidth: 5
 --- !u!137 &1391801566 stripped
@@ -54182,7 +54385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475051511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6, z: 5}
+  m_LocalPosition: {x: 0, y: -6, z: 5.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55221,7 +55424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559175313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.005, z: -6}
+  m_LocalPosition: {x: 0, y: 0.005, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56070,7 +56273,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1604860763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4}
+  m_LocalPosition: {x: 0, y: 0, z: -5.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56150,6 +56353,103 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4444c067bcd3a8746a40a01df92e898e, type: 3}
+--- !u!1 &1606892119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1606892120}
+  - component: {fileID: 1606892123}
+  - component: {fileID: 1606892122}
+  - component: {fileID: 1606892121}
+  m_Layer: 29
+  m_Name: RoadMark (16)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1606892120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606892119}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -6}
+  m_LocalScale: {x: 5, y: 0.01, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1606892121
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606892119}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1606892122
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606892119}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8e8bca684736f46909cc8ddcfaea0c7a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1606892123
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606892119}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1618464960
 GameObject:
   m_ObjectHideFlags: 0
@@ -58548,7 +58848,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1759061550}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 1.6, y: 0.005, z: 6}
+  m_LocalPosition: {x: 1.6, y: 0.005, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59420,67 +59720,242 @@ MonoBehaviour:
   xrCamera: {fileID: 1081477697}
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
-  m_sourceDirectory: GazeData
+  m_sourceDirectory: GazeData_ignore
   m_participantName: RyanKim
   m_initialSetup:
     name: Training
     agent: {fileID: 0}
-    modelPathIndex: 0
     modelBehavior: 0
-    startPositionRef: {fileID: 512695091}
-    direction: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
     trafficCongestion: 2
     NPCCongestion: 1
   m_trials:
-  - name: Low-Female-Safe-SameSide
-    agent: {fileID: 1205305574}
-    modelPathIndex: 0
-    modelBehavior: 0
-    startPositionRef: {fileID: 0}
-    direction: 0
-    trafficCongestion: 2
-    NPCCongestion: 1
-  - name: Low-Male-Safe-SameSide
-    agent: {fileID: 1455608257}
-    modelPathIndex: 6
-    modelBehavior: 0
-    startPositionRef: {fileID: 0}
-    direction: 1
-    trafficCongestion: 2
-    NPCCongestion: 1
-  - name: Worker-Female-Safe-SameSide
-    agent: {fileID: 2093847510}
-    modelPathIndex: 1
-    modelBehavior: 0
-    startPositionRef: {fileID: 0}
-    direction: 0
-    trafficCongestion: 2
-    NPCCongestion: 1
-  - name: Worker-Male-Safe-SameSide
+  - name: HighMale-SafeBehavior-SameSide-MinCongestion
     agent: {fileID: 1497722905}
-    modelPathIndex: 7
     modelBehavior: 0
-    startPositionRef: {fileID: 0}
-    direction: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
     trafficCongestion: 2
     NPCCongestion: 1
-  - name: Low-Female-Risky-SameSide
-    agent: {fileID: 1205305574}
-    modelPathIndex: 2
-    modelBehavior: 1
-    startPositionRef: {fileID: 0}
-    direction: 0
-    trafficCongestion: 2
-    NPCCongestion: 1
-  - name: Low-Male-Risky-SameSide
+  - name: LowMale-SafeBehavior-SameSide-MinCongestion
     agent: {fileID: 1455608257}
-    modelPathIndex: 8
-    modelBehavior: 1
-    startPositionRef: {fileID: 0}
-    direction: 1
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
     trafficCongestion: 2
     NPCCongestion: 1
-  m_trialRotation: 1
+  - name: HighMale-RiskyBehavior-SameSide-MinCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowMale-RiskyBehavior-SameSide-MinCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighMale-SafeBehavior-OppSide-MinCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowMale-SafeBehavior-OppSide-MinCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighMale-RiskyBehavior-OppSide-MinCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowMale-RiskyBehavior-OppSide-MinCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighMale-SafeBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowMale-SafeBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighMale-RiskyBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowMale-RiskyBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighMale-SafeBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowMale-SafeBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighMale-RiskyBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1497722905}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowMale-RiskyBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1455608257}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighFemale-SafeBehavior-SameSide-MinCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowFemale-SafeBehavior-SameSide-MinCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighFemale-RiskyBehavior-SameSide-MinCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowFemale-RiskyBehavior-SameSide-MinCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighFemale-SafeBehavior-OppSide-MinCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowFemale-SafeBehavior-OppSide-MinCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighFemale-RiskyBehavior-OppSide-MinCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: LowFemale-RiskyBehavior-OppSide-MinCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 2
+    NPCCongestion: 1
+  - name: HighFemale-SafeBehavior-SameSide-SomeCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowFemale-SafeBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 0
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighFemale-RiskyBehavior-SameSide-SomeCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowFemale-RiskyBehavior-SameSide-SomeCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 1
+    modelStartOnSameSide: 1
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighFemale-SafeBehavior-OppSide-SomeCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowFemale-SafeBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: HighFemale-RiskyBehavior-OppSide-SomeCongestion
+    agent: {fileID: 2093847510}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  - name: LowFemale-RiskyBehavior-OppSide-SomeCongestion
+    agent: {fileID: 1205305574}
+    modelBehavior: 1
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
+    trafficCongestion: 3
+    NPCCongestion: 1
+  m_trialRotation: 0
   m_streetSimStatus: 0
   m_simulationStartTime: 0
   m_simulationEndTime: 0
@@ -59494,10 +59969,9 @@ MonoBehaviour:
   m_currentTrial:
     name: 
     agent: {fileID: 0}
-    modelPathIndex: 0
     modelBehavior: 0
-    startPositionRef: {fileID: 0}
-    direction: 0
+    modelStartOnSameSide: 0
+    modelStartOrientation: 0
     trafficCongestion: 0
     NPCCongestion: 0
   m_currentAttempt:
@@ -63266,7 +63740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 4.25
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalRotation.w
@@ -65956,6 +66430,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 868495217}
   - {fileID: 8477553738163889862}
   - {fileID: 8880223034538309564}
   - {fileID: 4839932033908859325}
@@ -65967,6 +66442,7 @@ Transform:
   - {fileID: 5998068866184063905}
   - {fileID: 7201605841771134391}
   - {fileID: 7932977464105641749}
+  - {fileID: 1606892120}
   - {fileID: 1075097359}
   - {fileID: 2054990751}
   - {fileID: 1017018467}
@@ -66626,12 +67102,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2054990750}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.5, y: 1, z: 2.5}
+  m_LocalPosition: {x: 2.5, y: 1, z: 2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &2061541221
 PrefabInstance:
@@ -68450,7 +68926,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &499210992170841009 stripped
 Transform:
@@ -68947,7 +69423,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1876778030240243727
 BoxCollider:
@@ -69294,7 +69770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &2562763725288770906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69638,7 +70114,7 @@ Transform:
   m_GameObject: {fileID: 134038712974410242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 0.6}
+  m_LocalScale: {x: 20, y: 1, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1590871184}
@@ -69768,7 +70244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &4323444428504014355
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70104,7 +70580,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4882621147180715691 stripped
 Transform:
@@ -70290,7 +70766,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &5850526733493469385 stripped
 CapsuleCollider:
@@ -70384,7 +70860,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6041955691652008802
 PrefabInstance:
@@ -70497,7 +70973,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6599813510874553615
 MeshFilter:
@@ -70745,7 +71221,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7206274571310523405
 Transform:
@@ -70760,7 +71236,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7304374929332678818
 MeshFilter:
@@ -70958,7 +71434,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8081373160967225810
 MeshFilter:
@@ -70991,7 +71467,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8532466816901627742
 PrefabInstance:
@@ -71167,7 +71643,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &8924584567376102439 stripped
 Transform:
