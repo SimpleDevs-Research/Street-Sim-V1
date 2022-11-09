@@ -64,7 +64,7 @@ public class StreetSimRaycaster : MonoBehaviour
         RaycastHit hit;
         // RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 1f, pointer.transform.forward, 50f, layerMask);
         //if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
-        if (Physics.SphereCast(pointer.transform.position, 0.5f, pointer.transform.forward, out hit, 50f, layerMask)) {
+        if (Physics.SphereCast(pointer.transform.position, 0.5f, pointer.transform.forward, out hit, 100f, layerMask)) {
             if (HelperMethods.HasComponent<ExperimentID>(hit.transform, out target)) {
                 currentTarget = target;
                 m_triangleIndex = hit.triangleIndex;

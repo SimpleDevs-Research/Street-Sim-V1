@@ -88,7 +88,8 @@ public class StreetSim : MonoBehaviour
         // NPCs - how congested should the NPCs be?
         // Traffic - how congested should the traffic be?
         // Save a ref to the model agent into our current trial data
-        if (trial.startPositionRef != null) PositionPlayerAtStart(trial.startPositionRef);
+        //if (trial.startPositionRef != null) 
+        PositionPlayerAtStart(trial.startPositionRef);
         if (trial.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
@@ -97,9 +98,10 @@ public class StreetSim : MonoBehaviour
     }
 
     private void PositionPlayerAtStart(Transform start) {
-        xrTrackingSpace.transform.position = Vector3.zero;
-        xrCamera.transform.position = start.position;
-        xrCamera.GetComponent<AudioListener>().enabled = true;
+        Debug.Log("Positioning player during initialization of trial");
+        xrTrackingSpace.position = Vector3.zero;
+        //xrCamera.transform.position = start.position;
+        AudioListener.volume = 1;
         // xrTrackingSpace.transform.rotation = start.rotation;
     }
 
@@ -261,9 +263,10 @@ public class StreetSim : MonoBehaviour
     }
     public void FailTrial() {
         xrTrackingSpace.position = new Vector3(0f, -6f, 0f);
-        xrCamera.GetComponent<AudioListener>().enabled = false;
+        AudioListener.volume = 0;
     }
     public void ResetTrial() {
+        Debug.Log("Resetting Trial");
         if (m_currentlyAttempting) {
             // Attempt ended in failure, reset
             m_currentAttempt.endTime = m_trialFrameTimestamp;
@@ -291,7 +294,7 @@ public class StreetSim : MonoBehaviour
                 m_trialFrameTimestamp = Time.time - m_trialStartTime;
                 // Check the current attempt
                 RaycastHit hit;
-                if (Physics.Raycast(xrTrackingSpace.position, -Vector3.up, out hit, 3f, downwardMask)) {
+                if (Physics.Raycast(xrCamera.position, -Vector3.up, out hit, 3f, downwardMask)) {
                     if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
                         if (!m_currentlyAttempting) {
                             // Create a new attempt
