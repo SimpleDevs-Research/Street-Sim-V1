@@ -43,6 +43,7 @@ public class StreetSimIDController : MonoBehaviour
     private Dictionary<ExperimentID, Queue<ExperimentID>> parentChildQueue = new Dictionary<ExperimentID, Queue<ExperimentID>>();
 
     [SerializeField] private bool m_shouldTrackPositions = true;
+    [SerializeField] private int m_numTrackedPerFrame = 50;
     [SerializeField] private List<ExperimentID> m_trackables = new List<ExperimentID>();
     [SerializeField] private List<StreetSimTrackablePayload> m_payloads = new List<StreetSimTrackablePayload>();
     public List<StreetSimTrackablePayload> payloads {
@@ -128,13 +129,13 @@ public class StreetSimIDController : MonoBehaviour
                             child.id,
                             child.transform
                         ));
-                        if (count >= 50) {
+                        if (count >= m_numTrackedPerFrame) {
                             yield return null;
                             count = 0;
                         }
                     }
                 }
-                if (count >= 50) {
+                if (count >= m_numTrackedPerFrame) {
                     yield return null;
                     count = 0;
                 }

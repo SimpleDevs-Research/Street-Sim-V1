@@ -111,37 +111,6 @@ public class StreetSim : MonoBehaviour
         // xrTrackingSpace.transform.rotation = start.rotation;
     }
 
-    /*
-    private void InitializeNPC(StreetSimModelPath modelPath, StreetSimTrial.ModelBehavior behave = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
-        NPCPath path;
-        if (TargetPositioningVisualizer.current.GetPathFromName(modelPath.pathName, out path)) {
-            Transform[] points;
-            if (modelPath.reversePath) {
-                points = new Transform[path.points.Length];
-                for(int i = path.points.Length-1; i >= 0; i--) {
-                    points[(path.points.Length-1)-i] = path.points[i];
-                }
-            }
-            else {
-                points = path.points;
-            }
-            StreetSimAgent npc = Instantiate(modelPath.agent, points[0].position, path.points[0].rotation, agentParent) as StreetSimAgent;
-            if (isModel) {
-                // We need an extra step since this is a model...
-                // We only render the model if there's an equivalent mesh running around
-                if (StreetSimModelMapper.M.MapMeshToModel(npc)) {
-                    npc.Initialize(points, behave, modelPath.shouldLoop, modelPath.shouldWarpOnLoop);
-                }
-            }  else {
-                // Just initialize like normal
-                npc.Initialize(points, behave, modelPath.shouldLoop, modelPath.shouldWarpOnLoop);
-            }
-        } else {
-            Debug.Log("[StreetSim] ERROR: No path fits " + modelPath.pathName);
-        }
-    }
-    */
-
     public void StartSimulation() {
         Debug.Log("[STREET SIM] Starting Simulation...");
         // Prepare the payload
@@ -202,19 +171,6 @@ public class StreetSim : MonoBehaviour
             m_resetCube.position = m_northResetPoint.position;
             m_nextCylinder.position = m_southNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
-            /*
-            if (m_currentTrial.direction == StreetSimTrial.TrialDirection.SouthToNorth) {
-                m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
-                m_resetCube.position = m_southResetPoint.position;
-                m_nextCylinder.position = m_northNextPoint.position;
-                startRef = "South";
-            } else {
-                m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
-                m_resetCube.position = m_northResetPoint.position;
-                m_nextCylinder.position = m_southNextPoint.position;
-                startRef = "North";
-            }
-            */
         } else if (xrCamera.position.z > 0f) {
             // The player is currently NORTH. So we switch the destination to South. Direction is [N -> S]
             m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
@@ -228,6 +184,7 @@ public class StreetSim : MonoBehaviour
             m_nextCylinder.position = m_northNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
+        // Set model stuff
         if (m_currentTrial.agent == null) m_currentTrial.modelPathIndex = -1;
         else {
             switch(m_currentTrial.modelStartOrientation) {
@@ -457,6 +414,32 @@ public class StreetSim : MonoBehaviour
 
 [System.Serializable]
 public class StreetSimTrial {
+    [System.Serializable]
+    public class StreetSimPrimaryModel {
+        [Tooltip("The agent prefab we'll be instantiating")]
+        public StreetSimAgent agent;
+        [Tooltip("Should the model be safe or risky?")]
+        public ModelBehavior modelBehavior;
+        [Tooltip("Should the model start on the same or opposite direction as the player?")]
+        public bool modelStartOnSameSide;
+        [Tooltip("Should the model start on the left or the right side of the player?")]
+        public ModelStartOrientation modelStartOrientation;
+
+        private int m_modelPathIndex;
+        public int modelPathIndex {
+            get { return m_modelPathIndex; }
+            set { m_modelPathIndex = value; }
+        }
+    }
+
+    [System.Serializable]
+    public class StreetSimFollowerModel {
+        [Tooltip("The agent prefab we'll be instantiating")]
+        public StreetSimAgent agent;
+        [Tooltip("Should the model start on the same or opposite direction as the player?")]
+        public bool modelStartOnSameSide;
+    }
+
     public enum TrialDirection {
         SouthToNorth,
         NorthToSouth,
@@ -464,6 +447,7 @@ public class StreetSimTrial {
     public enum ModelStartOrientation {
         West,
         East,
+        Middle,
         Random
     }
     public enum ModelBehavior {
@@ -472,6 +456,11 @@ public class StreetSimTrial {
     }
     [Tooltip("Name of the trial; must be unique from other trials.")] 
     public string name;
+
+    [Tooltip("Primary model agent behavior")]
+    public StreetSimPrimaryModel primaryModel;
+
+
     [Tooltip("The agent prefab we'll be instantiating")]
     public StreetSimAgent agent;
     [Tooltip("Should the model be safe or risky?")]
@@ -515,14 +504,6 @@ public class StreetSimTrial {
     public Transform GetEndSidewalk() {
         return endSidewalk;
     }
-
-}
-
-[System.Serializable]
-public class StreetSimModelPath {
-    public StreetSimAgent agent;
-    public string pathName;
-    public bool reversePath = false, shouldLoop, shouldWarpOnLoop;
 }
 
 [System.Serializable]
