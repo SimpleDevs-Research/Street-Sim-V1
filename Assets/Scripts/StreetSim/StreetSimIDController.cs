@@ -22,18 +22,15 @@ public class StreetSimTrackable {
     public string id;
     public SVector3 localPosition;
     public SQuaternion localRotation;
-    public SVector3 localScale;
-    public StreetSimTrackable(string id, Vector3 localPosition, Quaternion localRotation, Vector3 localScale) {
+    public StreetSimTrackable(string id, Vector3 localPosition, Quaternion localRotation) {
         this.id = id;
         this.localPosition = localPosition;
         this.localRotation = localRotation;
-        this.localScale = localScale;
     }
     public StreetSimTrackable(string id, Transform t) {
         this.id = id;
         this.localPosition = t.localPosition;
         this.localRotation = t.localRotation;
-        this.localScale = t.localScale;
     }
 }
 
@@ -46,6 +43,7 @@ public class StreetSimIDController : MonoBehaviour
     private Dictionary<ExperimentID, Queue<ExperimentID>> parentChildQueue = new Dictionary<ExperimentID, Queue<ExperimentID>>();
 
     [SerializeField] private bool m_shouldTrackPositions = true;
+    [SerializeField] private List<ExperimentID> m_trackables = new List<ExperimentID>();
     [SerializeField] private List<StreetSimTrackablePayload> m_payloads = new List<StreetSimTrackablePayload>();
     public List<StreetSimTrackablePayload> payloads {
         get { return m_payloads; }
@@ -113,24 +111,37 @@ public class StreetSimIDController : MonoBehaviour
             StreetSim.S.trialFrameIndex, 
             StreetSim.S.trialFrameTimestamp
         );
-        Queue<ExperimentID> temp = new Queue<ExperimentID>(ids);
-
-        int count = 0;
-        while(temp.Count > 0) {
-            ExperimentID id = temp.Dequeue();
-            payload.trackables.Add(new StreetSimTrackable(
-                id.id,
-                id.transform
-            ));
-            count++;
-            if (count >= 50) {
-                yield return null;
-                count = 0;
+        if (m_trackables.Count == 0) yield return null;
+        else {
+            Queue<ExperimentID> temp = new Queue<ExperimentID>(m_trackables);
+            int count = 0;
+            while(temp.Count > 0) {
+                ExperimentID id = temp.Dequeue();
+                payload.trackables.Add(new StreetSimTrackable(
+                    id.id,
+                    id.transform
+                ));
+                count++;
+                if (id.children.Count > 0) {
+                    foreach(ExperimentID child in id.children) {
+                        payload.trackables.Add(new StreetSimTrackable(
+                            child.id,
+                            child.transform
+                        ));
+                        if (count >= 50) {
+                            yield return null;
+                            count = 0;
+                        }
+                    }
+                }
+                if (count >= 50) {
+                    yield return null;
+                    count = 0;
+                }
             }
+            m_payloads.Add(payload);
+            yield return null;
         }
-
-        m_payloads.Add(payload);
-        yield return null;
     }
 
     public void ClearData() {
