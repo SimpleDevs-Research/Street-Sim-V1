@@ -22,6 +22,7 @@ public class StreetSim : MonoBehaviour
 
     public Transform xrTrackingSpace;
     public Transform xrCamera;
+    [SerializeField] private AudioSource m_successAudioSource;
     [SerializeField] private Transform m_agentParent, m_agentMeshParent;
     public Transform agentParent { get { return m_agentParent; } set{} }
     public Transform agentMeshParent { get { return m_agentMeshParent; } set{} }
@@ -33,6 +34,7 @@ public class StreetSim : MonoBehaviour
     public string saveDirectory { get{ return m_sourceDirectory + "/" + simulationPayload.startTime + "_" + m_participantName + "/"; } set{} }
 
     [SerializeField] private StreetSimTrial m_initialSetup;
+    [SerializeField] private bool m_includeInitialSetup = true;
     [SerializeField] private List<StreetSimTrial> m_trials = new List<StreetSimTrial>();
     private LinkedList<StreetSimTrial> m_trialQueue;
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
@@ -54,6 +56,8 @@ public class StreetSim : MonoBehaviour
     private TrialData trialPayload;
     [SerializeField] private TrialAttempt m_currentAttempt;
     private bool m_currentlyAttempting = false;
+    [SerializeField] private TrialAttempt m_modelCurrentAttempt;
+    private bool m_modelCurrentlyAttempting = false;
     [SerializeField] private LayerMask downwardMask;
     [SerializeField] private Transform[] roadTransforms;
     [SerializeField] private Transform m_southSidewalk,m_northSidewalk;
@@ -83,7 +87,9 @@ public class StreetSim : MonoBehaviour
         roundOne.AddRange(roundTwo);
         m_trialQueue = new LinkedList<StreetSimTrial>(roundOne);
         m_initialSetup.isFirstTrial = true;
-        m_trialQueue.AddFirst(m_initialSetup);
+        if (m_includeInitialSetup) {
+           m_trialQueue.AddFirst(m_initialSetup);
+        }
         StartSimulation();
     }
 
@@ -96,7 +102,7 @@ public class StreetSim : MonoBehaviour
         // Traffic - how congested should the traffic be?
         // Tell our trial payload that we're starting another trial
         PositionPlayerAtStart();
-        if (trial.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.agent, trial.modelPathIndex, trial.modelBehavior, true);
+        if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
         TrafficSignalController.current.StartAtSessionIndex(0);
@@ -164,7 +170,9 @@ public class StreetSim : MonoBehaviour
         // m_trialQueue is a Queue, so we just need to pop from the queue
         m_currentTrial = m_trialQueue.First.Value;
         m_trialQueue.RemoveFirst();
-        string agentID = (m_currentTrial.agent != null) ? m_currentTrial.agent.GetComponent<ExperimentID>().id : "No Agent";
+        string agentID = (m_currentTrial.primaryModel.agent != null) 
+            ? m_currentTrial.primaryModel.agent.GetComponent<ExperimentID>().id 
+            : "No Agent";
         if (m_currentTrial.isFirstTrial) {
             // Normally, the first trial should be from NORTH to SOUTH. We'll set that accordingly
             m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
@@ -185,33 +193,33 @@ public class StreetSim : MonoBehaviour
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
         // Set model stuff
-        if (m_currentTrial.agent == null) m_currentTrial.modelPathIndex = -1;
+        if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
         else {
-            switch(m_currentTrial.modelStartOrientation) {
+            switch(m_currentTrial.primaryModel.modelStartOrientation) {
                 case StreetSimTrial.ModelStartOrientation.West:
-                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.modelStartOnSameSide)
+                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(0,3) 
                             : UnityEngine.Random.Range(6,9)
-                        : (m_currentTrial.modelStartOnSameSide)
+                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(6,9)
                             : UnityEngine.Random.Range(0,3);
                     break;
                 case StreetSimTrial.ModelStartOrientation.East:
-                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.modelStartOnSameSide)
+                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(3,6) 
                             : UnityEngine.Random.Range(9,12)
-                        : (m_currentTrial.modelStartOnSameSide)
+                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(9,12)
                             : UnityEngine.Random.Range(3,6);
                     break;
                 default:
-                    m_currentTrial.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.modelStartOnSameSide)
+                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(0,6) 
                             : UnityEngine.Random.Range(6,12)
-                        : (m_currentTrial.modelStartOnSameSide)
+                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
                             ? UnityEngine.Random.Range(6,12)
                             : UnityEngine.Random.Range(0,6);
                     break;
@@ -224,11 +232,11 @@ public class StreetSim : MonoBehaviour
             m_currentTrial.name,
             trialNumber,
             agentID,
-            m_currentTrial.modelBehavior.ToString(),
-            m_currentTrial.modelPathIndex,
+            m_currentTrial.primaryModel.modelBehavior.ToString(),
+            m_currentTrial.primaryModel.modelPathIndex,
             m_currentTrial.direction.ToString(),
-            m_currentTrial.modelStartOnSameSide,
-            m_currentTrial.modelStartOrientation.ToString()
+            m_currentTrial.primaryModel.modelStartOnSameSide,
+            m_currentTrial.primaryModel.modelStartOrientation.ToString()
             //m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
         );
         // Set up the trial
@@ -266,6 +274,7 @@ public class StreetSim : MonoBehaviour
         trialPayload.startTime = m_trialStartTime;
         trialPayload.endTime = m_trialEndTime;
         trialPayload.duration = m_trialDuration;
+        EndAgentAttempt();
         if (SaveTrialData()) {
             StreetSimRaycaster.R.ClearData();
             StreetSimIDController.ID.ClearData();
@@ -273,6 +282,9 @@ public class StreetSim : MonoBehaviour
 
         // Set status to "Idle", which will stop tracking
         m_streetSimStatus = StreetSimStatus.Idle;
+
+        // Play success sound
+        m_successAudioSource.Play();
 
         // We now need to check if we have another trial or if we can end the simulation
         if (m_trialQueue.Count > 0) {
@@ -314,6 +326,22 @@ public class StreetSim : MonoBehaviour
     public void TriggerNextTrial() {
         nextTrialTriggered = true;
         EndTrial();
+    }
+
+    public void StartAgentAttempt() {
+        if (!m_modelCurrentlyAttempting) {
+            m_modelCurrentAttempt = new TrialAttempt(Time.time);
+            m_modelCurrentlyAttempting = true;
+        }
+    }
+    public void EndAgentAttempt() {
+        if (m_modelCurrentlyAttempting) {
+            m_modelCurrentAttempt.endTime = Time.time;
+            m_modelCurrentAttempt.successful = true;
+            m_modelCurrentAttempt.reason = "";
+            trialPayload.modelAttempts.Add(m_modelCurrentAttempt);
+            m_modelCurrentlyAttempting = false;
+        }
     }
 
     private void FixedUpdate() {
@@ -460,7 +488,7 @@ public class StreetSimTrial {
     [Tooltip("Primary model agent behavior")]
     public StreetSimPrimaryModel primaryModel;
 
-
+    /*
     [Tooltip("The agent prefab we'll be instantiating")]
     public StreetSimAgent agent;
     [Tooltip("Should the model be safe or risky?")]
@@ -469,6 +497,7 @@ public class StreetSimTrial {
     public bool modelStartOnSameSide;
     [Tooltip("Should the model start on the left or the right side of the player?")]
     public ModelStartOrientation modelStartOrientation;
+    */
     /*
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
@@ -540,6 +569,7 @@ public class TrialData {
     public List<TrialAttempt> attempts;
     public List<RaycastHitRow> participantGazeData;
     public List<StreetSimTrackablePayload> positionData;
+    public List<TrialAttempt> modelAttempts;
     
     public TrialData(string name, int trialNumber, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation, float startTime, float endTime, float duration, List<RaycastHitRow> participantGazeData, List<StreetSimTrackablePayload> positionData) {
         this.name = name;
@@ -557,6 +587,7 @@ public class TrialData {
         this.positionData = positionData;
         this.attempts = new List<TrialAttempt>();
         this.subStartTimes = new List<float>();
+        this.modelAttempts = new List<TrialAttempt>();
     }
     public TrialData(string name, int trialNumber, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation) {
         this.name = name;
@@ -571,6 +602,7 @@ public class TrialData {
         this.positionData = new List<StreetSimTrackablePayload>();
         this.attempts = new List<TrialAttempt>();
         this.subStartTimes = new List<float>();
+        this.modelAttempts = new List<TrialAttempt>();
     }
 }
 

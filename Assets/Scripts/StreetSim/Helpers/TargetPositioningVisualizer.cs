@@ -28,7 +28,7 @@ public class TargetPositioningVisualizer : MonoBehaviour
         // For each child transform within this...
         foreach(Transform child in transform) {
             Handles.color = Color.green;
-            Handles.DrawWireDisc(child.position , child.up, 0.5f);
+            Handles.DrawWireDisc(child.position , child.up, 0.1f);
         }
     }
     public void DrawPaths() {

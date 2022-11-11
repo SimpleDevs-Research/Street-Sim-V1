@@ -112,11 +112,12 @@ public class StreetSimAgentManager : MonoBehaviour
         StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe,
         bool shouldLoop = false,
         bool shouldWarpOnLoop = false,
-        bool shouldAddToActive = true
+        bool shouldAddToActive = true,
+        bool isModel = false
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop);
+        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop, isModel);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -165,7 +166,7 @@ public class StreetSimAgentManager : MonoBehaviour
             //DestroyModel();
             if (m_currentModel != null) DestroyAgent(m_currentModel);
             // PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
-            InitializeAgent(agent, modelPaths[pathIndex].points, behavior, false, false, false);
+            InitializeAgent(agent, modelPaths[pathIndex].points, behavior, false, false, false, true);
             //m_currentModel = newAgent;
             m_currentModel = agent;
             // StreetSimModelMapper.M.MapMeshToModel(m_currentModel);

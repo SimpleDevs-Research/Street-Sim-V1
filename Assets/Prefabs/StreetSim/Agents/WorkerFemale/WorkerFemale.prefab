@@ -551,7 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointerState: 1
   m_lineType: 1
-  m_LineDistance: 1
+  m_LineDistance: 0.1
   m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
@@ -2947,12 +2947,16 @@ MonoBehaviour:
   agent: {fileID: 3882305124458210970}
   character: {fileID: 6316156312405930115}
   renderer: {fileID: 1066589062078328934}
+  animator: {fileID: 0}
   collider: {fileID: 1267231994206824353}
+  rigidbody: {fileID: 0}
   forwardPointer: {fileID: 3687541806185894385}
   downwardPointer: {fileID: 2376726224117586551}
   targetPositions: []
   currentSpeed: 0
   m_meshCollider: {fileID: 0}
+  m_crossDelayTime: 5
+  m_canCross: 0
   behavior: 0
 --- !u!1 &6951832107863989633
 GameObject:
