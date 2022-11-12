@@ -35,6 +35,7 @@ public class StreetSimAgentManager : MonoBehaviour
     [SerializeField] private List<NPCPath> nonModelPaths = new List<NPCPath>();
     [SerializeField] private List<NPCPath> modelPaths_NorthToSouth = new List<NPCPath>();
     [SerializeField] private List<NPCPath> modelPaths_SouthToNorth = new List<NPCPath>();
+    private Dictionary<StreetSimTrial.TrialDirection, List<NPCPath>> modelPathsByDirection;
     [SerializeField] private List<NPCPath> modelPaths = new List<NPCPath>();
 
     private List<StreetSimAgent> m_currentModels = new List<StreetSimAgent>();
@@ -44,6 +45,10 @@ public class StreetSimAgentManager : MonoBehaviour
         AM = this;
         if (agentParentFolder == null) agentParentFolder = this.transform;
         m_inactiveAgents = new Queue<StreetSimAgent>(m_agents.Shuffle());
+        modelPathsByDirection = new Dictionary<StreetSimTrial.TrialDirection, List<NPCPath>>(){
+            { StreetSimTrial.TrialDirection.NorthToSouth, modelPaths_NorthToSouth },
+            { StreetSimTrial.TrialDirection.SouthToNorth, modelPaths_SouthToNorth }
+        };
         StartCoroutine(PrintAgents());
     }
 
@@ -114,11 +119,12 @@ public class StreetSimAgentManager : MonoBehaviour
         bool shouldLoop = false,
         bool shouldWarpOnLoop = false,
         bool shouldAddToActive = true,
+        StreetSimTrial.TrialDirection direction = StreetSimTrial.TrialDirection.NorthToSouth,
         StreetSimAgent.AgentType agentType = StreetSimAgent.AgentType.NPC
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop, agentType);
+        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop, direction, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -156,10 +162,11 @@ public class StreetSimAgentManager : MonoBehaviour
     }
     */
 
-    public void AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, bool isModel = false) {
+    public void AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, bool isModel = false, StreetSimTrial.TrialDirection direction = StreetSimTrial.TrialDirection.NorthToSouth) {
         //StreetSimAgent newAgent = default(StreetSimAgent);
         if (isModel) {
-            if (pathIndex < 0 && pathIndex > modelPaths.Count-1) {
+            List<NPCPath> availablePaths = modelPathsByDirection[direction];
+            if (pathIndex < 0 && pathIndex > availablePaths.Count-1) {
                 Debug.Log("[AGENT MANAGER] ERROR: path index does not exist among model paths");
                 // return newAgent;
                 return;
@@ -167,7 +174,7 @@ public class StreetSimAgentManager : MonoBehaviour
             //DestroyModel();
             if (m_currentModels.Contains(agent)) DestroyAgent(agent);
             // PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
-            InitializeAgent(agent, modelPaths[pathIndex].points, behavior, false, false, false, StreetSimAgent.AgentType.Model);
+            InitializeAgent(agent, availablePaths[pathIndex].points, behavior, false, false, false, direction, StreetSimAgent.AgentType.Model);
             //m_currentModel = newAgent;
             m_currentModels.Add(agent);
             // StreetSimModelMapper.M.MapMeshToModel(m_currentModel);

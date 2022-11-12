@@ -30,6 +30,8 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private bool m_canCross = false;
 
     [SerializeField] private StreetSimTrial.ModelBehavior behavior;
+    [SerializeField] private StreetSimTrial.TrialDirection direction;
+
     private bool m_riskyButCrossing = false;
     public bool riskyButCrossing {
         get => m_riskyButCrossing;
@@ -54,12 +56,14 @@ public class StreetSimAgent : MonoBehaviour
         StreetSimTrial.ModelBehavior behavior, 
         bool shouldLoop, 
         bool shouldWarpOnLoop, 
+        StreetSimTrial.TrialDirection direction,
         AgentType s_agentType
     ) {
         targetPositions = targets;
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
         this.behavior = behavior;
+        this.direction = direction;
         this.m_agentType = s_agentType;
         collider.enabled = true;
         rigidbody.isKinematic = false;
@@ -142,7 +146,7 @@ public class StreetSimAgent : MonoBehaviour
                         if (downwardPointer.raycastTarget != null) StreetSim.S.StartAgentAttempt();
                         else StreetSim.S.EndAgentAttempt();
                         */
-                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id,Time.time);
+                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id, Time.time, direction);
                         else StreetSim.S.EndAttempt(id,Time.time,true);
                     }
                 } 

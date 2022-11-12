@@ -123,7 +123,7 @@ public class StreetSim : MonoBehaviour
         else m_currentlyAttempting[xrExperimentID] = false;
         foreach(StreetSimTrial.StreetSimPrimaryModel model in trial.models) {
             ExperimentID modelID = model.agent.GetComponent<ExperimentID>();
-            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, true);
+            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, true, model.direction);
             if(!trialAttempts.ContainsKey(modelID)) trialAttempts.Add(modelID, new List<TrialAttempt>());
             if(!m_currentlyAttempting.ContainsKey(modelID)) m_currentlyAttempting.Add(modelID,false);
             else m_currentlyAttempting[modelID] = false;
@@ -249,6 +249,15 @@ public class StreetSim : MonoBehaviour
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
         // Set model stuff
+        foreach(StreetSimTrial.StreetSimPrimaryModel model in m_currentTrial.models) {
+            model.direction = (model.startOnSameSideAsPlayer) 
+                ? (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
+                    ? StreetSimTrial.TrialDirection.NorthToSouth 
+                    : StreetSimTrial.TrialDirection.SouthToNorth
+                : (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth)
+                    ? StreetSimTrial.TrialDirection.SouthToNorth
+                    : StreetSimTrial.TrialDirection.NorthToSouth;
+        }
         //if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
         /*
         else {                                                                                                                                        
@@ -462,10 +471,10 @@ public class StreetSim : MonoBehaviour
     }
     */
 
-    public void StartAttempt(ExperimentID id, float startTime, bool shouldSetStartingAttempt = true) {
+    public void StartAttempt(ExperimentID id, float startTime, StreetSimTrial.TrialDirection direction, bool shouldSetStartingAttempt = true) {
         if (m_currentlyAttempting[id]) return;
-        if(!m_currentAttempts.ContainsKey(id)) m_currentAttempts.Add(id,new TrialAttempt(startTime));
-        else m_currentAttempts[id] = new TrialAttempt(startTime);
+        if(!m_currentAttempts.ContainsKey(id)) m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
+        else m_currentAttempts[id] = new TrialAttempt(direction.ToString(), startTime);
         if (shouldSetStartingAttempt) m_currentlyAttempting[id] = true;
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
@@ -491,7 +500,7 @@ public class StreetSim : MonoBehaviour
                     if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
                         // Create a new attempt if it doesn't exist already
                         if (!m_currentlyAttempting[xrExperimentID]) {
-                            StartAttempt(xrExperimentID, m_trialFrameTimestamp);
+                            StartAttempt(xrExperimentID, m_trialFrameTimestamp, m_currentTrial.direction);
                         }
                         /*
                         if (!m_currentlyAttempting) {
@@ -639,8 +648,13 @@ public class StreetSimTrial {
         public StreetSimAgent agent;
         [Tooltip("Should the model be safe or risky?")]
         public ModelBehavior modelBehavior;
+        [Tooltip("Should the model start on the same side as the user or the opposite?")]
+        public bool startOnSameSideAsPlayer;
         [Tooltip("Which path (out of all the model paths) should the model follow?")]
         public int modelPathIndex;
+
+        private TrialDirection m_direction;
+        public TrialDirection direction { get=>m_direction; set{m_direction=value;} }
     }
 
     [System.Serializable]
@@ -653,7 +667,7 @@ public class StreetSimTrial {
 
     public enum TrialDirection {
         SouthToNorth,
-        NorthToSouth,
+        NorthToSouth
     }
     public enum ModelStartOrientation {
         West,
@@ -743,7 +757,6 @@ public class StreetSimTrial {
             m_duration,
             m_innerStartTimes,
             m_direction.ToString(),
-            modelStartOnSameSide.ToString(),
             trafficCongestion.ToString(),
             npcCongestion.ToString()
         );
@@ -778,7 +791,6 @@ public class TrialData {
     public float endTime;
     public float duration;
     public string direction;
-    public string modelStartOnSameSide;
     public string trafficCongestion;
     public string npcCongestion;
     public List<float> innerStartTimes;
@@ -802,7 +814,6 @@ public class TrialData {
         float duration,
         List<float> innerStartTimes,
         string direction,
-        string modelStartOnSameSide,
         string trafficCongestion,
         string npcCongestion
     ) {
@@ -815,7 +826,6 @@ public class TrialData {
         this.innerStartTimes = innerStartTimes;
 
         this.direction = direction;
-        this.modelStartOnSameSide = modelStartOnSameSide;
 
         this.trafficCongestion = trafficCongestion;
         this.npcCongestion = npcCongestion;
@@ -910,11 +920,13 @@ public class PositionsPayload {
 
 [System.Serializable]
 public class TrialAttempt {
+    public string direction;
     public float startTime;
     public float endTime;
     public bool successful;
     public string reason;
-    public TrialAttempt(float startTime) {
+    public TrialAttempt(string direction, float startTime) {
+        this.direction = direction;
         this.startTime = startTime;
     }
 }
