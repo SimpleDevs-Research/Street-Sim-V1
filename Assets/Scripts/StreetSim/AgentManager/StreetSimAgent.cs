@@ -7,7 +7,13 @@ using UnityStandardAssets.Characters.ThirdPerson;
 //[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(ThirdPersonCharacter))]
 public class StreetSimAgent : MonoBehaviour
 {
+    public enum AgentType {
+        NPC,
+        Model,
+        Follower
+    }
 
+    [SerializeField] private ExperimentID id;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private ThirdPersonCharacter character;
     [SerializeField] private SkinnedMeshRenderer renderer;
@@ -17,7 +23,6 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
     [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
     private int currentTargetIndex = -1;
-    [SerializeField] private float currentSpeed = 0f;
     private bool shouldLoop, shouldWarpOnLoop;
     [SerializeField] private Collider m_meshCollider;
 
@@ -25,23 +30,37 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private bool m_canCross = false;
 
     [SerializeField] private StreetSimTrial.ModelBehavior behavior;
-    private bool riskyButCrossing = false;
-    private bool isModel = false;
-    
+    private bool m_riskyButCrossing = false;
+    public bool riskyButCrossing {
+        get => m_riskyButCrossing;
+        set {}
+    }
+    private AgentType m_agentType = AgentType.NPC;
+    public AgentType agentType {
+        get => m_agentType;
+        set {}
+    }
 
     private void Awake() {
+        if (id == null) id = GetComponent<ExperimentID>();
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (character == null) character = GetComponent<ThirdPersonCharacter>();
         if (animator == null) animator = GetComponent<Animator>();
         if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Initialize(Transform[] targets, StreetSimTrial.ModelBehavior behavior, bool shouldLoop, bool shouldWarpOnLoop, bool isModel) {
+    public void Initialize(
+        Transform[] targets, 
+        StreetSimTrial.ModelBehavior behavior, 
+        bool shouldLoop, 
+        bool shouldWarpOnLoop, 
+        AgentType s_agentType
+    ) {
         targetPositions = targets;
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
         this.behavior = behavior;
-        this.isModel = isModel;
+        this.m_agentType = s_agentType;
         collider.enabled = true;
         rigidbody.isKinematic = false;
         agent.enabled = true;
@@ -50,7 +69,7 @@ public class StreetSimAgent : MonoBehaviour
         agent.isStopped = false;
         currentTargetIndex = -1;
         m_meshCollider.enabled = true;
-        riskyButCrossing = false;
+        m_riskyButCrossing = false;
 
         m_canCross = false;
         StartCoroutine(CanCrossCoroutine());
@@ -79,8 +98,8 @@ public class StreetSimAgent : MonoBehaviour
                     switch(behavior) {
                         case StreetSimTrial.ModelBehavior.Risky:
                             // This will go no matter what the light signal is, but only if there aren't any incoming cars
-                            riskyButCrossing = riskyButCrossing || TrafficSignalController.current.GetSafety(transform.position.z < 0);
-                            if (riskyButCrossing && m_canCross) {
+                            m_riskyButCrossing = m_riskyButCrossing || TrafficSignalController.current.GetSafety(transform.position.z < 0);
+                            if (m_riskyButCrossing && m_canCross) {
                                 agent.isStopped = false;
                                 character.Move(agent.desiredVelocity,false,false);
                             } else {
@@ -117,14 +136,14 @@ public class StreetSimAgent : MonoBehaviour
                             }
                             break;
                     }
-                    if (isModel) {
-                        if (downwardPointer.raycastTarget != null) {
-                            // The agent is currently on the crosswalk, so we need to inform the system that the agent is crossing
-                            StreetSim.S.StartAgentAttempt();
-                        }
-                        else {
-                            StreetSim.S.EndAgentAttempt();
-                        }
+                    if (m_agentType == AgentType.Model) {
+                        // The agent is currently on the crosswalk, so we need to inform the system that the agent is crossing
+                        /*
+                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAgentAttempt();
+                        else StreetSim.S.EndAgentAttempt();
+                        */
+                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id,Time.time);
+                        else StreetSim.S.EndAttempt(id,Time.time,true);
                     }
                 } 
                 else {
@@ -172,6 +191,6 @@ public class StreetSimAgent : MonoBehaviour
         collider.enabled = false;
         rigidbody.isKinematic = true;
         m_meshCollider.enabled = false;
-        if (isModel) StreetSim.S.EndAgentAttempt();
+        //if (m_agentType == AgentType.Model) StreetSim.S.EndAgentAttempt();
     }
 }

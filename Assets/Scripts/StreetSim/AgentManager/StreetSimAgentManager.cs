@@ -37,7 +37,8 @@ public class StreetSimAgentManager : MonoBehaviour
     [SerializeField] private List<NPCPath> modelPaths_SouthToNorth = new List<NPCPath>();
     [SerializeField] private List<NPCPath> modelPaths = new List<NPCPath>();
 
-    private StreetSimAgent m_currentModel = null;
+    private List<StreetSimAgent> m_currentModels = new List<StreetSimAgent>();
+    public List<StreetSimAgent> currentModels { get=>m_currentModels; set{} }
 
     private void Awake() {
         AM = this;
@@ -113,11 +114,11 @@ public class StreetSimAgentManager : MonoBehaviour
         bool shouldLoop = false,
         bool shouldWarpOnLoop = false,
         bool shouldAddToActive = true,
-        bool isModel = false
+        StreetSimAgent.AgentType agentType = StreetSimAgent.AgentType.NPC
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop, isModel);
+        agent.Initialize(path, behavior, shouldLoop, shouldWarpOnLoop, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -164,11 +165,11 @@ public class StreetSimAgentManager : MonoBehaviour
                 return;
             }
             //DestroyModel();
-            if (m_currentModel != null) DestroyAgent(m_currentModel);
+            if (m_currentModels.Contains(agent)) DestroyAgent(agent);
             // PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
-            InitializeAgent(agent, modelPaths[pathIndex].points, behavior, false, false, false, true);
+            InitializeAgent(agent, modelPaths[pathIndex].points, behavior, false, false, false, StreetSimAgent.AgentType.Model);
             //m_currentModel = newAgent;
-            m_currentModel = agent;
+            m_currentModels.Add(agent);
             // StreetSimModelMapper.M.MapMeshToModel(m_currentModel);
             //return newAgent;
             return;
@@ -193,11 +194,13 @@ public class StreetSimAgentManager : MonoBehaviour
         }
     }
 
-    public void DestroyModel() {
-        if (m_currentModel == null) return;
-        m_currentModel.DeactiveAgentManually();
-        DestroyAgent(m_currentModel);
-        m_currentModel = null;
+    public void DestroyModels() {
+        if (m_currentModels.Count == 0) return;
+        foreach(StreetSimAgent model in m_currentModels)  {
+            model.DeactiveAgentManually();
+            DestroyAgent(model);
+        }
+        m_currentModels = new List<StreetSimAgent>();
         /*
         StreetSimModelMapper.M.DestroyMesh();
         if (m_currentModel == null) return;

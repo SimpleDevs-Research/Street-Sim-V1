@@ -20,8 +20,11 @@ public class StreetSim : MonoBehaviour
         Tracking,
     }
 
+    // References to the participant's components
     public Transform xrTrackingSpace;
     public Transform xrCamera;
+    public ExperimentID xrExperimentID;
+
     [SerializeField] private AudioSource m_successAudioSource;
     [SerializeField] private Transform m_agentParent, m_agentMeshParent;
     public Transform agentParent { get { return m_agentParent; } set{} }
@@ -32,6 +35,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField, Tooltip("The name of the participant. Format doesn't matter, but it must be one single string w/out spaces.")] private string m_participantName;
     public string participantName { get{ return m_participantName; } set{}}
     public string saveDirectory { get{ return m_sourceDirectory + "/" + simulationPayload.startTime + "_" + m_participantName + "/"; } set{} }
+    private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
 
     [SerializeField] private StreetSimTrial m_initialSetup;
     [SerializeField] private bool m_includeInitialSetup = true;
@@ -43,7 +47,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
     [SerializeField] private float m_simulationStartTime = 0f, m_simulationEndTime = 0f, m_simulationDuration = 0f;
-    [SerializeField] private float m_trialStartTime = 0f, m_trialEndTime = 0f, m_trialDuration = 0f;
+    [SerializeField] private float m_trialEndTime = 0f, m_trialDuration = 0f;
     [SerializeField] private int m_trialFrameIndex = -1;
     public int trialFrameIndex { get { return m_trialFrameIndex; } set {} }
     [SerializeField] private float m_trialFrameTimestamp = -1f;
@@ -51,18 +55,30 @@ public class StreetSim : MonoBehaviour
     public float trialFrameTimestamp { get{ return m_trialFrameTimestamp; } set {} }
     [SerializeField] private float m_trialFrameOffset = 0.01f;
     [SerializeField] private StreetSimTrial m_currentTrial;
+    private bool m_currentTrialActive = false;
 
-    private SimulationData simulationPayload;
-    private TrialData trialPayload;
-    [SerializeField] private TrialAttempt m_currentAttempt;
-    private bool m_currentlyAttempting = false;
-    [SerializeField] private TrialAttempt m_modelCurrentAttempt;
-    private bool m_modelCurrentlyAttempting = false;
+    // All the payloads that will be saved
+    private SimulationData simulationPayload;   // Simulation payload itself
+    private TrialData trialPayload;             // payload for the current trial
+    private Dictionary<ExperimentID, List<TrialAttempt>> trialAttempts = new Dictionary<ExperimentID, List<TrialAttempt>>();        // All attempts performed by both participant and models in each trial
+    private List<RaycastHitRow> participantGazeData;        // The participant's gaze data
+    // Temporary data
+    private Dictionary<ExperimentID, TrialAttempt> m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();    // List of all current attempts of both the particiapnt and any models in the trial
+    private Dictionary<ExperimentID, bool> m_currentlyAttempting = new Dictionary<ExperimentID, bool>();                // Lets the system know if the current participant/model is attempting something
+
+
+    //private bool m_currentlyAttempting = false;
+    //[SerializeField] private TrialAttempt m_modelCurrentAttempt;
+    //private bool m_modelCurrentlyAttempting = false;
+    
+    // References to things in the virtual simulation
     [SerializeField] private LayerMask downwardMask;
     [SerializeField] private Transform[] roadTransforms;
     [SerializeField] private Transform m_southSidewalk,m_northSidewalk;
     [SerializeField] private Transform m_resetCube, m_nextCylinder;
     [SerializeField] private Transform m_southResetPoint, m_northResetPoint, m_southNextPoint, m_northNextPoint;
+    
+    // Trial Shenangigans
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
 
@@ -93,7 +109,7 @@ public class StreetSim : MonoBehaviour
         StartSimulation();
     }
 
-    private IEnumerator InitializeTrial(StreetSimTrial trial) {
+    private void InitializeTrial(StreetSimTrial trial) {
         //InitializeNPC(trial.modelPath, trial.modelBehavior, true);
         // Got to set the following:
         // Tracking space - place the player at the desired location
@@ -102,19 +118,26 @@ public class StreetSim : MonoBehaviour
         // Traffic - how congested should the traffic be?
         // Tell our trial payload that we're starting another trial
         PositionPlayerAtStart();
-        if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
-        StreetSimAgentManager.AM.SetCongestionStatus(trial.NPCCongestion, false);
+         if(!trialAttempts.ContainsKey(xrExperimentID)) trialAttempts.Add(xrExperimentID, new List<TrialAttempt>());
+        if(!m_currentlyAttempting.ContainsKey(xrExperimentID)) m_currentlyAttempting.Add(xrExperimentID,false);
+        else m_currentlyAttempting[xrExperimentID] = false;
+        foreach(StreetSimTrial.StreetSimPrimaryModel model in trial.models) {
+            ExperimentID modelID = model.agent.GetComponent<ExperimentID>();
+            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, true);
+            if(!trialAttempts.ContainsKey(modelID)) trialAttempts.Add(modelID, new List<TrialAttempt>());
+            if(!m_currentlyAttempting.ContainsKey(modelID)) m_currentlyAttempting.Add(modelID,false);
+            else m_currentlyAttempting[modelID] = false;
+        }
+        //if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
+        StreetSimAgentManager.AM.SetCongestionStatus(trial.npcCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
         TrafficSignalController.current.StartAtSessionIndex(0);
-        trialPayload.subStartTimes.Add(Time.time);
-        yield return null;
+        m_currentTrial.AddInnerStartTime(Time.time);
     }
 
     private void PositionPlayerAtStart() {
-        Debug.Log("Positioning player during initialization of trial");
         xrTrackingSpace.position = Vector3.zero;
         AudioListener.volume = 1;
-        // xrTrackingSpace.transform.rotation = start.rotation;
     }
 
     public void StartSimulation() {
@@ -124,9 +147,9 @@ public class StreetSim : MonoBehaviour
             m_participantName,
             DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")
         );
-        // Prepare the save folder, and only continue if the folder was created
-        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
-        if (!SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+        // Prepare the save folder for the simulation, and only continue if the folder was created
+        simulationDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
+        if (!SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
             Debug.Log("[STREET SIM] ERROR: Save folder based on source folder and/or participant name could not be created. Ending simulation prematurely without saivng.");
             return;
         }
@@ -166,119 +189,191 @@ public class StreetSim : MonoBehaviour
             Debug.Log("[STREET SIM] ERROR: Cannot start a trial for a simulation that isn't instantiated yet.");
             return;
         }
-        StreetSimAgentManager.AM.DestroyModel();
-        // m_trialQueue is a Queue, so we just need to pop from the queue
+        
+        // Destroy the current models if they exist
+        StreetSimAgentManager.AM.DestroyModels();
+
+        // m_trialQueue is a LinkedList, so we just need to pop from the list
         m_currentTrial = m_trialQueue.First.Value;
         m_trialQueue.RemoveFirst();
+        
+        // We don't continue until we create our trial folder
+        trialDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/");
+        if (!SaveSystemMethods.CheckOrCreateDirectory(trialDirToSaveIn)) {
+            Debug.Log("[STREET SIM] ERROR: Save folder for trial could not be created for the current trial. Ending simulation prematurely without saving");
+            EndSimulation();
+            return;
+        }
+        // Prepare the save folder for the attempts data, and only continue if the folder was created
+        attemptsDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/attempts/");
+        if (!SaveSystemMethods.CheckOrCreateDirectory(attemptsDirToSaveIn)) {
+            Debug.Log("[STREET SIM] ERROR: Save folder for attempts could not be created for the current trial. Ending simulation prematurely without saving.");
+            EndSimulation();
+            return;
+        }
+        // Prepare the save folder for the positions data, and only continue if the folder was created
+        positionsDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/positions/");
+        if (!SaveSystemMethods.CheckOrCreateDirectory(positionsDirToSaveIn)) {
+            Debug.Log("[STREET SIM] ERROR: Save folder for positions could not be created. Ending simulation prematurely without saving.");
+            EndSimulation();
+            return;
+        }
+        
+        /*
         string agentID = (m_currentTrial.primaryModel.agent != null) 
             ? m_currentTrial.primaryModel.agent.GetComponent<ExperimentID>().id 
             : "No Agent";
+        */
+
+        // Determine the positions of important things inside the simulation. Also determine the direction the trial moves in
         if (m_currentTrial.isFirstTrial) {
             // Normally, the first trial should be from NORTH to SOUTH. We'll set that accordingly
-            m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
+            m_currentTrial.startSidewalk = m_northSidewalk;
+            m_currentTrial.endSidewalk = m_southSidewalk;
             m_resetCube.position = m_northResetPoint.position;
             m_nextCylinder.position = m_southNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
         } else if (xrCamera.position.z > 0f) {
             // The player is currently NORTH. So we switch the destination to South. Direction is [N -> S]
-            m_currentTrial.SetSidewalks(m_northSidewalk, m_southSidewalk);
+            m_currentTrial.startSidewalk = m_northSidewalk;
+            m_currentTrial.endSidewalk = m_southSidewalk;
             m_resetCube.position = m_northResetPoint.position;
             m_nextCylinder.position = m_southNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
         } else {
             // The player is currently SOUTH. So we switch the destination to North. Direction is [S -> N]
-            m_currentTrial.SetSidewalks(m_southSidewalk, m_northSidewalk);
+            m_currentTrial.startSidewalk = m_southSidewalk;
+            m_currentTrial.endSidewalk = m_northSidewalk;
             m_resetCube.position = m_southResetPoint.position;
             m_nextCylinder.position = m_northNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
         // Set model stuff
-        if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
-        else {
+        //if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
+        /*
+        else {                                                                                                                                        
             switch(m_currentTrial.primaryModel.modelStartOrientation) {
                 case StreetSimTrial.ModelStartOrientation.West:
                     m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
                         ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(0,3) 
-                            : UnityEngine.Random.Range(6,9)
+                            ? UnityEngine.Random.Range(0,2) 
+                            : UnityEngine.Random.Range(4,6)
                         : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(6,9)
-                            : UnityEngine.Random.Range(0,3);
+                            ? UnityEngine.Random.Range(4,6)
+                            : UnityEngine.Random.Range(0,2);
                     break;
                 case StreetSimTrial.ModelStartOrientation.East:
                     m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
                         ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(3,6) 
-                            : UnityEngine.Random.Range(9,12)
+                            ? UnityEngine.Random.Range(2,4) 
+                            : UnityEngine.Random.Range(6,8)
                         : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(9,12)
-                            : UnityEngine.Random.Range(3,6);
+                            ? UnityEngine.Random.Range(6,8)
+                            : UnityEngine.Random.Range(2,4);
                     break;
                 default:
                     m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
                         ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(0,6) 
-                            : UnityEngine.Random.Range(6,12)
+                            ? UnityEngine.Random.Range(0,4) 
+                            : UnityEngine.Random.Range(4,8)
                         : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(6,12)
-                            : UnityEngine.Random.Range(0,6);
+                            ? UnityEngine.Random.Range(4,8)
+                            : UnityEngine.Random.Range(0,4);
                     break;
             }
         }
-        // Set up our trial payload
+        */
+
+        // Set up the trial number
         trialNumber += 1;
+        m_currentTrial.trialNumber = trialNumber;
+        
+        // Get the start time of the trial
+        m_currentTrial.startTime = Time.time;
+        
+        /*
+        // Set up our trial payload
         Debug.Log("PERFORMING TRIAL # " + trialNumber.ToString());
         trialPayload = new TrialData(
             m_currentTrial.name,
-            trialNumber,
+            trialNumber,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             agentID,
             m_currentTrial.primaryModel.modelBehavior.ToString(),
             m_currentTrial.primaryModel.modelPathIndex,
             m_currentTrial.direction.ToString(),
-            m_currentTrial.primaryModel.modelStartOnSameSide,
-            m_currentTrial.primaryModel.modelStartOrientation.ToString()
+            m_currentTrial.modelStartOnSameSide
+            //m_currentTrial.primaryModel.modelStartOrientation.ToString()
             //m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
         );
+        */
+
         // Set up the trial
-        StartCoroutine(InitializeTrial(m_currentTrial));
-        // Get the start time of the trial
-        m_trialStartTime = Time.time;
+        InitializeTrial(m_currentTrial);
         // Reset frame index to -1 (it'll be advanecd to 0 at the first frame of recording)
         m_trialFrameIndex = -1;
         // Set the previous frame timestamp
         m_prevTrialFrameTimestamp = 0f;
         // Set status to "Tracking"
         m_streetSimStatus = StreetSimStatus.Tracking;
-        // Reset next trial triggered statuis
+        // Reset next trial triggered status
         nextTrialTriggered = false;
+        // Finally declare that we're starting the trial
+        m_currentTrialActive = true;
+        Debug.Log("PERFORMING TRIAL # " + m_currentTrial.trialNumber.ToString());
     }
     private void EndTrial() {
+        // Do not continue if our data is weird
         if (simulationPayload == null) {
             Debug.Log("[STREET SIM] ERROR: Cannot end a trial for a simulation that isn't instantiated yet.");
             return;
         }
-        if (trialPayload == null) {
+        if (!m_currentTrialActive) {
             Debug.Log("[STREET SIM] ERROR: Cannot end a trial that hasn't been started yet...");
             return;
         }
-        // unset reference to current trial
-        m_currentTrial = null;
-        // Get the end time of the trial
-        m_trialEndTime = Time.time;
-        // Calculate the trial dureation
-        m_trialDuration =  m_trialEndTime - m_trialStartTime;
+
+        // Get timings for the trial
+        m_currentTrial.endTime = Time.time;
+        m_currentTrial.duration = m_currentTrial.endTime - m_currentTrial.startTime;
+
+        // End all attempts
+        foreach(KeyValuePair<ExperimentID, bool> kvp in m_currentlyAttempting) {
+            if (kvp.Value) EndAttempt(kvp.Key, m_currentTrial.endTime, false, true, "");
+        }
 
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
+        if (!SaveTrialData(m_currentTrial, trialAttempts)) {
+            Debug.Log("[STREET SIM] ERROR: Could not save trial data. Boo-hoo...");
+        }
+
+        // Let's reset all things
+        m_currentlyAttempting = new Dictionary<ExperimentID, bool>();
+        m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();
+        trialAttempts = new Dictionary<ExperimentID, List<TrialAttempt>>();
+        StreetSimRaycaster.R.ClearData();
+        StreetSimIDController.ID.ClearData();
+
+        // Let the system know we're no longer having a an active trial
+        m_currentTrialActive = false;
+
+        /*
         trialPayload.participantGazeData = StreetSimRaycaster.R.hits;
         trialPayload.positionData = StreetSimIDController.ID.payloads;
-        trialPayload.startTime = m_trialStartTime;
+        trialPayload.startTime = m_currentTrial.startTime;
         trialPayload.endTime = m_trialEndTime;
         trialPayload.duration = m_trialDuration;
+        
         EndAgentAttempt();
         if (SaveTrialData()) {
             StreetSimRaycaster.R.ClearData();
             StreetSimIDController.ID.ClearData();
         }
+        */
+        
+        /*
+        // unset reference to current trial
+        m_currentTrial = null;
+        */
 
         // Set status to "Idle", which will stop tracking
         m_streetSimStatus = StreetSimStatus.Idle;
@@ -296,8 +391,17 @@ public class StreetSim : MonoBehaviour
         }
     }
     public void FailTrial() {
+        // Reposition the player into the fail room
         xrTrackingSpace.position = new Vector3(0f, -6f, 0f);
+        // Silence any audio
         AudioListener.volume = 0;
+        
+        // End the player's attempt
+        float endTime = m_trialFrameTimestamp;
+        EndAttempt(xrExperimentID, Time.time, true, false, "Vehicle Collision");
+        Debug.Log("[STREET SIM] FAILED TRIAL...");
+        
+        /*
         if (m_currentlyAttempting) {
             // Attempt ended in failure, reset
             m_currentAttempt.endTime = m_trialFrameTimestamp;
@@ -307,9 +411,19 @@ public class StreetSim : MonoBehaviour
             m_currentlyAttempting = false;
             Debug.Log("Ending Attempt, Got hit by vehicle");
         }
+        */
     }
     public void ResetTrial() {
-        Debug.Log("Resetting Trial");
+        Debug.Log("[STREET SIM] Resetting Trial...");
+
+        float endTime = m_trialFrameTimestamp;
+        foreach(KeyValuePair<ExperimentID, bool> kvp in m_currentlyAttempting) {
+            if (kvp.Value) EndAttempt(kvp.Key, endTime, false, false, "Vehicle Collision");
+        }
+        m_currentlyAttempting = new Dictionary<ExperimentID, bool>();
+        m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();
+
+        /*
         if (m_currentlyAttempting) {
             // Attempt ended in failure, reset
             m_currentAttempt.endTime = m_trialFrameTimestamp;
@@ -319,8 +433,10 @@ public class StreetSim : MonoBehaviour
             m_currentlyAttempting = false;
             Debug.Log("Ending Attempt, Got hit by vehicle");
         }
-        StreetSimAgentManager.AM.DestroyModel();
-        StartCoroutine(InitializeTrial(m_currentTrial));
+        */
+
+        StreetSimAgentManager.AM.DestroyModels();
+        InitializeTrial(m_currentTrial);
         //xrCamera.transform.position = new Vector3(xrCamera.transform.position.x, 0f, xrCamera.transform.position.z);
     }
     public void TriggerNextTrial() {
@@ -328,6 +444,7 @@ public class StreetSim : MonoBehaviour
         EndTrial();
     }
 
+    /*
     public void StartAgentAttempt() {
         if (!m_modelCurrentlyAttempting) {
             m_modelCurrentAttempt = new TrialAttempt(Time.time);
@@ -343,6 +460,23 @@ public class StreetSim : MonoBehaviour
             m_modelCurrentlyAttempting = false;
         }
     }
+    */
+
+    public void StartAttempt(ExperimentID id, float startTime, bool shouldSetStartingAttempt = true) {
+        if (m_currentlyAttempting[id]) return;
+        if(!m_currentAttempts.ContainsKey(id)) m_currentAttempts.Add(id,new TrialAttempt(startTime));
+        else m_currentAttempts[id] = new TrialAttempt(startTime);
+        if (shouldSetStartingAttempt) m_currentlyAttempting[id] = true;
+    }
+    public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
+        if(!m_currentlyAttempting[id]) return;
+        TrialAttempt cAttempt = m_currentAttempts[id];
+        cAttempt.endTime = endTime;
+        cAttempt.successful = successful;
+        cAttempt.reason = reason;
+        trialAttempts[id].Add(cAttempt);
+        if (shouldSetEndingAttempt) m_currentlyAttempting[id] = false;
+    }
 
     private void FixedUpdate() {
         switch(m_streetSimStatus) {
@@ -350,18 +484,29 @@ public class StreetSim : MonoBehaviour
                 // Don't do anything if we triggered the next trial.
                 if (nextTrialTriggered) return;
                 // Calculate frame timestamp
-                m_trialFrameTimestamp = Time.time - m_trialStartTime;
+                m_trialFrameTimestamp = Time.time - m_currentTrial.startTime;
                 // Check the current attempt
                 RaycastHit hit;
-                if (Physics.Raycast(xrCamera.position, -Vector3.up, out hit, 3f, downwardMask)) {
+                if (Physics.Raycast(xrCamera.position+(Vector3.up*0.1f), -Vector3.up, out hit, 3f, downwardMask)) {
                     if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
+                        // Create a new attempt if it doesn't exist already
+                        if (!m_currentlyAttempting[xrExperimentID]) {
+                            StartAttempt(xrExperimentID, m_trialFrameTimestamp);
+                        }
+                        /*
                         if (!m_currentlyAttempting) {
                             // Create a new attempt
                             m_currentAttempt = new TrialAttempt(m_trialFrameTimestamp);
                             m_currentlyAttempting = true;
                         }
+                        */
                     }
-                    else if (hit.transform == m_currentTrial.GetStartSidewalk()) {
+                    else if (hit.transform == m_currentTrial.startSidewalk) {
+                        // Attempt ended in failure due to returning back to the original sidewalk
+                        if (m_currentlyAttempting[xrExperimentID]) {
+                            EndAttempt(xrExperimentID,m_trialFrameTimestamp, true, false, "Returned to start sidewalk"); 
+                        }
+                        /*
                         if (m_currentlyAttempting) {
                             // Attempt ended in failure, reset
                             m_currentAttempt.endTime = m_trialFrameTimestamp;
@@ -370,14 +515,21 @@ public class StreetSim : MonoBehaviour
                             trialPayload.attempts.Add(m_currentAttempt);
                             m_currentlyAttempting = false;
                         }
+                        */
                     }
-                    else if (hit.transform == m_currentTrial.GetEndSidewalk()) {
+                    else if (hit.transform == m_currentTrial.endSidewalk) {
+                        // We reached the end successfully! Let's add a successful attempt
+                        if (m_currentlyAttempting[xrExperimentID]) {
+                            EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
+                        }
+                        /*
                         if (m_currentlyAttempting) {
                             m_currentAttempt.endTime = m_trialFrameTimestamp;
                             m_currentAttempt.successful = true;
                             trialPayload.attempts.Add(m_currentAttempt);
                             m_currentlyAttempting = false;
                         }
+                        */
                     }
                 }
                 // Only track if we've surpassed the frame offset
@@ -410,18 +562,48 @@ public class StreetSim : MonoBehaviour
 
         // We got our payload during the trial - so let's cut our losses here and save now.
         string dataToSave = SaveSystemMethods.ConvertToJSON<SimulationData>(simulationPayload);
-        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
-        if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
-            if (SaveSystemMethods.SaveJSON(dirToSaveIn + "simulationMetadata", dataToSave)) {
+        //string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
+        //if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+        if (SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
+            if (SaveSystemMethods.SaveJSON(simulationDirToSaveIn + "simulationMetadata", dataToSave)) {
                 Debug.Log("[STREET SIM] Simulation Data Saved inside of " + saveDirectory);
             }
         }
     }
-    public bool SaveTrialData() {
-        if (simulationPayload == null || trialPayload == null) return false;
-        string dataToSave = SaveSystemMethods.ConvertToJSON<TrialData>(trialPayload);
-        string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
-        if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+    public bool SaveTrialData(StreetSimTrial trial, Dictionary<ExperimentID,List<TrialAttempt>> attempts) {
+        if (simulationPayload == null) return false;
+
+        // We need to save several files
+        // 1) the trial metadata, which is stored inside of `trialDirToSaveIn`
+        // 2) the trial attempt data - each individual model and participant gets their own file. We store them inside of `attemptsDirToSaveIn`
+        // 3) the gaze data `gaze.json`, which is stored inside of `trialDirToSaveIn`
+        // 4) the positional data - each individual trackedExperimentID gets their own file. We store them inside of `positionsDirToSaveIn`
+
+        // FIRST: The trial metadata
+        string dataToSave = SaveSystemMethods.ConvertToJSON<TrialData>(trial.GetTrialData());
+        if(SaveSystemMethods.SaveJSON(trialDirToSaveIn+"trial",dataToSave)) {
+            // SECOND: the trial attempt data
+            foreach(KeyValuePair<ExperimentID,List<TrialAttempt>> kvp in attempts) {
+                AttemptsPayload attemptsPayload = new AttemptsPayload(kvp.Key.id,kvp.Value);
+                dataToSave = SaveSystemMethods.ConvertToJSON<AttemptsPayload>(attemptsPayload);
+                SaveSystemMethods.SaveJSON(attemptsDirToSaveIn+kvp.Key.id,dataToSave);
+            }
+            // THIRD: The gaze data
+            GazePayload gazePayload = new GazePayload(StreetSimRaycaster.R.hits);
+            dataToSave = SaveSystemMethods.ConvertToJSON<GazePayload>(gazePayload);
+            SaveSystemMethods.SaveJSON(trialDirToSaveIn+"gaze",dataToSave);
+            // FOURTH: The positional data
+            foreach(KeyValuePair<ExperimentID,List<StreetSimTrackable>> kvp in StreetSimIDController.ID.payloads) {
+                PositionsPayload positionsPayload = new PositionsPayload(kvp.Key.id,kvp.Value);
+                dataToSave = SaveSystemMethods.ConvertToJSON<PositionsPayload>(positionsPayload);
+                SaveSystemMethods.SaveJSON(positionsDirToSaveIn+kvp.Key.id,dataToSave);
+            }
+        }
+
+        /*
+        //string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
+        //if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+        if (SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn + trialPayload.name)) {
             if (SaveSystemMethods.SaveJSON(dirToSaveIn + trialPayload.name, dataToSave)) {
                 simulationPayload.trials.Add(trialPayload.name);
                 return true;
@@ -434,6 +616,8 @@ public class StreetSim : MonoBehaviour
             return false;
         }
         return false;
+        */
+        return true;
     }
     public void LoadSimulationData() {
 
@@ -448,16 +632,8 @@ public class StreetSimTrial {
         public StreetSimAgent agent;
         [Tooltip("Should the model be safe or risky?")]
         public ModelBehavior modelBehavior;
-        [Tooltip("Should the model start on the same or opposite direction as the player?")]
-        public bool modelStartOnSameSide;
-        [Tooltip("Should the model start on the left or the right side of the player?")]
-        public ModelStartOrientation modelStartOrientation;
-
-        private int m_modelPathIndex;
-        public int modelPathIndex {
-            get { return m_modelPathIndex; }
-            set { m_modelPathIndex = value; }
-        }
+        [Tooltip("Which path (out of all the model paths) should the model follow?")]
+        public int modelPathIndex;
     }
 
     [System.Serializable]
@@ -482,12 +658,25 @@ public class StreetSimTrial {
         Safe,
         Risky
     }
+    public enum ModelStartSide {
+        Same,
+        Opposite,
+        Mixed
+    }
+
     [Tooltip("Name of the trial; must be unique from other trials.")] 
     public string name;
-
     [Tooltip("Primary model agent behavior")]
     public StreetSimPrimaryModel primaryModel;
-
+    [Tooltip("Follower agent(s) behavior, if any")]
+    public List<StreetSimPrimaryModel> models = new List<StreetSimPrimaryModel>();
+    [Tooltip("Should the model start on the same or opposite direction as the player? THIS IS PURELY AESTHETIC AND DOES NOT ACTUALLY HAVE ANY FUNCTIONALITY IN UNITY")]
+    public ModelStartSide modelStartOnSameSide;
+    [Tooltip("What should the congestion of the cars be?")]
+    public StreetSimCarManager.CarManagerStatus trafficCongestion;
+    [Tooltip("What should the the congestion of the pedestrians be?")]
+    public StreetSimAgentManager.AgentManagerStatus npcCongestion;
+    
     /*
     [Tooltip("The agent prefab we'll be instantiating")]
     public StreetSimAgent agent;
@@ -502,36 +691,55 @@ public class StreetSimTrial {
     [Tooltip("Where should the player be at the start of this trial?")]
     public Transform startPositionRef;
     */
-    [Tooltip("What should the congestion of the cars be?")]
-    public StreetSimCarManager.CarManagerStatus trafficCongestion;
-    [Tooltip("What should the the congestion of the pedestrians be?")]
-    public StreetSimAgentManager.AgentManagerStatus NPCCongestion;
+    
+    // These ones are manually set outside of the constructor and during trials, generally.
+    [Tooltip("Is this the first trial? Manually set in Start()")]
+    private bool m_isFirstTrial = false;
+    public bool isFirstTrial { get=>m_isFirstTrial; set {m_isFirstTrial=value;} }
+    [Tooltip("What's the direction (N->S or S->N) of the trial?")]
+    private TrialDirection m_direction;
+    public TrialDirection direction { get=>m_direction; set{m_direction=value;} }
+    [Tooltip("What's this trials' current number?")]
+    private int m_trialNumber;
+    public int trialNumber { get=>m_trialNumber; set{m_trialNumber=value;} }
+    [Tooltip("When did the trial start?")]
+    private float m_startTime;
+    public float startTime { get=>m_startTime; set{m_startTime=value;} }
+    [Tooltip("When did the trial end?")]
+    private float m_endTime;
+    public float endTime { get=>m_endTime; set{m_endTime=value;} }
+    [Tooltip("How long did the trial last?")]
+    private float m_duration;
+    public float duration { get=>m_duration; set{m_duration=value;} }
+    [Tooltip("What timestamps did the player start (or restart) the trial?")]
+    private List<float> m_innerStartTimes = new List<float>();
+    [Tooltip("The start and ending sidewalks")]
+    private Transform m_startSidewalk, m_endSidewalk;
+    public Transform startSidewalk { get=>m_startSidewalk; set{m_startSidewalk=value;} }
+    public Transform endSidewalk { get=>m_endSidewalk; set{m_endSidewalk=value;} }
 
     private int m_modelPathIndex;
     public int modelPathIndex {
         get { return m_modelPathIndex; }
         set { m_modelPathIndex = value; }
     }
-    private TrialDirection m_direction;
-    public TrialDirection direction {
-        get { return m_direction; }
-        set { m_direction = value; }
+    public void AddInnerStartTime(float t) {
+        m_innerStartTimes.Add(t);
     }
-    private Transform startSidewalk, endSidewalk;
-    private bool m_isFirstTrial = false;
-    public bool isFirstTrial {
-        get { return m_isFirstTrial; }
-        set { m_isFirstTrial = value; }
-    }
-    public void SetSidewalks(Transform start, Transform end) {
-        startSidewalk = start;
-        endSidewalk = end;
-    }
-    public Transform GetStartSidewalk() {
-        return startSidewalk;
-    }
-    public Transform GetEndSidewalk() {
-        return endSidewalk;
+
+    public TrialData GetTrialData() {
+        return new TrialData(
+            name,
+            m_trialNumber,
+            m_startTime,
+            m_endTime,
+            m_duration,
+            m_innerStartTimes,
+            m_direction.ToString(),
+            modelStartOnSameSide.ToString(),
+            trafficCongestion.ToString(),
+            npcCongestion.ToString()
+        );
     }
 }
 
@@ -556,22 +764,73 @@ public class SimulationData {
 }
 [System.Serializable]
 public class TrialData {
+
     public string name;
     public int trialNumber;
+    public float startTime;
+    public float endTime;
+    public float duration;
+    public string direction;
+    public string modelStartOnSameSide;
+    public string trafficCongestion;
+    public string npcCongestion;
+    public List<float> innerStartTimes;
+
+    // Uncertain about these now
+    /*
     public string modelID;
     public string modelBehavior;
     public int modelPathIndex;
-    public bool modelStartOnSameSide;
-    public string modelStartOrientation;
-    public string direction;
-    public float startTime, endTime, duration;
-    public List<float> subStartTimes;
-    public List<TrialAttempt> attempts;
+    public List<TrialAttempt> attempts; 
     public List<RaycastHitRow> participantGazeData;
     public List<StreetSimTrackablePayload> positionData;
     public List<TrialAttempt> modelAttempts;
+    */
     
-    public TrialData(string name, int trialNumber, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation, float startTime, float endTime, float duration, List<RaycastHitRow> participantGazeData, List<StreetSimTrackablePayload> positionData) {
+    public TrialData(
+        string name,
+        int trialNumber,
+        float startTime,
+        float endTime,
+        float duration,
+        List<float> innerStartTimes,
+        string direction,
+        string modelStartOnSameSide,
+        string trafficCongestion,
+        string npcCongestion
+    ) {
+        this.name = name;
+        this.trialNumber = trialNumber;
+
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.duration = duration;
+        this.innerStartTimes = innerStartTimes;
+
+        this.direction = direction;
+        this.modelStartOnSameSide = modelStartOnSameSide;
+
+        this.trafficCongestion = trafficCongestion;
+        this.npcCongestion = npcCongestion;
+    }
+
+    /*
+    public TrialData(
+        string name, 
+        int trialNumber,
+        
+        string modelID, 
+        string modelBehavior, 
+        int modelPathIndex, 
+        string direction, 
+        bool modelStartOnSameSide, 
+        //string modelStartOrientation, 
+        float startTime, 
+        float endTime, 
+        float duration, 
+        List<RaycastHitRow> participantGazeData, 
+        List<StreetSimTrackablePayload> positionData
+    ) {
         this.name = name;
         this.trialNumber = trialNumber;
         this.modelID = modelID;
@@ -579,7 +838,7 @@ public class TrialData {
         this.modelPathIndex = modelPathIndex;
         this.direction = direction;
         this.modelStartOnSameSide = modelStartOnSameSide;
-        this.modelStartOrientation = modelStartOrientation;
+        //this.modelStartOrientation = modelStartOrientation;
         this.startTime = startTime;
         this.endTime = endTime;
         this.duration = duration;
@@ -589,7 +848,16 @@ public class TrialData {
         this.subStartTimes = new List<float>();
         this.modelAttempts = new List<TrialAttempt>();
     }
-    public TrialData(string name, int trialNumber, string modelID, string modelBehavior, int modelPathIndex, string direction, bool modelStartOnSameSide, string modelStartOrientation) {
+    public TrialData(
+        string name, 
+        int trialNumber, 
+        string modelID, 
+        string modelBehavior, 
+        int modelPathIndex, 
+        string direction, 
+        bool modelStartOnSameSide 
+        //string modelStartOrientation
+    ) {
         this.name = name;
         this.trialNumber = trialNumber;
         this.modelID = modelID;
@@ -597,12 +865,39 @@ public class TrialData {
         this.modelPathIndex = modelPathIndex;
         this.direction = direction;
         this.modelStartOnSameSide = modelStartOnSameSide;
-        this.modelStartOrientation = modelStartOrientation;
+        //this.modelStartOrientation = modelStartOrientation;
         this.participantGazeData = new List<RaycastHitRow>();
         this.positionData = new List<StreetSimTrackablePayload>();
         this.attempts = new List<TrialAttempt>();
         this.subStartTimes = new List<float>();
         this.modelAttempts = new List<TrialAttempt>();
+    }
+    */
+}
+
+[System.Serializable]
+public class AttemptsPayload {
+    public string name;
+    public List<TrialAttempt> attempts;
+    public AttemptsPayload(string name, List<TrialAttempt> attempts) {
+        this.name = name;
+        this.attempts = attempts;
+    }
+}
+[System.Serializable]
+public class GazePayload {
+    public List<RaycastHitRow> gazeData;
+    public GazePayload(List<RaycastHitRow> gazeData) {
+        this.gazeData = gazeData;
+    }
+}
+[System.Serializable]
+public class PositionsPayload {
+    public string id;
+    public List<StreetSimTrackable> positionData;
+    public PositionsPayload(string id, List<StreetSimTrackable> trackables) {
+        this.id = id;
+        this.positionData = trackables;
     }
 }
 

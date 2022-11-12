@@ -6,29 +6,23 @@ using SerializableTypes;
 using System.Text.RegularExpressions;
 
 [System.Serializable]
-public class StreetSimTrackablePayload {
-    public int frameIndex;
-    public float timestamp;
-    public List<StreetSimTrackable> trackables;
-    public StreetSimTrackablePayload(int frameIndex, float timestamp) {
-        this.frameIndex = frameIndex;
-        this.timestamp = timestamp;
-        trackables = new List<StreetSimTrackable>();
-    }
-}
-
-[System.Serializable]
 public class StreetSimTrackable {
     public string id;
+    public int frameIndex;
+    public float timestamp;
     public SVector3 localPosition;
     public SQuaternion localRotation;
-    public StreetSimTrackable(string id, Vector3 localPosition, Quaternion localRotation) {
+    public StreetSimTrackable(string id, int frameIndex, float timestamp, Vector3 localPosition, Quaternion localRotation) {
         this.id = id;
+        this.frameIndex = frameIndex;
+        this.timestamp = timestamp;
         this.localPosition = localPosition;
         this.localRotation = localRotation;
     }
-    public StreetSimTrackable(string id, Transform t) {
+    public StreetSimTrackable(string id, int frameIndex, float timestamp, Transform t) {
         this.id = id;
+        this.frameIndex = frameIndex;
+        this.timestamp = timestamp;
         this.localPosition = t.localPosition;
         this.localRotation = t.localRotation;
     }
@@ -43,13 +37,11 @@ public class StreetSimIDController : MonoBehaviour
     private Dictionary<ExperimentID, Queue<ExperimentID>> parentChildQueue = new Dictionary<ExperimentID, Queue<ExperimentID>>();
 
     [SerializeField] private bool m_shouldTrackPositions = true;
+    [SerializeField] private bool m_trackChildren = false;
     [SerializeField] private int m_numTrackedPerFrame = 50;
     [SerializeField] private List<ExperimentID> m_trackables = new List<ExperimentID>();
-    [SerializeField] private List<StreetSimTrackablePayload> m_payloads = new List<StreetSimTrackablePayload>();
-    public List<StreetSimTrackablePayload> payloads {
-        get { return m_payloads; }
-        set {}
-    }
+    private Dictionary<ExperimentID,List<StreetSimTrackable>> m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
+    public Dictionary<ExperimentID,List<StreetSimTrackable>> payloads { get=>m_payloads; set{} }
 
     private void Awake() {
         ID = this;
@@ -64,7 +56,7 @@ public class StreetSimIDController : MonoBehaviour
                 finalID = id;
                 return false;
             } else {
-                id = toAdd.parent.id + ">" + id;
+                id = toAdd.parent.id + "|-|" + id;
             }
         }
         if (!ids.Contains(toAdd)) {
@@ -108,44 +100,35 @@ public class StreetSimIDController : MonoBehaviour
     }
 
     public IEnumerator TrackPositionsCoroutine() {
-        StreetSimTrackablePayload payload = new StreetSimTrackablePayload(
-            StreetSim.S.trialFrameIndex, 
-            StreetSim.S.trialFrameTimestamp
-        );
         if (m_trackables.Count == 0) yield return null;
         else {
             Queue<ExperimentID> temp = new Queue<ExperimentID>(m_trackables);
             int count = 0;
             while(temp.Count > 0) {
                 ExperimentID id = temp.Dequeue();
-                payload.trackables.Add(new StreetSimTrackable(
-                    id.id,
-                    id.transform
-                ));
+                if (!m_payloads.ContainsKey(id)) m_payloads.Add(id, new List<StreetSimTrackable>());
+                m_payloads[id].Add(new StreetSimTrackable(id.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,id.transform));
                 count++;
-                if (id.children.Count > 0) {
+                if (count >= m_numTrackedPerFrame) {
+                    yield return null;
+                    count = 0;
+                }
+                if (m_trackChildren && id.children.Count > 0) {
                     foreach(ExperimentID child in id.children) {
-                        payload.trackables.Add(new StreetSimTrackable(
-                            child.id,
-                            child.transform
-                        ));
+                        if (!m_payloads.ContainsKey(child)) m_payloads.Add(child, new List<StreetSimTrackable>());
+                        m_payloads[child].Add(new StreetSimTrackable(child.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,child.transform));
                         if (count >= m_numTrackedPerFrame) {
                             yield return null;
                             count = 0;
                         }
                     }
                 }
-                if (count >= m_numTrackedPerFrame) {
-                    yield return null;
-                    count = 0;
-                }
             }
-            m_payloads.Add(payload);
-            yield return null;
         }
+        yield return null;
     }
 
     public void ClearData() {
-        m_payloads = new List<StreetSimTrackablePayload>();
+        m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     }
 }
