@@ -581,12 +581,17 @@ public class StreetSim : MonoBehaviour
 
         // FIRST: The trial metadata
         string dataToSave = SaveSystemMethods.ConvertToJSON<TrialData>(trial.GetTrialData());
+        Debug.Log(dataToSave);
+        Debug.Log(trialDirToSaveIn);
         if(SaveSystemMethods.SaveJSON(trialDirToSaveIn+"trial",dataToSave)) {
+        //if(SaveSystemMethods.SaveJSON(trialDirToSaveIn+"trial",dataToSave)) {
             // SECOND: the trial attempt data
             foreach(KeyValuePair<ExperimentID,List<TrialAttempt>> kvp in attempts) {
                 AttemptsPayload attemptsPayload = new AttemptsPayload(kvp.Key.id,kvp.Value);
                 dataToSave = SaveSystemMethods.ConvertToJSON<AttemptsPayload>(attemptsPayload);
-                SaveSystemMethods.SaveJSON(attemptsDirToSaveIn+kvp.Key.id,dataToSave);
+                if (!SaveSystemMethods.SaveJSON(attemptsDirToSaveIn+kvp.Key.id,dataToSave)) {
+                    Debug.Log("SOMETHING WRONG");
+                };
             }
             // THIRD: The gaze data
             GazePayload gazePayload = new GazePayload(StreetSimRaycaster.R.hits);
@@ -598,6 +603,8 @@ public class StreetSim : MonoBehaviour
                 dataToSave = SaveSystemMethods.ConvertToJSON<PositionsPayload>(positionsPayload);
                 SaveSystemMethods.SaveJSON(positionsDirToSaveIn+kvp.Key.id,dataToSave);
             }
+        } else {
+            Debug.Log("[STREET SIM] ERROR: Could not save json trial data");
         }
 
         /*
