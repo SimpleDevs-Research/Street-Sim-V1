@@ -75,4 +75,11 @@ public class ExperimentID : MonoBehaviour
         }
         return output.Count == 0;
     }
+
+    public void SetID(string newID) {
+        m_id = newID;
+    }
+    public void SetParent(ExperimentID newParent) {
+        m_parent = newParent;
+    }
 }

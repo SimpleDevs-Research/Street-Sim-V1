@@ -43,6 +43,44 @@ public class StreetSimAgent : MonoBehaviour
         set {}
     }
 
+    public void GetAllChildren() {
+        string parentName = id.id;
+        Dictionary<string, string> idDict = new Dictionary<string, string>() {
+            {"Root","Hips"},
+            {"Spine1","Abdomen"},
+            {"Spine2","Diaphragm"},
+            {"Chest","Chest"},
+            {"Clavicle.L","ClavicleLeft"},
+            {"Shoulder.L","ShoulderLeft"},
+            {"Forearm.L","ElbowLeft"},
+            {"Hand.L","HandLeft"},
+            {"Clavicle.R","ClavicleRight"},
+            {"Shoulder.R","ShoulderRight"},
+            {"Forearm.R","ElbowRight"},
+            {"Hand.R","HandRight"},
+            {"Neck","Neck"},
+            {"Head","Head"},
+            {"Thigh.L","LeftThigh"},
+            {"Shin.L","LeftKnee"},
+            {"Foot.L","LeftAnkle"},
+            {"Toe.L","LeftToes"},
+            {"Thigh.R","RightThigh"},
+            {"Shin.R","RightKnee"},
+            {"Foot.R","RightAnkle"},
+            {"Toe.R","RightToes"}
+        };
+        Component[] children = GetComponentsInChildren<Transform>();
+        ExperimentID childID;
+        foreach(Transform child in children) {
+            if (idDict.ContainsKey(child.gameObject.name)) {
+                childID = child.gameObject.GetComponent<ExperimentID>();
+                if(childID==null) childID = child.gameObject.AddComponent<ExperimentID>();
+                childID.SetID(parentName+"_"+idDict[child.name]);
+                childID.SetParent(id);
+            }
+        }
+    } 
+
     private void Awake() {
         if (id == null) id = GetComponent<ExperimentID>();
         if (agent == null) agent = GetComponent<NavMeshAgent>();
