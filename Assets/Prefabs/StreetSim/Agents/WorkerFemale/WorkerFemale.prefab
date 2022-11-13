@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ClavicleRight
+  m_id: HighFemale_ClavicleRight
   m_ref_id: 
 --- !u!1 &353375054149926380
 GameObject:
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ShoulderLeft
+  m_id: HighFemale_ShoulderLeft
   m_ref_id: 
 --- !u!1 &807712763912262769
 GameObject:
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ThighLeft
+  m_id: HighFemale_ThighLeft
   m_ref_id: 
 --- !u!1 &859456742517950505
 GameObject:
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_AnkleLeft
+  m_id: HighFemale_AnkleLeft
   m_ref_id: 
 --- !u!1 &1192825701164081970
 GameObject:
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_AnkleRight
+  m_id: HighFemale_AnkleRight
   m_ref_id: 
 --- !u!1 &1373560219861052601
 GameObject:
@@ -552,17 +552,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0.1
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -585,17 +577,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -650,7 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ElbowRight
+  m_id: HighFemale_ElbowRight
   m_ref_id: 
 --- !u!1 &1508593026734003373
 GameObject:
@@ -794,7 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ToesRight
+  m_id: HighFemale_ToesRight
   m_ref_id: 
 --- !u!1 &2698133198836770072
 GameObject:
@@ -1113,7 +1097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ClavicleLeft
+  m_id: HighFemale_ClavicleLeft
   m_ref_id: 
 --- !u!1 &3050113656524800111
 GameObject:
@@ -1194,7 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Abdomen
+  m_id: HighFemale_Abdomen
   m_ref_id: 
 --- !u!1 &3183443449394264949
 GameObject:
@@ -1463,7 +1447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Hips
+  m_id: HighFemale_Hips
   m_ref_id: 
 --- !u!1 &4084695980590813579
 GameObject:
@@ -1575,7 +1559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Diaphragm
+  m_id: HighFemale_Diaphragm
   m_ref_id: 
 --- !u!1 &4338020864499435654
 GameObject:
@@ -1624,7 +1608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Head
+  m_id: HighFemale_Head
   m_ref_id: 
 --- !u!1 &4437400314744931027
 GameObject:
@@ -1826,7 +1810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Neck
+  m_id: HighFemale_Neck
   m_ref_id: 
 --- !u!1 &4503501709065948826
 GameObject:
@@ -1938,7 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_KneeLeft
+  m_id: HighFemale_KneeLeft
   m_ref_id: 
 --- !u!1 &4977690880014214348
 GameObject:
@@ -2055,7 +2039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_HandLeft
+  m_id: HighFemale_HandLeft
   m_ref_id: 
 --- !u!1 &5299207050261183148
 GameObject:
@@ -2348,7 +2332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_HandRight
+  m_id: HighFemale_HandRight
   m_ref_id: 
 --- !u!1 &5714808058541122676
 GameObject:
@@ -2619,7 +2603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ElbowLeft
+  m_id: HighFemale_ElbowLeft
   m_ref_id: 
 --- !u!1 &6614010465419453512
 GameObject:
@@ -2930,7 +2914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 0}
   m_children: []
-  m_id: WorkFem
+  m_id: HighFemale
   m_ref_id: 
 --- !u!114 &7682752188409318285
 MonoBehaviour:
@@ -2944,6 +2928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 0}
   agent: {fileID: 3882305124458210970}
   character: {fileID: 6316156312405930115}
   renderer: {fileID: 1066589062078328934}
@@ -2953,11 +2938,11 @@ MonoBehaviour:
   forwardPointer: {fileID: 3687541806185894385}
   downwardPointer: {fileID: 2376726224117586551}
   targetPositions: []
-  currentSpeed: 0
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
   m_canCross: 0
   behavior: 0
+  direction: 0
 --- !u!1 &6951832107863989633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3068,7 +3053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_KneeRight
+  m_id: HighFemale_KneeRight
   m_ref_id: 
 --- !u!1 &7151012749746093641
 GameObject:
@@ -3149,7 +3134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ToesLeft
+  m_id: HighFemale_ToesLeft
   m_ref_id: 
 --- !u!1 &7805930939353154631
 GameObject:
@@ -3264,7 +3249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_Chest
+  m_id: HighFemale_Chest
   m_ref_id: 
 --- !u!1 &7991814899383085205
 GameObject:
@@ -3344,7 +3329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ThighRight
+  m_id: HighFemale_ThighRight
   m_ref_id: 
 --- !u!1 &8644040327925642611
 GameObject:
@@ -3489,7 +3474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 7111255671693901996}
   m_children: []
-  m_id: WorkFem_ShoulderRight
+  m_id: HighFemale_ShoulderRight
   m_ref_id: 
 --- !u!1 &9025424747762783453
 GameObject:
