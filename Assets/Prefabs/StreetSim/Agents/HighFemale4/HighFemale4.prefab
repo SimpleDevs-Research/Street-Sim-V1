@@ -2837,6 +2837,7 @@ GameObject:
   - component: {fileID: 7428923867974914798}
   - component: {fileID: 2696943625172828847}
   - component: {fileID: 6000799036953094897}
+  - component: {fileID: 5962327685182571276}
   m_Layer: 0
   m_Name: HighFemale4
   m_TagString: Untagged
@@ -3004,6 +3005,33 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale4
   m_ref_id: 
+--- !u!114 &5962327685182571276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990005079064277865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: {fileID: 6000799036953094897}
+  agent: {fileID: 6091149141577442295}
+  character: {fileID: 2696943625172828847}
+  renderer: {fileID: 3325274156178541425}
+  animator: {fileID: 5085278827599893414}
+  collider: {fileID: 7428923867974914798}
+  rigidbody: {fileID: 2327661545142026227}
+  forwardPointer: {fileID: 795603150301045259}
+  downwardPointer: {fileID: 5882764756197918824}
+  targetPositions: []
+  m_meshCollider: {fileID: 0}
+  m_crossDelayTime: 5
+  m_canCross: 0
+  behavior: 0
+  direction: 0
 --- !u!1 &8083525942234295978
 GameObject:
   m_ObjectHideFlags: 0

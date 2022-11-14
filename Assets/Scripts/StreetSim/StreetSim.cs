@@ -123,7 +123,7 @@ public class StreetSim : MonoBehaviour
         else m_currentlyAttempting[xrExperimentID] = false;
         foreach(StreetSimTrial.StreetSimPrimaryModel model in trial.models) {
             ExperimentID modelID = model.agent.GetComponent<ExperimentID>();
-            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, true, model.direction);
+            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, model.speed, true, model.direction);
             if(!trialAttempts.ContainsKey(modelID)) trialAttempts.Add(modelID, new List<TrialAttempt>());
             if(!m_currentlyAttempting.ContainsKey(modelID)) m_currentlyAttempting.Add(modelID,false);
             else m_currentlyAttempting[modelID] = false;
@@ -257,6 +257,7 @@ public class StreetSim : MonoBehaviour
                 : (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth)
                     ? StreetSimTrial.TrialDirection.SouthToNorth
                     : StreetSimTrial.TrialDirection.NorthToSouth;
+            model.speed = UnityEngine.Random.Range(0.35f,0.45f);
         }
         //if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
         /*
@@ -655,6 +656,9 @@ public class StreetSimTrial {
 
         private TrialDirection m_direction;
         public TrialDirection direction { get=>m_direction; set{m_direction=value;} }
+
+        private float m_speed;
+        public float speed { get=>m_speed; set{m_speed=value;} }
     }
 
     [System.Serializable]

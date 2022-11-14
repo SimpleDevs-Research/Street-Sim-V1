@@ -106,6 +106,7 @@ public class StreetSimAgent : MonoBehaviour
         follower.toFollow = this.transform;
         follower.offset = Vector3.up * -20f;
         MeshCollider col = newMeshObject.AddComponent<MeshCollider>();
+        m_meshCollider = col;
         SkinnedMeshRendererHelper helper = newMeshObject.AddComponent<SkinnedMeshRendererHelper>();
         helper.meshRenderer = renderer;
         helper.collider= col;
@@ -133,6 +134,7 @@ public class StreetSimAgent : MonoBehaviour
     public void Initialize(
         Transform[] targets, 
         StreetSimTrial.ModelBehavior behavior, 
+        float speed,
         bool shouldLoop, 
         bool shouldWarpOnLoop, 
         StreetSimTrial.TrialDirection direction,
@@ -147,6 +149,7 @@ public class StreetSimAgent : MonoBehaviour
         collider.enabled = true;
         rigidbody.isKinematic = false;
         agent.enabled = true;
+        agent.speed = speed;
         character.enabled = true;
         animator.enabled = true;
         agent.isStopped = false;

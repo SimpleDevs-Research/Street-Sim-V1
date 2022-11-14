@@ -1099,20 +1099,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 589900132377390879}
   agent: {fileID: 2337271304914153241}
   character: {fileID: 7518009624281287010}
   renderer: {fileID: 2710682320128235820}
-  animator: {fileID: 0}
+  animator: {fileID: 5943866931634362096}
   collider: {fileID: 6990530952941160842}
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 8760364014987745083}
   forwardPointer: {fileID: 3343699428628849660}
   downwardPointer: {fileID: 4598858338762966134}
   targetPositions: []
-  currentSpeed: 0
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
   m_canCross: 0
   behavior: 0
+  direction: 0
 --- !u!1 &2279723697148523907
 GameObject:
   m_ObjectHideFlags: 0

@@ -2191,20 +2191,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 3139831810730869331}
   agent: {fileID: 6114944585242089042}
   character: {fileID: 60433126415707434}
   renderer: {fileID: 2410823534213513622}
-  animator: {fileID: 0}
+  animator: {fileID: 1481418641258860823}
   collider: {fileID: 2355372720987434677}
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 1145709304270686221}
   forwardPointer: {fileID: 5449044142940242038}
   downwardPointer: {fileID: 5164935285046386219}
   targetPositions: []
-  currentSpeed: 0
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
   m_canCross: 0
   behavior: 0
+  direction: 0
 --- !u!1 &6708379619977801827
 GameObject:
   m_ObjectHideFlags: 0
