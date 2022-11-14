@@ -10,11 +10,15 @@ public class StreetSimAgentEditor : Editor
 
     public override void OnInspectorGUI() {
         StreetSimAgent agent = (StreetSimAgent)target;
+
+        DrawDefaultInspector();
+
         if(GUILayout.Button("Set Children ExIDs")) {
             agent.GetAllChildren();
         }
-
-        DrawDefaultInspector();
+        if(GUILayout.Button("Generate Mesh Copy")) {
+            agent.GenerateMesh();
+        }
     }
 
 }

@@ -196,7 +196,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 41.154736
@@ -402,7 +402,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -541,7 +541,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -711,7 +711,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -851,7 +851,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 41.154736
@@ -1058,7 +1058,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -1367,7 +1367,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -1538,7 +1538,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -1677,7 +1677,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -1816,7 +1816,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -2038,7 +2038,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 3769076996435730149, guid: 702d143a848400646bd0416315151025, type: 3}
+  m_Mesh: {fileID: -7495082852782209869, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -2093,7 +2093,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 0
@@ -2141,7 +2141,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411290547436721864}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2234,7 +2234,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -2382,7 +2382,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -6944901014874555366, guid: 702d143a848400646bd0416315151025, type: 3}
+  m_Mesh: {fileID: -7811814688180697811, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -2437,7 +2437,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 0
@@ -2625,9 +2625,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2650,9 +2658,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2824,7 +2840,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 55.89463
@@ -3038,7 +3054,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -3209,7 +3225,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -3334,7 +3350,7 @@ GameObject:
   - component: {fileID: 3043940505704697387}
   - component: {fileID: 581234564583256241}
   - component: {fileID: 513195067459566763}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Agent20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3442,14 +3458,14 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228417610140920845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 0.75
+  m_Radius: 0.25
   m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.75
+  m_StoppingDistance: 0.15
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -3464,7 +3480,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228417610140920845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
@@ -3489,7 +3505,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -3502,8 +3518,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 2228417610140920845}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
+  m_Enabled: 0
+  m_Radius: 0.25
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -3601,8 +3617,8 @@ MonoBehaviour:
     - {fileID: 2178163626266605517}
     - {fileID: 3121827262489152052}
     - {fileID: 1528567142361667710}
-  prefabPath: Assets/Prefabs/StreetSim/Agents/Agent20.prefab
-  instanceStatus: 6
+  prefabPath: Assets/Prefabs/StreetSim/Agents/Agent20/Agent20.prefab
+  instanceStatus: 1
   originHip: {fileID: 4058877016362130003}
   headHip: {fileID: 2234855501122119360}
   clothesAnchors:
@@ -3644,22 +3660,22 @@ MonoBehaviour:
     - {fileID: 5276954860660896424}
   animator: {fileID: 4486955376862704006}
   characterSelectedElements:
-    Hair: 7
+    Hair: 11
     Beard: -1
     Hat: -1
-    Shirt: 4
+    Shirt: 7
     Pants: 6
-    Shoes: 10
+    Shoes: 7
     Accessory: -1
     Item1: -1
-  heightValue: -0.039243154
-  headSizeValue: -0.024703462
-  feetOffset: 0
+  heightValue: 0.0808
+  headSizeValue: -0.062
+  feetOffset: 0.063
   characterBlendshapeDatas:
   - blendshapeName: Fat
     type: 0
     group: 0
-    value: 60.257835
+    value: 25.8
   - blendshapeName: Slimness
     type: 2
     group: 0
@@ -3852,9 +3868,9 @@ MonoBehaviour:
     type: 4
     group: 0
     value: 0
-  Skin: {r: 0.8375077, g: 0.4849042, b: 0.3688574, a: 1}
-  Eye: {r: 0.23735097, g: 0.44837216, b: 0.49445558, a: 0}
-  Hair: {r: 0.6501869, g: 0.6501869, b: 0.6501869, a: 0}
+  Skin: {r: 0.3773585, g: 0.17748334, b: 0.11213955, a: 1}
+  Eye: {r: 0.21404414, g: 0.24528301, b: 0.24528301, a: 0}
+  Hair: {r: 0, g: 0, b: 0, a: 0}
   Underpants: {r: 0.27358484, g: 0.27358484, b: 0.27358484, a: 1}
   OralCavity: {r: 0.6901961, g: 0.29019606, b: 0.30196077, a: 0}
   Teeth: {r: 0.8, g: 0.8, b: 0.8, a: 0}
@@ -3876,7 +3892,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228417610140920845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
   m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_CullingMode: 0
@@ -4003,6 +4019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f13eb2f3f583c14686889bb8570e646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 0}
   agent: {fileID: 0}
   character: {fileID: 0}
   renderer: {fileID: 0}
@@ -4012,9 +4029,11 @@ MonoBehaviour:
   forwardPointer: {fileID: 5148654674731640082}
   downwardPointer: {fileID: 296279459284987255}
   targetPositions: []
-  currentSpeed: 0
   m_meshCollider: {fileID: 0}
+  m_crossDelayTime: 5
+  m_canCross: 0
   behavior: 0
+  direction: 0
 --- !u!114 &513195067459566763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4070,7 +4089,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2386939433576436172}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4163,7 +4182,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -4302,7 +4321,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -4505,7 +4524,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -4644,7 +4663,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -4763,7 +4782,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2349257478736069214, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
+  m_Mesh: {fileID: 7709596656808050305, guid: a41872676cd97434f9bc75cfbe350f99, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -4987,7 +5006,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -5126,7 +5145,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -5210,7 +5229,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2649818738651743889, guid: 702d143a848400646bd0416315151025, type: 3}
+  m_Mesh: {fileID: 5016242186037911984, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -5265,7 +5284,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 0
@@ -5406,7 +5425,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -5686,7 +5705,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -5717,8 +5736,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3839233190685762129}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9719692, y: 0.96075684, z: 0.96075684}
+  m_LocalPosition: {x: 0, y: 0.063, z: 0}
+  m_LocalScale: {x: 1.0577143, y: 1.0808, z: 1.0808}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7096104335308032963}
@@ -6026,7 +6045,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -6165,7 +6184,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -6665,7 +6684,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -6804,7 +6823,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -6978,7 +6997,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4911123074491111800}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7071,7 +7090,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -7274,7 +7293,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -7389,7 +7408,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 7358771431159018449, guid: 702d143a848400646bd0416315151025, type: 3}
+  m_Mesh: {fileID: -7151244502304096342, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -7444,7 +7463,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 0
@@ -7936,7 +7955,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5749962949656136950}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8029,7 +8048,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -8075,7 +8094,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5784793742526729599}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8168,7 +8187,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -8444,7 +8463,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -8503,6 +8522,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: d930fe5e417be994b80ab0a965baa312, type: 2}
   - {fileID: 2100000, guid: 3f3d17836a87ae942ac524d7020ac829, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -8528,7 +8548,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -4071320369414206860, guid: 333895fbbc0517740a9446f1f0c3634a, type: 3}
+  m_Mesh: {fileID: -4349856978794031633, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -8583,7 +8603,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -8785,7 +8805,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -8956,7 +8976,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -9096,7 +9116,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -9298,7 +9318,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -9382,7 +9402,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 8457548253581274451, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
+  m_Mesh: {fileID: 5667900878265858283, guid: a41872676cd97434f9bc75cfbe350f99, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -9575,7 +9595,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -9778,7 +9798,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -9918,7 +9938,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   - 41.154736
@@ -10605,7 +10625,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -10729,6 +10749,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: d930fe5e417be994b80ab0a965baa312, type: 2}
   - {fileID: 2100000, guid: 3f3d17836a87ae942ac524d7020ac829, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -10754,7 +10775,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -2597870274558147827, guid: 333895fbbc0517740a9446f1f0c3634a, type: 3}
+  m_Mesh: {fileID: 9142343775307946079, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -10809,7 +10830,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -10948,7 +10969,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}
@@ -11077,7 +11098,7 @@ Transform:
   m_GameObject: {fileID: 7536988601261407749}
   m_LocalRotation: {x: -0.13995363, y: 0.00000023307146, z: 0.000000064521544, w: 0.9901581}
   m_LocalPosition: {x: -2.93654e-14, y: 0.084920324, z: 0.00000005401671}
-  m_LocalScale: {x: 0.97529656, y: 0.97529656, z: 0.97529656}
+  m_LocalScale: {x: 0.938, y: 0.938, z: 0.938}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2877015495923800894}
@@ -11161,7 +11182,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -3287049067241901744, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
+  m_Mesh: {fileID: 4383070860436473266, guid: a41872676cd97434f9bc75cfbe350f99, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -11398,7 +11419,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7854985886851011176}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11491,7 +11512,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -11791,6 +11812,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: d930fe5e417be994b80ab0a965baa312, type: 2}
   - {fileID: 2100000, guid: 3f3d17836a87ae942ac524d7020ac829, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -11816,7 +11838,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8594849948249432501, guid: 333895fbbc0517740a9446f1f0c3634a, type: 3}
+  m_Mesh: {fileID: 2825810967874368418, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -11871,7 +11893,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -12010,7 +12032,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -12094,7 +12116,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 741374374005122307, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
+  m_Mesh: {fileID: 4946405671480013839, guid: a41872676cd97434f9bc75cfbe350f99, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -12287,7 +12309,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -12487,6 +12509,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: d930fe5e417be994b80ab0a965baa312, type: 2}
   - {fileID: 2100000, guid: 3f3d17836a87ae942ac524d7020ac829, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -12512,7 +12535,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -4212193942368324342, guid: 333895fbbc0517740a9446f1f0c3634a, type: 3}
+  m_Mesh: {fileID: 7808758160808216775, guid: 3e3e4d88686e0ce49b2c102f26974cda, type: 3}
   m_Bones:
   - {fileID: 7096104335308032963}
   - {fileID: 3216336647189675377}
@@ -12567,7 +12590,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -12706,7 +12729,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -12783,7 +12806,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8372736938215127601}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12876,7 +12899,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -13090,7 +13113,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8851930835665447059}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13183,7 +13206,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -13322,7 +13345,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   m_RootBone: {fileID: 7096104335308032963}
   m_AABB:
@@ -13725,7 +13748,7 @@ SkinnedMeshRenderer:
   - {fileID: 8900973131210950655}
   - {fileID: 3490472176116247275}
   m_BlendShapeWeights:
-  - 60.257835
+  - 25.8
   - 0
   - 0
   m_RootBone: {fileID: 7096104335308032963}

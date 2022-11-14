@@ -79,6 +79,9 @@ public class ExperimentID : MonoBehaviour
     public void SetID(string newID) {
         m_id = newID;
     }
+    public void SetRefID(string newRefID) {
+        m_ref_id = newRefID;
+    }
     public void SetParent(ExperimentID newParent) {
         m_parent = newParent;
     }
