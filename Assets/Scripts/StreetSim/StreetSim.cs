@@ -351,7 +351,8 @@ public class StreetSim : MonoBehaviour
 
         // Reset frame index to -1 (it'll be advanecd to 0 at the first frame of recording)
         m_trialFrameIndex = -1;
-        // Set the previous frame timestamp
+        // Set the current and previous frame timestamps
+        m_trialFrameTimestamp = 0f;
         m_prevTrialFrameTimestamp = 0f;
         // Set up the trial
         InitializeTrial(m_currentTrial);
@@ -496,10 +497,7 @@ public class StreetSim : MonoBehaviour
         m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
-        if (!m_currentAttempts.ContainsKey(id)) {
-            Debug.Log("Cannot find attempt with id " + id.id);
-            return;
-        }
+        if (!m_currentAttempts.ContainsKey(id)) return;
         TrialAttempt cAttempt = m_currentAttempts[id];
         cAttempt.endTime = endTime;
         cAttempt.successful = successful;
