@@ -12,6 +12,10 @@ public class StreetSimEditor : Editor
 
         DrawDefaultInspector();
 
+        if(GUILayout.Button("Generate Test Groups")) {
+            streetSim.GenerateTestGroups();
+        }
+
         if(GUILayout.Button("Start Simulation")) {
             streetSim.StartSimulation();
         }

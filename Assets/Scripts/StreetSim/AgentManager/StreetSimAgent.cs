@@ -228,8 +228,8 @@ public class StreetSimAgent : MonoBehaviour
                         if (downwardPointer.raycastTarget != null) StreetSim.S.StartAgentAttempt();
                         else StreetSim.S.EndAgentAttempt();
                         */
-                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id, Time.time, direction);
-                        else StreetSim.S.EndAttempt(id,Time.time,true);
+                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id, StreetSim.S.trialFrameTimestamp, direction);
+                        else StreetSim.S.EndAttempt(id,StreetSim.S.trialFrameTimestamp,true);
                     }
                 } 
                 else {
@@ -277,6 +277,6 @@ public class StreetSimAgent : MonoBehaviour
         collider.enabled = false;
         rigidbody.isKinematic = true;
         m_meshCollider.enabled = false;
-        //if (m_agentType == AgentType.Model) StreetSim.S.EndAgentAttempt();
+        if (m_agentType == AgentType.Model) StreetSim.S.EndAttempt(id, StreetSim.S.trialFrameTimestamp, true);
     }
 }

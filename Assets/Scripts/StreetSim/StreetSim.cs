@@ -33,6 +33,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField, Tooltip("The folder where the simulation will save/load user tracking data. Omit the ending '/'")] private string m_sourceDirectory;
     public string sourceDirectory { get{ return m_sourceDirectory; } set{} }
     [SerializeField, Tooltip("The name of the participant. Format doesn't matter, but it must be one single string w/out spaces.")] private string m_participantName;
+    [SerializeField] private int m_trialGroupToTest = 0;
     public string participantName { get{ return m_participantName; } set{}}
     public string saveDirectory { get{ return m_sourceDirectory + "/" + simulationPayload.startTime + "_" + m_participantName + "/"; } set{} }
     private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
@@ -43,6 +44,9 @@ public class StreetSim : MonoBehaviour
     private LinkedList<StreetSimTrial> m_trialQueue;
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
+
+    [SerializeField] private int numTrialsPerGroups = 10;
+    [SerializeField] private List<StreetSimTrialGroup> m_trialGroups = new List<StreetSimTrialGroup>();
 
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }
@@ -64,10 +68,8 @@ public class StreetSim : MonoBehaviour
     private List<RaycastHitRow> participantGazeData;        // The participant's gaze data
     // Temporary data
     private Dictionary<ExperimentID, TrialAttempt> m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();    // List of all current attempts of both the particiapnt and any models in the trial
-    private Dictionary<ExperimentID, bool> m_currentlyAttempting = new Dictionary<ExperimentID, bool>();                // Lets the system know if the current participant/model is attempting something
 
 
-    //private bool m_currentlyAttempting = false;
     //[SerializeField] private TrialAttempt m_modelCurrentAttempt;
     //private bool m_modelCurrentlyAttempting = false;
     
@@ -82,13 +84,8 @@ public class StreetSim : MonoBehaviour
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
 
-    private void Awake() {
-        S = this;
-        if (m_agentParent == null) m_agentParent = this.transform;
-        if (m_agentMeshParent == null) m_agentMeshParent = this.transform;
-    }
-
-    private void Start() {
+    public void GenerateTestGroups() {
+        // Generate total list of trials
         List<StreetSimTrial> roundOne, roundTwo;
         switch(trialRotation) {
             case TrialRotation.Randomized:
@@ -101,8 +98,46 @@ public class StreetSim : MonoBehaviour
                 break;
         }
         roundOne.AddRange(roundTwo);
-        m_trialQueue = new LinkedList<StreetSimTrial>(roundOne);
+        List<StreetSimTrial> newTrials = new List<StreetSimTrial>(roundOne);
+
+        // Generate groups
+        m_trialGroups = new List<StreetSimTrialGroup>();
+        int numGroups = (int)Mathf.Ceil((float)newTrials.Count / (float)numTrialsPerGroups);
+        for(int i = 0; i < numGroups; i++) {
+            m_trialGroups.Add(new StreetSimTrialGroup(i));
+        }
+
+        // Now separate based on # of m_numTrialGroups
+        for(int i = 0; i < newTrials.Count; i++) {
+            int groupIndex = i / numTrialsPerGroups;
+            m_trialGroups[groupIndex].trials.Add(newTrials[i]);
+        }
+    }
+
+    private void Awake() {
+        S = this;
+        if (m_agentParent == null) m_agentParent = this.transform;
+        if (m_agentMeshParent == null) m_agentMeshParent = this.transform;
+    }
+
+    private void Start() {
+        /*
+        List<StreetSimTrial> roundOne, roundTwo;
+        switch(trialRotation) {
+            case TrialRotation.Randomized:
+                roundOne = m_trials.Shuffle<StreetSimTrial>();
+                roundTwo = m_trials.Shuffle<StreetSimTrial>();
+                break;
+            default:
+                roundOne = m_trials;
+                roundTwo = m_trials;
+                break;
+        }
+        roundOne.AddRange(roundTwo);
+        */
+        m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
         m_initialSetup.isFirstTrial = true;
+        trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups - 1;
         if (m_includeInitialSetup) {
            m_trialQueue.AddFirst(m_initialSetup);
         }
@@ -118,15 +153,11 @@ public class StreetSim : MonoBehaviour
         // Traffic - how congested should the traffic be?
         // Tell our trial payload that we're starting another trial
         PositionPlayerAtStart();
-         if(!trialAttempts.ContainsKey(xrExperimentID)) trialAttempts.Add(xrExperimentID, new List<TrialAttempt>());
-        if(!m_currentlyAttempting.ContainsKey(xrExperimentID)) m_currentlyAttempting.Add(xrExperimentID,false);
-        else m_currentlyAttempting[xrExperimentID] = false;
+        if(!trialAttempts.ContainsKey(xrExperimentID)) trialAttempts.Add(xrExperimentID, new List<TrialAttempt>());
         foreach(StreetSimTrial.StreetSimPrimaryModel model in trial.models) {
             ExperimentID modelID = model.agent.GetComponent<ExperimentID>();
             StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, model.speed, true, model.direction);
             if(!trialAttempts.ContainsKey(modelID)) trialAttempts.Add(modelID, new List<TrialAttempt>());
-            if(!m_currentlyAttempting.ContainsKey(modelID)) m_currentlyAttempting.Add(modelID,false);
-            else m_currentlyAttempting[modelID] = false;
         }
         //if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.npcCongestion, false);
@@ -347,8 +378,10 @@ public class StreetSim : MonoBehaviour
         m_currentTrial.duration = m_currentTrial.endTime - m_currentTrial.startTime;
 
         // End all attempts
-        foreach(KeyValuePair<ExperimentID, bool> kvp in m_currentlyAttempting) {
-            if (kvp.Value) EndAttempt(kvp.Key, m_currentTrial.endTime, false, true, "");
+        if (m_currentAttempts.Count > 0) {
+            foreach(ExperimentID key in m_currentAttempts.Keys) {
+                EndAttempt(key, m_currentTrial.startTime + m_currentTrial.duration, false, true, "");
+            }
         }
 
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
@@ -357,7 +390,6 @@ public class StreetSim : MonoBehaviour
         }
 
         // Let's reset all things
-        m_currentlyAttempting = new Dictionary<ExperimentID, bool>();
         m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();
         trialAttempts = new Dictionary<ExperimentID, List<TrialAttempt>>();
         StreetSimRaycaster.R.ClearData();
@@ -408,42 +440,26 @@ public class StreetSim : MonoBehaviour
         
         // End the player's attempt
         float endTime = m_trialFrameTimestamp;
-        EndAttempt(xrExperimentID, Time.time, true, false, "Vehicle Collision");
-        Debug.Log("[STREET SIM] FAILED TRIAL...");
-        
-        /*
-        if (m_currentlyAttempting) {
-            // Attempt ended in failure, reset
-            m_currentAttempt.endTime = m_trialFrameTimestamp;
-            m_currentAttempt.successful = false;
-            m_currentAttempt.reason = "Vehicle Collision";
-            trialPayload.attempts.Add(m_currentAttempt);
-            m_currentlyAttempting = false;
-            Debug.Log("Ending Attempt, Got hit by vehicle");
+        EndAttempt(xrExperimentID, endTime, true, false, "Vehicle Collision");
+        if (m_currentAttempts.Count > 0) {
+            foreach(ExperimentID key in m_currentAttempts.Keys) {
+                EndAttempt(key, endTime, false, false, "Vehicle Collision");
+            }
         }
-        */
+        m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();
+        Debug.Log("[STREET SIM] FAILED TRIAL...");
     }
     public void ResetTrial() {
         Debug.Log("[STREET SIM] Resetting Trial...");
 
         float endTime = m_trialFrameTimestamp;
-        foreach(KeyValuePair<ExperimentID, bool> kvp in m_currentlyAttempting) {
-            if (kvp.Value) EndAttempt(kvp.Key, endTime, false, false, "Vehicle Collision");
+        EndAttempt(xrExperimentID, endTime, true, false, "Vehicle Collision");
+        if(m_currentAttempts.Count > 0) {
+            foreach(ExperimentID key in m_currentAttempts.Keys) {
+                EndAttempt(key, endTime, false, false, "Vehicle Collision");
+            }
         }
-        m_currentlyAttempting = new Dictionary<ExperimentID, bool>();
         m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();
-
-        /*
-        if (m_currentlyAttempting) {
-            // Attempt ended in failure, reset
-            m_currentAttempt.endTime = m_trialFrameTimestamp;
-            m_currentAttempt.successful = false;
-            m_currentAttempt.reason = "Vehicle Collision";
-            trialPayload.attempts.Add(m_currentAttempt);
-            m_currentlyAttempting = false;
-            Debug.Log("Ending Attempt, Got hit by vehicle");
-        }
-        */
 
         StreetSimAgentManager.AM.DestroyModels();
         InitializeTrial(m_currentTrial);
@@ -473,19 +489,17 @@ public class StreetSim : MonoBehaviour
     */
 
     public void StartAttempt(ExperimentID id, float startTime, StreetSimTrial.TrialDirection direction, bool shouldSetStartingAttempt = true) {
-        if (m_currentlyAttempting[id]) return;
-        if(!m_currentAttempts.ContainsKey(id)) m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
-        else m_currentAttempts[id] = new TrialAttempt(direction.ToString(), startTime);
-        if (shouldSetStartingAttempt) m_currentlyAttempting[id] = true;
+        if (m_currentAttempts.ContainsKey(id)) return;
+        m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
-        if(!m_currentlyAttempting[id]) return;
+        if (!m_currentAttempts.ContainsKey(id)) return;
         TrialAttempt cAttempt = m_currentAttempts[id];
         cAttempt.endTime = endTime;
         cAttempt.successful = successful;
         cAttempt.reason = reason;
         trialAttempts[id].Add(cAttempt);
-        if (shouldSetEndingAttempt) m_currentlyAttempting[id] = false;
+        if (shouldSetEndingAttempt) m_currentAttempts.Remove(id);
     }
 
     private void FixedUpdate() {
@@ -500,46 +514,21 @@ public class StreetSim : MonoBehaviour
                 if (Physics.Raycast(xrCamera.position+(Vector3.up*0.1f), -Vector3.up, out hit, 3f, downwardMask)) {
                     if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
                         // Create a new attempt if it doesn't exist already
-                        if (!m_currentlyAttempting[xrExperimentID]) {
+                        if (!m_currentAttempts.ContainsKey(xrExperimentID)) {
                             StartAttempt(xrExperimentID, m_trialFrameTimestamp, m_currentTrial.direction);
                         }
-                        /*
-                        if (!m_currentlyAttempting) {
-                            // Create a new attempt
-                            m_currentAttempt = new TrialAttempt(m_trialFrameTimestamp);
-                            m_currentlyAttempting = true;
-                        }
-                        */
                     }
                     else if (hit.transform == m_currentTrial.startSidewalk) {
                         // Attempt ended in failure due to returning back to the original sidewalk
-                        if (m_currentlyAttempting[xrExperimentID]) {
+                        if (m_currentAttempts.ContainsKey(xrExperimentID)) {
                             EndAttempt(xrExperimentID,m_trialFrameTimestamp, true, false, "Returned to start sidewalk"); 
                         }
-                        /*
-                        if (m_currentlyAttempting) {
-                            // Attempt ended in failure, reset
-                            m_currentAttempt.endTime = m_trialFrameTimestamp;
-                            m_currentAttempt.successful = false;
-                            m_currentAttempt.reason = "Returned to start sidewalk";
-                            trialPayload.attempts.Add(m_currentAttempt);
-                            m_currentlyAttempting = false;
-                        }
-                        */
                     }
                     else if (hit.transform == m_currentTrial.endSidewalk) {
                         // We reached the end successfully! Let's add a successful attempt
-                        if (m_currentlyAttempting[xrExperimentID]) {
+                        if (m_currentAttempts.ContainsKey(xrExperimentID)) {
                             EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
                         }
-                        /*
-                        if (m_currentlyAttempting) {
-                            m_currentAttempt.endTime = m_trialFrameTimestamp;
-                            m_currentAttempt.successful = true;
-                            trialPayload.attempts.Add(m_currentAttempt);
-                            m_currentlyAttempting = false;
-                        }
-                        */
                     }
                 }
                 // Only track if we've surpassed the frame offset
@@ -638,6 +627,16 @@ public class StreetSim : MonoBehaviour
     }
     public void LoadSimulationData() {
 
+    }
+}
+
+[System.Serializable]
+public class StreetSimTrialGroup {
+    public int groupNumber;
+    public List<StreetSimTrial> trials;
+    public StreetSimTrialGroup(int groupNumber) {
+        this.groupNumber = groupNumber;
+        trials = new List<StreetSimTrial>();
     }
 }
 
