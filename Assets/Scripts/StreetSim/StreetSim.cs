@@ -138,7 +138,7 @@ public class StreetSim : MonoBehaviour
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
         m_initialSetup.isFirstTrial = true;
         trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups - 1;
-        if (m_includeInitialSetup) {
+        if (m_trialGroupToTest == 0) {
            m_trialQueue.AddFirst(m_initialSetup);
         }
         StartSimulation();
@@ -176,6 +176,7 @@ public class StreetSim : MonoBehaviour
         // Prepare the payload
         simulationPayload = new SimulationData(
             m_participantName,
+            m_trialGroupToTest,
             DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")
         );
         // Prepare the save folder for the simulation, and only continue if the folder was created
@@ -288,7 +289,7 @@ public class StreetSim : MonoBehaviour
                 : (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth)
                     ? StreetSimTrial.TrialDirection.SouthToNorth
                     : StreetSimTrial.TrialDirection.NorthToSouth;
-            model.speed = UnityEngine.Random.Range(0.35f,0.45f);
+            model.speed = UnityEngine.Random.Range(0.4f,0.5f);
         }
         //if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
         /*
@@ -361,6 +362,9 @@ public class StreetSim : MonoBehaviour
         // Finally declare that we're starting the trial
         m_currentTrialActive = true;
         Debug.Log("PERFORMING TRIAL # " + m_currentTrial.trialNumber.ToString());
+
+        // Add the simulation to our simulation payload
+        simulationPayload.trials.Add(m_currentTrial.name);
     }
     private void EndTrial() {
         // Do not continue if our data is weird
@@ -564,7 +568,7 @@ public class StreetSim : MonoBehaviour
         //string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
         //if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
         if (SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
-            if (SaveSystemMethods.SaveJSON(simulationDirToSaveIn + "simulationMetadata", dataToSave)) {
+            if (SaveSystemMethods.SaveJSON(simulationDirToSaveIn + "simulationMetadata_" + simulationPayload.simulationGroupNumber, dataToSave)) {
                 Debug.Log("[STREET SIM] Simulation Data Saved inside of " + saveDirectory);
             }
         }
@@ -769,18 +773,21 @@ public class StreetSimTrial {
 [System.Serializable]
 public class SimulationData {
     public string participantName;
+    public int simulationGroupNumber;
     public string startTime;
     public float duration;
     public List<string> trials;
     
-    public SimulationData(string pname, string startTime, float duration, List<string> trials) {
+    public SimulationData(string pname, int simNumber, string startTime, float duration, List<string> trials) {
         this.participantName = pname;
+        this.simulationGroupNumber = simNumber;
         this.startTime = startTime;
         this.duration = duration;
         this.trials = trials;
     }
-    public SimulationData(string pname, string startTime) {
+    public SimulationData(string pname, int simNumber, string startTime) {
         this.participantName = pname;
+        this.simulationGroupNumber = simNumber;
         this.startTime = startTime;
         this.trials = new List<string>();
     }
