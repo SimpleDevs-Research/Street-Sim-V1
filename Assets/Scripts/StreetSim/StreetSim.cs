@@ -35,7 +35,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField, Tooltip("The name of the participant. Format doesn't matter, but it must be one single string w/out spaces.")] private string m_participantName;
     [SerializeField] private int m_trialGroupToTest = 0;
     public string participantName { get{ return m_participantName; } set{}}
-    public string saveDirectory { get{ return m_sourceDirectory + "/" + simulationPayload.startTime + "_" + m_participantName + "/"; } set{} }
+    public string saveDirectory { get{ return m_sourceDirectory + "/" + m_participantName + "/"; } set{} }
     private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
 
     [SerializeField] private StreetSimTrial m_initialSetup;
