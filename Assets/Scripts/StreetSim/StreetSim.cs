@@ -496,7 +496,10 @@ public class StreetSim : MonoBehaviour
         m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
-        if (!m_currentAttempts.ContainsKey(id)) return;
+        if (!m_currentAttempts.ContainsKey(id)) {
+            Debug.Log("Cannot find attempt with id " + id.id);
+            return;
+        }
         TrialAttempt cAttempt = m_currentAttempts[id];
         cAttempt.endTime = endTime;
         cAttempt.successful = successful;

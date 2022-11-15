@@ -184,7 +184,7 @@ public class StreetSimAgent : MonoBehaviour
                     switch(behavior) {
                         case StreetSimTrial.ModelBehavior.Risky:
                             // This will go no matter what the light signal is, but only if there aren't any incoming cars
-                            m_riskyButCrossing = m_riskyButCrossing || TrafficSignalController.current.GetSafety(transform.position.z < 0);
+                            m_riskyButCrossing = m_riskyButCrossing || TrafficSignalController.current.GetSafety(transform.position.z < 0f, agent.speed);
                             if (m_riskyButCrossing && m_canCross) {
                                 agent.isStopped = false;
                                 character.Move(agent.desiredVelocity,false,false);
@@ -222,21 +222,17 @@ public class StreetSimAgent : MonoBehaviour
                             }
                             break;
                     }
-                    if (m_agentType == AgentType.Model) {
-                        // The agent is currently on the crosswalk, so we need to inform the system that the agent is crossing
-                        /*
-                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAgentAttempt();
-                        else StreetSim.S.EndAgentAttempt();
-                        */
-                        if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id, StreetSim.S.trialFrameTimestamp, direction);
-                        else StreetSim.S.EndAttempt(id,StreetSim.S.trialFrameTimestamp,true);
-                    }
                 } 
                 else {
                     // No worries, we're not at a crosswalk, so we can move at our desired velocity
                     agent.isStopped = false;
                     character.Move(agent.desiredVelocity,false,false);
                 }
+            }
+            if (m_agentType == AgentType.Model) {
+                // The agent is currently on the crosswalk, so we need to inform the system that the agent is crossing
+                if (downwardPointer.raycastTarget != null) StreetSim.S.StartAttempt(id, StreetSim.S.trialFrameTimestamp, direction);
+                else StreetSim.S.EndAttempt(id,StreetSim.S.trialFrameTimestamp,true);
             }
         }
     }

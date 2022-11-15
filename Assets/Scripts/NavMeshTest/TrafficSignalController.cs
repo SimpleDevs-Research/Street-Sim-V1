@@ -81,12 +81,18 @@ public class TrafficSignalController : MonoBehaviour
         StartCoroutine(cycleSession);
     }
 
-    public bool GetSafety(bool onSouth) {
+    public bool GetSafety(bool onSouth, float agentSpeed = 0.4f) {
+        RaycastHit[] hitsSouth, hitsNorth;
+        float distance = (1.375f / agentSpeed) * 5f;
         if (onSouth) {
-            return (!Physics.Raycast(m_northCarDetector.position + (m_northCarDetector.forward * 25f) , m_northCarDetector.forward, 25f) && !Physics.Raycast(m_southCarDetector.position, m_southCarDetector.forward, 25f));
+            hitsSouth = Physics.RaycastAll(m_southCarDetector.position, m_southCarDetector.forward, distance);
+            hitsNorth = Physics.RaycastAll(m_northCarDetector.position + (m_northCarDetector.forward * distance) , m_northCarDetector.forward, distance); 
+
         } else {
-            return (!Physics.Raycast(m_northCarDetector.position, m_northCarDetector.forward, 25f) && !Physics.Raycast(m_southCarDetector.position + (m_southCarDetector.forward * 25f), m_southCarDetector.forward, 25f));
+            hitsSouth = Physics.RaycastAll(m_southCarDetector.position + (m_southCarDetector.forward * distance), m_southCarDetector.forward, distance);
+            hitsNorth = Physics.RaycastAll(m_northCarDetector.position, m_northCarDetector.forward, distance);
         }
+        return (hitsSouth.Length == 0 && hitsNorth.Length == 0);
     }
 
     private IEnumerator CycleSignalSessions(int startIndex) {
