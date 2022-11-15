@@ -163,7 +163,7 @@ public class StreetSim : MonoBehaviour
         StreetSimAgentManager.AM.SetCongestionStatus(trial.npcCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
         TrafficSignalController.current.StartAtSessionIndex(0);
-        m_currentTrial.AddInnerStartTime(Time.time);
+        m_currentTrial.AddInnerStartTime(m_trialFrameTimestamp);
     }
 
     private void PositionPlayerAtStart() {
@@ -349,12 +349,12 @@ public class StreetSim : MonoBehaviour
         );
         */
 
-        // Set up the trial
-        InitializeTrial(m_currentTrial);
         // Reset frame index to -1 (it'll be advanecd to 0 at the first frame of recording)
         m_trialFrameIndex = -1;
         // Set the previous frame timestamp
         m_prevTrialFrameTimestamp = 0f;
+        // Set up the trial
+        InitializeTrial(m_currentTrial);
         // Set status to "Tracking"
         m_streetSimStatus = StreetSimStatus.Tracking;
         // Reset next trial triggered status
@@ -382,12 +382,11 @@ public class StreetSim : MonoBehaviour
         m_currentTrial.duration = m_currentTrial.endTime - m_currentTrial.startTime;
 
         // End all attempts
-        if (m_currentAttempts.Count > 0) {
-            foreach(ExperimentID key in m_currentAttempts.Keys) {
-                EndAttempt(key, m_currentTrial.startTime + m_currentTrial.duration, false, true, "");
-            }
+        foreach(KeyValuePair<ExperimentID,TrialAttempt> kvp in m_currentAttempts) {
+            EndAttempt(kvp.Key, m_trialFrameTimestamp, false, true, "");
         }
 
+        //Debug.Log(trialAttempts);
         // Save the trial data. Upon successful save, we add to our simulation payload to acknowledge the trial was saved.
         if (!SaveTrialData(m_currentTrial, trialAttempts)) {
             Debug.Log("[STREET SIM] ERROR: Could not save trial data. Boo-hoo...");
