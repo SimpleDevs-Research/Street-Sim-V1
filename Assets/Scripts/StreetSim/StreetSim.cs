@@ -291,40 +291,6 @@ public class StreetSim : MonoBehaviour
                     : StreetSimTrial.TrialDirection.NorthToSouth;
             model.speed = UnityEngine.Random.Range(0.4f,0.5f);
         }
-        //if (m_currentTrial.primaryModel.agent == null) m_currentTrial.primaryModel.modelPathIndex = -1;
-        /*
-        else {                                                                                                                                        
-            switch(m_currentTrial.primaryModel.modelStartOrientation) {
-                case StreetSimTrial.ModelStartOrientation.West:
-                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(0,2) 
-                            : UnityEngine.Random.Range(4,6)
-                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(4,6)
-                            : UnityEngine.Random.Range(0,2);
-                    break;
-                case StreetSimTrial.ModelStartOrientation.East:
-                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(2,4) 
-                            : UnityEngine.Random.Range(6,8)
-                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(6,8)
-                            : UnityEngine.Random.Range(2,4);
-                    break;
-                default:
-                    m_currentTrial.primaryModel.modelPathIndex = (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
-                        ? (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(0,4) 
-                            : UnityEngine.Random.Range(4,8)
-                        : (m_currentTrial.primaryModel.modelStartOnSameSide)
-                            ? UnityEngine.Random.Range(4,8)
-                            : UnityEngine.Random.Range(0,4);
-                    break;
-            }
-        }
-        */
 
         // Set up the trial number
         trialNumber += 1;
@@ -332,22 +298,6 @@ public class StreetSim : MonoBehaviour
         
         // Get the start time of the trial
         m_currentTrial.startTime = Time.time;
-        
-        /*
-        // Set up our trial payload
-        Debug.Log("PERFORMING TRIAL # " + trialNumber.ToString());
-        trialPayload = new TrialData(
-            m_currentTrial.name,
-            trialNumber,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-            agentID,
-            m_currentTrial.primaryModel.modelBehavior.ToString(),
-            m_currentTrial.primaryModel.modelPathIndex,
-            m_currentTrial.direction.ToString(),
-            m_currentTrial.modelStartOnSameSide
-            //m_currentTrial.primaryModel.modelStartOrientation.ToString()
-            //m_currentTrial.startPositionRef.GetComponent<ExperimentID>().id
-        );
-        */
 
         // Reset frame index to -1 (it'll be advanecd to 0 at the first frame of recording)
         m_trialFrameIndex = -1;
@@ -401,25 +351,6 @@ public class StreetSim : MonoBehaviour
 
         // Let the system know we're no longer having a an active trial
         m_currentTrialActive = false;
-
-        /*
-        trialPayload.participantGazeData = StreetSimRaycaster.R.hits;
-        trialPayload.positionData = StreetSimIDController.ID.payloads;
-        trialPayload.startTime = m_currentTrial.startTime;
-        trialPayload.endTime = m_trialEndTime;
-        trialPayload.duration = m_trialDuration;
-        
-        EndAgentAttempt();
-        if (SaveTrialData()) {
-            StreetSimRaycaster.R.ClearData();
-            StreetSimIDController.ID.ClearData();
-        }
-        */
-        
-        /*
-        // unset reference to current trial
-        m_currentTrial = null;
-        */
 
         // Set status to "Idle", which will stop tracking
         m_streetSimStatus = StreetSimStatus.Idle;
@@ -506,7 +437,7 @@ public class StreetSim : MonoBehaviour
         if (shouldSetEndingAttempt) m_currentAttempts.Remove(id);
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         switch(m_streetSimStatus) {
             case StreetSimStatus.Tracking:
                 // Don't do anything if we triggered the next trial.
