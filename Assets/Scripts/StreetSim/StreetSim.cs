@@ -38,7 +38,7 @@ public class StreetSim : MonoBehaviour
     public string saveDirectory { get{ return m_sourceDirectory + "/" + m_participantName + "/"; } set{} }
     private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
 
-    [SerializeField] private StreetSimTrial m_initialSetup;
+    [SerializeField] private StreetSimTrial[] m_initialSetups;
     [SerializeField] private bool m_includeInitialSetup = true;
     [SerializeField] private List<StreetSimTrial> m_trials = new List<StreetSimTrial>();
     private LinkedList<StreetSimTrial> m_trialQueue;
@@ -69,7 +69,7 @@ public class StreetSim : MonoBehaviour
     // Temporary data
     private Dictionary<ExperimentID, TrialAttempt> m_currentAttempts = new Dictionary<ExperimentID, TrialAttempt>();    // List of all current attempts of both the particiapnt and any models in the trial
 
-
+    private IEnumerator m_customUpdateCoroutine = null;
     //[SerializeField] private TrialAttempt m_modelCurrentAttempt;
     //private bool m_modelCurrentlyAttempting = false;
     
@@ -86,18 +86,19 @@ public class StreetSim : MonoBehaviour
 
     public void GenerateTestGroups() {
         // Generate total list of trials
-        List<StreetSimTrial> roundOne, roundTwo;
+        //List<StreetSimTrial> roundOne, roundTwo;
+        List<StreetSimTrial> roundOne;
         switch(trialRotation) {
             case TrialRotation.Randomized:
                 roundOne = m_trials.Shuffle<StreetSimTrial>();
-                roundTwo = m_trials.Shuffle<StreetSimTrial>();
+                //roundTwo = m_trials.Shuffle<StreetSimTrial>();
                 break;
             default:
                 roundOne = m_trials;
-                roundTwo = m_trials;
+                //roundTwo = m_trials;
                 break;
         }
-        roundOne.AddRange(roundTwo);
+        //roundOne.AddRange(roundTwo);
         List<StreetSimTrial> newTrials = new List<StreetSimTrial>(roundOne);
 
         // Generate groups
@@ -136,10 +137,12 @@ public class StreetSim : MonoBehaviour
         roundOne.AddRange(roundTwo);
         */
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
-        m_initialSetup.isFirstTrial = true;
+        m_initialSetups[0].isFirstTrial = true;
         trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups - 1;
-        if (m_trialGroupToTest == 0) {
-           m_trialQueue.AddFirst(m_initialSetup);
+        if (m_trialGroupToTest == 0 || m_includeInitialSetup) {
+            for(int i = m_initialSetups.Length-1; i >= 0; i--) {
+                m_trialQueue.AddFirst(m_initialSetups[i]);
+            }
         }
         StartSimulation();
     }
@@ -303,7 +306,7 @@ public class StreetSim : MonoBehaviour
         m_trialFrameIndex = -1;
         // Set the current and previous frame timestamps
         m_trialFrameTimestamp = 0f;
-        m_prevTrialFrameTimestamp = 0f;
+        //m_prevTrialFrameTimestamp = 0f;
         // Set up the trial
         InitializeTrial(m_currentTrial);
         // Set status to "Tracking"
@@ -313,6 +316,10 @@ public class StreetSim : MonoBehaviour
         // Finally declare that we're starting the trial
         m_currentTrialActive = true;
         Debug.Log("PERFORMING TRIAL # " + m_currentTrial.trialNumber.ToString());
+        if (m_customUpdateCoroutine == null) {
+            m_customUpdateCoroutine = CustomUpdate();
+            StartCoroutine(m_customUpdateCoroutine);
+        }
 
         // Add the simulation to our simulation payload
         simulationPayload.trials.Add(m_currentTrial.name);
@@ -352,8 +359,13 @@ public class StreetSim : MonoBehaviour
         // Let the system know we're no longer having a an active trial
         m_currentTrialActive = false;
 
-        // Set status to "Idle", which will stop tracking
+        // Set status to "Idle", which will stop tracking. This should also end the coroutine;
         m_streetSimStatus = StreetSimStatus.Idle;
+        // End the coroutine in case
+        if (m_customUpdateCoroutine != null) {
+            StopCoroutine(m_customUpdateCoroutine);
+            m_customUpdateCoroutine = null;
+        }
 
         // Play success sound
         m_successAudioSource.Play();
@@ -437,49 +449,43 @@ public class StreetSim : MonoBehaviour
         if (shouldSetEndingAttempt) m_currentAttempts.Remove(id);
     }
 
-    private void Update() {
-        switch(m_streetSimStatus) {
-            case StreetSimStatus.Tracking:
-                // Don't do anything if we triggered the next trial.
-                if (nextTrialTriggered) return;
-                // Calculate frame timestamp
-                m_trialFrameTimestamp = Time.time - m_currentTrial.startTime;
-                // Check the current attempt
-                RaycastHit hit;
-                if (Physics.Raycast(xrCamera.position+(Vector3.up*0.1f), -Vector3.up, out hit, 3f, downwardMask)) {
-                    if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
-                        // Create a new attempt if it doesn't exist already
-                        if (!m_currentAttempts.ContainsKey(xrExperimentID)) {
-                            StartAttempt(xrExperimentID, m_trialFrameTimestamp, m_currentTrial.direction);
-                        }
-                    }
-                    else if (hit.transform == m_currentTrial.startSidewalk) {
-                        // Attempt ended in failure due to returning back to the original sidewalk
-                        if (m_currentAttempts.ContainsKey(xrExperimentID)) {
-                            EndAttempt(xrExperimentID,m_trialFrameTimestamp, true, false, "Returned to start sidewalk"); 
-                        }
-                    }
-                    else if (hit.transform == m_currentTrial.endSidewalk) {
-                        // We reached the end successfully! Let's add a successful attempt
-                        if (m_currentAttempts.ContainsKey(xrExperimentID)) {
-                            EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
-                        }
-                    }
+    private IEnumerator CustomUpdate() {
+        // We only track if we've declared taht we're tracking
+        while(m_streetSimStatus == StreetSimStatus.Tracking) {
+            // If the next trial is triggered, we break early and stop tracking
+            if (nextTrialTriggered) break;
+            // Calculate frame timestamp
+            m_trialFrameTimestamp = Time.time - m_currentTrial.startTime;
+            // Check the current attempt
+            RaycastHit hit;
+            if (Physics.Raycast(xrCamera.position+(Vector3.up*0.1f), -Vector3.up, out hit, 3f, downwardMask)) {
+                if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
+                    // Create a new attempt if it doesn't exist already
+                    if (!m_currentAttempts.ContainsKey(xrExperimentID)) StartAttempt(xrExperimentID, m_trialFrameTimestamp, m_currentTrial.direction);
                 }
-                // Only track if we've surpassed the frame offset
-                if (m_trialFrameTimestamp - m_prevTrialFrameTimestamp >= m_trialFrameOffset) {
-                    // save the current timestamp to the previous one
-                    m_prevTrialFrameTimestamp = m_trialFrameTimestamp;
-                    // advance the frame by 1
-                    m_trialFrameIndex += 1;
-                    // Track GazeData
-                    StreetSimRaycaster.R.CheckRaycast();
-                    // Track positional data
-                    StreetSimIDController.ID.TrackPositions();
+                else if (hit.transform == m_currentTrial.startSidewalk) {
+                    // Attempt ended in failure due to returning back to the original sidewalk
+                    if (m_currentAttempts.ContainsKey(xrExperimentID)) EndAttempt(xrExperimentID,m_trialFrameTimestamp, true, false, "Returned to start sidewalk"); 
                 }
-                break;
+                else if (hit.transform == m_currentTrial.endSidewalk) {
+                    // We reached the end successfully! Let's add a successful attempt
+                    if (m_currentAttempts.ContainsKey(xrExperimentID)) EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
+                }
+            }
+            //if (m_trialFrameTimestamp - m_prevTrialFrameTimestamp >= m_trialFrameOffset) {
+            // save the current timestamp to the previous one
+            //m_prevTrialFrameTimestamp = m_trialFrameTimestamp;
+            // advance the frame by 1
+            m_trialFrameIndex += 1;
+            // Track GazeData
+            StreetSimRaycaster.R.CheckRaycast();
+            // Track positional data
+            StreetSimIDController.ID.TrackPositions();
+            //}
+            yield return new WaitForSeconds(m_trialFrameOffset);
         }
-        // No case for Idle...
+        Debug.Log("Ending Tracking");
+        yield return null;
     }
 
     public void SaveSimulationData() {
