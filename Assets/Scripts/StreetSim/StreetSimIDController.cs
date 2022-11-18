@@ -40,6 +40,7 @@ public class StreetSimIDController : MonoBehaviour
     [SerializeField] private bool m_trackChildren = false;
     [SerializeField] private int m_numTrackedPerFrame = 50;
     [SerializeField] private List<ExperimentID> m_trackables = new List<ExperimentID>();
+    [SerializeField] private List<ExperimentID> m_trialTrackables = new List<ExperimentID>();
     private Dictionary<ExperimentID,List<StreetSimTrackable>> m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     public Dictionary<ExperimentID,List<StreetSimTrackable>> payloads { get=>m_payloads; set{} }
 
@@ -103,6 +104,7 @@ public class StreetSimIDController : MonoBehaviour
         if (m_trackables.Count == 0) yield return null;
         else {
             Queue<ExperimentID> temp = new Queue<ExperimentID>(m_trackables);
+            temp.AddRange(m_trialTrackables);
             int count = 0;
             while(temp.Count > 0) {
                 ExperimentID id = temp.Dequeue();
@@ -126,6 +128,13 @@ public class StreetSimIDController : MonoBehaviour
             }
         }
         yield return null;
+    }
+
+    public void ClearTrialTrackables() {
+        m_trialTrackables = new List<ExperimentID>();
+    }
+    public void AddTrialTrackable(ExperimentID t) {
+        m_trialTrackables.Add(t);
     }
 
     public void ClearData() {

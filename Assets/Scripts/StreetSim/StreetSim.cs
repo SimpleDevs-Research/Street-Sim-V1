@@ -253,12 +253,6 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
             return;
         }
-        
-        /*
-        string agentID = (m_currentTrial.primaryModel.agent != null) 
-            ? m_currentTrial.primaryModel.agent.GetComponent<ExperimentID>().id 
-            : "No Agent";
-        */
 
         // Determine the positions of important things inside the simulation. Also determine the direction the trial moves in
         if (m_currentTrial.isFirstTrial) {
@@ -283,8 +277,11 @@ public class StreetSim : MonoBehaviour
             m_nextCylinder.position = m_northNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
+        // Clear `m_trialTrackables` in StreetSimIDController
+        StreetSimIDController.ID.ClearTrialTrackables();
         // Set model stuff
         foreach(StreetSimTrial.StreetSimPrimaryModel model in m_currentTrial.models) {
+            // Determine model direction
             model.direction = (model.startOnSameSideAsPlayer) 
                 ? (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth) 
                     ? StreetSimTrial.TrialDirection.NorthToSouth 
@@ -292,7 +289,10 @@ public class StreetSim : MonoBehaviour
                 : (m_currentTrial.direction == StreetSimTrial.TrialDirection.NorthToSouth)
                     ? StreetSimTrial.TrialDirection.SouthToNorth
                     : StreetSimTrial.TrialDirection.NorthToSouth;
+            // Determine model seed
             model.speed = UnityEngine.Random.Range(0.4f,0.5f);
+            // Add model to `m_trialTrackables` in StreetSimIDController
+            StreetSimIDController.ID.AddTrialTrackable(model.agent.GetID());
         }
 
         // Set up the trial number

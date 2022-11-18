@@ -275,4 +275,8 @@ public class StreetSimAgent : MonoBehaviour
         m_meshCollider.enabled = false;
         if (m_agentType == AgentType.Model) StreetSim.S.EndAttempt(id, StreetSim.S.trialFrameTimestamp, true);
     }
+
+    public ExperimentID GetID() {
+        return id;
+    }
 }
