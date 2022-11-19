@@ -122,26 +122,14 @@ public class StreetSim : MonoBehaviour
     }
 
     private void Start() {
-        /*
-        List<StreetSimTrial> roundOne, roundTwo;
-        switch(trialRotation) {
-            case TrialRotation.Randomized:
-                roundOne = m_trials.Shuffle<StreetSimTrial>();
-                roundTwo = m_trials.Shuffle<StreetSimTrial>();
-                break;
-            default:
-                roundOne = m_trials;
-                roundTwo = m_trials;
-                break;
-        }
-        roundOne.AddRange(roundTwo);
-        */
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
         m_initialSetups[0].isFirstTrial = true;
         trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups - 1;
         if (m_trialGroupToTest == 0 || m_includeInitialSetup) {
             for(int i = m_initialSetups.Length-1; i >= 0; i--) {
-                m_trialQueue.AddFirst(m_initialSetups[i]);
+                StreetSimTrial t = m_initialSetups[i];
+                t.name = t.name + "_group" + m_trialGroupToTest;
+                m_trialQueue.AddFirst(t);
             }
         }
         StartSimulation();
