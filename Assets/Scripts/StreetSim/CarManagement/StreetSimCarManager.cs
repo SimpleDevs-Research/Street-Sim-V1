@@ -34,11 +34,15 @@ public class StreetSimCarManager : MonoBehaviour
     [SerializeField] private Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
     private Dictionary<CarManagerStatus, Vector2> waitValues = new Dictionary<CarManagerStatus, Vector2> {
         { CarManagerStatus.Off, new Vector2(0f,0f) },
-        { CarManagerStatus.NoCongestion, new Vector2(8f, 5f) },
-        { CarManagerStatus.MinimalCongestion, new Vector2(4f,10f) },
+        //{ CarManagerStatus.NoCongestion, new Vector2(8f, 5f) },
+        //{ CarManagerStatus.MinimalCongestion, new Vector2(4f,10f) },
+        { CarManagerStatus.NoCongestion, new Vector2(10f, 5f) },
+        { CarManagerStatus.MinimalCongestion, new Vector2(10f,5f) },
         { CarManagerStatus.SomeCongestion, new Vector2(2f,15f) },
         { CarManagerStatus.Congested, new Vector2(1f,25f) }
     };
+    // x = wait time between actually spawning cars
+    // y = total number of active cars allowed on the road.
 
     [SerializeField] private Transform InactiveCarTargetRef;
 
@@ -58,6 +62,7 @@ public class StreetSimCarManager : MonoBehaviour
     }
 
     private IEnumerator PrintCars() {
+        float timeToNextCarSpawn;
         while(true) {
             if (status == CarManagerStatus.Off) {
                 yield return null;
@@ -77,7 +82,8 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.trafficSignal = path.trafficSignal;
                         nextCar.Initialize();
                         activeCars.Add(nextCar);
-                        yield return new WaitForSeconds(waitValues[status].x);
+                        timeToNextCarSpawn = UnityEngine.Random.Range(0f,10f);
+                        yield return new WaitForSeconds(timeToNextCarSpawn);
                     }
                 }
                 yield return null;
