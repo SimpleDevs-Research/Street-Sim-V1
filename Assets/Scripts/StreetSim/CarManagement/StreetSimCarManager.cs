@@ -22,6 +22,10 @@ public class CarRow {
         this.name = name;
         this.crosswalkTime = time;
     }
+    public static List<string> Headers => new List<string> {
+        "name",
+        "crosswalkTime"
+    };
 }
 
 public class StreetSimCarManager : MonoBehaviour

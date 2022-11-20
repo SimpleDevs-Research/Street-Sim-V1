@@ -12,9 +12,13 @@ public class RaycastHitRow {
     public string hitID;
     public string agentID;
     public float[] localPositionOfHitPosition;
+    public float localPositionOfHitPosition_x, localPositionOfHitPosition_y, localPositionOfHitPosition_z;
     public float[] localPositionOfHitTarget;
+    public float localPositionOfHitTarget_x, localPositionOfHitTarget_y, localPositionOfHitTarget_z;
     public float[] localPosition;
+    public float localPosition_x, localPosition_y, localPosition_z;
     public float[] raycastDirection;
+    public float raycastDirection_x, raycastDirection_y, raycastDirection_z;
     public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] lp, float[] rd) {
         this.frameIndex = index;
         this.timestamp = t;
@@ -22,10 +26,41 @@ public class RaycastHitRow {
         this.hitID = h;
         this.agentID = a;
         this.localPositionOfHitPosition = lpp;
+        this.localPositionOfHitPosition_x = this.localPositionOfHitPosition[0];
+        this.localPositionOfHitPosition_y = this.localPositionOfHitPosition[1];
+        this.localPositionOfHitPosition_z = this.localPositionOfHitPosition[2];
         this.localPositionOfHitTarget = lpt;
+        this.localPositionOfHitTarget_x = this.localPositionOfHitTarget[0];
+        this.localPositionOfHitTarget_y = this.localPositionOfHitTarget[1];
+        this.localPositionOfHitTarget_z = this.localPositionOfHitTarget[2];
         this.localPosition = lp;
+        this.localPosition_x = this.localPosition[0];
+        this.localPosition_y = this.localPosition[1];
+        this.localPosition_z = this.localPosition[2];
         this.raycastDirection = rd;
+        this.raycastDirection_x = this.raycastDirection[0];
+        this.raycastDirection_y = this.raycastDirection[1];
+        this.raycastDirection_z = this.raycastDirection[2];
     }
+    public static List<string> Headers => new List<string> {
+        "frameIndex",
+        "timestamp",
+        "triangleIndex",
+        "hitID",
+        "agentID",
+        "localPositionOfHitPosition_x",
+        "localPositionOfHitPosition_y",
+        "localPositionOfHitPosition_z",
+        "localPositionOfHitTarget_x",
+        "localPositionOfHitTarget_y",
+        "localPositionOfHitTarget_z",
+        "localPosition_x",
+        "localPosition_y",
+        "localPosition_z",
+        "raycastDirection_x",
+        "raycastDirection_y",
+        "raycastDirection_z",
+    };
 }
 
 public class StreetSimRaycaster : MonoBehaviour
@@ -72,6 +107,7 @@ public class StreetSimRaycaster : MonoBehaviour
                     currentTarget = target;
                     m_triangleIndex = hit.triangleIndex;
                     m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
+                    Debug.Log(closestTarget.id + "|" + hit.point.ToString());
                     m_agentID = target.ref_id;
                     m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
                     m_localPositionOfHitTarget = (closestTarget.parent != null) ? closestTarget.transform.localPosition : Vector3.zero;

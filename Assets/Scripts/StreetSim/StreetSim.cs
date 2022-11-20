@@ -534,6 +534,7 @@ public class StreetSim : MonoBehaviour
             GazePayload gazePayload = new GazePayload(StreetSimRaycaster.R.hits);
             dataToSave = SaveSystemMethods.ConvertToJSON<GazePayload>(gazePayload);
             SaveSystemMethods.SaveJSON(trialDirToSaveIn+"gaze",dataToSave);
+            SaveSystemMethods.SaveCSV<RaycastHitRow>(trialDirToSaveIn+"gaze",RaycastHitRow.Headers,StreetSimRaycaster.R.hits);
             // FOURTH: The positional data
             /*
             foreach(KeyValuePair<ExperimentID,List<StreetSimTrackable>> kvp in StreetSimIDController.ID.payloads) {
@@ -548,6 +549,7 @@ public class StreetSim : MonoBehaviour
             CarsPayload carsPayload = new CarsPayload(StreetSimCarManager.CM.carHistory);
             dataToSave = SaveSystemMethods.ConvertToJSON<CarsPayload>(carsPayload);
             SaveSystemMethods.SaveJSON(trialDirToSaveIn+"cars",dataToSave);
+            SaveSystemMethods.SaveCSV<CarRow>(trialDirToSaveIn+"cars",CarRow.Headers,StreetSimCarManager.CM.carHistory);
         } else {
             Debug.Log("[STREET SIM] ERROR: Could not save json trial data");
         }

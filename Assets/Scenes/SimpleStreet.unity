@@ -349,6 +349,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThumbMesh
   m_ref_id: LeftThumb
+  m_shouldTrack: 1
 --- !u!114 &4753853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +591,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftShoulderMesh
   m_ref_id: LeftShoulder
+  m_shouldTrack: 1
 --- !u!114 &12795959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,6 +768,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftHandMesh
   m_ref_id: LeftHand
+  m_shouldTrack: 1
 --- !u!114 &22637615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5760,6 +5763,7 @@ MonoBehaviour:
   m_children: []
   m_id: Hip
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &43008759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400068, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -6086,6 +6090,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThighMesh
   m_ref_id: RightThigh
+  m_shouldTrack: 1
 --- !u!114 &60606480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6371,6 +6376,7 @@ MonoBehaviour:
   m_children: []
   m_id: UpperChest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &82308377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6387,6 +6393,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowerChest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &82308379 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400120, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -7149,6 +7156,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ClavicleLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &109558059 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 151190, guid: a9cc5585b9634a9449920c03ec6bc243, type: 3}
@@ -7171,6 +7179,7 @@ GameObject:
   - component: {fileID: 112212713}
   - component: {fileID: 112212712}
   - component: {fileID: 112212711}
+  - component: {fileID: 112212714}
   m_Layer: 31
   m_Name: Sidewalk-South
   m_TagString: Untagged
@@ -7257,6 +7266,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112212709}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &112212714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112212709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Sidewalk_South
+  m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &116386541 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5002742837392516850, guid: ded7c7a0e5dd14a49b90ab4fd6958def, type: 3}
@@ -7278,6 +7304,7 @@ MonoBehaviour:
   m_children: []
   m_id: Hips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &122917672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7608,6 +7635,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThumbMesh
   m_ref_id: LeftThumb
+  m_shouldTrack: 1
 --- !u!114 &130732298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7934,6 +7962,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftLowerLegMesh
   m_ref_id: LeftLowerLeg
+  m_shouldTrack: 1
 --- !u!114 &131939737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8569,6 +8598,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree4Mesh
   m_ref_id: SouthTree4
+  m_shouldTrack: 1
 --- !u!1001 &169249057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9086,6 +9116,7 @@ MonoBehaviour:
   m_children: []
   m_id: NeckMesh
   m_ref_id: Neck
+  m_shouldTrack: 1
 --- !u!114 &190825697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10327,6 +10358,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthMiddleFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &233442335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10860,6 +10892,7 @@ MonoBehaviour:
   m_children: []
   m_id: AbdomenMesh
   m_ref_id: Abdomen
+  m_shouldTrack: 1
 --- !u!114 &250514785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10906,6 +10939,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_LeftToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &254833983
 GameObject:
   m_ObjectHideFlags: 0
@@ -10958,6 +10992,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightUpperArmMesh
   m_ref_id: RightUpperArm
+  m_shouldTrack: 1
 --- !u!114 &254833986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11166,6 +11201,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthWestBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &271952046
 GameObject:
   m_ObjectHideFlags: 0
@@ -11500,6 +11536,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftAnkleMesh
   m_ref_id: LeftAnkle
+  m_shouldTrack: 1
 --- !u!114 &281416402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12157,6 +12194,7 @@ MonoBehaviour:
   m_children: []
   m_id: UserLeftHand
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &306668449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6389178171811411278, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
@@ -12278,6 +12316,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftForeArmMesh
   m_ref_id: LeftForeArm
+  m_shouldTrack: 1
 --- !u!114 &317292551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12385,6 +12424,7 @@ GameObject:
   - component: {fileID: 324449122}
   - component: {fileID: 324449121}
   - component: {fileID: 324449120}
+  - component: {fileID: 324449123}
   m_Layer: 31
   m_Name: Sidewalk-North
   m_TagString: Untagged
@@ -12471,6 +12511,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324449118}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &324449123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324449118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Sidewalk_North
+  m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &324649224
 GameObject:
   m_ObjectHideFlags: 0
@@ -13367,6 +13424,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ClavicleRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &347510379
 GameObject:
   m_ObjectHideFlags: 0
@@ -13435,6 +13493,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightFootMesh
   m_ref_id: RightFoot
+  m_shouldTrack: 1
 --- !u!114 &347510383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13871,6 +13930,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthMiddleFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &354230633
 GameObject:
   m_ObjectHideFlags: 0
@@ -14293,6 +14353,7 @@ MonoBehaviour:
   m_children: []
   m_id: TransformTargetTester1
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &373784404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14573,6 +14634,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthWestBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &386694097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14690,6 +14752,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree5Mesh
   m_ref_id: SouthTree5
+  m_shouldTrack: 1
 --- !u!1001 &393722485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14807,6 +14870,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree4Mesh
   m_ref_id: NorthTree4
+  m_shouldTrack: 1
 --- !u!4 &394672998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9613b318b55fe542a24bd02b0c74565, type: 3}
@@ -14963,6 +15027,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightLowerLegMesh
   m_ref_id: RightLowerLeg
+  m_shouldTrack: 1
 --- !u!114 &401953757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15174,6 +15239,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3Box
   m_ref_id: Car3
+  m_shouldTrack: 1
 --- !u!4 &423168819
 Transform:
   m_ObjectHideFlags: 0
@@ -15241,6 +15307,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightFootMesh
   m_ref_id: RightFoot
+  m_shouldTrack: 1
 --- !u!114 &424308217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16046,6 +16113,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftForeArmMesh
   m_ref_id: LeftForeArm
+  m_shouldTrack: 1
 --- !u!114 &464982538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16486,6 +16554,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThighMesh
   m_ref_id: LeftThigh
+  m_shouldTrack: 1
 --- !u!114 &489404005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17398,6 +17467,7 @@ MonoBehaviour:
   m_children: []
   m_id: Standing Agent
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &512646028
 GameObject:
   m_ObjectHideFlags: 0
@@ -17547,6 +17617,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightFoot
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &525827561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400112, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -18656,6 +18727,7 @@ MonoBehaviour:
   m_children: []
   m_id: HipMesh
   m_ref_id: Hip
+  m_shouldTrack: 1
 --- !u!114 &587961717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18885,6 +18957,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightUpperArmMesh
   m_ref_id: RightUpperArm
+  m_shouldTrack: 1
 --- !u!114 &600335105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19048,6 +19121,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_HandRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &603965342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1680414908293461888, guid: 1cb4fb5a540d4aa478ddea34362dcdc4, type: 3}
@@ -19161,6 +19235,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep2Box
   m_ref_id: Jeep2
+  m_shouldTrack: 1
 --- !u!4 &605208617
 Transform:
   m_ObjectHideFlags: 0
@@ -19493,6 +19568,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightForeArm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &630560145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400098, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -19597,6 +19673,7 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar4Box
   m_ref_id: SportsCar4
+  m_shouldTrack: 1
 --- !u!4 &631809362
 Transform:
   m_ObjectHideFlags: 0
@@ -19915,6 +19992,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightHandMesh
   m_ref_id: RightHand
+  m_shouldTrack: 1
 --- !u!114 &660467887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19965,6 +20043,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &662709183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400072, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -20720,6 +20799,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthWestFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &682334153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20889,6 +20969,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_LeftThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &687771755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21108,6 +21189,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree6Mesh
   m_ref_id: NorthTree6
+  m_shouldTrack: 1
 --- !u!1 &692418311
 GameObject:
   m_ObjectHideFlags: 0
@@ -21161,6 +21243,7 @@ MonoBehaviour:
   m_children: []
   m_id: MainAgentMesh
   m_ref_id: MainAgent
+  m_shouldTrack: 1
 --- !u!114 &692418314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21316,6 +21399,7 @@ MonoBehaviour:
   m_children: []
   m_id: WorkerMale
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &696174581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8038261308700661135, guid: eab93388b0a7c7f4da86424b89ba4904, type: 3}
@@ -21571,6 +21655,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree8Mesh
   m_ref_id: NorthTree8
+  m_shouldTrack: 1
 --- !u!1 &713151735
 GameObject:
   m_ObjectHideFlags: 0
@@ -21808,6 +21893,7 @@ MonoBehaviour:
   m_children: []
   m_id: MainAgent
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &721829033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21947,6 +22033,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car2Box
   m_ref_id: Car2
+  m_shouldTrack: 1
 --- !u!4 &723051465
 Transform:
   m_ObjectHideFlags: 0
@@ -22106,6 +22193,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &730545154 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400090, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -22264,6 +22352,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftHand
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &733377421 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400078, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -22589,6 +22678,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree2Mesh
   m_ref_id: NorthTree2
+  m_shouldTrack: 1
 --- !u!1 &744792445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8431274330711720882, guid: 45702ee9e2f616549a3698645387c034, type: 3}
@@ -23093,6 +23183,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1439208907066538289, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: SouthTrafficDiagonalPole
+      objectReference: {fileID: 0}
     - target: {fileID: 1749315426032962280, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -23109,17 +23203,29 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2409731576737871525, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: SouthTrafficPole
+      objectReference: {fileID: 0}
     - target: {fileID: 2531239199797872599, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2537456242204156960, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: SouthWalkingSignal
+      objectReference: {fileID: 0}
     - target: {fileID: 2742106919342452727, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: South Car Signal
+      value: SouthCarSignal-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 2742106919342452727, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: SouthCarSignal
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: South Traffic Pole - Diagonal
+      value: SouthTrafficDiagonalPole-Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_parent
@@ -23127,7 +23233,7 @@ PrefabInstance:
       objectReference: {fileID: 2092222127}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_ref_id
-      value: South Traffic Pole
+      value: SouthTrafficDiagonalPole
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -23156,6 +23262,10 @@ PrefabInstance:
     - target: {fileID: 3939846826796137321, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441232617551637882, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: SouthCarSignal
       objectReference: {fileID: 0}
     - target: {fileID: 4545568182483953383, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -23231,7 +23341,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: South Traffic Pole
+      value: SouthTrafficPole-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: SouthTrafficPole
       objectReference: {fileID: 0}
     - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -23303,7 +23417,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: South Walking Signal
+      value: SouthWalkingSignal-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: SouthWalkingSignal
       objectReference: {fileID: 0}
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -23408,6 +23526,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftLowerLegMesh
   m_ref_id: LeftLowerLeg
+  m_shouldTrack: 1
 --- !u!114 &764469400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23539,6 +23658,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowerChestMesh
   m_ref_id: LowerChest
+  m_shouldTrack: 1
 --- !u!114 &775302763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24669,6 +24789,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightShoulder
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &810714537 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400110, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -24773,6 +24894,7 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan5Box
   m_ref_id: Sedan5
+  m_shouldTrack: 1
 --- !u!4 &812205304
 Transform:
   m_ObjectHideFlags: 0
@@ -24896,6 +25018,7 @@ MonoBehaviour:
   m_children: []
   m_id: MicroBus4Box
   m_ref_id: MicroBus4
+  m_shouldTrack: 1
 --- !u!4 &814322871
 Transform:
   m_ObjectHideFlags: 0
@@ -24927,6 +25050,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ElbowRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &834637492 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 624287079632288779, guid: dfa449713c116de4f8be36b5529d383a, type: 3}
@@ -25130,6 +25254,7 @@ MonoBehaviour:
   m_children: []
   m_id: HipMesh
   m_ref_id: Hip
+  m_shouldTrack: 1
 --- !u!114 &851784788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25244,6 +25369,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ElbowLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &860428217
 GameObject:
   m_ObjectHideFlags: 0
@@ -25438,6 +25564,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightShoulderMesh
   m_ref_id: RightShoulder
+  m_shouldTrack: 1
 --- !u!114 &866393657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25597,6 +25724,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_RightAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &902776870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25690,6 +25818,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_LeftAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &905142397
 GameObject:
   m_ObjectHideFlags: 0
@@ -25754,6 +25883,7 @@ MonoBehaviour:
   m_children: []
   m_id: MicroBus2Box
   m_ref_id: MicroBus2
+  m_shouldTrack: 1
 --- !u!4 &905142401
 Transform:
   m_ObjectHideFlags: 0
@@ -26158,6 +26288,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree2Mesh
   m_ref_id: SouthTree2
+  m_shouldTrack: 1
 --- !u!4 &909552448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4211761515306081641, guid: acbbe16466d0bfc4a91ca93de077cfbd, type: 3}
@@ -26220,6 +26351,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftHandMesh
   m_ref_id: LeftHand
+  m_shouldTrack: 1
 --- !u!114 &913733812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27116,6 +27248,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthEastBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &948464333 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 182406, guid: a1d34f7914a1d8148a0ce7262f7ba394, type: 3}
@@ -27334,6 +27467,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThumb
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &954162222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400082, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -27438,6 +27572,7 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan1Box
   m_ref_id: Sedan1
+  m_shouldTrack: 1
 --- !u!4 &961425349
 Transform:
   m_ObjectHideFlags: 0
@@ -28418,6 +28553,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThumbMesh
   m_ref_id: RightThumb
+  m_shouldTrack: 1
 --- !u!114 &1003733116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28526,6 +28662,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree5
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1012863495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2135178410316361178, guid: a185bd1d3da79e745a44f77d6f0e3c9b, type: 3}
@@ -28998,6 +29135,7 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar5Box
   m_ref_id: SportsCar5
+  m_shouldTrack: 1
 --- !u!4 &1029124791
 Transform:
   m_ObjectHideFlags: 0
@@ -38847,6 +38985,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightLowerLeg
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1045986542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400108, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -38908,6 +39047,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree3
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1059161223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 690262b0d09c60646acb0942a03459de, type: 3}
@@ -39070,6 +39210,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftShoulder
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1072571303
 GameObject:
   m_ObjectHideFlags: 0
@@ -39358,6 +39499,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightHandPalm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1081308731
 GameObject:
   m_ObjectHideFlags: 0
@@ -39405,8 +39547,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 0}
   m_children: []
-  m_id: Sidewalk_North
-  m_ref_id: 
+  m_id: Sidewalk_NorthMesh
+  m_ref_id: Sidewalk_North
+  m_shouldTrack: 0
 --- !u!64 &1081308734
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -39729,6 +39872,7 @@ MonoBehaviour:
   m_children: []
   m_id: User
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1090193417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40070,6 +40214,7 @@ MonoBehaviour:
   m_children: []
   m_id: XR XZ Position Tracker
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1091386581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 463214125921513970, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
@@ -40337,6 +40482,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree1Mesh
   m_ref_id: SouthTree1
+  m_shouldTrack: 1
 --- !u!4 &1113689778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5380734187028010215, guid: 0838cb6a963e1bd41be52d1f432aafee, type: 3}
@@ -40696,6 +40842,7 @@ MonoBehaviour:
   m_children: []
   m_id: Meandering Agent
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1116016249
 GameObject:
   m_ObjectHideFlags: 0
@@ -41051,6 +41198,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthMiddleBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1130600843
 GameObject:
   m_ObjectHideFlags: 0
@@ -41212,6 +41360,7 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan2Box
   m_ref_id: Sedan2
+  m_shouldTrack: 1
 --- !u!4 &1132109250
 Transform:
   m_ObjectHideFlags: 0
@@ -41305,6 +41454,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree2
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1134498152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41855,8 +42005,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 0}
   m_children: []
-  m_id: Sidewalk_South
-  m_ref_id: 
+  m_id: Sidewalk_SouthMesh
+  m_ref_id: Sidewalk_South
+  m_shouldTrack: 0
 --- !u!64 &1140844083
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -41971,6 +42122,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car5Box
   m_ref_id: Car5
+  m_shouldTrack: 1
 --- !u!4 &1143217306
 Transform:
   m_ObjectHideFlags: 0
@@ -42493,6 +42645,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_LeftKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1186489625
 GameObject:
   m_ObjectHideFlags: 0
@@ -42641,6 +42794,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThumbMesh
   m_ref_id: RightThumb
+  m_shouldTrack: 1
 --- !u!114 &1189156928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48466,6 +48620,7 @@ MonoBehaviour:
   m_children: []
   m_id: MicroBus1Box
   m_ref_id: MicroBus1
+  m_shouldTrack: 1
 --- !u!4 &1227048576
 Transform:
   m_ObjectHideFlags: 0
@@ -48608,6 +48763,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftFootMesh
   m_ref_id: LeftFoot
+  m_shouldTrack: 1
 --- !u!114 &1240670296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48816,6 +48972,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree8Mesh
   m_ref_id: SouthTree8
+  m_shouldTrack: 1
 --- !u!1 &1253135738
 GameObject:
   m_ObjectHideFlags: 0
@@ -48884,6 +49041,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftUpperArmMesh
   m_ref_id: LeftUpperArm
+  m_shouldTrack: 1
 --- !u!114 &1253135742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49075,6 +49233,7 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan3Box
   m_ref_id: Sedan3
+  m_shouldTrack: 1
 --- !u!4 &1261579603
 Transform:
   m_ObjectHideFlags: 0
@@ -49293,6 +49452,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthEastFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1269678840 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 581234564583256241, guid: d6b949c34fc8b1043aad91d7efe27ecf, type: 3}
@@ -49497,6 +49657,7 @@ MonoBehaviour:
   m_children: []
   m_id: Abdomen
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1281682007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400118, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -49652,6 +49813,7 @@ MonoBehaviour:
   m_children: []
   m_id: Skeleton
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1294512193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6449689636771356115, guid: a185bd1d3da79e745a44f77d6f0e3c9b, type: 3}
@@ -49758,6 +49920,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftFootMesh
   m_ref_id: LeftFoot
+  m_shouldTrack: 1
 --- !u!114 &1294890527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50008,6 +50171,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree3Mesh
   m_ref_id: NorthTree3
+  m_shouldTrack: 1
 --- !u!1 &1319409149 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100066, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -50034,6 +50198,7 @@ MonoBehaviour:
   m_children: []
   m_id: Head
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1319409155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50066,6 +50231,7 @@ MonoBehaviour:
   m_children: []
   m_id: Neck
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1319409157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400092, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -50193,6 +50359,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowerChestMesh
   m_ref_id: LowerChest
+  m_shouldTrack: 1
 --- !u!114 &1320426360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50677,6 +50844,7 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar1Box
   m_ref_id: SportsCar1
+  m_shouldTrack: 1
 --- !u!4 &1351293314
 Transform:
   m_ObjectHideFlags: 0
@@ -50776,6 +50944,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftHandPalm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1362115632 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7769712984652447609, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
@@ -55685,6 +55854,7 @@ MonoBehaviour:
   m_children: []
   m_id: Truck1Box
   m_ref_id: Truck1
+  m_shouldTrack: 1
 --- !u!4 &1368007872
 Transform:
   m_ObjectHideFlags: 0
@@ -55763,6 +55933,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1Box
   m_ref_id: Car1
+  m_shouldTrack: 1
 --- !u!65 &1378167437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56411,6 +56582,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightUpperArm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1398749608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400094, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -56491,6 +56663,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightHandFingertips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1405555271 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8083485529428547943, guid: 8cf74d18f2c30eb4591591dee2b16303, type: 3}
@@ -56665,6 +56838,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthWestFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1412563343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56759,6 +56933,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree8
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1414364142
 GameObject:
   m_ObjectHideFlags: 0
@@ -56823,6 +56998,7 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar2Box
   m_ref_id: SportsCar2
+  m_shouldTrack: 1
 --- !u!4 &1414364146
 Transform:
   m_ObjectHideFlags: 0
@@ -56999,6 +57175,7 @@ MonoBehaviour:
   m_children: []
   m_id: SportsCar3Box
   m_ref_id: SportsCar3
+  m_shouldTrack: 1
 --- !u!4 &1415711262
 Transform:
   m_ObjectHideFlags: 0
@@ -57063,6 +57240,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthEastBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1426853499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57338,6 +57516,7 @@ MonoBehaviour:
   m_children: []
   m_id: HeadMesh
   m_ref_id: Head
+  m_shouldTrack: 1
 --- !u!114 &1436477649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57455,6 +57634,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthEastFront
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1440886216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57659,6 +57839,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree7
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1448292505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57764,6 +57945,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree6Mesh
   m_ref_id: SouthTree6
+  m_shouldTrack: 1
 --- !u!1001 &1450206409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57853,6 +58035,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Head
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1453004816
 GameObject:
   m_ObjectHideFlags: 0
@@ -58429,6 +58612,7 @@ MonoBehaviour:
   m_children: []
   m_id: AbdomenMesh
   m_ref_id: Abdomen
+  m_shouldTrack: 1
 --- !u!114 &1471491703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58637,6 +58821,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree5Mesh
   m_ref_id: NorthTree5
+  m_shouldTrack: 1
 --- !u!114 &1497722905 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8205727622329301336, guid: 4526466ac3639b6449bcd2831de5b07b, type: 3}
@@ -58744,6 +58929,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep4Box
   m_ref_id: Jeep4
+  m_shouldTrack: 1
 --- !u!4 &1502550981
 Transform:
   m_ObjectHideFlags: 0
@@ -58889,6 +59075,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ShoulderRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1513543760
 GameObject:
   m_ObjectHideFlags: 0
@@ -59798,6 +59985,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthMiddleBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1563195792
 GameObject:
   m_ObjectHideFlags: 0
@@ -60253,6 +60441,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftAnkleMesh
   m_ref_id: LeftAnkle
+  m_shouldTrack: 1
 --- !u!114 &1582985100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60687,6 +60876,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree1
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1601592592
 GameObject:
   m_ObjectHideFlags: 0
@@ -60946,6 +61136,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree1Mesh
   m_ref_id: NorthTree1
+  m_shouldTrack: 1
 --- !u!1 &1618464960
 GameObject:
   m_ObjectHideFlags: 0
@@ -61014,6 +61205,7 @@ MonoBehaviour:
   m_children: []
   m_id: NeckMesh
   m_ref_id: Neck
+  m_shouldTrack: 1
 --- !u!114 &1618464964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61729,6 +61921,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftThighMesh
   m_ref_id: LeftThigh
+  m_shouldTrack: 1
 --- !u!114 &1650741699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61827,6 +62020,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftShoulderMesh
   m_ref_id: LeftShoulder
+  m_shouldTrack: 1
 --- !u!114 &1651873935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61925,6 +62119,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightAnkleMesh
   m_ref_id: RightAnkle
+  m_shouldTrack: 1
 --- !u!114 &1652471821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61991,6 +62186,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ShoulderLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1670477963
 GameObject:
   m_ObjectHideFlags: 0
@@ -62040,6 +62236,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthMiddleBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1670477966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62320,6 +62517,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree8
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1704527680 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9023489515150400691, guid: 527816ebc3938d54c9a8516daf62d032, type: 3}
@@ -62419,6 +62617,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree6
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1708410560
 GameObject:
   m_ObjectHideFlags: 0
@@ -62483,6 +62682,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car4Box
   m_ref_id: Car4
+  m_shouldTrack: 1
 --- !u!4 &1708410564
 Transform:
   m_ObjectHideFlags: 0
@@ -62550,6 +62750,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightForeArmMesh
   m_ref_id: RightForeArm
+  m_shouldTrack: 1
 --- !u!114 &1708615965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63108,6 +63309,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree4
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1732499237
 GameObject:
   m_ObjectHideFlags: 0
@@ -63160,6 +63362,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftUpperArmMesh
   m_ref_id: LeftUpperArm
+  m_shouldTrack: 1
 --- !u!114 &1732499240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63556,6 +63759,7 @@ MonoBehaviour:
   m_children: []
   m_id: MainAgentMesh
   m_ref_id: MainAgent
+  m_shouldTrack: 1
 --- !u!114 &1738568893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63785,6 +63989,7 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-NorthEastBack
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1763525872
 GameObject:
   m_ObjectHideFlags: 0
@@ -63927,6 +64132,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree4
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1768740398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100088, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -63948,6 +64154,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftFoot
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1768740404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400088, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -64394,6 +64601,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree3
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1778506053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8962078312430637391, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
@@ -64704,6 +64912,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Neck
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1778595320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64720,6 +64929,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Chest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1778595321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64736,6 +64946,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Diaphragm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1778595322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64752,6 +64963,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Abdomen
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1778595323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64768,6 +64980,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_Hips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1787531192
 GameObject:
   m_ObjectHideFlags: 0
@@ -64832,6 +65045,7 @@ MonoBehaviour:
   m_children: []
   m_id: MicroBus4Box
   m_ref_id: MicroBus4
+  m_shouldTrack: 1
 --- !u!4 &1787531196
 Transform:
   m_ObjectHideFlags: 0
@@ -68093,6 +68307,7 @@ MonoBehaviour:
   m_children: []
   m_id: HeadMesh
   m_ref_id: Head
+  m_shouldTrack: 1
 --- !u!114 &1799894689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68707,6 +68922,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightShoulderMesh
   m_ref_id: RightShoulder
+  m_shouldTrack: 1
 --- !u!114 &1809319563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68758,6 +68974,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree5
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1810546668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400080, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -68798,6 +69015,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftHandFingertips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!137 &1814003079 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2930226134572032098, guid: fb628d5041b2fc6429e7805b3933a37b, type: 3}
@@ -69172,6 +69390,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThighMesh
   m_ref_id: RightThigh
+  m_shouldTrack: 1
 --- !u!114 &1829478435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69538,6 +69757,7 @@ MonoBehaviour:
   m_children: []
   m_id: UpperChestMesh
   m_ref_id: UpperChest
+  m_shouldTrack: 1
 --- !u!114 &1840255978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69823,6 +70043,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThumb
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1846435083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69839,6 +70060,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightHand
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1846435084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400106, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -70709,6 +70931,7 @@ MonoBehaviour:
   m_children: []
   m_id: UserRightHand
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1879144908
 GameObject:
   m_ObjectHideFlags: 0
@@ -70763,6 +70986,7 @@ MonoBehaviour:
   m_children: []
   m_id: UpperChestMesh
   m_ref_id: UpperChest
+  m_shouldTrack: 1
 --- !u!114 &1879144911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70906,6 +71130,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_RightToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1001 &1897019447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71054,8 +71279,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 0}
   m_children: []
-  m_id: Road
-  m_ref_id: 
+  m_id: RoadMesh
+  m_ref_id: Road
+  m_shouldTrack: 0
 --- !u!64 &1908135114
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -71148,6 +71374,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree7
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1909950279
 GameObject:
   m_ObjectHideFlags: 0
@@ -71240,6 +71467,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_RightKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1911745003
 GameObject:
   m_ObjectHideFlags: 0
@@ -71392,6 +71620,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree7Mesh
   m_ref_id: NorthTree7
+  m_shouldTrack: 1
 --- !u!1 &1911911257
 GameObject:
   m_ObjectHideFlags: 0
@@ -71711,6 +71940,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1439208907066538289, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: NorthWalkingDiagonalPole
+      objectReference: {fileID: 0}
     - target: {fileID: 1749315426032962280, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -71727,17 +71960,29 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2409731576737871525, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: NorthWalkingPole
+      objectReference: {fileID: 0}
     - target: {fileID: 2531239199797872599, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2537456242204156960, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: NorthWalkingSignal
+      objectReference: {fileID: 0}
     - target: {fileID: 2742106919342452727, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: North Car Signal
+      value: NorthCarSignal-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 2742106919342452727, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: NorthCarSignal
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: North Walking Pole - Diagonal
+      value: NorthWalkingDiagonalPole-Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_parent
@@ -71745,7 +71990,7 @@ PrefabInstance:
       objectReference: {fileID: 659420224}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_ref_id
-      value: North Walking Pole
+      value: NorthWalkingDiagonalPole
       objectReference: {fileID: 0}
     - target: {fileID: 2984684765479283709, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -71774,6 +72019,10 @@ PrefabInstance:
     - target: {fileID: 3939846826796137321, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441232617551637882, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_id
+      value: NorthCarSignal
       objectReference: {fileID: 0}
     - target: {fileID: 4545568182483953383, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -71849,7 +72098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: North Walking Pole
+      value: NorthWalkingPole-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: NorthWalkingPole
       objectReference: {fileID: 0}
     - target: {fileID: 5025331659709159194, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -71921,7 +72174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_id
-      value: North Walking Signal
+      value: NorthWalkingSignal-Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
+      propertyPath: m_ref_id
+      value: NorthWalkingSignal
       objectReference: {fileID: 0}
     - target: {fileID: 7411699601674998389, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_isStatic
@@ -72131,6 +72388,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTRAYCAST
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1938301357 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
@@ -72241,6 +72499,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree7Mesh
   m_ref_id: SouthTree7
+  m_shouldTrack: 1
 --- !u!114 &1940570948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72257,6 +72516,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_HandLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1943185825 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100096, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -72278,6 +72538,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &1943185829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400096, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -72490,6 +72751,7 @@ MonoBehaviour:
   m_children: []
   m_id: Sedan4Box
   m_ref_id: Sedan4
+  m_shouldTrack: 1
 --- !u!4 &1956620861
 Transform:
   m_ObjectHideFlags: 0
@@ -72578,6 +72840,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightHandMesh
   m_ref_id: RightHand
+  m_shouldTrack: 1
 --- !u!114 &1970879040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73753,6 +74016,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightForeArmMesh
   m_ref_id: RightForeArm
+  m_shouldTrack: 1
 --- !u!114 &1997510527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74052,6 +74316,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftForeArm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &2002624849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74087,6 +74352,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftUpperArm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &2002624851 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400074, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -74386,6 +74652,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree1
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2010216453
 GameObject:
   m_ObjectHideFlags: 0
@@ -74450,6 +74717,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep3Box
   m_ref_id: Jeep3
+  m_shouldTrack: 1
 --- !u!4 &2010216457
 Transform:
   m_ObjectHideFlags: 0
@@ -74685,6 +74953,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_RightThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2030131860
 GameObject:
   m_ObjectHideFlags: 0
@@ -74941,6 +75210,7 @@ MonoBehaviour:
   m_children: []
   m_id: SouthTree3Mesh
   m_ref_id: SouthTree3
+  m_shouldTrack: 1
 --- !u!1 &2037680184
 GameObject:
   m_ObjectHideFlags: 0
@@ -75009,6 +75279,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightAnkleMesh
   m_ref_id: RightAnkle
+  m_shouldTrack: 1
 --- !u!114 &2037680188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75918,6 +76189,7 @@ MonoBehaviour:
   m_children: []
   m_id: LeftLowerLeg
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &2072445722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75934,6 +76206,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!4 &2072445723 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400084, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -76054,6 +76327,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowBody
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2080125695
 GameObject:
   m_ObjectHideFlags: 0
@@ -76519,6 +76793,7 @@ MonoBehaviour:
   m_children: []
   m_id: MicroBus3Box
   m_ref_id: MicroBus3
+  m_shouldTrack: 1
 --- !u!4 &2097899582
 Transform:
   m_ObjectHideFlags: 0
@@ -76709,6 +76984,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree6
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &2103761568 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8100313253274883850, guid: d6b8084d00c906448a476941a45498c9, type: 3}
@@ -76836,6 +77112,7 @@ MonoBehaviour:
   m_children: []
   m_id: RightLowerLegMesh
   m_ref_id: RightLowerLeg
+  m_shouldTrack: 1
 --- !u!114 &2107936582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76991,6 +77268,7 @@ MonoBehaviour:
   m_children: []
   m_id: NorthTree2
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &2117530721 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5982137783627808324, guid: eb7dd1c9dceae554e9a1449f314b898b, type: 3}
@@ -77218,6 +77496,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep5Box
   m_ref_id: Jeep5
+  m_shouldTrack: 1
 --- !u!4 &2137253555
 Transform:
   m_ObjectHideFlags: 0
@@ -77260,6 +77539,7 @@ GameObject:
   - component: {fileID: 4575299155607703794}
   - component: {fileID: 4641259408400342417}
   - component: {fileID: 5923003335425087368}
+  - component: {fileID: 5923003335425087369}
   m_Layer: 30
   m_Name: Road
   m_TagString: Untagged
@@ -80169,6 +80449,23 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5923003335425087369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134038712974410242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: Road
+  m_ref_id: 
+  m_shouldTrack: 0
 --- !u!136 &5933642598550724278 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 6236839302979242132, guid: c92fcb75a954ffd4086ab938929cfb03, type: 3}
