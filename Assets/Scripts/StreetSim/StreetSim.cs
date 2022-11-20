@@ -41,6 +41,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private StreetSimTrial[] m_initialSetups;
     [SerializeField] private bool m_includeInitialSetup = true;
     [SerializeField] private List<StreetSimTrial> m_trials = new List<StreetSimTrial>();
+    [SerializeField] private List<StreetSimTrial> m_trials2 = new List<StreetSimTrial>();
     private LinkedList<StreetSimTrial> m_trialQueue;
     [SerializeField] private TrialRotation m_trialRotation = TrialRotation.Randomized;
     public TrialRotation trialRotation { get{ return m_trialRotation; } set{} }
@@ -90,11 +91,11 @@ public class StreetSim : MonoBehaviour
         List<StreetSimTrial> roundOne;
         switch(trialRotation) {
             case TrialRotation.Randomized:
-                roundOne = m_trials.Shuffle<StreetSimTrial>();
+                roundOne = m_trials2.Shuffle<StreetSimTrial>();
                 //roundTwo = m_trials.Shuffle<StreetSimTrial>();
                 break;
             default:
-                roundOne = m_trials;
+                roundOne = m_trials2;
                 //roundTwo = m_trials;
                 break;
         }

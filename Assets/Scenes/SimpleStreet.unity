@@ -6137,6 +6137,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5cbc6bf33c4827a45ad8893a0a130c0f, type: 3}
   m_PrefabInstance: {fileID: 1551489359}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &66962808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+  m_PrefabInstance: {fileID: 1768641167}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &75373256 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7761329103627709812, guid: 5948fa78595c521498fea8a40b2d7f51, type: 3}
@@ -7144,6 +7149,11 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale3_ClavicleLeft
   m_ref_id: 
+--- !u!1 &109558059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 151190, guid: a9cc5585b9634a9449920c03ec6bc243, type: 3}
+  m_PrefabInstance: {fileID: 1442667975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &111829792 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2106543534161990498, guid: 6bddd7121ca20604a9aee5fc47488fb1, type: 3}
@@ -8068,6 +8078,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138523537}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &140370694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+  m_PrefabInstance: {fileID: 1731813438}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &142550778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8538,6 +8553,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3025441552121393823, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+--- !u!114 &164710249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164710245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree4Mesh
+  m_ref_id: SouthTree4
 --- !u!1001 &169249057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11595,6 +11626,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293565876}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &299593646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+  m_PrefabInstance: {fileID: 1598501306}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &305836253
 GameObject:
   m_ObjectHideFlags: 0
@@ -13569,7 +13605,7 @@ MonoBehaviour:
     - signal: {fileID: 1770802852}
       shouldFluctuate: 0
     obstacles: []
-    duration: 20
+    duration: 30
   - name: WalkStop,CarWarn
     goSignals: []
     warningSignals:
@@ -14638,6 +14674,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5056284906809869241, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+--- !u!114 &386694103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386694099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree5Mesh
+  m_ref_id: SouthTree5
 --- !u!1001 &393722485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14739,6 +14791,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5056284906809869241, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+--- !u!114 &393722491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393722487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree4Mesh
+  m_ref_id: NorthTree4
 --- !u!4 &394672998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9613b318b55fe542a24bd02b0c74565, type: 3}
@@ -21023,6 +21091,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3025441552121393823, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+--- !u!114 &691605734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691605730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree6Mesh
+  m_ref_id: NorthTree6
 --- !u!1 &692418311
 GameObject:
   m_ObjectHideFlags: 0
@@ -21470,6 +21554,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: f52689dc8ea801b46874ff4a4a6c328a, type: 3}
+--- !u!114 &711766227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711766223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree8Mesh
+  m_ref_id: NorthTree8
 --- !u!1 &713151735
 GameObject:
   m_ObjectHideFlags: 0
@@ -22472,6 +22572,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 05f4a294fb6ca7e4c87b33948d1ebec3, type: 3}
+--- !u!114 &740370662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740370658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree2Mesh
+  m_ref_id: NorthTree2
 --- !u!1 &744792445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8431274330711720882, guid: 45702ee9e2f616549a3698645387c034, type: 3}
@@ -23365,6 +23481,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a704461211d274db2d215875da6a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &773689684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+  m_PrefabInstance: {fileID: 2101159909}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &775302760
 GameObject:
   m_ObjectHideFlags: 0
@@ -23679,6 +23800,11 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7058384070750385231, guid: 7453babd318118a4cad18d115b23cffe, type: 3}
   m_PrefabInstance: {fileID: 921956694}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &803414611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 159322, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
+  m_PrefabInstance: {fileID: 1908867509}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &803441949
 GameObject:
   m_ObjectHideFlags: 0
@@ -23759,9 +23885,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 10
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -23784,9 +23918,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -25049,6 +25191,11 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   followType: 1
   followRotation: 1
+--- !u!1 &857612195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 159322, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
+  m_PrefabInstance: {fileID: 1011155173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &858568599
 GameObject:
   m_ObjectHideFlags: 0
@@ -26010,6 +26157,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 10155e34e1176c3489486fbf0cef1736, type: 3}
+--- !u!114 &908627787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908627783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree2Mesh
+  m_ref_id: SouthTree2
 --- !u!4 &909552448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4211761515306081641, guid: acbbe16466d0bfc4a91ca93de077cfbd, type: 3}
@@ -26801,6 +26964,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &944502062 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 159322, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
+  m_PrefabInstance: {fileID: 1133900367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &944771133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26963,6 +27131,11 @@ MonoBehaviour:
   m_children: []
   m_id: Crosswalk-SouthEastBack
   m_ref_id: 
+--- !u!1 &948464333 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 182406, guid: a1d34f7914a1d8148a0ce7262f7ba394, type: 3}
+  m_PrefabInstance: {fileID: 1776820245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &949691353
 GameObject:
   m_ObjectHideFlags: 0
@@ -27396,6 +27569,11 @@ MeshFilter:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100100, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
   m_PrefabInstance: {fileID: 1846435074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &964505670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 115084, guid: 7c5aafe3fe2c6ef4a9150f7f44653760, type: 3}
+  m_PrefabInstance: {fileID: 2009691295}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &965092212
 PrefabInstance:
@@ -28106,6 +28284,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995715732}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &997696533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+  m_PrefabInstance: {fileID: 1708196455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &998201942 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8739970507347297412, guid: 7453babd318118a4cad18d115b23cffe, type: 3}
@@ -28342,6 +28525,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 428368, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
   m_PrefabInstance: {fileID: 1011155173}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1011155177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857612195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree5
+  m_ref_id: 
 --- !u!4 &1012863495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2135178410316361178, guid: a185bd1d3da79e745a44f77d6f0e3c9b, type: 3}
@@ -38703,6 +38902,27 @@ MonoBehaviour:
   trackRotation: 1
   trackLocalScale: 0
   dataList: []
+--- !u!1 &1050323428 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+  m_PrefabInstance: {fileID: 169249057}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1050323431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050323428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree3
+  m_ref_id: 
 --- !u!4 &1059161223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 690262b0d09c60646acb0942a03459de, type: 3}
@@ -40116,6 +40336,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3025441552121393823, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+--- !u!114 &1108261031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108261028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree1Mesh
+  m_ref_id: SouthTree1
 --- !u!4 &1113689778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5380734187028010215, guid: 0838cb6a963e1bd41be52d1f432aafee, type: 3}
@@ -41068,6 +41304,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 428368, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
   m_PrefabInstance: {fileID: 1133900367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1133900371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944502062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree2
+  m_ref_id: 
 --- !u!1001 &1134498152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48563,6 +48815,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3025441552121393823, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+--- !u!114 &1252695364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252695360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree8Mesh
+  m_ref_id: SouthTree8
 --- !u!1 &1253135738
 GameObject:
   m_ObjectHideFlags: 0
@@ -49739,6 +50007,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 35c5b6683953dc54f99f68b4a16819f7, type: 3}
+--- !u!114 &1308532661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308532657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree3Mesh
+  m_ref_id: NorthTree3
 --- !u!1 &1319409149 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100066, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -49963,7 +50247,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56469,6 +56753,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73c4d9f2bec02f5469dc6a06d621b9bb, type: 3}
+--- !u!1 &1413936148 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+  m_PrefabInstance: {fileID: 1324056266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1413936151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413936148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree8
+  m_ref_id: 
 --- !u!1 &1414364142
 GameObject:
   m_ObjectHideFlags: 0
@@ -57353,6 +57658,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 478606, guid: a9cc5585b9634a9449920c03ec6bc243, type: 3}
   m_PrefabInstance: {fileID: 1442667975}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1442667979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109558059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree7
+  m_ref_id: 
 --- !u!1001 &1448292505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57442,6 +57763,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3025441552121393823, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
+--- !u!114 &1448292511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree6Mesh
+  m_ref_id: SouthTree6
 --- !u!1001 &1450206409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58299,6 +58636,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 10155e34e1176c3489486fbf0cef1736, type: 3}
+--- !u!114 &1490195328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490195324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree5Mesh
+  m_ref_id: NorthTree5
 --- !u!114 &1497722905 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8205727622329301336, guid: 4526466ac3639b6449bcd2831de5b07b, type: 3}
@@ -60333,6 +60686,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
   m_PrefabInstance: {fileID: 1598501306}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1598501310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299593646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree1
+  m_ref_id: 
 --- !u!1 &1601592592
 GameObject:
   m_ObjectHideFlags: 0
@@ -60576,6 +60945,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: f52689dc8ea801b46874ff4a4a6c328a, type: 3}
+--- !u!114 &1612986211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612986207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree1Mesh
+  m_ref_id: NorthTree1
 --- !u!1 &1618464960
 GameObject:
   m_ObjectHideFlags: 0
@@ -61929,6 +62314,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1701488423 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 115084, guid: 7c5aafe3fe2c6ef4a9150f7f44653760, type: 3}
+  m_PrefabInstance: {fileID: 1369726}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1701488426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701488423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree8
+  m_ref_id: 
 --- !u!114 &1704527680 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9023489515150400691, guid: 527816ebc3938d54c9a8516daf62d032, type: 3}
@@ -62012,6 +62418,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
   m_PrefabInstance: {fileID: 1708196455}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1708196459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997696533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree6
+  m_ref_id: 
 --- !u!1 &1708410560
 GameObject:
   m_ObjectHideFlags: 0
@@ -62685,6 +63107,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
   m_PrefabInstance: {fileID: 1731813438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1731813442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140370694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree4
+  m_ref_id: 
 --- !u!1 &1732499237
 GameObject:
   m_ObjectHideFlags: 0
@@ -63488,6 +63926,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
   m_PrefabInstance: {fileID: 1768641167}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1768641171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66962808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree4
+  m_ref_id: 
 --- !u!1 &1768740398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100088, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -63752,9 +64206,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -63939,6 +64401,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 421498, guid: a1d34f7914a1d8148a0ce7262f7ba394, type: 3}
   m_PrefabInstance: {fileID: 1776820245}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1776820249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948464333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree3
+  m_ref_id: 
 --- !u!114 &1778506053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8962078312430637391, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
@@ -64619,7 +65097,7 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: GazeData_ignore
-  m_participantName: TestingCars
+  m_participantName: TestingTrees
   m_trialGroupToTest: 1
   m_initialSetups:
   - name: Initial_1
@@ -65842,11 +66320,914 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+  m_trials2:
+  - name: NoModel-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models: []
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1HM-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1LM-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1HF-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1LF-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1HM-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1LM-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1HF-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 1LF-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HM-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1140683909}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 977170348}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 675436429}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LM-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205578590}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1894600298}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 663426347}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixM-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1205578590}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HF-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 998201942}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1978154652}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 682334164}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LF-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1731427730}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 755445680}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1999270035}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixF-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 998201942}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HMix-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 998201942}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LMix-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1205578590}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixMix-Safe-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HM-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 977170348}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 675436429}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LM-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205578590}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1894600298}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 663426347}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixM-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1205578590}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HighFemale-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 998201942}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1978154652}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 682334164}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LowFemale-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1731427730}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 755445680}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1999270035}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixFemale-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 998201942}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HighMix-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 998201942}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LowMix-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1205578590}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixMix-Risky-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1497722905}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HighMale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 977170348}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 675436429}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LowMale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205578590}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1894600298}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 663426347}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixMale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1205578590}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HighFemale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 998201942}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1978154652}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 682334164}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LowFemale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1731427730}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 755445680}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1999270035}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixFemale-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 998201942}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4HighMix-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 2093847510}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 998201942}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1140683909}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4LowMix-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1455608257}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 1731427730}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1205578590}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
+  - name: 4MixMix-Mix-LowCongestion
+    primaryModel:
+      agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 0
+      modelPathIndex: 0
+    models:
+    - agent: {fileID: 1497722905}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 0
+    - agent: {fileID: 1205305574}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 1
+    - agent: {fileID: 2093847510}
+      modelBehavior: 0
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 3
+    - agent: {fileID: 1455608257}
+      modelBehavior: 1
+      startOnSameSideAsPlayer: 1
+      modelPathIndex: 4
+    modelStartOnSameSide: 0
+    trafficCongestion: 1
+    npcCongestion: 0
   m_trialRotation: 1
   numTrialsPerGroups: 18
   m_trialGroups:
   - groupNumber: 0
     trials:
+    - name: 4HighFemale-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 998201942}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1978154652}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 682334164}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4MixM-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1205578590}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4MixMix-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
     - name: NoModel-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -65857,177 +67238,7 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 4MixFemale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HMix-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4HighMale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 977170348}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 675436429}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4LowFemale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1731427730}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 755445680}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1999270035}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4LF-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 755445680}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1999270035}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4LowFemale-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1731427730}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 755445680}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1999270035}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 1LM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4LowMale-Safe-HighCongestion
+    - name: 4LM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
         modelBehavior: 0
@@ -66051,117 +67262,25 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HighMix-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 1LM-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 1LM-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4MixMale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 977170348}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 675436429}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 1HM-Safe-HighCongestion
+    - name: 1HF-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4MixMix-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
         modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
@@ -66170,29 +67289,15 @@ MonoBehaviour:
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HF-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 998201942}
+      - agent: {fileID: 1205305574}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 1978154652}
+      - agent: {fileID: 2093847510}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
-      - agent: {fileID: 682334164}
+      - agent: {fileID: 1455608257}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
@@ -66225,177 +67330,45 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 4HighMix-Safe-HighCongestion
+    - name: 4HM-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
       - agent: {fileID: 1497722905}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
       - agent: {fileID: 1140683909}
-        modelBehavior: 0
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 977170348}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 675436429}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
-      trafficCongestion: 2
+      trafficCongestion: 1
       npcCongestion: 0
-  - groupNumber: 1
-    trials:
-    - name: 1LF-Risky-HighCongestion
+    - name: 1LM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4LowMix-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
+        modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
       - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 1LF-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4LowMix-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1205578590}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 1LF-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1205305574}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
       trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4MixMix-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: NoModel-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models: []
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 1HF-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
       npcCongestion: 0
     - name: 4LMix-Safe-LowCongestion
       primaryModel:
@@ -66423,6 +67396,58 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+    - name: 4HighMale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1140683909}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 977170348}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 675436429}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4LowFemale-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1731427730}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 755445680}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1999270035}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
     - name: 1HM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
@@ -66437,349 +67462,7 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 4MixMix-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HighFemale-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1978154652}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 682334164}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4MixFemale-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 1HF-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4MixF-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4HighFemale-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1978154652}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 682334164}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HighMix-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4MixMix-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-  - groupNumber: 2
-    trials:
-    - name: 4LM-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205578590}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1894600298}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 663426347}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4LowMale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1894600298}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 663426347}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4LM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1894600298}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 663426347}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 1HM-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4MixM-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205578590}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4MixM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4LowFemale-Safe-HighCongestion
+    - name: 4LowFemale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
         modelBehavior: 0
@@ -66787,11 +67470,11 @@ MonoBehaviour:
         modelPathIndex: 0
       models:
       - agent: {fileID: 1205305574}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       - agent: {fileID: 1731427730}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
       - agent: {fileID: 755445680}
@@ -66803,85 +67486,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4MixMix-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
       trafficCongestion: 1
-      npcCongestion: 0
-    - name: 4HighMale-Safe-HighCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1140683909}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 977170348}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 675436429}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
-      npcCongestion: 0
-    - name: 4HighFemale-Risky-HighCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1978154652}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 682334164}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      trafficCongestion: 2
       npcCongestion: 0
     - name: 4MixFemale-Risky-LowCongestion
       primaryModel:
@@ -66909,6 +67514,270 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+    - name: 4LM-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205578590}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1894600298}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 663426347}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4LowMale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205578590}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1894600298}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 663426347}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+  - groupNumber: 1
+    trials:
+    - name: 4MixMale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1205578590}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 1LF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4MixF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1731427730}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 1LM-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4HF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1978154652}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 682334164}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4LF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1731427730}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 755445680}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1999270035}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4HighMix-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 998201942}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4HighFemale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 998201942}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1978154652}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 682334164}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4HighMix-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
     - name: 1LF-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
@@ -66923,17 +67792,55 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 1HF-Risky-LowCongestion
+    - name: 4LowMix-Mix-LowCongestion
       primaryModel:
-        agent: {fileID: 1497722905}
+        agent: {fileID: 1205305574}
         modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 2093847510}
+      - agent: {fileID: 1455608257}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1731427730}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1205578590}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4HMix-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
@@ -66963,17 +67870,29 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 1LM-Safe-LowCongestion
+    - name: 4MixFemale-Mix-LowCongestion
       primaryModel:
-        agent: {fileID: 1455608257}
+        agent: {fileID: 1205305574}
         modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1731427730}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
@@ -66991,31 +67910,31 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
-    - name: 4MixMale-Safe-HighCongestion
+    - name: 4MixM-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 2093847510}
+        agent: {fileID: 1205305574}
         modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
       - agent: {fileID: 1497722905}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       - agent: {fileID: 1455608257}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
       - agent: {fileID: 1205578590}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
       - agent: {fileID: 1140683909}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
-      trafficCongestion: 2
+      trafficCongestion: 1
       npcCongestion: 0
     - name: 1HM-Safe-LowCongestion
       primaryModel:
@@ -67028,6 +67947,32 @@ MonoBehaviour:
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
+      modelStartOnSameSide: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+    - name: 4MixMix-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
@@ -67790,6 +68735,27 @@ CapsuleCollider:
   m_Height: 0.25
   m_Direction: 0
   m_Center: {x: 0, y: -0.01, z: 0.1}
+--- !u!1 &1809341501 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+  m_PrefabInstance: {fileID: 1453185912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1809341504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809341501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree5
+  m_ref_id: 
 --- !u!4 &1810546668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400080, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -70164,6 +71130,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 428368, guid: b1b1573cfe717c04caad3e631288f7e9, type: 3}
   m_PrefabInstance: {fileID: 1908867509}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1908867513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803414611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree7
+  m_ref_id: 
 --- !u!1 &1909950279
 GameObject:
   m_ObjectHideFlags: 0
@@ -70392,6 +71374,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 58e56545a2d219944b78729eaa444a51, type: 3}
+--- !u!114 &1911907542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911907538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree7Mesh
+  m_ref_id: NorthTree7
 --- !u!1 &1911911257
 GameObject:
   m_ObjectHideFlags: 0
@@ -71225,6 +72223,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 10155e34e1176c3489486fbf0cef1736, type: 3}
+--- !u!114 &1938841641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938841637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree7Mesh
+  m_ref_id: SouthTree7
 --- !u!114 &1940570948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73343,6 +74357,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 489912, guid: 7c5aafe3fe2c6ef4a9150f7f44653760, type: 3}
   m_PrefabInstance: {fileID: 2009691295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2009691299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964505670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree1
+  m_ref_id: 
 --- !u!1 &2010216453
 GameObject:
   m_ObjectHideFlags: 0
@@ -73882,6 +74912,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5056284906809869241, guid: 24d7d538974e53043b2a767c82d37db7, type: 3}
+--- !u!114 &2033233672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033233668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: SouthTree3Mesh
+  m_ref_id: SouthTree3
 --- !u!1 &2037680184
 GameObject:
   m_ObjectHideFlags: 0
@@ -74576,6 +75622,11 @@ Transform:
   m_Father: {fileID: 2030131861}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &2061355961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 180214, guid: aec50823ac9be1b45b5778c3b6c0f51a, type: 3}
+  m_PrefabInstance: {fileID: 2114283324}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2061541221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74658,9 +75709,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -75629,6 +76688,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 302a9dd1fe52fab4a9344f4a19c9dd95, type: 3}
   m_PrefabInstance: {fileID: 2101159909}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2101159913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773689684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree6
+  m_ref_id: 
 --- !u!114 &2103761568 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8100313253274883850, guid: d6b8084d00c906448a476941a45498c9, type: 3}
@@ -75895,6 +76970,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 449284, guid: aec50823ac9be1b45b5778c3b6c0f51a, type: 3}
   m_PrefabInstance: {fileID: 2114283324}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2114283328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061355961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 0}
+  m_children: []
+  m_id: NorthTree2
+  m_ref_id: 
 --- !u!114 &2117530721 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5982137783627808324, guid: eb7dd1c9dceae554e9a1449f314b898b, type: 3}
