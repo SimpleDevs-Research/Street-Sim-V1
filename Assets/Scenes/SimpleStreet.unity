@@ -10323,7 +10323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231105268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.005, z: -3.25}
+  m_LocalPosition: {x: 0.5, y: 0.005, z: -3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11166,7 +11166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270106146}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1.5, y: 0.005, z: 3.75}
+  m_LocalPosition: {x: -1, y: 0.005, z: 3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13897,7 +13897,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353951449}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.005, z: 3.25}
+  m_LocalPosition: {x: 0.5, y: 0.005, z: 3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14601,7 +14601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385162316}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0.005, z: -3.75}
+  m_LocalPosition: {x: -1, y: 0.005, z: -3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19355,37 +19355,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615967447}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &616453242
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 616453243}
-  m_Layer: 0
-  m_Name: StreetSimPositionController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &616453243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616453242}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &621566362
 GameObject:
   m_ObjectHideFlags: 0
@@ -20766,7 +20735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680009845}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.005, z: -3.25}
+  m_LocalPosition: {x: -0.5, y: 0.005, z: -3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41181,7 +41150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126469257}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.5, y: 0.005, z: 3.75}
+  m_LocalPosition: {x: 1, y: 0.005, z: 3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56904,7 +56873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409091761}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1, y: 0.005, z: 3.25}
+  m_LocalPosition: {x: -0.5, y: 0.005, z: 3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60085,7 +60054,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559175313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.005, z: -3.75}
+  m_LocalPosition: {x: 1, y: 0.005, z: -3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65476,6 +65445,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 0
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: Initial_2
     primaryModel:
       agent: {fileID: 0}
@@ -65490,6 +65461,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: Initial_3
     primaryModel:
       agent: {fileID: 0}
@@ -65504,6 +65477,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   m_includeInitialSetup: 1
   m_trials:
   - name: NoModel-LowCongestion
@@ -65516,6 +65491,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: NoModel-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -65526,6 +65503,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65540,6 +65519,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65554,6 +65535,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65568,6 +65551,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65582,6 +65567,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65596,6 +65583,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65610,6 +65599,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65624,6 +65615,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65638,6 +65631,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65652,6 +65647,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65666,6 +65663,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65680,6 +65679,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65694,6 +65695,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65708,6 +65711,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65722,6 +65727,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -65736,6 +65743,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -65750,6 +65759,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -65776,6 +65787,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -65802,6 +65815,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -65828,6 +65843,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -65854,6 +65871,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -65880,6 +65899,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -65906,6 +65927,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -65932,6 +65955,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -65958,6 +65983,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -65984,6 +66011,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66010,6 +66039,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66036,6 +66067,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66062,6 +66095,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66088,6 +66123,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66114,6 +66151,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66140,6 +66179,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66166,6 +66207,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66192,6 +66235,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66218,6 +66263,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66244,6 +66291,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66270,6 +66319,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66296,6 +66347,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighFemale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66322,6 +66375,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowFemale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66348,6 +66403,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixFemale-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66374,6 +66431,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMix-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66400,6 +66459,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMix-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66426,6 +66487,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Safe-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66452,6 +66515,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66478,6 +66543,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66504,6 +66571,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66530,6 +66599,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighFemale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66556,6 +66627,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowFemale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66582,6 +66655,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixFemale-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66608,6 +66683,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMix-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66634,6 +66711,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMix-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66660,6 +66739,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Risky-HighCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66686,6 +66767,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 2
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   m_trials2:
   - name: NoModel-LowCongestion
     primaryModel:
@@ -66697,6 +66780,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -66711,6 +66796,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -66725,6 +66812,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -66739,6 +66828,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -66753,6 +66844,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -66767,6 +66860,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -66781,6 +66876,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1HF-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1497722905}
@@ -66795,6 +66892,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 1LF-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1455608257}
@@ -66809,6 +66908,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66835,6 +66936,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66861,6 +66964,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixM-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66887,6 +66992,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66913,6 +67020,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66939,6 +67048,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixF-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -66965,6 +67076,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -66991,6 +67104,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67017,6 +67132,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Safe-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67043,6 +67160,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67069,6 +67188,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67095,6 +67216,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixM-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67121,6 +67244,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67147,6 +67272,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67173,6 +67300,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixFemale-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67199,6 +67328,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67225,6 +67356,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67251,6 +67384,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Risky-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67277,6 +67412,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67303,6 +67440,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67329,6 +67468,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67355,6 +67496,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighFemale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67381,6 +67524,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowFemale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67407,6 +67552,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixFemale-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67433,6 +67580,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4HighMix-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67459,6 +67608,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4LowMix-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 1205305574}
@@ -67485,6 +67636,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   - name: 4MixMix-Mix-LowCongestion
     primaryModel:
       agent: {fileID: 2093847510}
@@ -67511,6 +67664,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 1
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   m_trialRotation: 1
   numTrialsPerGroups: 18
   m_trialGroups:
@@ -67542,6 +67697,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67568,6 +67725,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixMix-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67594,6 +67753,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: NoModel-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67604,6 +67765,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67630,6 +67793,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1HF-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
@@ -67644,6 +67809,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixMix-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67670,6 +67837,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LowMix-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67696,6 +67865,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67722,6 +67893,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1LM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
@@ -67736,6 +67909,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LMix-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67762,6 +67937,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HighMale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67788,6 +67965,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LowFemale-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67814,6 +67993,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1HM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
@@ -67828,6 +68009,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LowFemale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67854,6 +68037,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixFemale-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67880,6 +68065,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -67906,6 +68093,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LowMale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -67932,6 +68121,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
   - groupNumber: 1
     trials:
     - name: 4MixMale-Mix-LowCongestion
@@ -67960,6 +68151,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1LF-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
@@ -67974,6 +68167,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixF-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68000,6 +68195,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1LM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
@@ -68014,6 +68211,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HF-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68040,6 +68239,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LF-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -68066,6 +68267,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HighMix-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68092,6 +68295,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HighFemale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68118,6 +68323,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HighMix-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -68144,6 +68351,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1LF-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1455608257}
@@ -68158,6 +68367,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4LowMix-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68184,6 +68395,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HMix-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -68210,6 +68423,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4HM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
@@ -68236,6 +68451,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixFemale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68262,6 +68479,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1HF-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
@@ -68276,6 +68495,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68302,6 +68523,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 1HM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
@@ -68316,6 +68539,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
     - name: 4MixMix-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -68342,6 +68567,8 @@ MonoBehaviour:
       modelStartOnSameSide: 0
       trafficCongestion: 1
       npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
   m_streetSimStatus: 0
   m_simulationStartTime: 0
   m_simulationEndTime: 0
@@ -68362,6 +68589,8 @@ MonoBehaviour:
     modelStartOnSameSide: 0
     trafficCongestion: 0
     npcCongestion: 0
+    carSignalGoTime: 30
+    carSignalWarningTime: 3
   downwardMask:
     serializedVersion: 2
     m_Bits: 3758096384

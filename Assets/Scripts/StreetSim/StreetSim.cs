@@ -154,6 +154,8 @@ public class StreetSim : MonoBehaviour
         //if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
         StreetSimAgentManager.AM.SetCongestionStatus(trial.npcCongestion, false);
         StreetSimCarManager.CM.SetCongestionStatus(trial.trafficCongestion, false);
+        TrafficSignalController.current.SetDurationOfSession(0,trial.carSignalGoTime);
+        TrafficSignalController.current.SetDurationOfSession(1,trial.carSignalWarningTime);
         TrafficSignalController.current.StartAtSessionIndex(0);
         m_currentTrial.AddInnerStartTime(m_trialFrameTimestamp);
     }
@@ -652,7 +654,11 @@ public class StreetSimTrial {
     public StreetSimCarManager.CarManagerStatus trafficCongestion;
     [Tooltip("What should the the congestion of the pedestrians be?")]
     public StreetSimAgentManager.AgentManagerStatus npcCongestion;
-    
+    [Tooltip("How long should the car signals stay on the \"Go\" signal?")]
+    public float carSignalGoTime = 30f;
+    [Tooltip("How long should the car signals stay on the \"Warning\" signal?")]
+    public float carSignalWarningTime = 3f;
+
     /*
     [Tooltip("The agent prefab we'll be instantiating")]
     public StreetSimAgent agent;
@@ -693,6 +699,7 @@ public class StreetSimTrial {
     private Transform m_startSidewalk, m_endSidewalk;
     public Transform startSidewalk { get=>m_startSidewalk; set{m_startSidewalk=value;} }
     public Transform endSidewalk { get=>m_endSidewalk; set{m_endSidewalk=value;} }
+    public float crossWaitTime { get=>carSignalGoTime+carSignalWarningTime; set{} }
 
     private int m_modelPathIndex;
     public int modelPathIndex {
@@ -704,6 +711,10 @@ public class StreetSimTrial {
     }
 
     public TrialData GetTrialData() {
+        List<string> modelIDs = new List<string>();
+        foreach(StreetSimPrimaryModel m in models) {
+            modelIDs.Add(m.agent.GetID().id);
+        }
         return new TrialData(
             name,
             m_trialNumber,
@@ -713,7 +724,9 @@ public class StreetSimTrial {
             m_innerStartTimes,
             m_direction.ToString(),
             trafficCongestion.ToString(),
-            npcCongestion.ToString()
+            npcCongestion.ToString(),
+            modelIDs,
+            crossWaitTime
         );
     }
 }
@@ -752,6 +765,8 @@ public class TrialData {
     public string trafficCongestion;
     public string npcCongestion;
     public List<float> innerStartTimes;
+    public List<string> modelIDs;
+    public float pedestrianWaitTime;
 
     // Uncertain about these now
     /*
@@ -773,7 +788,9 @@ public class TrialData {
         List<float> innerStartTimes,
         string direction,
         string trafficCongestion,
-        string npcCongestion
+        string npcCongestion,
+        List<string> modelIDs,
+        float pedestrianWaitTime
     ) {
         this.name = name;
         this.trialNumber = trialNumber;
@@ -787,6 +804,9 @@ public class TrialData {
 
         this.trafficCongestion = trafficCongestion;
         this.npcCongestion = npcCongestion;
+
+        this.modelIDs = modelIDs;
+        this.pedestrianWaitTime = pedestrianWaitTime;
     }
 
     /*

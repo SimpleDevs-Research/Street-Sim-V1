@@ -128,4 +128,10 @@ public class TrafficSignalController : MonoBehaviour
         cycleSession = CycleSignalSessions(index);
         StartCoroutine(cycleSession);
     }
+
+    public void SetDurationOfSession(int sessionIndex, float newDuration = 30f) {
+        if (sessionIndex >= 0 && sessionIndex <= sessions.Count-1) {
+            sessions[sessionIndex].duration = newDuration;
+        }
+    }
 }
