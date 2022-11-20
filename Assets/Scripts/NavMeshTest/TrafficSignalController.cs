@@ -65,7 +65,7 @@ public class TrafficSignalController : MonoBehaviour
     private SignalSession currentSession = null;
     private IEnumerator cycleSession = null;
 
-    [SerializeField] private Transform m_northCarDetector, m_southCarDetector;
+    [SerializeField] private Transform m_northCarDetector, m_southCarDetector, m_northCrossMidpoint, m_southCrossMidpoint;
     [SerializeField] private bool m_safeToCross = false; 
     public bool safeToCross {
         get { return m_safeToCross; }
@@ -81,16 +81,17 @@ public class TrafficSignalController : MonoBehaviour
         StartCoroutine(cycleSession);
     }
 
-    public bool GetSafety(bool onSouth, float agentSpeed = 0.4f) {
+    public bool GetSafety(bool onSouth, float agentSpeed = 0.4f, float timeOffset = 0f) {
         RaycastHit[] hitsSouth, hitsNorth;
-        float distance = (1.375f / agentSpeed) * 5f;
+        float distance = ((1.375f / agentSpeed) * 9f) + (timeOffset * agentSpeed * 9f);
         if (onSouth) {
-            hitsSouth = Physics.RaycastAll(m_southCarDetector.position, m_southCarDetector.forward, distance);
-            hitsNorth = Physics.RaycastAll(m_northCarDetector.position + (m_northCarDetector.forward * distance) , m_northCarDetector.forward, distance); 
-
+            hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position, m_southCrossMidpoint.forward, distance);
+            // hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position + (m_northCrossMidpoint.forward * distance), m_northCrossMidpoint.forward, distance); 
+            hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position, m_northCrossMidpoint.forward, distance*2f); 
         } else {
-            hitsSouth = Physics.RaycastAll(m_southCarDetector.position + (m_southCarDetector.forward * distance), m_southCarDetector.forward, distance);
-            hitsNorth = Physics.RaycastAll(m_northCarDetector.position, m_northCarDetector.forward, distance);
+            // hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position + (m_southCrossMidpoint.forward * distance), m_southCrossMidpoint.forward, distance);
+            hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position, m_southCrossMidpoint.forward, distance*2f);
+            hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position, m_northCrossMidpoint.forward, distance);
         }
         return (hitsSouth.Length == 0 && hitsNorth.Length == 0);
     }

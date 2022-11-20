@@ -48,6 +48,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_LeftToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &215321305962530433
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Diaphragm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &307090343065714880
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,6 +148,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ClavicleLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &334971295761816864
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +378,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ElbowLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &425891240157975830
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +464,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_HandLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &741116142661054651
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,9 +720,13 @@ MonoBehaviour:
   targetPositions: []
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
+  m_canCrossDelayTime: 0
   m_canCross: 0
   behavior: 0
   direction: 0
+  carMask:
+    serializedVersion: 2
+    m_Bits: 67108864
 --- !u!114 &4393607934196338012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,6 +743,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &945277302008361012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,6 +1011,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_LeftAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1042788101494771620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1277,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_RightKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1628035754046967757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1409,6 +1421,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ClavicleRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2378074953090098170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,6 +1534,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_RightToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &3310897361730990583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,6 +1615,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Head
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &3722809658811478947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,6 +1665,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Abdomen
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4106160281475722369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,6 +1748,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Chest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4800255858669401028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,6 +1798,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ElbowRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4898078392683351645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1912,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ShoulderRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5563836198086348029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,6 +2428,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_RightAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7761473108878152761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,6 +2512,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Hips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7789941269198839612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,17 +2661,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2673,17 +2686,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2740,6 +2745,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_ShoulderLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7968121154486245778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +2925,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_HandRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8690874813749200860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2968,6 +2975,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_LeftThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8750312739034264867
 GameObject:
   m_ObjectHideFlags: 0
@@ -3048,6 +3056,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_RightThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8991847234860914993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3097,6 +3106,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_Neck
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &9019821463435208778
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,6 +3156,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowMale2_LeftKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &9133853056187614421
 GameObject:
   m_ObjectHideFlags: 0

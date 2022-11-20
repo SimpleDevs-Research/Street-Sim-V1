@@ -148,17 +148,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -181,17 +173,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -248,6 +232,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ElbowLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &337554165872460676
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +282,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &344434502304508952
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +425,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &599709895937510998
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +475,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1052050039530926269
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,6 +765,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Head
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &1666357353672986804
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +913,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Hips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2058555262392103193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,9 +1106,13 @@ MonoBehaviour:
   targetPositions: []
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
+  m_canCrossDelayTime: 0
   m_canCross: 0
   behavior: 0
   direction: 0
+  carMask:
+    serializedVersion: 2
+    m_Bits: 67108864
 --- !u!114 &3349290376156025308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,6 +1129,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2165376262294341367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,6 +1241,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2415213244485895507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,6 +1355,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ElbowRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2841995618093602946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,6 +1441,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HandLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &3615182969972320731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,6 +1491,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4009272420448700010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1669,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ClavicleRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4557107410098406167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,6 +2147,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5446369160027330988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,6 +2229,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Abdomen
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5830571659496302208
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,6 +2310,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ClavicleLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6251487050803855581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,6 +2391,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ShoulderLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6559140217036169186
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,6 +2595,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Diaphragm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6649891890083125942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,6 +2649,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HandRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6665768916096109405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2723,6 +2729,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6857563757125914231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2836,6 +2843,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Neck
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7233498031611321238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +2927,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_Chest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7771730621503452551
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,6 +3040,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8619171128381406057
 GameObject:
   m_ObjectHideFlags: 0
@@ -3174,3 +3184,4 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ShoulderRight
   m_ref_id: 
+  m_shouldTrack: 1

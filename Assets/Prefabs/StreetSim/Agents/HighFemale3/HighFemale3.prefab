@@ -80,6 +80,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_RightThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &316788667623381010
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +130,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Diaphragm
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &329340391884148774
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +180,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ElbowLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &365626548423991504
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +232,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Chest
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &785066546390724616
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +690,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ShoulderLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &2457860519442833533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,6 +1274,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &1464316897629032184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,9 +1299,13 @@ MonoBehaviour:
   targetPositions: []
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
+  m_canCrossDelayTime: 0
   m_canCross: 0
   behavior: 0
   direction: 0
+  carMask:
+    serializedVersion: 2
+    m_Bits: 67108864
 --- !u!1 &3407803715545910012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,6 +1486,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_HandLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &3832086970731452840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,6 +1599,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ClavicleRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4119377104297151186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1776,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_RightKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4688459211536516564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,6 +1826,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Head
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4696523077666100181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1876,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_LeftToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &4960037983550540262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,6 +1989,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Abdomen
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5189096596385008326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2039,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_RightAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5501467627721554834
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,6 +2152,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Neck
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5832157017049940706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,6 +2234,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_LeftAnkle
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &5989046521334130569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,6 +2284,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ElbowRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6138314605246766367
 GameObject:
   m_ObjectHideFlags: 0
@@ -2318,6 +2338,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_HandRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6199096446775990199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,6 +2628,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ClavicleLeft
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6543659691220613609
 GameObject:
   m_ObjectHideFlags: 0
@@ -2658,6 +2680,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_Hips
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &6796104299814898548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,6 +2826,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_ShoulderRight
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7192065213702535830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2948,6 +2972,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_LeftThigh
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &7736153747902658383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,6 +3206,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_RightToes
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8266449151855304104
 GameObject:
   m_ObjectHideFlags: 0
@@ -3293,6 +3319,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighFemale3_LeftKnee
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!1 &8381467559323136604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3537,17 +3564,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -3570,17 +3589,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
