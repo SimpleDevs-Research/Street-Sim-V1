@@ -28,6 +28,9 @@ public class ExperimentID : MonoBehaviour
     }
     private bool idSet = false;
 
+    [SerializeField] private bool m_shouldTrack = true;
+    public bool shouldTrack { get=>m_shouldTrack; set{} }
+
     private void Awake() {
         if (m_parent != null) {
             m_parent.AddChild(this);

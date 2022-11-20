@@ -100,6 +100,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3FL
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &624287079632642087
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3FR
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &624287079632642089
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +306,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3Body
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &624287079632642091
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +372,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &-2668643210650436565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098ca53f105d055448359ccd8a32bc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 0}
   frontOfCar: {fileID: 6073345232761727126}
   backOfCar: {fileID: 3131411452889843776}
   frontCollider: {fileID: 1049391912702541127}
@@ -671,6 +676,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3BL
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &624287079632642095
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +777,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3BR
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &784860912823774407
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +901,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3FLMesh
   m_ref_id: Car3FL
+  m_shouldTrack: 1
 --- !u!1 &3123757408915245166
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +965,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3BodyMesh
   m_ref_id: Car3Body
+  m_shouldTrack: 1
 --- !u!1 &3935363017549972863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,6 +1029,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3BLMesh
   m_ref_id: Car3BL
+  m_shouldTrack: 1
 --- !u!1 &4324696529400319367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,6 +1093,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3FRMesh
   m_ref_id: Car3FR
+  m_shouldTrack: 1
 --- !u!1 &4614606207553534576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,6 +1348,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3BRMesh
   m_ref_id: Car3BR
+  m_shouldTrack: 1
 --- !u!1 &6512563413350300136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,6 +1442,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car3Box
   m_ref_id: Car3
+  m_shouldTrack: 1
 --- !u!1 &9010980209913312498
 GameObject:
   m_ObjectHideFlags: 0

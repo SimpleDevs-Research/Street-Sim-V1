@@ -43,6 +43,15 @@ namespace Helpers {
             }
             return newList;
         }
+        public static List<T> Flatten2D<T>(this List<List<T>> list) {
+            List<T> flatten = new List<T>();
+            foreach(List<T> nested in list) {
+                foreach(T item in nested) {
+                    flatten.Add(item);
+                }
+            }
+            return flatten;
+        }
 
         // Adapted from: https://stackoverflow.com/questions/19141259/how-to-enqueue-a-list-of-items-in-c
         public static void AddRange<T>(this Queue<T> queue, IEnumerable<T> enu) {
@@ -106,6 +115,21 @@ namespace Helpers {
                 output = default(T);
                 return false;
             }
+        }
+        public static bool SaveCSV<T>(string filePath, List<string> header, List<T> data) {
+            string p = (filePath.EndsWith(".csv")) ? filePath : filePath+".csv";
+            StreamWriter writer = new StreamWriter(p);
+            writer.WriteLine(string.Join(",", header));
+            foreach(T line in data) {
+                List<string> lineContent = new List<string>();
+                foreach(string headerVal in header) {
+                    lineContent.Add(line.GetType().GetField(headerVal).GetValue(line).ToString());
+                }
+                writer.WriteLine(string.Join(",",lineContent));
+            }
+            writer.Flush();
+            writer.Close();
+            return true;
         }
     }
 }

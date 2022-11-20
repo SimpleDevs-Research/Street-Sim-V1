@@ -11,25 +11,53 @@ public class StreetSimTrackable {
     public int frameIndex;
     public float timestamp;
     public SVector3 localPosition;
+    public float localPosition_x, localPosition_y, localPosition_z;
     public SQuaternion localRotation;
+    public float localRotation_x, localRotation_y, localRotation_z, localRotation_w;
     public StreetSimTrackable(string id, int frameIndex, float timestamp, Vector3 localPosition, Quaternion localRotation) {
         this.id = id;
         this.frameIndex = frameIndex;
         this.timestamp = timestamp;
         this.localPosition = localPosition;
+        this.localPosition_x = this.localPosition.x;
+        this.localPosition_y = this.localPosition.y;
+        this.localPosition_z = this.localPosition.z;
         this.localRotation = localRotation;
+        this.localRotation_x = this.localRotation.x;
+        this.localRotation_y = this.localRotation.y;
+        this.localRotation_z = this.localRotation.z;
+        this.localRotation_w = this.localRotation.w;
     }
     public StreetSimTrackable(string id, int frameIndex, float timestamp, Transform t) {
         this.id = id;
         this.frameIndex = frameIndex;
         this.timestamp = timestamp;
         this.localPosition = t.localPosition;
+        this.localPosition_x = this.localPosition.x;
+        this.localPosition_y = this.localPosition.y;
+        this.localPosition_z = this.localPosition.z;
         this.localRotation = t.localRotation;
+        this.localRotation_x = this.localRotation.x;
+        this.localRotation_y = this.localRotation.y;
+        this.localRotation_z = this.localRotation.z;
+        this.localRotation_w = this.localRotation.w;
     }
     public bool Compare(Transform other) {
         // Returns TRUE if the same or too similar
         return this.localPosition == other.localPosition && this.localRotation == other.localRotation;
     }
+    public static List<string> Headers => new List<string> {
+        "id",
+        "frameIndex",
+        "timestamp",
+        "localPosition_x",
+        "localPosition_y",
+        "localPosition_z",
+        "localRotation_x",
+        "localRotation_y",
+        "localRotation_z",
+        "localRotation_w",
+    };
 }
 
 public class StreetSimIDController : MonoBehaviour
@@ -112,7 +140,10 @@ public class StreetSimIDController : MonoBehaviour
             int count = 0;
             while(temp.Count > 0) {
                 ExperimentID id = temp.Dequeue();
-                if (!m_payloads.ContainsKey(id)) {
+                if (!id.shouldTrack) {
+                    count++;
+                }
+                else if (!m_payloads.ContainsKey(id)) {
                     m_payloads.Add(id, new List<StreetSimTrackable>());
                     m_payloads[id].Add(new StreetSimTrackable(id.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,id.transform));
                     count++;
@@ -130,6 +161,7 @@ public class StreetSimIDController : MonoBehaviour
                     foreach(ExperimentID child in id.children) {
                         if (!m_payloads.ContainsKey(child)) {
                             m_payloads.Add(child, new List<StreetSimTrackable>());
+                            m_payloads[child].Add(new StreetSimTrackable(child.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,child.transform));
                             count++;
                         }
                         else if (!m_payloads[child][^1].Compare(child.transform)) {

@@ -228,6 +228,7 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
             return;
         }
+        /*
         // Prepare the save folder for the attempts data, and only continue if the folder was created
         attemptsDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/attempts/");
         if (!SaveSystemMethods.CheckOrCreateDirectory(attemptsDirToSaveIn)) {
@@ -235,6 +236,8 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
             return;
         }
+        */
+        /*
         // Prepare the save folder for the positions data, and only continue if the folder was created
         positionsDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/positions/");
         if (!SaveSystemMethods.CheckOrCreateDirectory(positionsDirToSaveIn)) {
@@ -242,6 +245,7 @@ public class StreetSim : MonoBehaviour
             EndSimulation();
             return;
         }
+        */
 
         // Determine the positions of important things inside the simulation. Also determine the direction the trial moves in
         if (m_currentTrial.isFirstTrial) {
@@ -427,7 +431,7 @@ public class StreetSim : MonoBehaviour
 
     public void StartAttempt(ExperimentID id, float startTime, StreetSimTrial.TrialDirection direction, bool shouldSetStartingAttempt = true) {
         if (m_currentAttempts.ContainsKey(id)) return;
-        m_currentAttempts.Add(id, new TrialAttempt(direction.ToString(), startTime));
+        m_currentAttempts.Add(id, new TrialAttempt(id.id, direction.ToString(), startTime));
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
         if (!m_currentAttempts.ContainsKey(id)) return;
@@ -516,6 +520,7 @@ public class StreetSim : MonoBehaviour
         if(SaveSystemMethods.SaveJSON(trialDirToSaveIn+"trial",dataToSave)) {
         //if(SaveSystemMethods.SaveJSON(trialDirToSaveIn+"trial",dataToSave)) {
             // SECOND: the trial attempt data
+            /*
             foreach(KeyValuePair<ExperimentID,List<TrialAttempt>> kvp in attempts) {
                 AttemptsPayload attemptsPayload = new AttemptsPayload(kvp.Key.id,kvp.Value);
                 dataToSave = SaveSystemMethods.ConvertToJSON<AttemptsPayload>(attemptsPayload);
@@ -523,16 +528,22 @@ public class StreetSim : MonoBehaviour
                     Debug.Log("SOMETHING WRONG");
                 };
             }
+            */
+            SaveSystemMethods.SaveCSV<TrialAttempt>(trialDirToSaveIn+"attempts",TrialAttempt.Headers,new List<List<TrialAttempt>>(attempts.Values).Flatten2D<TrialAttempt>());
             // THIRD: The gaze data
             GazePayload gazePayload = new GazePayload(StreetSimRaycaster.R.hits);
             dataToSave = SaveSystemMethods.ConvertToJSON<GazePayload>(gazePayload);
             SaveSystemMethods.SaveJSON(trialDirToSaveIn+"gaze",dataToSave);
             // FOURTH: The positional data
+            /*
             foreach(KeyValuePair<ExperimentID,List<StreetSimTrackable>> kvp in StreetSimIDController.ID.payloads) {
                 PositionsPayload positionsPayload = new PositionsPayload(kvp.Key.id,kvp.Value);
                 dataToSave = SaveSystemMethods.ConvertToJSON<PositionsPayload>(positionsPayload);
                 SaveSystemMethods.SaveJSON(positionsDirToSaveIn+kvp.Key.id,dataToSave);
+                SaveSystemMethods.SaveCSV<StreetSimTrackable>(positionsDirToSaveIn+kvp.Key.id,StreetSimTrackable.Headers,kvp.Value);
             }
+            */
+            SaveSystemMethods.SaveCSV<StreetSimTrackable>(trialDirToSaveIn+"positions",StreetSimTrackable.Headers,new List<List<StreetSimTrackable>>(StreetSimIDController.ID.payloads.Values).Flatten2D<StreetSimTrackable>());
             // FIFTH: The car history data
             CarsPayload carsPayload = new CarsPayload(StreetSimCarManager.CM.carHistory);
             dataToSave = SaveSystemMethods.ConvertToJSON<CarsPayload>(carsPayload);
@@ -872,13 +883,23 @@ public class PositionsPayload {
 }
 [System.Serializable]
 public class TrialAttempt {
+    public string id;
     public string direction;
     public float startTime;
     public float endTime;
     public bool successful;
     public string reason;
-    public TrialAttempt(string direction, float startTime) {
+    public TrialAttempt(string id, string direction, float startTime) {
+        this.id = id;
         this.direction = direction;
         this.startTime = startTime;
     }
+    public static List<string> Headers => new List<string> {
+        "id",
+        "direction",
+        "startTime",
+        "endTime",
+        "successful",
+        "reason"
+    };
 }

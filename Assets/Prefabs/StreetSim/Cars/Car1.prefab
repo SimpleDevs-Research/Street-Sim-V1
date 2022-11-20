@@ -62,6 +62,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1Box
   m_ref_id: Car1
+  m_shouldTrack: 1
 --- !u!1 &858667771408133513
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1BRMesh
   m_ref_id: Car1BR
+  m_shouldTrack: 1
 --- !u!1 &3089505098937155853
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +258,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1FLMesh
   m_ref_id: Car1FL
+  m_shouldTrack: 1
 --- !u!1 &4414247807974275789
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +322,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1BLMesh
   m_ref_id: Car1BL
+  m_shouldTrack: 1
 --- !u!1 &5107678843775522901
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +386,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1FRMesh
   m_ref_id: Car1FR
+  m_shouldTrack: 1
 --- !u!1 &5579076910228251115
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +450,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1BodyMesh
   m_ref_id: Car1Body
+  m_shouldTrack: 1
 --- !u!1 &6618732774360957552
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +796,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1FR
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &8790970770658504738
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +897,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1FL
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &8790970770658504744
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +998,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1BR
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &8790970770658504746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1099,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1BL
   m_ref_id: 
+  m_shouldTrack: 0
 --- !u!1 &8790970770658504748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098ca53f105d055448359ccd8a32bc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 0}
   frontOfCar: {fileID: 8524262800597607650}
   backOfCar: {fileID: 6202513844031124113}
   frontCollider: {fileID: 3517671225029573219}
@@ -1328,6 +1339,7 @@ MonoBehaviour:
   m_children: []
   m_id: Car1
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!54 &611321325868996772
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1461,3 +1473,4 @@ MonoBehaviour:
   m_children: []
   m_id: Car1Body
   m_ref_id: 
+  m_shouldTrack: 0
