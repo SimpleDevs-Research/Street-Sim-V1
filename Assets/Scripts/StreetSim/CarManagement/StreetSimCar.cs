@@ -10,6 +10,7 @@ public class StreetSimCar : MonoBehaviour
         Idle,
         Active,
     }
+    public ExperimentID id;
     public Transform frontOfCar, backOfCar;
     [SerializeField] private RemoteCollider frontCollider;
     public TrafficSignal trafficSignal;
@@ -34,7 +35,10 @@ public class StreetSimCar : MonoBehaviour
     [SerializeField] private Transform[] wheels;
     [SerializeField] private AudioSource m_audioSource;
 
+    private bool m_hitMid = false;
+
     private void Awake() {
+        if (id == null) id = gameObject.GetComponent<ExperimentID>();
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
     }
 
@@ -43,17 +47,24 @@ public class StreetSimCar : MonoBehaviour
         transform.position = startTarget.position;
         transform.rotation = startTarget.rotation;
 
+        foreach(Collider col in gazeColliders) col.enabled = true;
+
         currentTarget = endTarget;
         prevPos = transform.position;
         prevTargetPos = endTarget.position;
         
         status = StreetSimCarStatus.Active;
         m_audioSource.enabled = true;
+
+        m_hitMid = false;
     }
 
     private void ReturnToIdle() {
         StreetSimCarManager.CM.SetCarToIdle(this);
         m_audioSource.enabled = false;
+        foreach(Collider col in gazeColliders) {
+            col.enabled = false;
+        }
     }
 
     private float CalculateDistanceUntilDeceleration() {
@@ -77,15 +88,19 @@ public class StreetSimCar : MonoBehaviour
         return otherCar.backOfCar.position + (-otherCar.transform.forward.normalized * 0.5f) + (-otherCar.transform.forward.normalized * 0.5f * m_lengthOfCar);
     }
 
+    private void Update() {
+        if (status == StreetSimCarStatus.Idle) return;
+        if (m_hitMid) return;
+        if (startTarget.position.x*transform.position.x<0f || Mathf.Abs(transform.position.x) <= 0.01f) {
+            StreetSimCarManager.CM.AddCarMidToHistory(this,StreetSim.S.GetTimeFromStart(Time.time));
+            m_hitMid = true;
+        }
+    }
+
     private void FixedUpdate() {
 
-        // Make sure our collider is off if we're idle
-        if (status == StreetSimCarStatus.Idle) {
-            foreach(Collider col in gazeColliders) {
-                col.enabled = false;
-            }
-            return;
-        }
+        // don't do anything if we're idle
+        if (status == StreetSimCarStatus.Idle) return;
 
         // We end out of the loop if we've reached our target and that target happens to be the same position as the endtarget
         if (Vector3.Distance(transform.position,endTarget.position) <= 0.01f) {
@@ -95,10 +110,6 @@ public class StreetSimCar : MonoBehaviour
 
         // We also pause if any values are missing
         if (trafficSignal == null || middleTarget == null || endTarget == null) return;
-
-        foreach(Collider col in gazeColliders) {
-            col.enabled = true;
-        }
         
         // We need to determine which target position to aim towards.
         // Just because the traffic light shines red that doesn't mean we should stop.

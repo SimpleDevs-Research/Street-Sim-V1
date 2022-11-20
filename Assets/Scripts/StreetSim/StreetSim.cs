@@ -344,6 +344,7 @@ public class StreetSim : MonoBehaviour
         trialAttempts = new Dictionary<ExperimentID, List<TrialAttempt>>();
         StreetSimRaycaster.R.ClearData();
         StreetSimIDController.ID.ClearData();
+        StreetSimCarManager.CM.ClearData();
 
         // Let the system know we're no longer having a an active trial
         m_currentTrialActive = false;
@@ -532,6 +533,10 @@ public class StreetSim : MonoBehaviour
                 dataToSave = SaveSystemMethods.ConvertToJSON<PositionsPayload>(positionsPayload);
                 SaveSystemMethods.SaveJSON(positionsDirToSaveIn+kvp.Key.id,dataToSave);
             }
+            // FIFTH: The car history data
+            CarsPayload carsPayload = new CarsPayload(StreetSimCarManager.CM.carHistory);
+            dataToSave = SaveSystemMethods.ConvertToJSON<CarsPayload>(carsPayload);
+            SaveSystemMethods.SaveJSON(trialDirToSaveIn+"cars",dataToSave);
         } else {
             Debug.Log("[STREET SIM] ERROR: Could not save json trial data");
         }
@@ -557,6 +562,10 @@ public class StreetSim : MonoBehaviour
     }
     public void LoadSimulationData() {
 
+    }
+
+    public float GetTimeFromStart(float cTime) {
+        return cTime - m_currentTrial.startTime;
     }
 }
 
@@ -845,6 +854,14 @@ public class GazePayload {
     }
 }
 [System.Serializable]
+public class CarsPayload {
+    public List<CarRow> carHistory;
+    public CarsPayload(List<CarRow> carHistory) {
+        this.carHistory = carHistory;
+    }
+}
+
+[System.Serializable]
 public class PositionsPayload {
     public string id;
     public List<StreetSimTrackable> positionData;
@@ -853,7 +870,6 @@ public class PositionsPayload {
         this.positionData = trackables;
     }
 }
-
 [System.Serializable]
 public class TrialAttempt {
     public string direction;

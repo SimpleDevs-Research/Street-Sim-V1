@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
+using SerializableTypes;
 using PathCreation;
 
 [System.Serializable]
@@ -12,6 +13,15 @@ public class CarPath {
     public TrafficSignal trafficSignal;
     public RemoteCollider startCollisionDetector;
     public Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
+}
+[System.Serializable]
+public class CarRow {
+    public string name;
+    public float crosswalkTime;
+    public CarRow(string name, float time) {
+        this.name = name;
+        this.crosswalkTime = time;
+    }
 }
 
 public class StreetSimCarManager : MonoBehaviour
@@ -44,6 +54,8 @@ public class StreetSimCarManager : MonoBehaviour
     // y = total number of active cars allowed on the road.
 
     [SerializeField] private Transform InactiveCarTargetRef;
+    [SerializeField] private List<CarRow> m_carHistory = new List<CarRow>();
+    public List<CarRow> carHistory { get=>m_carHistory; set{} }
 
     private void Awake() {
         CM = this;
@@ -80,6 +92,7 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.endTarget = path.endTarget;
                         nextCar.trafficSignal = path.trafficSignal;
                         nextCar.Initialize();
+
                         activeCars.Add(nextCar);
                         timeToNextCarSpawn = UnityEngine.Random.Range(0f,10f);
                         yield return new WaitForSeconds(timeToNextCarSpawn);
@@ -138,6 +151,13 @@ public class StreetSimCarManager : MonoBehaviour
                 path.waitingCars.Clear();
             }
         }
+    }
+
+    public void AddCarMidToHistory(StreetSimCar car, float time) {
+        m_carHistory.Add(new CarRow(car.id.id, time));
+    }
+    public void ClearData() {
+        m_carHistory = new List<CarRow>();
     }
 
 }
