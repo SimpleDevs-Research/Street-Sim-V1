@@ -2,6 +2,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SerializableTypes;
 using Random = System.Random;
 using System.Linq;
 
@@ -48,6 +49,24 @@ namespace Helpers {
             foreach (T obj in enu)
                 queue.Enqueue(obj);
         }
+
+        public static bool Compare(this SVector3 original, SVector3 other) {
+            return original.x == other.x && original.y == other.y && original.z == other.z;
+        }
+        public static bool Compare(this SVector3 original, Vector3 other) {
+            return original.x == other.x && original.y == other.y && original.z == other.z;
+        }
+        public static bool Compare(this SVector4 original, SVector4 other) {
+            return original.x == other.x && original.y == other.y && original.z == other.z && original.w == other.w;
+        }
+        public static bool Compare(this SVector4 original, Vector4 other) {
+            return original.x == other.x && original.y == other.y && original.z == other.z && original.w == other.w;
+        }
+
+        // Adapted from: https://answers.unity.com/questions/288338/how-do-i-compare-quaternions.html
+        public static bool Compare(this Quaternion original, Quaternion other, float acceptableRange) {
+            return 1 - Mathf.Abs(Quaternion.Dot(original, other)) < acceptableRange;
+        }   
     }
 
     [System.Serializable]

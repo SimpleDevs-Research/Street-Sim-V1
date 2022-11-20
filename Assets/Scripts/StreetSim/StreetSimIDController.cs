@@ -26,6 +26,10 @@ public class StreetSimTrackable {
         this.localPosition = t.localPosition;
         this.localRotation = t.localRotation;
     }
+    public bool Compare(Transform other) {
+        // Returns TRUE if the same or too similar
+        return this.localPosition == other.localPosition && this.localRotation == other.localRotation;
+    }
 }
 
 public class StreetSimIDController : MonoBehaviour
@@ -108,17 +112,30 @@ public class StreetSimIDController : MonoBehaviour
             int count = 0;
             while(temp.Count > 0) {
                 ExperimentID id = temp.Dequeue();
-                if (!m_payloads.ContainsKey(id)) m_payloads.Add(id, new List<StreetSimTrackable>());
-                m_payloads[id].Add(new StreetSimTrackable(id.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,id.transform));
-                count++;
+                if (!m_payloads.ContainsKey(id)) {
+                    m_payloads.Add(id, new List<StreetSimTrackable>());
+                    m_payloads[id].Add(new StreetSimTrackable(id.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,id.transform));
+                    count++;
+                }
+                // Check previous record. If previous record is too similar, we disregard the entry
+                else if (!m_payloads[id][^1].Compare(id.transform)) {
+                    m_payloads[id].Add(new StreetSimTrackable(id.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,id.transform));
+                    count++;
+                }
                 if (count >= m_numTrackedPerFrame) {
                     yield return null;
                     count = 0;
                 }
                 if (m_trackChildren && id.children.Count > 0) {
                     foreach(ExperimentID child in id.children) {
-                        if (!m_payloads.ContainsKey(child)) m_payloads.Add(child, new List<StreetSimTrackable>());
-                        m_payloads[child].Add(new StreetSimTrackable(child.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,child.transform));
+                        if (!m_payloads.ContainsKey(child)) {
+                            m_payloads.Add(child, new List<StreetSimTrackable>());
+                            count++;
+                        }
+                        else if (!m_payloads[child][^1].Compare(child.transform)) {
+                            m_payloads[child].Add(new StreetSimTrackable(child.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,child.transform));
+                            count++;
+                        }
                         if (count >= m_numTrackedPerFrame) {
                             yield return null;
                             count = 0;

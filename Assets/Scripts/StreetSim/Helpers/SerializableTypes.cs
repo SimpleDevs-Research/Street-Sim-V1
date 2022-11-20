@@ -85,6 +85,19 @@ namespace SerializableTypes {
         public static SVector3 operator /(SVector3 a, float d)
             => new SVector3(a.x / d, a.y / d, a.z / d);
         
+        public static bool operator ==(SVector3 a, SVector3 b)
+            => (Vector3)a == (Vector3)b;
+        public static bool operator ==(SVector3 a, Vector3 b)
+            => (Vector3)a == b;
+        public static bool operator ==(Vector3 a, SVector3 b)
+            => a == (Vector3)b;
+        public static bool operator !=(SVector3 a, SVector3 b)
+            => (Vector3)a != (Vector3)b;
+        public static bool operator !=(SVector3 a, Vector3 b)
+            => (Vector3)a != b;
+        public static bool operator !=(Vector3 a, SVector3 b)
+            => a != (Vector3)b;
+        
         public float magnitude {
             get { return (float)Mathf.Sqrt(this.x * this.x + this.y * this.y + this.z * this.z); }
         }
@@ -132,6 +145,19 @@ namespace SerializableTypes {
  
         public static SVector4 operator /(SVector4 a, float d)
             => new SVector4(a.x / d, a.y / d, a.z / d, a.w / d);
+
+        public static bool operator ==(SVector4 a, SVector4 b)
+            => (Vector4)a == (Vector4)b;
+        public static bool operator ==(SVector4 a, Vector4 b)
+            => (Vector4)a == b;
+        public static bool operator ==(Vector4 a, SVector4 b)
+            => a == (Vector4)b;
+        public static bool operator !=(SVector4 a, SVector4 b)
+            => (Vector4)a != (Vector4)b;
+        public static bool operator !=(SVector4 a, Vector4 b)
+            => (Vector4)a != b;
+        public static bool operator !=(Vector4 a, SVector4 b)
+            => a != (Vector4)b;
     }
  
     /// <summary> Serializable version of UnityEngine.Quaternion. </summary>
@@ -157,6 +183,19 @@ namespace SerializableTypes {
  
         public static implicit operator SQuaternion(Quaternion q)
             => new SQuaternion(q.x, q.y, q.z, q.w);
+        
+        public static bool operator ==(SQuaternion a, SQuaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) < 0.01f;
+        public static bool operator ==(SQuaternion a, Quaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) < 0.01f;
+        public static bool operator ==(Quaternion a, SQuaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) < 0.01f;
+        public static bool operator !=(SQuaternion a, SQuaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) >= 0.01f;
+        public static bool operator !=(SQuaternion a, Quaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) >= 0.01f;
+        public static bool operator !=(Quaternion a, SQuaternion b)
+            => 1f - Mathf.Abs(Quaternion.Dot(a, b)) >= 0.01f;
     }
  
     /// <summary> Serializable version of UnityEngine.Color32 without transparency. </summary>

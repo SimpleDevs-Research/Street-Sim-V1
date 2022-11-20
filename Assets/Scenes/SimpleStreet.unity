@@ -17675,6 +17675,7 @@ MonoBehaviour:
   - {fileID: 1988878093}
   activeCars: []
   InactiveCarTargetRef: {fileID: 1951919683}
+  m_carHistory: []
 --- !u!1001 &531229656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23885,17 +23886,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 10
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -23918,17 +23911,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -64206,17 +64191,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -68636,6 +68613,31 @@ MonoBehaviour:
   m_numTrackedPerFrame: 50
   m_trackables:
   - {fileID: 1081477703}
+  - {fileID: 1436898351}
+  - {fileID: 1677408801}
+  - {fileID: 1728981051}
+  - {fileID: 2092326399}
+  - {fileID: 1501116079}
+  - {fileID: 1699520021}
+  - {fileID: 1592261702}
+  - {fileID: 1362115632}
+  - {fileID: 990470667}
+  - {fileID: 2045864077}
+  - {fileID: 2027101961}
+  - {fileID: 1714432841}
+  - {fileID: 2117530721}
+  - {fileID: 1621541794}
+  - {fileID: 2067426617}
+  - {fileID: 1294512194}
+  - {fileID: 2103761568}
+  - {fileID: 1844157866}
+  - {fileID: 1221612256}
+  - {fileID: 1778506053}
+  - {fileID: 1946137700}
+  - {fileID: 2119291843}
+  - {fileID: 1895122860}
+  - {fileID: 1122955443}
+  - {fileID: 1988878106}
   m_trialTrackables: []
 --- !u!1 &1809319559
 GameObject:
@@ -73569,6 +73571,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 1
+--- !u!114 &1988878106 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7053311491299857708, guid: 08a061aa4c2b4b14abe48ce30ff1e2e4, type: 3}
+  m_PrefabInstance: {fileID: 1075508035}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650167684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43b270384f600745846b0620abf2e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1994914850
 GameObject:
   m_ObjectHideFlags: 0
@@ -75709,17 +75722,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
