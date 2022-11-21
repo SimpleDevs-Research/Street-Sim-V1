@@ -21,6 +21,10 @@
 ### Sound Effects
 * Car Moving: (https://freesound.org/people/jazbavac/sounds/198523/)[https://freesound.org/people/jazbavac/sounds/198523/]
 * Car Idle (https://freesound.org/people/gladkiy/sounds/332384/)[https://freesound.org/people/gladkiy/sounds/332384/]
+* Bus (https://freesound.org/people/bikesnbassboi/sounds/540398/)[https://freesound.org/people/bikesnbassboi/sounds/540398/]
+* Jeep (https://freesound.org/people/TheEarthCollective/sounds/428460/)[https://freesound.org/people/TheEarthCollective/sounds/428460/]
+* Sports Car (https://freesound.org/people/MarlonHJ/sounds/242740/)[https://freesound.org/people/MarlonHJ/sounds/242740/]
+* Truck (https://freesound.org/people/gladkiy/sounds/332383/)[https://freesound.org/people/gladkiy/sounds/332383/]
 * Footsteps: (https://freesound.org/people/florianreichelt/sounds/459964/)[https://freesound.org/people/florianreichelt/sounds/459964/]
 
 ### Models for Buildings
