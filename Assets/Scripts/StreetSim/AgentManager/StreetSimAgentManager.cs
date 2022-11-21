@@ -41,6 +41,8 @@ public class StreetSimAgentManager : MonoBehaviour
     private List<StreetSimAgent> m_currentModels = new List<StreetSimAgent>();
     public List<StreetSimAgent> currentModels { get=>m_currentModels; set{} }
 
+    [SerializeField] private AudioClip[] footstepAudio;
+
     private void Awake() {
         AM = this;
         if (agentParentFolder == null) agentParentFolder = this.transform;
@@ -117,6 +119,7 @@ public class StreetSimAgentManager : MonoBehaviour
         Transform[] path,
         StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe,
         float speed = 0.4f,
+        float canCrossDelay = 0f,
         bool shouldLoop = false,
         bool shouldWarpOnLoop = false,
         bool shouldAddToActive = true,
@@ -125,7 +128,7 @@ public class StreetSimAgentManager : MonoBehaviour
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, speed, shouldLoop, shouldWarpOnLoop, direction, agentType);
+        agent.Initialize(path, behavior, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -175,7 +178,7 @@ public class StreetSimAgentManager : MonoBehaviour
             //DestroyModel();
             if (m_currentModels.Contains(agent)) DestroyAgent(agent);
             // PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
-            InitializeAgent(agent, availablePaths[pathIndex].points, behavior, agentSpeed, false, false, false, direction, StreetSimAgent.AgentType.Model);
+            InitializeAgent(agent, availablePaths[pathIndex].points, behavior, agentSpeed, 0.5f*m_currentModels.Count, false, false, false, direction, StreetSimAgent.AgentType.Model);
             //m_currentModel = newAgent;
             m_currentModels.Add(agent);
             // StreetSimModelMapper.M.MapMeshToModel(m_currentModel);
@@ -215,5 +218,10 @@ public class StreetSimAgentManager : MonoBehaviour
         DestroyAgent(m_currentModel);
         m_currentModel = null;
         */
+    }
+
+    public AudioClip GetRandomFootstep() {
+        int index = UnityEngine.Random.Range(0,footstepAudio.Length);
+        return footstepAudio[index];
     }
 }

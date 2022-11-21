@@ -22,6 +22,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
     private int currentTargetIndex = -1;
     private bool shouldLoop, shouldWarpOnLoop;
@@ -141,6 +142,7 @@ public class StreetSimAgent : MonoBehaviour
         Transform[] targets, 
         StreetSimTrial.ModelBehavior behavior, 
         float speed,
+        float canCrossDelay,
         bool shouldLoop, 
         bool shouldWarpOnLoop, 
         StreetSimTrial.TrialDirection direction,
@@ -165,17 +167,32 @@ public class StreetSimAgent : MonoBehaviour
         m_riskyButCrossing = false;
 
         m_canCross = false;
-        m_canCrossDelayTime = UnityEngine.Random.Range(0f,0.5f);
+        m_canCrossDelayTime = (canCrossDelay == 0f) 
+            ? UnityEngine.Random.Range(0f , canCrossDelay+0.05f)
+            : UnityEngine.Random.Range(canCrossDelay-0.05f,canCrossDelay+0.05f);
         m_canCrossDelayInitialized = false;
         m_canCrossDelayDone = false;
         StartCoroutine(CanCrossCoroutine());
-        /*
-        if (checkCarsCoroutine == null) {
-            checkCarsCoroutine = CheckCarsOnSide();
-            StartCoroutine(checkCarsCoroutine);
-        }
-        */
+        StartCoroutine(WalkAnimationStepAudio());
         SetNextTarget();
+    }
+
+    private IEnumerator WalkAnimationStepAudio() {
+        animator.SetBool("Crouch",false);
+        float prevFoot = Mathf.Sign(animator.GetFloat("JumpLeg"));
+        float curFoot = 0;
+        while(agent.enabled) {
+            curFoot = Mathf.Sign(animator.GetFloat("JumpLeg"));
+            if (curFoot != prevFoot) {
+                AudioClip footstep = StreetSimAgentManager.AM.GetRandomFootstep();
+                audioSource.PlayOneShot(footstep,1f);
+                //audioSource.clip = footstep;
+                //audioSource.Play();
+            }
+            prevFoot = curFoot;
+            yield return null;
+        }
+        yield return null;
     }
 
     private IEnumerator CanCrossCoroutine() {
