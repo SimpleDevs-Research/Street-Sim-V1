@@ -148,7 +148,7 @@ public class StreetSim : MonoBehaviour
         if(!trialAttempts.ContainsKey(xrExperimentID)) trialAttempts.Add(xrExperimentID, new List<TrialAttempt>());
         foreach(StreetSimTrial.StreetSimPrimaryModel model in trial.models) {
             ExperimentID modelID = model.agent.GetComponent<ExperimentID>();
-            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, model.speed, true, model.direction);
+            StreetSimAgentManager.AM.AddAgentManually(model.agent, model.modelPathIndex, model.modelBehavior, model.speed, true, model.direction, trial.modelConfidence);
             if(!trialAttempts.ContainsKey(modelID)) trialAttempts.Add(modelID, new List<TrialAttempt>());
         }
         //if (trial.primaryModel.agent != null) StreetSimAgentManager.AM.AddAgentManually(trial.primaryModel.agent, trial.primaryModel.modelPathIndex, trial.primaryModel.modelBehavior, true);
@@ -636,6 +636,10 @@ public class StreetSimTrial {
         Safe,
         Risky
     }
+    public enum ModelConfidence {
+        NotConfident,
+        Confident
+    }
     public enum ModelStartSide {
         Same,
         Opposite,
@@ -650,6 +654,8 @@ public class StreetSimTrial {
     public List<StreetSimPrimaryModel> models = new List<StreetSimPrimaryModel>();
     [Tooltip("Should the model start on the same or opposite direction as the player? THIS IS PURELY AESTHETIC AND DOES NOT ACTUALLY HAVE ANY FUNCTIONALITY IN UNITY")]
     public ModelStartSide modelStartOnSameSide;
+    [Tooltip("Should the model be not confident or confident?")]
+    public ModelConfidence modelConfidence;
     [Tooltip("What should the congestion of the cars be?")]
     public StreetSimCarManager.CarManagerStatus trafficCongestion;
     [Tooltip("What should the the congestion of the pedestrians be?")]
@@ -723,6 +729,7 @@ public class StreetSimTrial {
             m_duration,
             m_innerStartTimes,
             m_direction.ToString(),
+            modelConfidence.ToString(),
             trafficCongestion.ToString(),
             npcCongestion.ToString(),
             modelIDs,
@@ -762,6 +769,7 @@ public class TrialData {
     public float endTime;
     public float duration;
     public string direction;
+    public string modelConfidence;
     public string trafficCongestion;
     public string npcCongestion;
     public List<float> innerStartTimes;
@@ -787,6 +795,7 @@ public class TrialData {
         float duration,
         List<float> innerStartTimes,
         string direction,
+        string modelConfidence,
         string trafficCongestion,
         string npcCongestion,
         List<string> modelIDs,
@@ -801,7 +810,8 @@ public class TrialData {
         this.innerStartTimes = innerStartTimes;
 
         this.direction = direction;
-
+        
+        this.modelConfidence = modelConfidence;
         this.trafficCongestion = trafficCongestion;
         this.npcCongestion = npcCongestion;
 

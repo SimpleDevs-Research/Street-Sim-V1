@@ -65,7 +65,7 @@ public class TrafficSignalController : MonoBehaviour
     private SignalSession currentSession = null;
     private IEnumerator cycleSession = null;
 
-    [SerializeField] private Transform m_northCarDetector, m_southCarDetector, m_northCrossMidpoint, m_southCrossMidpoint;
+    [SerializeField] private Transform m_northCarDetector, m_southCarDetector, m_northCrossMidpoint, m_southCrossMidpoint, m_southCrossEndpoint, m_northCrossEndpoint;
     [SerializeField] private bool m_safeToCross = false; 
     public bool safeToCross {
         get { return m_safeToCross; }
@@ -85,13 +85,13 @@ public class TrafficSignalController : MonoBehaviour
         RaycastHit[] hitsSouth, hitsNorth;
         float distance = ((1.375f / agentSpeed) * 9f) + (timeOffset * agentSpeed * 9f);
         if (onSouth) {
-            hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position, m_southCrossMidpoint.forward, distance);
+            hitsSouth = Physics.RaycastAll(m_southCrossEndpoint.position, m_southCrossEndpoint.forward, distance);
             // hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position + (m_northCrossMidpoint.forward * distance), m_northCrossMidpoint.forward, distance); 
-            hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position, m_northCrossMidpoint.forward, distance*2f); 
+            hitsNorth = Physics.RaycastAll(m_northCrossEndpoint.position, m_northCrossEndpoint.forward, distance*2f); 
         } else {
             // hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position + (m_southCrossMidpoint.forward * distance), m_southCrossMidpoint.forward, distance);
-            hitsSouth = Physics.RaycastAll(m_southCrossMidpoint.position, m_southCrossMidpoint.forward, distance*2f);
-            hitsNorth = Physics.RaycastAll(m_northCrossMidpoint.position, m_northCrossMidpoint.forward, distance);
+            hitsSouth = Physics.RaycastAll(m_southCrossEndpoint.position, m_southCrossEndpoint.forward, distance*2f);
+            hitsNorth = Physics.RaycastAll(m_northCrossEndpoint.position, m_northCrossEndpoint.forward, distance);
         }
         return (hitsSouth.Length == 0 && hitsNorth.Length == 0);
     }

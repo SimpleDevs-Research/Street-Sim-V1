@@ -9783,6 +9783,89 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203591076}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &203665905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 203665908}
+  - component: {fileID: 203665907}
+  - component: {fileID: 203665906}
+  m_Layer: 0
+  m_Name: EastLookAtTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &203665906
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203665905}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &203665907
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203665905}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &203665908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203665905}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 20, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 602058445}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &203871970
 GameObject:
   m_ObjectHideFlags: 0
@@ -11170,6 +11253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c39fd272140523f4bb5fb01b712dcbaa, type: 3}
+--- !u!4 &267733553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7078475082790875425, guid: 7453babd318118a4cad18d115b23cffe, type: 3}
+  m_PrefabInstance: {fileID: 921956694}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &270106146
 GameObject:
   m_ObjectHideFlags: 0
@@ -11232,6 +11320,11 @@ MonoBehaviour:
   m_id: Crosswalk-NorthWestBack
   m_ref_id: 
   m_shouldTrack: 1
+--- !u!4 &270245554 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3378845109174832430, guid: fb628d5041b2fc6429e7805b3933a37b, type: 3}
+  m_PrefabInstance: {fileID: 1778595293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &271952046
 GameObject:
   m_ObjectHideFlags: 0
@@ -12663,6 +12756,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324649224}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &327198953 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 463196207933842092, guid: bb31fcfb6bacf5a42bb40d985082fd55, type: 3}
+  m_PrefabInstance: {fileID: 1140683905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &327369260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13458,6 +13556,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9838136ea12a5ac49b77559dd97bc948, type: 3}
+--- !u!4 &341867924 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2349032466760994011, guid: 9f41b7d35953807488c83b177bfd7c98, type: 3}
+  m_PrefabInstance: {fileID: 1731427726}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &346791704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13761,6 +13864,8 @@ MonoBehaviour:
   m_southCarDetector: {fileID: 1017018467}
   m_northCrossMidpoint: {fileID: 1676400529}
   m_southCrossMidpoint: {fileID: 2005626158}
+  m_southCrossEndpoint: {fileID: 703966053}
+  m_northCrossEndpoint: {fileID: 722421557}
   m_safeToCross: 0
 --- !u!4 &350964195
 Transform:
@@ -13777,6 +13882,11 @@ Transform:
   m_Father: {fileID: 1797238113}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &351139392 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1193273631866734514, guid: d399ea097cbea2a429f5c3f040bc22c5, type: 3}
+  m_PrefabInstance: {fileID: 755445671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &351689248
 GameObject:
   m_ObjectHideFlags: 0
@@ -14414,6 +14524,11 @@ MonoBehaviour:
   m_id: TransformTargetTester1
   m_ref_id: 
   m_shouldTrack: 1
+--- !u!4 &370241164 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1157544642751069995, guid: b6a16e95e55bff34abf3edd3a412e0be, type: 3}
+  m_PrefabInstance: {fileID: 663426343}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &373784404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19175,6 +19290,8 @@ Transform:
   - {fileID: 1081308732}
   - {fileID: 1140844081}
   - {fileID: 1908135112}
+  - {fileID: 1857138581}
+  - {fileID: 203665908}
   m_Father: {fileID: 1590871184}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20392,6 +20509,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &663426362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427351129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 370241164}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &667447376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 624287079632642091, guid: dfa449713c116de4f8be36b5529d383a, type: 3}
@@ -21729,6 +21861,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702819497}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &703966052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 703966053}
+  m_Layer: 29
+  m_Name: SouthCrossEndpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &703966053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703966052}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.5, y: 0.75, z: -1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &711766221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22100,6 +22263,37 @@ MonoBehaviour:
   trackRotation: 1
   trackLocalScale: 0
   dataList: []
+--- !u!1 &722421556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 722421557}
+  m_Layer: 29
+  m_Name: NorthCrossEndpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &722421557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722421556}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.5, y: 0.75, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &722422537
 GameObject:
   m_ObjectHideFlags: 0
@@ -22344,7 +22538,7 @@ Transform:
   m_Children:
   - {fileID: 1738568886}
   m_Father: {fileID: 1590871184}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &729035442 stripped
 Transform:
@@ -22858,6 +23052,11 @@ MonoBehaviour:
   m_id: NorthTree2Mesh
   m_ref_id: NorthTree2
   m_shouldTrack: 1
+--- !u!4 &744759907 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3532391818839294677, guid: 6bddd7121ca20604a9aee5fc47488fb1, type: 3}
+  m_PrefabInstance: {fileID: 808076269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &744792445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8431274330711720882, guid: 45702ee9e2f616549a3698645387c034, type: 3}
@@ -23472,7 +23671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24193,9 +24392,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 10
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -24218,9 +24425,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -25925,6 +26140,11 @@ MonoBehaviour:
   m_id: LowMale3_RightAnkle
   m_ref_id: 
   m_shouldTrack: 1
+--- !u!4 &896912932 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7210237910916350364, guid: 47980d96e1bfa1f489e2148ef21680c6, type: 3}
+  m_PrefabInstance: {fileID: 906129841}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &902776870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28537,6 +28757,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 336f15b00436d4e40b25bd66c585b26a, type: 3}
+--- !u!4 &990319240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1520440261063294323, guid: c32e4e7c32fe2e745ae13d2ed2b71a6b, type: 3}
+  m_PrefabInstance: {fileID: 682334153}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &990470665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6559892761097264361, guid: 5caa8ad4fd352874ab4e7f700a3528fc, type: 3}
@@ -28773,6 +28998,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &998201952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146566074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 267733553}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1001 &1003082813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29162,7 +29402,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1021262760
 GameObject:
@@ -48647,6 +48887,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1205305596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238258477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 896912932}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &1205312508
 GameObject:
   m_ObjectHideFlags: 0
@@ -48851,6 +49106,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1205578605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114454234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1478736453}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &1217626143
 GameObject:
   m_ObjectHideFlags: 0
@@ -49485,6 +49755,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a704461211d274db2d215875da6a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1244608906 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1380140479075797613, guid: 4526466ac3639b6449bcd2831de5b07b, type: 3}
+  m_PrefabInstance: {fileID: 1463765682}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1252695358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51406,6 +51681,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2842821354180643143, guid: 14f48eadb9aa25547990dd1c0d86334d, type: 3}
   m_PrefabInstance: {fileID: 4756320243942558674}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1346492104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1346492105}
+  - component: {fileID: 1346492108}
+  - component: {fileID: 1346492107}
+  - component: {fileID: 1346492106}
+  m_Layer: 29
+  m_Name: RoadMark (16)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1346492105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346492104}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 3, y: 0, z: 0}
+  m_LocalScale: {x: 6.5, y: 0.01, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &1346492106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346492104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1346492107
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346492104}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8e8bca684736f46909cc8ddcfaea0c7a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1346492108
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346492104}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1351293310
 GameObject:
   m_ObjectHideFlags: 0
@@ -57260,6 +57632,8 @@ MonoBehaviour:
     - {fileID: 2008022798}
     pathColor: {r: 1, g: 0.7533275, b: 0, a: 1}
     pathWidth: 5
+  WestLookAtTarget: {fileID: 1857138581}
+  EastLookAtTarget: {fileID: 203665908}
   footstepAudio:
   - {fileID: 8300000, guid: 71fc95f038e309a478eec72c33eba9b4, type: 3}
   - {fileID: 8300000, guid: e136cb871ce788946930ecd33e470a85, type: 3}
@@ -58832,6 +59206,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1450241810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450241795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 990319240}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!114 &1450709798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59528,6 +59917,11 @@ Transform:
   m_Father: {fileID: 2045111414}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1478736453 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7289605179046524080, guid: b20f8e76d9da0414a84e2091aaf8a872, type: 3}
+  m_PrefabInstance: {fileID: 354382004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1481570326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5cbc6bf33c4827a45ad8893a0a130c0f, type: 3}
@@ -61256,6 +61650,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdd87336bafd8e746b8e4d90eb20e37b, type: 3}
+--- !u!4 &1580234170 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6065323208001115533, guid: 0838cb6a963e1bd41be52d1f432aafee, type: 3}
+  m_PrefabInstance: {fileID: 671539624}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1582985097
 GameObject:
   m_ObjectHideFlags: 0
@@ -61484,10 +61883,10 @@ Transform:
   m_Children:
   - {fileID: 602058445}
   - {fileID: 2030131861}
-  - {fileID: 630232392}
-  - {fileID: 1301572335}
   - {fileID: 1673923323}
   - {fileID: 727611623}
+  - {fileID: 630232392}
+  - {fileID: 1301572335}
   - {fileID: 1748340453}
   - {fileID: 1182431077}
   - {fileID: 2045111414}
@@ -63178,7 +63577,7 @@ Transform:
   - {fileID: 869892541}
   - {fileID: 1983839319}
   m_Father: {fileID: 1590871184}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1674518273 stripped
 GameObject:
@@ -63281,6 +63680,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1674518288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674518273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 351139392}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!114 &1675388914 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3768517212799132479, guid: 07f201e8226aef2429064a76e9f75e14, type: 3}
@@ -63429,6 +63843,11 @@ Transform:
   m_Father: {fileID: 2030131861}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!4 &1677211044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 800379277262929980, guid: ec1578148f4255d4da6c3692965ffef9, type: 3}
+  m_PrefabInstance: {fileID: 1203156142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1677408799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5116513396555620195, guid: b1841d84422d33c45b6ad4f1717e0604, type: 3}
@@ -64343,6 +64762,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1731427745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628828476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 341867924}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1001 &1731813438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64892,6 +65326,11 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7476230369877613493, guid: eb7dd1c9dceae554e9a1449f314b898b, type: 3}
   m_PrefabInstance: {fileID: 1194812016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1747047115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2877861188904450105, guid: 6a112f14a8811fd43a93785196cbc978, type: 3}
+  m_PrefabInstance: {fileID: 977170345}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1748340452
 GameObject:
@@ -65510,9 +65949,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -66408,7 +66855,7 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: GazeData_ignore
-  m_participantName: Prelim2
+  m_participantName: Prelim3
   m_trialGroupToTest: 1
   m_initialSetups:
   - name: Initial_1
@@ -66419,6 +66866,7 @@ MonoBehaviour:
       modelPathIndex: 0
     models: []
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 0
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66435,6 +66883,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66451,6 +66900,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66465,6 +66915,7 @@ MonoBehaviour:
       modelPathIndex: 0
     models: []
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66477,6 +66928,7 @@ MonoBehaviour:
       modelPathIndex: 0
     models: []
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66493,6 +66945,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66509,6 +66962,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66525,6 +66979,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66541,6 +66996,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66557,6 +67013,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66573,6 +67030,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66589,6 +67047,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66605,6 +67064,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66621,6 +67081,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66637,6 +67098,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66653,6 +67115,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66669,6 +67132,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66685,6 +67149,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66701,6 +67166,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66717,6 +67183,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66733,6 +67200,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66761,6 +67229,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66789,6 +67258,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66817,6 +67287,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66845,6 +67316,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66873,6 +67345,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66901,6 +67374,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66929,6 +67403,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66957,6 +67432,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -66985,6 +67461,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67013,6 +67490,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67041,6 +67519,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67069,6 +67548,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67097,6 +67577,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67125,6 +67606,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67153,6 +67635,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67181,6 +67664,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67209,6 +67693,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67237,6 +67722,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67265,6 +67751,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67293,6 +67780,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67321,6 +67809,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67349,6 +67838,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67377,6 +67867,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67405,6 +67896,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67433,6 +67925,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67461,6 +67954,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67489,6 +67983,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67517,6 +68012,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67545,6 +68041,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67573,6 +68070,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67601,6 +68099,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67629,6 +68128,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67657,6 +68157,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67685,6 +68186,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67713,6 +68215,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67741,6 +68244,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 2
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67754,6 +68258,7 @@ MonoBehaviour:
       modelPathIndex: 0
     models: []
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67770,6 +68275,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67786,6 +68292,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67802,6 +68309,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67818,6 +68326,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67834,6 +68343,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67850,6 +68360,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67866,6 +68377,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67882,6 +68394,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 0
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67910,6 +68423,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67938,6 +68452,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67966,6 +68481,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -67994,6 +68510,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68022,6 +68539,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68050,6 +68568,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68078,6 +68597,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68106,6 +68626,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68134,6 +68655,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68162,6 +68684,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68190,6 +68713,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68218,6 +68742,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68246,6 +68771,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68274,6 +68800,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68302,6 +68829,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68330,6 +68858,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68358,6 +68887,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68386,6 +68916,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68414,6 +68945,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68442,6 +68974,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68470,6 +69003,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68498,6 +69032,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68526,6 +69061,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68554,6 +69090,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68582,6 +69119,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68610,6 +69148,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68638,6 +69177,7 @@ MonoBehaviour:
       startOnSameSideAsPlayer: 1
       modelPathIndex: 4
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 1
     npcCongestion: 0
     carSignalGoTime: 30
@@ -68671,6 +69211,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68699,6 +69240,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68727,6 +69269,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68739,6 +69282,7 @@ MonoBehaviour:
         modelPathIndex: 0
       models: []
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68767,6 +69311,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68783,6 +69328,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68811,6 +69357,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68839,6 +69386,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68867,6 +69415,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68883,6 +69432,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68911,6 +69461,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68939,6 +69490,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68967,6 +69519,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -68983,6 +69536,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69011,6 +69565,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69039,6 +69594,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69067,6 +69623,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69095,6 +69652,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69125,6 +69683,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69141,6 +69700,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69169,6 +69729,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69185,6 +69746,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69213,6 +69775,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69241,6 +69804,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69269,6 +69833,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69297,6 +69862,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69325,6 +69891,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69341,6 +69908,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69369,6 +69937,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69397,6 +69966,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69425,6 +69995,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69453,6 +70024,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69469,6 +70041,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69497,6 +70070,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69513,6 +70087,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69541,6 +70116,7 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
+      modelConfidence: 0
       trafficCongestion: 1
       npcCongestion: 0
       carSignalGoTime: 30
@@ -69563,6 +70139,7 @@ MonoBehaviour:
       modelPathIndex: 0
     models: []
     modelStartOnSameSide: 0
+    modelConfidence: 0
     trafficCongestion: 0
     npcCongestion: 0
     carSignalGoTime: 30
@@ -70334,6 +70911,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1808766883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808766868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1677211044}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &1809319559
 GameObject:
   m_ObjectHideFlags: 0
@@ -71722,11 +72314,109 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1854401127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854401112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1747047115}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!4 &1856243005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 690262b0d09c60646acb0942a03459de, type: 3}
   m_PrefabInstance: {fileID: 187105516}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1857138578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1857138581}
+  - component: {fileID: 1857138580}
+  - component: {fileID: 1857138579}
+  m_Layer: 0
+  m_Name: WestLookAtTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1857138579
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857138578}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1857138580
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857138578}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1857138581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857138578}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -20, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 602058445}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1857167474 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 18900531663122111, guid: 002956c0b363d334ca4b18b58475fc1c, type: 3}
@@ -71830,6 +72520,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400066, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
   m_PrefabInstance: {fileID: 2061541221}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1863627089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1863627090}
+  - component: {fileID: 1863627093}
+  - component: {fileID: 1863627092}
+  - component: {fileID: 1863627091}
+  m_Layer: 29
+  m_Name: RoadMark (17)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1863627090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863627089}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalScale: {x: 6.5, y: 0.01, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030131861}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &1863627091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863627089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1863627092
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863627089}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8e8bca684736f46909cc8ddcfaea0c7a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1863627093
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863627089}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1863685705 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1492798767141990770, guid: fc44cfeda3a9d004da849c30f13795fb, type: 3}
@@ -72033,6 +72820,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1865933773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865933758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1244608906}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &1866463281
 GameObject:
   m_ObjectHideFlags: 0
@@ -72886,6 +73688,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1894600311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872422628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 270245554}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!114 &1895122860 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5256246710215851843, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
@@ -73908,7 +74725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4576080043134131743, guid: e1e12512a0f692245b0b7f8c014dc360, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74546,6 +75363,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1946061862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946061847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 2049751470}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!4 &1946137698 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8753452145167439809, guid: eba0d0f2a19981d4d879e32a4e10733f, type: 3}
@@ -75387,6 +76219,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1978154667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931569810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 1580234170}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1001 &1979571739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76117,6 +76964,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1997342016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997342001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 327198953}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &1997510523
 GameObject:
   m_ObjectHideFlags: 0
@@ -76542,6 +77404,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1999270050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812998163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 744759907}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!1 &2002624842 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100074, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
@@ -76832,7 +77709,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030131861}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &2007709111
 GameObject:
@@ -77406,8 +78283,12 @@ Transform:
   - {fileID: 1075097359}
   - {fileID: 2054990751}
   - {fileID: 1676400529}
+  - {fileID: 722421557}
   - {fileID: 1017018467}
   - {fileID: 2005626158}
+  - {fileID: 703966053}
+  - {fileID: 1346492105}
+  - {fileID: 1863627090}
   m_Father: {fileID: 1590871184}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78014,6 +78895,11 @@ Transform:
   m_Father: {fileID: 1590871184}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 75, y: 45, z: 0}
+--- !u!4 &2049751470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2865743480066862907, guid: 2705d2e628a6be24ea53c4426227afb9, type: 3}
+  m_PrefabInstance: {fileID: 675436428}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2054830743
 GameObject:
   m_ObjectHideFlags: 0
@@ -78409,9 +79295,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -78788,6 +79682,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a704461211d274db2d215875da6a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2082655772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5348190542951433225, guid: 29af4681c24020b4bb22adda0b2e7c61, type: 3}
+  m_PrefabInstance: {fileID: 1526267880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2084373848
 GameObject:
   m_ObjectHideFlags: 0
@@ -79236,6 +80135,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2093847532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956760427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396feb69bb329a46a0ce9fe7b5c90b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headTransform: {fileID: 2082655772}
+  currentTargetTransform: {fileID: 0}
+  lookWeight: 0
 --- !u!4 &2096940194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dcdc639184137d740a8f073a1b9e92b3, type: 3}

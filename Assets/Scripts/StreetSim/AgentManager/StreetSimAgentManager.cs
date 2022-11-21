@@ -41,6 +41,8 @@ public class StreetSimAgentManager : MonoBehaviour
     private List<StreetSimAgent> m_currentModels = new List<StreetSimAgent>();
     public List<StreetSimAgent> currentModels { get=>m_currentModels; set{} }
 
+    public Transform WestLookAtTarget, EastLookAtTarget;
+
     [SerializeField] private AudioClip[] footstepAudio;
 
     private void Awake() {
@@ -118,6 +120,7 @@ public class StreetSimAgentManager : MonoBehaviour
         StreetSimAgent agent,
         Transform[] path,
         StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe,
+        StreetSimTrial.ModelConfidence confidence = StreetSimTrial.ModelConfidence.NotConfident,
         float speed = 0.4f,
         float canCrossDelay = 0f,
         bool shouldLoop = false,
@@ -128,7 +131,7 @@ public class StreetSimAgentManager : MonoBehaviour
     ) {
         agent.transform.position = path[0].position;
         agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
+        agent.Initialize(path, behavior, confidence, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -166,7 +169,7 @@ public class StreetSimAgentManager : MonoBehaviour
     }
     */
 
-    public void AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, float agentSpeed = 0.4f, bool isModel = false, StreetSimTrial.TrialDirection direction = StreetSimTrial.TrialDirection.NorthToSouth) {
+    public void AddAgentManually(StreetSimAgent agent, int pathIndex, StreetSimTrial.ModelBehavior behavior = StreetSimTrial.ModelBehavior.Safe, float agentSpeed = 0.4f, bool isModel = false, StreetSimTrial.TrialDirection direction = StreetSimTrial.TrialDirection.NorthToSouth, StreetSimTrial.ModelConfidence confidence = StreetSimTrial.ModelConfidence.NotConfident) {
         //StreetSimAgent newAgent = default(StreetSimAgent);
         if (isModel) {
             List<NPCPath> availablePaths = modelPathsByDirection[direction];
@@ -178,7 +181,7 @@ public class StreetSimAgentManager : MonoBehaviour
             //DestroyModel();
             if (m_currentModels.Contains(agent)) DestroyAgent(agent);
             // PrintAgent(agent,modelPaths[pathIndex].points, out newAgent, behavior, false, false, false);
-            InitializeAgent(agent, availablePaths[pathIndex].points, behavior, agentSpeed, 0.5f*m_currentModels.Count, false, false, false, direction, StreetSimAgent.AgentType.Model);
+            InitializeAgent(agent, availablePaths[pathIndex].points, behavior, confidence, agentSpeed, 0.5f*m_currentModels.Count, false, false, false, direction, StreetSimAgent.AgentType.Model);
             //m_currentModel = newAgent;
             m_currentModels.Add(agent);
             // StreetSimModelMapper.M.MapMeshToModel(m_currentModel);

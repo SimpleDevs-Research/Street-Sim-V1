@@ -21,6 +21,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
+    private AgentHeadTurn headTurn;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
@@ -36,6 +37,7 @@ public class StreetSimAgent : MonoBehaviour
 
     [SerializeField] private StreetSimTrial.ModelBehavior behavior;
     [SerializeField] private StreetSimTrial.TrialDirection direction;
+    [SerializeField] private StreetSimTrial.ModelConfidence confidence;
 
     private IEnumerator checkCarsCoroutine = null;
     public LayerMask carMask;
@@ -136,11 +138,13 @@ public class StreetSimAgent : MonoBehaviour
         if (character == null) character = GetComponent<ThirdPersonCharacter>();
         if (animator == null) animator = GetComponent<Animator>();
         if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
+        headTurn = GetComponent<AgentHeadTurn>();
     }
 
     public void Initialize(
         Transform[] targets, 
         StreetSimTrial.ModelBehavior behavior, 
+        StreetSimTrial.ModelConfidence confidence,
         float speed,
         float canCrossDelay,
         bool shouldLoop, 
@@ -152,6 +156,7 @@ public class StreetSimAgent : MonoBehaviour
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
         this.behavior = behavior;
+        this.confidence = confidence;
         this.direction = direction;
         this.m_agentType = s_agentType;
         collider.enabled = true;
@@ -174,6 +179,9 @@ public class StreetSimAgent : MonoBehaviour
         m_canCrossDelayDone = false;
         StartCoroutine(CanCrossCoroutine());
         StartCoroutine(WalkAnimationStepAudio());
+        if (this.confidence == StreetSimTrial.ModelConfidence.NotConfident) {
+            StartCoroutine(BeCautious());
+        }
         SetNextTarget();
     }
 
@@ -193,6 +201,33 @@ public class StreetSimAgent : MonoBehaviour
             yield return null;
         }
         yield return null;
+    }
+
+    private IEnumerator BeCautious() {
+        // We're waiting
+        //agent.speed = m_originalSpeed * 0.9f;
+        headTurn.currentTargetTransform = (UnityEngine.Random.Range(0f,1f) > 0.5f) 
+            ? StreetSimAgentManager.AM.EastLookAtTarget
+            : StreetSimAgentManager.AM.WestLookAtTarget;
+        while(true) {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(2.5f,4f));
+            if (m_riskyButCrossing) {
+                yield return null;
+                break;
+            }
+            // Loop back and forth between targets
+            headTurn.currentTargetTransform = (headTurn.currentTargetTransform == StreetSimAgentManager.AM.WestLookAtTarget) 
+                ? StreetSimAgentManager.AM.EastLookAtTarget
+                : StreetSimAgentManager.AM.WestLookAtTarget;
+        }
+        //yield return null;
+        while(true) {
+            yield return null;
+            if (m_canCrossDelayDone) break;
+        }
+        yield return new WaitForSeconds(1f);
+        headTurn.currentTargetTransform = null;
+        //agent.speed = m_originalSpeed;
     }
 
     private IEnumerator CanCrossCoroutine() {
@@ -227,9 +262,86 @@ public class StreetSimAgent : MonoBehaviour
             } else {
                 // We haven't reached our target yet, so let's adjust the speed
                 // We need to first check if we're normally walking or if we're at a crosswalk
+                // At this point, it's been deemed safe to cross including the cross delay time. We're just waiting for the right moment.
                 if (forwardPointer.raycastTarget != null || downwardPointer.raycastTarget != null) {
                     // We're at a crosswalk - we need to worry about the crosswalk signals
+                    // If the light is safe, we'll cross no matter what.
+                    switch(TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff).status) {
+                        case TrafficSignal.TrafficSignalStatus.Go:
+                            agent.isStopped = false;
+                            character.Move(agent.desiredVelocity,false,false);
+                            break;
+                        case TrafficSignal.TrafficSignalStatus.Warning:
+                            agent.isStopped = false;
+                            character.Move(agent.desiredVelocity,false,false);
+                            break;
+                        default:
+                            // We now need to worry based on the participant's behavior
+                            switch(behavior) {
+                                case StreetSimTrial.ModelBehavior.Risky:
+                                    // We need to wait until it's safe to cross
+                                    // Firstly, we have a buffer we need to get done with
+                                    if (!m_canCross) {
+                                        character.Move(Vector3.zero,false,false);
+                                        agent.isStopped = true;
+                                        break;
+                                    }
+                                    // At this point, we need to start looking left and right
+                                    safe = TrafficSignalController.current.GetSafety(transform.position.z < 0f, agent.speed, m_canCrossDelayTime);
+                                    // m_riskyButCrossing becomes and stays true at the moment it calculates that it's safe
+                                    m_riskyButCrossing = m_riskyButCrossing || safe;
+                                    // If it's NOT riskyButCrossable, we wait still
+                                    if (!m_riskyButCrossing) {
+                                        character.Move(Vector3.zero,false,false);
+                                        agent.isStopped = true;
+                                        break;
+                                    }
+                                    // If it's riskyButCrossable, we need to wait for a tad until the cross delay is completed
+                                    if (!m_canCrossDelayInitialized) {
+                                        character.Move(Vector3.zero,false,false);
+                                        agent.isStopped = true;
+                                        m_canCrossDelayInitialized = true;
+                                        StartCoroutine(DelayCrossing());
+                                        break;
+                                    }
+                                    if (m_canCrossDelayDone) {
+                                        agent.isStopped = false;
+                                        character.Move(agent.desiredVelocity,false,false);
+                                        break;
+                                    }
+                                    character.Move(Vector3.zero,false,false);
+                                    agent.isStopped = true;
+                                    break;
+                                default:
+                                    // We simply wait until it's time to cross
+                                    character.Move(Vector3.zero,false,false);
+                                    agent.isStopped = true;
+                                    break;
+                            }
+                            break;
+                    }
+                    /*
+                    if (TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff).status == TrafficSignal.TrafficSignalStatus.Go) {
+                    }
+                    
+
                     // This will be entirely dependent on the model's behavior, which we've passed during initialization
+                    if (m_riskyButCrossing && m_canCrossDelayDone) {
+                        if (m_canCrossDelayDone) {
+                            agent.isStopped = false;
+                            character.Move(agent.desiredVelocity,false,false);
+                        }
+                        else if (!m_canCrossDelayInitialized) {
+                            Debug.Log("CanCrossDelayInitialized");
+                            character.Move(Vector3.zero,false,false);
+                            agent.isStopped = true;
+                            m_canCrossDelayInitialized = true;
+                            StartCoroutine(DelayCrossing());
+                        } else {
+                            character.Move(Vector3.zero,false,false);
+                            agent.isStopped = true;
+                        }
+                    }
                     switch(behavior) {
                         case StreetSimTrial.ModelBehavior.Risky:
                             // Prevent the model from doing anything if we can't cross just yet because of the initial delay
@@ -238,26 +350,17 @@ public class StreetSimAgent : MonoBehaviour
                                 agent.isStopped = true;
                                 break;
                             }
+                            if (TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff).status == TrafficSignal.TrafficSignalStatus.Go) {
+                                m_riskyButCrossing = true;
+                                safe = true;
+                                agent.isStopped = false;
+                                character.Move(agent.desiredVelocity,false,false);
+                                break;
+                            }
                             // Calculate safety of crosswalk traversal, including the delay time
                             safe = TrafficSignalController.current.GetSafety(transform.position.z < 0f, agent.speed, m_canCrossDelayTime);
                             // m_riskyButCrossing becomes and stays true at the moment it calculates that it's safe
                             m_riskyButCrossing = m_riskyButCrossing || safe;
-                            // If it's safe, but we haven't fired the coroutine to start the delay countdown, do it.
-                            if (m_riskyButCrossing && !m_canCrossDelayInitialized) {
-                                character.Move(Vector3.zero,false,false);
-                                agent.isStopped = true;
-                                m_canCrossDelayInitialized = true;
-                                StartCoroutine(DelayCrossing());
-                                break;
-                            }
-                            // At this point, it's been deemed safe to cross including the cross delay time. We're just waiting for the right moment.
-                            if (m_riskyButCrossing && m_canCrossDelayDone) {
-                                agent.isStopped = false;
-                                character.Move(agent.desiredVelocity,false,false);
-                            } else {
-                                character.Move(Vector3.zero,false,false);
-                                agent.isStopped = true;
-                            }
                             break;
                         case StreetSimTrial.ModelBehavior.Safe:
                             // We need to intuite which crosswalk signal to look at. We can use the dot product for that. CLosest to -1 is the most relevant
@@ -266,11 +369,13 @@ public class StreetSimAgent : MonoBehaviour
                             switch(signal.status) {
                                 case TrafficSignal.TrafficSignalStatus.Go:
                                     // GO GO GO
+                                    m_riskyButCrossing = true;
                                     agent.isStopped = false;
                                     character.Move(agent.desiredVelocity,false,false);
                                     break;
                                 case TrafficSignal.TrafficSignalStatus.Warning:
                                     // HURRY HURRY HURRY
+                                    m_riskyButCrossing = true;
                                     agent.isStopped = false;
                                     character.Move(agent.desiredVelocity,false,false);
                                     break;
@@ -278,9 +383,11 @@ public class StreetSimAgent : MonoBehaviour
                                     // STOOOOOP... unless you're still on the crosswalk
                                     if (downwardPointer.raycastTarget != null) {
                                         // GET OFF THE CROSSWALK
+                                        m_riskyButCrossing = true;
                                         agent.isStopped = false;
                                         character.Move(agent.desiredVelocity * 2f,false,false);
                                     } else {
+                                        m_riskyButCrossing = false;
                                         character.Move(Vector3.zero,false,false);
                                         agent.isStopped = true;
                                     }
@@ -288,6 +395,7 @@ public class StreetSimAgent : MonoBehaviour
                             }
                             break;
                     }
+                    */
                 } 
                 else {
                     // No worries, we're not at a crosswalk, so we can move at our desired velocity

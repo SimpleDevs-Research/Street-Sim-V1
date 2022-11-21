@@ -98,7 +98,7 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.Initialize();
 
                         activeCars.Add(nextCar);
-                        timeToNextCarSpawn = UnityEngine.Random.Range(0f,10f);
+                        timeToNextCarSpawn = UnityEngine.Random.Range(1f,10f);
                         yield return new WaitForSeconds(timeToNextCarSpawn);
                     }
                 }
