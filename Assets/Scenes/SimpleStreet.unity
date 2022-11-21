@@ -6206,6 +6206,10 @@ PrefabInstance:
       propertyPath: gazeColliders.Array.data[0]
       value: 
       objectReference: {fileID: 1132109247}
+    - target: {fileID: -3810778395193247194, guid: a185bd1d3da79e745a44f77d6f0e3c9b, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2135178410316198394, guid: a185bd1d3da79e745a44f77d6f0e3c9b, type: 3}
       propertyPath: m_Name
       value: Sedan2
@@ -7348,6 +7352,10 @@ PrefabInstance:
       propertyPath: gazeColliders.Array.data[0]
       value: 
       objectReference: {fileID: 1414364143}
+    - target: {fileID: 6432442247695379493, guid: eba0d0f2a19981d4d879e32a4e10733f, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7219448189035334521, guid: eba0d0f2a19981d4d879e32a4e10733f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -9980,6 +9988,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6952370336747516372, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6272492818190914042, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
@@ -11382,6 +11394,10 @@ PrefabInstance:
     - target: {fileID: -5595303653871930347, guid: 0b9e6839198e511448424ceb37e366a0, type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4989344146151290616, guid: 0b9e6839198e511448424ceb37e366a0, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1632132383209413786, guid: 0b9e6839198e511448424ceb37e366a0, type: 3}
       propertyPath: endTarget
@@ -13217,6 +13233,10 @@ PrefabInstance:
     - target: {fileID: 5447054013038987263, guid: 1cb4fb5a540d4aa478ddea34362dcdc4, type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744332034068121147, guid: 1cb4fb5a540d4aa478ddea34362dcdc4, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5447054013038987263, guid: 1cb4fb5a540d4aa478ddea34362dcdc4, type: 3}
@@ -15963,6 +15983,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -7123629029692706384, guid: 61919a7f446e89743bbfdc861777e090, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3658703256462473938, guid: 61919a7f446e89743bbfdc861777e090, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -18466,6 +18490,10 @@ PrefabInstance:
     - target: {fileID: 4388943262470956893, guid: c535a523bb1ed5740b3e85bfe108b8c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705388535075816130, guid: c535a523bb1ed5740b3e85bfe108b8c9, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7830836101417954494, guid: c535a523bb1ed5740b3e85bfe108b8c9, type: 3}
       propertyPath: m_Constraints
@@ -21104,6 +21132,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -7511410382322352084, guid: f2b88ae7247bd224ba7feb624a0a8481, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1127597327182331159, guid: f2b88ae7247bd224ba7feb624a0a8481, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -24141,17 +24173,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 10
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -24174,17 +24198,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -26070,6 +26086,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -6329943933588982971, guid: c8e6834ca8b864541b263338b9ba24d5, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: -302229527815534875, guid: c8e6834ca8b864541b263338b9ba24d5, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -27556,6 +27576,10 @@ PrefabInstance:
       propertyPath: gazeColliders.Array.data[0]
       value: 
       objectReference: {fileID: 1261579600}
+    - target: {fileID: 2192876124082785637, guid: d6b8084d00c906448a476941a45498c9, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5661936660668155098, guid: d6b8084d00c906448a476941a45498c9, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -27979,6 +28003,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4878529355835820132, guid: da24c6ca0cc6eaf40b34519472921f7c, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6317071892954951341, guid: da24c6ca0cc6eaf40b34519472921f7c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -28022,6 +28050,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -6770593643973776731, guid: eab93388b0a7c7f4da86424b89ba4904, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2751721365506043959, guid: eab93388b0a7c7f4da86424b89ba4904, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -29249,6 +29281,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -3884753852499553189, guid: b1841d84422d33c45b6ad4f1717e0604, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: -1713971601338934066, guid: b1841d84422d33c45b6ad4f1717e0604, type: 3}
       propertyPath: endTarget
       value: 
@@ -39633,6 +39669,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -8096553958221371401, guid: 08a061aa4c2b4b14abe48ce30ff1e2e4, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: -7799292230791287540, guid: 08a061aa4c2b4b14abe48ce30ff1e2e4, type: 3}
       propertyPath: endTarget
       value: 
@@ -40269,6 +40309,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8701898764415983037, guid: dfa449713c116de4f8be36b5529d383a, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5914740481367316120, guid: dfa449713c116de4f8be36b5529d383a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dfa449713c116de4f8be36b5529d383a, type: 3}
@@ -40286,6 +40330,10 @@ PrefabInstance:
     - target: {fileID: 2615496594104393444, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4562488653207351180, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5464751372144889235, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
       propertyPath: endTarget
@@ -41841,6 +41889,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -2281273946824332066, guid: 45702ee9e2f616549a3698645387c034, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2622055668310881139, guid: 45702ee9e2f616549a3698645387c034, type: 3}
       propertyPath: endTarget
       value: 
@@ -43186,6 +43238,10 @@ PrefabInstance:
       propertyPath: gazeColliders.Array.data[0]
       value: 
       objectReference: {fileID: 1787531193}
+    - target: {fileID: 5254838319026204678, guid: eb7dd1c9dceae554e9a1449f314b898b, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7476230369877613493, guid: eb7dd1c9dceae554e9a1449f314b898b, type: 3}
       propertyPath: m_Name
       value: MicroBus4
@@ -43260,6 +43316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -8403352568516763610, guid: 644b454b46a942343829ada28fabcfe8, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 611321325868996772, guid: 644b454b46a942343829ada28fabcfe8, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -49047,6 +49107,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8283639847882004811, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3384581454529063458, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
@@ -51044,6 +51108,10 @@ PrefabInstance:
     - target: {fileID: 3093605862813230357, guid: d2e42b170d6e31b459fb8065017aef0a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490849485891859636, guid: d2e42b170d6e31b459fb8065017aef0a, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5289979120310994307, guid: d2e42b170d6e31b459fb8065017aef0a, type: 3}
       propertyPath: m_IsActive
@@ -59637,6 +59705,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: -926418822590774888, guid: 5caa8ad4fd352874ab4e7f700a3528fc, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 11996585928827867, guid: 5caa8ad4fd352874ab4e7f700a3528fc, type: 3}
       propertyPath: endTarget
       value: 
@@ -61411,6 +61483,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7549920}
     m_Modifications:
+    - target: {fileID: 3681727062117821815, guid: 162a81c32c2144e4ea48798c01e02f79, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3727724228914116822, guid: 162a81c32c2144e4ea48798c01e02f79, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -62496,6 +62572,10 @@ PrefabInstance:
     - target: {fileID: 5159472777601933544, guid: fc44cfeda3a9d004da849c30f13795fb, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430880789529868296, guid: fc44cfeda3a9d004da849c30f13795fb, type: 3}
+      propertyPath: MaxDistance
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 494461569748565166, guid: fc44cfeda3a9d004da849c30f13795fb, type: 3}
@@ -65358,17 +65438,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -76280,6 +76352,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9212192464473295087, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -1358834920424286606, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
@@ -78257,17 +78333,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
