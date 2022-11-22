@@ -14,6 +14,24 @@ public class CarPath {
     public RemoteCollider startCollisionDetector;
     public Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
 }
+
+// UNKNOWN IF USED, CHEKC BACK LATER
+[System.Serializable]
+public class CarGroup {
+    public List<StreetSimCar> cars;
+    public CarGroup() {
+        cars = new List<StreetSimCar>();
+    }
+    public CarGroup(StreetSimCar firstCar) {
+        cars = new List<StreetSimCar>();
+        cars.Add(firstCar);
+    }
+    public CarGroup(List<StreetSimCar> cars) {
+        this.cars = cars;
+    }
+}
+
+
 [System.Serializable]
 public class CarRow {
     public string name;
@@ -46,20 +64,42 @@ public class StreetSimCarManager : MonoBehaviour
 
     [SerializeField] private List<StreetSimCar> activeCars = new List<StreetSimCar>();
     [SerializeField] private Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
-    private Dictionary<CarManagerStatus, Vector2> waitValues = new Dictionary<CarManagerStatus, Vector2> {
-        { CarManagerStatus.Off, new Vector2(0f,0f) },
-        { CarManagerStatus.NoCongestion, new Vector2(10f, 5f) },
+    private Dictionary<CarManagerStatus, Vector3> waitValues = new Dictionary<CarManagerStatus, Vector3> {
+        { CarManagerStatus.Off, new Vector3(0f,0f,0f) },
+        { CarManagerStatus.NoCongestion, new Vector3(10f, 10f, 3f) },
         //{ CarManagerStatus.MinimalCongestion, new Vector2(4f,10f) },
-        { CarManagerStatus.MinimalCongestion, new Vector2(10f,5f) },
-        { CarManagerStatus.SomeCongestion, new Vector2(2f,15f) },
-        { CarManagerStatus.Congested, new Vector2(1f,25f) }
+        { CarManagerStatus.MinimalCongestion, new Vector3(10f,5f,6f) },
+        { CarManagerStatus.SomeCongestion, new Vector3(2f,15f,7f) },
+        { CarManagerStatus.Congested, new Vector3(1f,25f,10f) }
     };
     // x = wait time between actually spawning cars
     // y = total number of active cars allowed on the road.
+    // z = counter for how many cars need to be spawned before the manager takes a break from spawning
 
     [SerializeField] private Transform InactiveCarTargetRef;
     [SerializeField] private List<CarRow> m_carHistory = new List<CarRow>();
     public List<CarRow> carHistory { get=>m_carHistory; set{} }
+
+    [SerializeField] private int carSpawnCounter = 0;
+    [SerializeField] private float carPathDecider = 0f;
+
+    //[SerializeField] private List<CarGroup> m_carGroups = new List<CarGroup>();
+
+    // How this works:
+    // The cars will move in pelotons, or groups
+    // A single group can hold between 1 to many cars, depending on the carmanager status defined. (specificaly, that `y` value)
+    
+    // We have some variables:
+    //  - `m_cars` : List<StreetSimCar>         = merely stores the cars we're using. Set in inspector. Only used in `Awake()` in runtime
+    //  - `activeCars` : List<StreetSimCar>     = lets us know how many cars are currently on the road. Doesn't care about groups
+    //  - `waitingCars` : Queue<StreetSimCar>   = queue that constantly gets updated based on how many active cars are on the road. Gets refilled every time a car gets reset
+    //  - `waitValues` : Dictionary             = controls the traffic behavior based on congestion
+    //  - `InactiveCarTargetRef` : Transform    = Tells us where to throw the cars at when the car officially finishes their path on the road
+    //  - `m_carHistory` : List<CarRow>         = Saves which cars cross the crosswalk at what time. Purely a post data-processing data scheme. Not relevant here
+    //  - `m_carGroups` : List<CarGroup>        = Stores active car groups. Is deleted after 
+
+    // In `Awake()`. we form a queue of waiting cars. These cars are waiting to be assigned to a group
+    // In `Update()`, we constantly check if we 
 
     private void Awake() {
         CM = this;
@@ -67,12 +107,14 @@ public class StreetSimCarManager : MonoBehaviour
             if (!m_carPathDict.ContainsKey(m_carPaths[i].name)) m_carPathDict.Add(m_carPaths[i].name, i);
         }
         waitingCars = new Queue<StreetSimCar>(m_cars.Shuffle());
+        //carPathDecider = Random.value;
         StartCoroutine(PrintCars());
     }
 
     // Update is called once per frame
     void Update()
     {
+        //QueueNextCar();
         if (activeCars.Count + GetWaitingCarsInQueue() < waitValues[status].y) QueueNextCar();
     }
 
@@ -96,9 +138,15 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.endTarget = path.endTarget;
                         nextCar.trafficSignal = path.trafficSignal;
                         nextCar.Initialize();
-
                         activeCars.Add(nextCar);
-                        timeToNextCarSpawn = UnityEngine.Random.Range(1f,10f);
+                        if (carSpawnCounter < (int)waitValues[status].z) {
+                            timeToNextCarSpawn = UnityEngine.Random.Range(0f,0.5f);
+                            carSpawnCounter += 1;
+                        } else {
+                            timeToNextCarSpawn = 5f;
+                            carSpawnCounter = 0;
+                            //carPathDecider = Random.value;
+                        }
                         yield return new WaitForSeconds(timeToNextCarSpawn);
                     }
                 }

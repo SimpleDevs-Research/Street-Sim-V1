@@ -58,7 +58,7 @@ public class StreetSimCar : MonoBehaviour
 
         m_hitMid = false;
 
-        maxSpeed = UnityEngine.Random.Range(4f,10f);
+        maxSpeed = UnityEngine.Random.Range(4f,15f);
     }
 
     private void ReturnToIdle() {
