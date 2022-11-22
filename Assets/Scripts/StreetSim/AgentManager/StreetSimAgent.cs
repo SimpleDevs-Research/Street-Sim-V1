@@ -452,6 +452,7 @@ public class StreetSimAgent : MonoBehaviour
         collider.enabled = false;
         rigidbody.isKinematic = true;
         m_meshCollider.enabled = false;
+        headTurn.currentTargetTransform = null;
         if (m_agentType == AgentType.Model) StreetSim.S.EndAttempt(id, StreetSim.S.trialFrameTimestamp, true);
     }
 

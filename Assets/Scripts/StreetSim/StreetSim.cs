@@ -125,7 +125,15 @@ public class StreetSim : MonoBehaviour
     private void Start() {
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
         m_initialSetups[0].isFirstTrial = true;
-        trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups - 1;
+        if (m_trialGroupToTest == 0) trialNumber = 0;
+        else {
+            trialNumber = 0;
+            for(int i = 0; i < m_trialGroupToTest; i++) {
+                trialNumber += m_trialGroups[i].trials.Count;
+                if (m_includeInitialSetup) trialNumber += 3;
+            }  
+        }
+        //trialNumber = m_trialGroups[m_trialGroupToTest].groupNumber * numTrialsPerGroups;
         if (m_trialGroupToTest == 0 || m_includeInitialSetup) {
             for(int i = m_initialSetups.Length-1; i >= 0; i--) {
                 StreetSimTrial t = m_initialSetups[i];
@@ -351,6 +359,7 @@ public class StreetSim : MonoBehaviour
         StreetSimRaycaster.R.ClearData();
         StreetSimIDController.ID.ClearData();
         StreetSimCarManager.CM.ClearData();
+        StreetSimProximityTracker.PT.ClearData();
 
         // Let the system know we're no longer having a an active trial
         m_currentTrialActive = false;
@@ -477,6 +486,8 @@ public class StreetSim : MonoBehaviour
             StreetSimRaycaster.R.CheckRaycast();
             // Track positional data
             StreetSimIDController.ID.TrackPositions();
+            // Track Proximity data
+            StreetSimProximityTracker.PT.CheckProximity();
             //}
             yield return new WaitForSeconds(m_trialFrameOffset);
         }
@@ -552,6 +563,9 @@ public class StreetSim : MonoBehaviour
             dataToSave = SaveSystemMethods.ConvertToJSON<CarsPayload>(carsPayload);
             SaveSystemMethods.SaveJSON(trialDirToSaveIn+"cars",dataToSave);
             SaveSystemMethods.SaveCSV<CarRow>(trialDirToSaveIn+"cars",CarRow.Headers,StreetSimCarManager.CM.carHistory);
+            // SIXTH: The proximity data
+            Debug.Log(StreetSimProximityTracker.PT.proximityData);
+            SaveSystemMethods.SaveCSV<ProximityData>(trialDirToSaveIn+"proximity",ProximityData.Headers,StreetSimProximityTracker.PT.proximityData.Flatten2D<ProximityData>());
         } else {
             Debug.Log("[STREET SIM] ERROR: Could not save json trial data");
         }
@@ -903,7 +917,6 @@ public class CarsPayload {
         this.carHistory = carHistory;
     }
 }
-
 [System.Serializable]
 public class PositionsPayload {
     public string id;
@@ -913,6 +926,7 @@ public class PositionsPayload {
         this.positionData = trackables;
     }
 }
+
 [System.Serializable]
 public class TrialAttempt {
     public string id;

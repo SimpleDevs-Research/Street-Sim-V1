@@ -19932,7 +19932,7 @@ Transform:
   m_Children:
   - {fileID: 621566363}
   m_Father: {fileID: 1797238113}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &643991033 stripped
 Transform:
@@ -22506,7 +22506,7 @@ Transform:
   - {fileID: 7549920}
   - {fileID: 190506270}
   m_Father: {fileID: 1797238113}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &727611622
 GameObject:
@@ -61897,7 +61897,7 @@ Transform:
   - {fileID: 10365017}
   - {fileID: 1866463282}
   m_Father: {fileID: 1797238113}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1592261702 stripped
 MonoBehaviour:
@@ -66855,7 +66855,7 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: GazeData_ignore
-  m_participantName: Prelim3
+  m_participantName: Prelim1
   m_trialGroupToTest: 1
   m_initialSetups:
   - name: Initial_1
@@ -70146,7 +70146,7 @@ MonoBehaviour:
     carSignalWarningTime: 3
   downwardMask:
     serializedVersion: 2
-    m_Bits: 3758096384
+    m_Bits: 3758097408
   roadTransforms:
   - {fileID: 2030131861}
   - {fileID: 3722539458582114784}
@@ -70176,6 +70176,7 @@ Transform:
   - {fileID: 350964195}
   - {fileID: 528974093}
   - {fileID: 1391709636}
+  - {fileID: 1967697548}
   - {fileID: 641532746}
   - {fileID: 1590871184}
   - {fileID: 725293136}
@@ -75571,6 +75572,55 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6911315564404171257, guid: 29af4681c24020b4bb22adda0b2e7c61, type: 3}
   m_PrefabInstance: {fileID: 1526267880}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1967697547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1967697548}
+  - component: {fileID: 1967697549}
+  m_Layer: 0
+  m_Name: StreetSimProximityTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1967697548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967697547}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1797238113}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1967697549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967697547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095618f0934157f4fa419bd66642ad9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toTrack: {fileID: 1081477697}
+  radius: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1140850688
 --- !u!1 &1968118443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6389178171810916718, guid: 408b4b88fec3c7c458f116f61e494533, type: 3}
@@ -80966,7 +81016,7 @@ GameObject:
   - component: {fileID: 4641259408400342417}
   - component: {fileID: 5923003335425087368}
   - component: {fileID: 5923003335425087369}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
