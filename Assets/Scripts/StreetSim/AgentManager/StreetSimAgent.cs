@@ -268,8 +268,14 @@ public class StreetSimAgent : MonoBehaviour
                     // If the light is safe, we'll cross no matter what.
                     switch(TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff).status) {
                         case TrafficSignal.TrafficSignalStatus.Go:
-                            agent.isStopped = false;
-                            character.Move(agent.desiredVelocity,false,false);
+                            if (TrafficSignalController.current.carAtCrosswalkDetector.numColliders > 0) {
+                                character.Move(Vector3.zero,false,false);
+                                agent.isStopped = true;
+                            } else {
+                                Debug.Log("Going because it's Green");
+                                agent.isStopped = false;
+                                character.Move(agent.desiredVelocity,false,false);
+                            };
                             break;
                         case TrafficSignal.TrafficSignalStatus.Warning:
                             agent.isStopped = false;

@@ -67,10 +67,14 @@ public class TrafficSignalController : MonoBehaviour
 
     [SerializeField] private Transform m_northCarDetector, m_southCarDetector, m_northCrossMidpoint, m_southCrossMidpoint, m_southCrossEndpoint, m_northCrossEndpoint;
     [SerializeField] private bool m_safeToCross = false; 
+
     public bool safeToCross {
         get { return m_safeToCross; }
         set {}
     }
+
+    [SerializeField] private RemoteCollider m_carAtCrosswalkDetector;
+    public RemoteCollider carAtCrosswalkDetector { get=>m_carAtCrosswalkDetector; set{} }
 
     private void Awake() {
         current = this;

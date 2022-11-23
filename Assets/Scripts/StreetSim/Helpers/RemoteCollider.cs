@@ -7,6 +7,7 @@ public class RemoteCollider : MonoBehaviour
     public Dictionary<Collider, float> colliders = new Dictionary<Collider,float>();
     public Transform parent;
     public int numColliders = 0;
+    public LayerMask layerMask;
 
     private void Update() {
         Dictionary<Collider,float> updatedList = new Dictionary<Collider,float>();
@@ -20,15 +21,19 @@ public class RemoteCollider : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col) {
-        if (!colliders.ContainsKey(col)) {
-            colliders.Add(col, GetDistanceBetweenColliderAndParent(col.transform));
+        if ((layerMask.value & (1 << col.transform.gameObject.layer)) > 0) {
+            if (!colliders.ContainsKey(col)) {
+                colliders.Add(col, GetDistanceBetweenColliderAndParent(col.transform));
+            }
         }
     }
     private void OnTriggerStay(Collider col) {
-        if (!colliders.ContainsKey(col)) {
-            colliders.Add(col, GetDistanceBetweenColliderAndParent(col.transform));
-        } else {
-            colliders[col] = GetDistanceBetweenColliderAndParent(col.transform);
+        if ((layerMask.value & (1 << col.transform.gameObject.layer)) > 0) {
+            if (!colliders.ContainsKey(col)) {
+                colliders.Add(col, GetDistanceBetweenColliderAndParent(col.transform));
+            } else {
+                colliders[col] = GetDistanceBetweenColliderAndParent(col.transform);
+            }
         }
     }
     private void OnTriggerExit(Collider col) {

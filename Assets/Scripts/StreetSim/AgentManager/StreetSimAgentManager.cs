@@ -44,6 +44,7 @@ public class StreetSimAgentManager : MonoBehaviour
     public Transform WestLookAtTarget, EastLookAtTarget;
 
     [SerializeField] private AudioClip[] footstepAudio;
+    public LayerMask carDetectionLayerMask;
 
     private void Awake() {
         AM = this;

@@ -83,6 +83,8 @@ public class StreetSimCarManager : MonoBehaviour
     [SerializeField] private int carSpawnCounter = 0;
     [SerializeField] private float carPathDecider = 0f;
 
+    public LayerMask carDetectionLayerMask;
+
     //[SerializeField] private List<CarGroup> m_carGroups = new List<CarGroup>();
 
     // How this works:
@@ -140,7 +142,7 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.Initialize();
                         activeCars.Add(nextCar);
                         if (carSpawnCounter < (int)waitValues[status].z) {
-                            timeToNextCarSpawn = UnityEngine.Random.Range(0f,0.5f);
+                            timeToNextCarSpawn = UnityEngine.Random.Range(1f,2f);
                             carSpawnCounter += 1;
                         } else {
                             timeToNextCarSpawn = 5f;
