@@ -139,24 +139,42 @@ public class StreetSimCar : MonoBehaviour
 
     private void CalculateAcceleration() {
         passedTraffic = Vector3.Dot((middleTarget.position - frontOfCar.position).normalized, frontOfCar.forward) < 0f;
-        float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
+
+        float L = (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go)
+            ? 1f
+            : 0f;
+        float O = (foundInFront)
+            ? 1f
+            : 0f;
+
+        float mSpeed = originalSpeedTargeted + originalSpeedTargeted*0.5f*O;
+        //float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
+        positionDiff = (carRaycastHit.point-frontOfCar.position)*O + ((middleTarget.position-frontOfCar.position)*L + new Vector3(spaceOptimal+1f,0f,0f)*(1f-L))*(1f-O);
+        /*
         positionDiff = (foundInFront) 
             ? carRaycastHit.point - frontOfCar.position 
             : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go) 
                 ? middleTarget.position - frontOfCar.position
                 : new Vector3(spaceOptimal+1f,0f,0f);
+        */
+        // The bottom SHOULD be how we do this...
+        // float speedDiff = (speed-carRaycastHit.transform.GetComponent<StreetSimCar>().speed)*O + (speed*L)*(1f-O);
         float speedDiff = (foundInFront) 
             ? speed - carRaycastHit.transform.GetComponent<StreetSimCar>().speed 
 //            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal)))
             : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go)
                 ? speed
                 : 0f;
+        
+        spaceOptimal = spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f)))*Mathf.Pow(L+O,0);
+        /*
         spaceOptimal = (foundInFront) 
             ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f))) 
 //            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal))) 
             : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go) 
                 ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f)))
                 : 0f;
+        */
         accelerationExpected = accelerationMax * (
             1f - Mathf.Pow((speed/mSpeed),4f) 
             - Mathf.Pow((spaceOptimal/positionDiff.magnitude),2f)
