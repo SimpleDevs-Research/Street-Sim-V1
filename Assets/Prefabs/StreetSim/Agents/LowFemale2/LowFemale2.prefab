@@ -1298,9 +1298,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -1323,9 +1331,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2278,6 +2294,7 @@ GameObject:
   - component: {fileID: 8951122300783922080}
   - component: {fileID: 4489033598816781828}
   - component: {fileID: 4528714472597128754}
+  - component: {fileID: 609836491341983517}
   m_Layer: 0
   m_Name: LowFemale2
   m_TagString: Untagged
@@ -2467,6 +2484,7 @@ MonoBehaviour:
   rigidbody: {fileID: 4556991415111139327}
   forwardPointer: {fileID: 8158358696515048108}
   downwardPointer: {fileID: 3619775279632042619}
+  audioSource: {fileID: 0}
   targetPositions: []
   m_meshCollider: {fileID: 0}
   m_crossDelayTime: 5
@@ -2474,9 +2492,23 @@ MonoBehaviour:
   m_canCross: 0
   behavior: 0
   direction: 0
+  confidence: 0
   carMask:
     serializedVersion: 2
     m_Bits: 67108864
+--- !u!114 &609836491341983517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6143747536043222033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477dc9f890f70eb49a1ce5e25e3e9811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_estimatedVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &6242220329315958023
 GameObject:
   m_ObjectHideFlags: 0

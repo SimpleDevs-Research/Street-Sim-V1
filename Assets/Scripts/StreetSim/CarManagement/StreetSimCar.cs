@@ -16,6 +16,7 @@ public class StreetSimCar : MonoBehaviour
     public TrafficSignal trafficSignal;
     public Transform startTarget, middleTarget, endTarget;
     [SerializeField] private Collider[] gazeColliders;
+    [SerializeField] private Velocity Velocity;
 
     [SerializeField] private float m_lengthOfCar = 0f;
     [SerializeField] private float maxSpeed = 0.5f;
@@ -29,9 +30,7 @@ public class StreetSimCar : MonoBehaviour
     private float m_originalDeceleration;
 
     private Transform currentTarget;
-    [SerializeField] private Vector3 currentVelocity = Vector3.zero;
     [SerializeField] private float currentSpeed = 0f;
-    private Vector3 prevPos;
     private Vector3 prevTargetPos;
 
     [SerializeField] private Transform[] wheels;
@@ -41,13 +40,23 @@ public class StreetSimCar : MonoBehaviour
     private bool foundInFront = false;
     private bool m_hitMid = false;
 
-    [SerializeField] private float idmAcceleration = 0f;
-    public float idmCurVel, idmDistanceToTarget = 0f; 
-    public Vector3 idmPrevPos;
+    private Vector3 prevPos;
+    public float speed = 0f;
+    [SerializeField] private Vector3 positionDiff = Vector3.zero;
+    [SerializeField] private Vector3 velocityDiff = Vector3.zero;
+    [SerializeField] private float spaceMinimal = 0.5f, spaceOptimal;
+    [SerializeField] private float accelerationMax = 10f, accelerationPref = 5f;
+    [SerializeField] private float accelerationExpected = 0f;
+    [SerializeField] private float speedTargeted = 10f;
+    private float originalSpeedTargeted;
+    [SerializeField] private float timePref = 1f;
+    private float m_distanceTraveled = 0f;
+    [SerializeField] private bool passedTraffic = false;
 
     private void Awake() {
         if (id == null) id = gameObject.GetComponent<ExperimentID>();
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
+        Velocity = GetComponent<Velocity>();
         m_originalDeceleration = deceleration;
     }
 
@@ -55,14 +64,13 @@ public class StreetSimCar : MonoBehaviour
         //transform.position = pathCreator.path.GetClosestPointOnPath(transform.position);
         transform.position = startTarget.position;
         transform.rotation = startTarget.rotation;
-
+        
         foreach(Collider col in gazeColliders) col.enabled = true;
 
         currentTarget = endTarget;
         prevPos = transform.position;
         prevTargetPos = endTarget.position;
         
-        status = StreetSimCarStatus.Active;
         m_audioSource.enabled = true;
 
         m_hitMid = false;
@@ -70,17 +78,23 @@ public class StreetSimCar : MonoBehaviour
         maxSpeed = UnityEngine.Random.Range(4f,15f);
         m_originalMaxSpeed = maxSpeed;
 
-        idmCurVel = 0f;
-        idmPrevPos = transform.position;
-        idmDistanceToTarget = Mathf.Infinity;
+        speed = 0f;
+        speedTargeted = maxSpeed;
+        originalSpeedTargeted = speedTargeted;
+        accelerationExpected = 0f;
+        spaceMinimal = UnityEngine.Random.Range(0.25f,0.75f);
+        timePref = UnityEngine.Random.Range(0.25f,0.75f);
+        m_distanceTraveled = 0f;
+        passedTraffic = false;
+
+        status = StreetSimCarStatus.Active;
     }
 
     private void ReturnToIdle() {
         StreetSimCarManager.CM.SetCarToIdle(this);
         m_audioSource.enabled = false;
-        foreach(Collider col in gazeColliders) {
-            col.enabled = false;
-        }
+        foreach(Collider col in gazeColliders) col.enabled = false;
+        speed = 0f;
     }
 
     private float CalculateDistanceUntilDeceleration() {
@@ -105,8 +119,17 @@ public class StreetSimCar : MonoBehaviour
     }
 
     private void Update() {
-        //IDMCalculation();
+        // Don't do anything if we're idle
         if (status == StreetSimCarStatus.Idle) return;
+        // Check if there's a car in front of us.
+        //  foundInFront = global variable : boolean
+        //  out carRaycastHit = global variable : RaycastHit
+        foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, 6f, StreetSimCarManager.CM.carDetectionLayerMask);
+        // Calcualte position and velocity changes
+        CalculateAcceleration();
+        // Check how far we've moved
+        CalculateDistanceFromStart();
+        // After we do the calculation, we actually don't do anything else if we passed the midpoint
         if (m_hitMid) return;
         if (startTarget.position.x*transform.position.x<0f || Mathf.Abs(transform.position.x) <= 0.01f) {
             StreetSimCarManager.CM.AddCarMidToHistory(this,StreetSim.S.GetTimeFromStart(Time.time));
@@ -114,58 +137,41 @@ public class StreetSimCar : MonoBehaviour
         }
     }
 
-    private void IDMCalculation() {
-        // Calculate current velocity
-        idmCurVel = (transform.position - idmPrevPos).magnitude / Time.deltaTime;      
-        idmPrevPos = transform.position;
-        RaycastHit hit;
-        if (Physics.Raycast(frontOfCar.position, frontOfCar.forward, out hit, 100f, StreetSimCarManager.CM.carDetectionLayerMask)) {
-            // We need to follow IDM logic
-            // We know distance based on raycast. We can also grab that car's current idmCurVel.
-            StreetSimCar frontCar = hit.transform.GetComponent<StreetSimCar>();
-            idmDistanceToTarget = hit.distance;
-            idmAcceleration = 
-                acceleration 
-                * (
-                    1f 
-                    - Mathf.Pow(idmCurVel/maxSpeed,4f) 
-                    - Mathf.Pow(
-                        (
-                            0.5f 
-                            + idmCurVel*(hit.distance/idmCurVel) 
-                            + (
-                                (idmCurVel * ((idmCurVel - frontCar.idmCurVel)/Time.deltaTime) ) /(2*Mathf.Sqrt(acceleration * deceleration))
-                            )
-                        ) / hit.distance,
-                        2f
-                    )
-                );
-        } else {
-            // We can follow Free Road Model
-            idmDistanceToTarget = Mathf.Infinity;
-            idmAcceleration = acceleration * ( 1f - Mathf.Pow(idmCurVel/maxSpeed,4f));
-        }
+    private void CalculateAcceleration() {
+        passedTraffic = Vector3.Dot((middleTarget.position - frontOfCar.position).normalized, frontOfCar.forward) < 0f;
+        float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
+        positionDiff = (foundInFront) 
+            ? carRaycastHit.point - frontOfCar.position 
+            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go) 
+                ? middleTarget.position - frontOfCar.position
+                : new Vector3(spaceOptimal+1f,0f,0f);
+        float speedDiff = (foundInFront) 
+            ? speed - carRaycastHit.transform.GetComponent<StreetSimCar>().speed 
+//            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal)))
+            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go)
+                ? speed
+                : 0f;
+        spaceOptimal = (foundInFront) 
+            ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f))) 
+//            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal))) 
+            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go) 
+                ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f)))
+                : 0f;
+        accelerationExpected = accelerationMax * (
+            1f - Mathf.Pow((speed/mSpeed),4f) 
+            - Mathf.Pow((spaceOptimal/positionDiff.magnitude),2f)
+        );
     }
-
-    /*
-    private void EstimateValues() {
-        RaycastHit hit;
-        if (Physics.Raycast(frontOfCar.position, frontOfCar.forward, out hit, 100f, StreetSimCarManager.CM.carDetectionLayerMask)) {
-            // We need to follow IDM logic
-
-        } else {
-            // We can follow Free Road Model
-            idmAcceleration = acceleration * ( 1f - Mathf.Pow(,4f) )
-        }
+    private void CalculateDistanceFromStart() {
+        m_distanceTraveled = Vector3.Distance(transform.position,startTarget.position);
     }
-    */
 
     private void FixedUpdate() {
         // don't do anything if we're idle
         if (status == StreetSimCarStatus.Idle) return;
 
         // We end out of the loop if we've reached our target and that target happens to be the same position as the endtarget
-        if (Vector3.Distance(transform.position,endTarget.position) <= 0.01f) {
+        if (Vector3.Distance(transform.position,endTarget.position) <= 0.01f || m_distanceTraveled >= 150f) {
             ReturnToIdle();
             return;
         }
@@ -173,6 +179,22 @@ public class StreetSimCar : MonoBehaviour
         // We also pause if any values are missing
         if (trafficSignal == null || middleTarget == null || endTarget == null) return;
         
+        //UpdateSequence1();
+        UpdateSequence2();
+    }
+
+    private void UpdateSequence2() {
+        // We know current acceleration `accelerationExpected`
+        // We convert that to speed, then to position
+        speed += accelerationExpected * Time.fixedDeltaTime;
+        transform.position = transform.position + transform.forward.normalized * speed * Time.fixedDeltaTime; 
+        // Spin our wheels, if we have any
+        if (wheels.Length > 0) {
+            foreach(Transform wheel in wheels) wheel.Rotate(speed,0f,0f,Space.Self);
+        }
+    }
+
+    private void UpdateSequence1() {
         // We need to determine which target position to aim towards.
         // Just because the traffic light shines red that doesn't mean we should stop.
         // overall, we should prioritize if there's something in front of us first
@@ -187,7 +209,6 @@ public class StreetSimCar : MonoBehaviour
         //  IF NOT... we keep going to `endTarget`.
 
         StreetSimCar potentialFrontCar;
-        foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, 6f, StreetSimCarManager.CM.carDetectionLayerMask);
         maxSpeed = (foundInFront) ? m_originalMaxSpeed : Mathf.Clamp(m_originalMaxSpeed * 1.25f,0f,15f);
         deceleration = (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Warning || trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop) 
             ? m_originalDeceleration * 5f
@@ -228,13 +249,6 @@ public class StreetSimCar : MonoBehaviour
                 wheel.Rotate(currentSpeed,0f,0f,Space.Self);
             }
         }
-
-        /*
-        float speed = idmCurVel + idmAcceleration * Time.fixedDeltaTime;
-        Vector3 dir = (transform.position.z > 0f) ? Vector3.left : Vector3.right;
-        dir *= speed * Time.fixedDeltaTime;
-        transform.position = transform.position + dir;
-        */
     }
 
     public float GetCurrentSpeed() {

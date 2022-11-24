@@ -66,13 +66,13 @@ public class StreetSimCarManager : MonoBehaviour
     [SerializeField] private Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
     private Dictionary<CarManagerStatus, Vector3> waitValues = new Dictionary<CarManagerStatus, Vector3> {
         { CarManagerStatus.Off, new Vector3(0f,0f,0f) },
-        { CarManagerStatus.NoCongestion, new Vector3(10f, 10f, 3f) },
+        { CarManagerStatus.NoCongestion, new Vector3(5f, 10f, 3f) },
         //{ CarManagerStatus.MinimalCongestion, new Vector2(4f,10f) },
-        { CarManagerStatus.MinimalCongestion, new Vector3(10f,5f,6f) },
+        { CarManagerStatus.MinimalCongestion, new Vector3(5f,5f,6f) },
         { CarManagerStatus.SomeCongestion, new Vector3(2f,15f,7f) },
         { CarManagerStatus.Congested, new Vector3(1f,25f,10f) }
     };
-    // x = wait time between actually spawning cars
+    // x = pause time between spawning car groups
     // y = total number of active cars allowed on the road.
     // z = counter for how many cars need to be spawned before the manager takes a break from spawning
 
@@ -145,7 +145,7 @@ public class StreetSimCarManager : MonoBehaviour
                             timeToNextCarSpawn = UnityEngine.Random.Range(1f,2f);
                             carSpawnCounter += 1;
                         } else {
-                            timeToNextCarSpawn = 5f;
+                            timeToNextCarSpawn = waitValues[status].x;
                             carSpawnCounter = 0;
                             //carPathDecider = Random.value;
                         }

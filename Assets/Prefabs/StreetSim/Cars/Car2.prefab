@@ -141,6 +141,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 5116513396555620195}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3002607225671142503
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +391,6 @@ GameObject:
   - component: {fileID: 2218504367696864849}
   - component: {fileID: 8507315181612216954}
   - component: {fileID: -3884753852499553189}
-  - component: {fileID: 6554213839052852468}
   - component: {fileID: -9017062398295057772}
   m_Layer: 0
   m_Name: Car2
@@ -462,13 +464,13 @@ MonoBehaviour:
   endTarget: {fileID: 0}
   gazeColliders:
   - {fileID: 4867789302651419324}
+  Velocity: {fileID: 0}
   m_lengthOfCar: 0
   maxSpeed: 4.7
   shouldStop: 0
   status: 0
   acceleration: 7.5
   deceleration: 5
-  currentVelocity: {x: 0, y: 0, z: 0}
   currentSpeed: 0
   wheels:
   - {fileID: 5116513396555620197}
@@ -476,6 +478,19 @@ MonoBehaviour:
   - {fileID: 5116513396555620205}
   - {fileID: 5116513396555620207}
   m_audioSource: {fileID: -3884753852499553189}
+  idmAcceleration: 0
+  idmCurVel: 0
+  idmDistanceToTarget: 0
+  idmPrevPos: {x: 0, y: 0, z: 0}
+  speed: 0
+  positionDiff: {x: 0, y: 0, z: 0}
+  velocityDiff: {x: 0, y: 0, z: 0}
+  spaceMinimal: 0.5
+  spaceOptimal: 0
+  accelerationMax: 10
+  accelerationPref: 5
+  accelerationExpected: 0
+  velocityTargeted: 20
 --- !u!65 &2218504367696864849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -601,35 +616,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6554213839052852468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5116513396555907907}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 3783601516811290048}
-  farCollider: {fileID: 1680078957555784716}
-  frontOfCar: {fileID: 5786329953083984201}
-  backOfCar: {fileID: 5691367855750711358}
-  movingAudioSource: {fileID: -3884753852499553189}
-  idleAudioSource: {fileID: 0}
-  wheels:
-  - {fileID: 5116513396555620197}
-  - {fileID: 5116513396555620199}
-  - {fileID: 5116513396555620205}
-  - {fileID: 5116513396555620207}
 --- !u!114 &-9017062398295057772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,6 +1352,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 5786329953083984201}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8421842096015321151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,3 +1463,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 5116513396555620195}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0

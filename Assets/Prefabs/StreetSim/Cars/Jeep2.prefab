@@ -143,6 +143,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 2288050619826504903}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1680414908293688224
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +160,6 @@ GameObject:
   - component: {fileID: 2391322875573239468}
   - component: {fileID: 5447054013038987263}
   - component: {fileID: 7744332034068121147}
-  - component: {fileID: 3505613330911073232}
   - component: {fileID: 7184310785445927306}
   m_Layer: 0
   m_Name: Jeep2
@@ -208,6 +210,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep2
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &-8216391552208500021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098ca53f105d055448359ccd8a32bc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: {fileID: 0}
   frontOfCar: {fileID: 2288050619826504903}
   backOfCar: {fileID: 1139440291361054441}
   frontCollider: {fileID: 6580840869159961496}
@@ -229,13 +233,13 @@ MonoBehaviour:
   endTarget: {fileID: 0}
   gazeColliders:
   - {fileID: 927830800090469615}
+  Velocity: {fileID: 0}
   m_lengthOfCar: 0
   maxSpeed: 4.7
   shouldStop: 0
   status: 0
   acceleration: 7.5
   deceleration: 5
-  currentVelocity: {x: 0, y: 0, z: 0}
   currentSpeed: 0
   wheels:
   - {fileID: 1680414908293461898}
@@ -243,6 +247,19 @@ MonoBehaviour:
   - {fileID: 1680414908293461902}
   - {fileID: 1680414908293461900}
   m_audioSource: {fileID: 7744332034068121147}
+  idmAcceleration: 0
+  idmCurVel: 0
+  idmDistanceToTarget: 0
+  idmPrevPos: {x: 0, y: 0, z: 0}
+  speed: 0
+  positionDiff: {x: 0, y: 0, z: 0}
+  velocityDiff: {x: 0, y: 0, z: 0}
+  spaceMinimal: 0.5
+  spaceOptimal: 0
+  accelerationMax: 10
+  accelerationPref: 5
+  accelerationExpected: 0
+  velocityTargeted: 20
 --- !u!65 &2391322875573239468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -368,35 +385,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3505613330911073232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1680414908293688224}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1fd101fc6851646b0b71278a2239c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pathCreator: {fileID: 0}
-  maxSpeed: 7
-  currentSpeed: 0
-  acceleration: 3
-  deceleration: 15
-  m_status: 0
-  closeCollider: {fileID: 6940174352126619573}
-  farCollider: {fileID: 8050741314145714642}
-  frontOfCar: {fileID: 2288050619826504903}
-  backOfCar: {fileID: 1139440291361054441}
-  movingAudioSource: {fileID: 7744332034068121147}
-  idleAudioSource: {fileID: 0}
-  wheels:
-  - {fileID: 1680414908293461898}
-  - {fileID: 1680414908293461896}
-  - {fileID: 1680414908293461902}
-  - {fileID: 1680414908293461900}
 --- !u!114 &7184310785445927306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,6 +894,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 1680414908293461888}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4278054786377626378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,6 +1174,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 1680414908293461888}
   numColliders: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8145027330375482389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1239,7 @@ MonoBehaviour:
   m_children: []
   m_id: Jeep2Box
   m_ref_id: Jeep2
+  m_shouldTrack: 1
 --- !u!1 &8543509597074665440
 GameObject:
   m_ObjectHideFlags: 0
