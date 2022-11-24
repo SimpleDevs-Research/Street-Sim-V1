@@ -37,7 +37,7 @@ public class StreetSimCar : MonoBehaviour
     [SerializeField] private AudioSource m_audioSource;
 
     private RaycastHit carRaycastHit;
-    private bool foundInFront = false;
+    [SerializeField] private bool foundInFront = false;
     private bool m_hitMid = false;
 
     private Vector3 prevPos;
@@ -125,6 +125,7 @@ public class StreetSimCar : MonoBehaviour
         //  foundInFront = global variable : boolean
         //  out carRaycastHit = global variable : RaycastHit
         foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, 6f, StreetSimCarManager.CM.carDetectionLayerMask);
+        //foundInFront = Physics.BoxCast(frontOfCar.position,Vector3.one,frontOfCar.forward,out carRaycastHit,frontOfCar.rotation,6f, StreetSimCarManager.CM.carDetectionLayerMask);
         // Calcualte position and velocity changes
         CalculateAcceleration();
         // Check how far we've moved
