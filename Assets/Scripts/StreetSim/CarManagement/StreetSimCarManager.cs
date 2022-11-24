@@ -66,7 +66,7 @@ public class StreetSimCarManager : MonoBehaviour
     [SerializeField] private Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
     private Dictionary<CarManagerStatus, Vector3> waitValues = new Dictionary<CarManagerStatus, Vector3> {
         { CarManagerStatus.Off, new Vector3(0f,0f,0f) },
-        { CarManagerStatus.NoCongestion, new Vector3(5f, 10f, 3f) },
+        { CarManagerStatus.NoCongestion, new Vector3(7.5f, 8f, 3f) },
         //{ CarManagerStatus.MinimalCongestion, new Vector2(4f,10f) },
         { CarManagerStatus.MinimalCongestion, new Vector3(5f,5f,6f) },
         { CarManagerStatus.SomeCongestion, new Vector3(2f,15f,7f) },

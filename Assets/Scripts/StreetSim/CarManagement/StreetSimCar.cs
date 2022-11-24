@@ -166,7 +166,10 @@ public class StreetSimCar : MonoBehaviour
                 ? speed
                 : 0f;
         
-        spaceOptimal = spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f)))*Mathf.Pow(L+O,0);
+        spaceOptimal = 
+            (1f-(1f-L)*(1f-O))*(spaceMinimal + speed * timePref) 
+            + 
+            (speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f));
         /*
         spaceOptimal = (foundInFront) 
             ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f))) 
