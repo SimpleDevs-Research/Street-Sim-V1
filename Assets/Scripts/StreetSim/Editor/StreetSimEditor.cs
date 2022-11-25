@@ -12,28 +12,59 @@ public class StreetSimEditor : Editor
 
         DrawDefaultInspector();
 
+        DrawUILine(Color.grey, 2, 10);
+        EditorGUILayout.LabelField("Click this to generate randomized trial groups", EditorStyles.boldLabel);
+    
+        GUI.enabled = !streetSim.initialized;
         if(GUILayout.Button("Generate Test Groups")) {
             streetSim.GenerateTestGroups();
         }
+        GUI.enabled = true;
 
+        if (!streetSim.initialized) return;
+
+        DrawUILine(Color.grey, 2, 10);
+
+        /*
+        EditorGUILayout.LabelField("Should the simulation start on run?", EditorStyles.boldLabel);
+        GUILayout.BeginHorizontal();
+        GUI.enabled = !streetSim.startSimulationOnRun;
+        if (GUILayout.Button("Enable Simulation")) {
+            streetSim.startSimulationOnRun = true;
+            EditorUtility.SetDirty(streetSim);
+        }
+        GUI.enabled = streetSim.startSimulationOnRun;
+        if (GUILayout.Button("Disable Simulation")) {
+            streetSim.startSimulationOnRun = false;
+            EditorUtility.SetDirty(streetSim);
+        }
+        GUILayout.EndHorizontal();
+        GUI.enabled = true;
+        */
+
+        EditorGUILayout.LabelField("Simulator Controls", EditorStyles.boldLabel);
+        GUILayout.BeginHorizontal();
+        GUI.enabled = !streetSim.isRunning;
         if(GUILayout.Button("Start Simulation")) {
             streetSim.StartSimulation();
         }
-
+        GUI.enabled = streetSim.isRunning;
         if(GUILayout.Button("End Simulation")) {
             streetSim.EndSimulation(true);
         }
-
-        GUILayout.BeginHorizontal();
-
+        GUI.enabled = true;
+        GUILayout.EndHorizontal();
         if (GUILayout.Button("Save")) {
             streetSim.SaveSimulationData();
         }
-        if (GUILayout.Button("Load")) {
 
+        DrawUILine(Color.grey, 2, 10);
+
+        EditorGUILayout.LabelField("Preprocess Gaze Data", EditorStyles.boldLabel);
+        if (GUILayout.Button("Load")) {
+            streetSim.LoadSimulationData();
         }
 
-        GUILayout.EndHorizontal();
 
         /*
         if(GUILayout.Button("Save Tracking Data")) {
@@ -54,6 +85,16 @@ public class StreetSimEditor : Editor
             experimentGlobalController.EndReplay();
         }
         */
+    }
+
+    // Code attributed to: https://forum.unity.com/threads/horizontal-line-in-editor-window.520812/
+    public static void DrawUILine(Color color, int thickness = 2, int padding = 10) {
+        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding+thickness));
+        r.height = thickness;
+        r.y+=padding/2;
+        r.x-=2;
+        r.width +=6;
+        EditorGUI.DrawRect(r, color);
     }
 
 }

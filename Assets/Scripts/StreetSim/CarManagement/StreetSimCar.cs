@@ -44,7 +44,7 @@ public class StreetSimCar : MonoBehaviour
     public float speed = 0f;
     [SerializeField] private Vector3 positionDiff = Vector3.zero;
     [SerializeField] private Vector3 velocityDiff = Vector3.zero;
-    [SerializeField] private float spaceMinimal = 0.5f, spaceOptimal;
+    [SerializeField] private float spaceMinimal = 0.5f, spaceOptimal, spaceMaximal = 6f;
     [SerializeField] private float accelerationMax = 10f, accelerationPref = 5f;
     [SerializeField] private float accelerationExpected = 0f;
     [SerializeField] private float speedTargeted = 10f;
@@ -78,7 +78,7 @@ public class StreetSimCar : MonoBehaviour
         maxSpeed = UnityEngine.Random.Range(4f,15f);
         m_originalMaxSpeed = maxSpeed;
 
-        speed = 0f;
+        Velocity.manualSpeed = 0f;
         speedTargeted = maxSpeed;
         originalSpeedTargeted = speedTargeted;
         accelerationExpected = 0f;
@@ -94,7 +94,7 @@ public class StreetSimCar : MonoBehaviour
         StreetSimCarManager.CM.SetCarToIdle(this);
         m_audioSource.enabled = false;
         foreach(Collider col in gazeColliders) col.enabled = false;
-        speed = 0f;
+        Velocity.manualSpeed = 0f;
     }
 
     private float CalculateDistanceUntilDeceleration() {
@@ -124,8 +124,7 @@ public class StreetSimCar : MonoBehaviour
         // Check if there's a car in front of us.
         //  foundInFront = global variable : boolean
         //  out carRaycastHit = global variable : RaycastHit
-        foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, 6f, StreetSimCarManager.CM.carDetectionLayerMask);
-        //foundInFront = Physics.BoxCast(frontOfCar.position,Vector3.one,frontOfCar.forward,out carRaycastHit,frontOfCar.rotation,6f, StreetSimCarManager.CM.carDetectionLayerMask);
+        foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, spaceMaximal, StreetSimCarManager.CM.carDetectionLayerMask);
         // Calcualte position and velocity changes
         CalculateAcceleration();
         // Check how far we've moved
@@ -161,16 +160,13 @@ public class StreetSimCar : MonoBehaviour
         // The bottom SHOULD be how we do this...
         // float speedDiff = (speed-carRaycastHit.transform.GetComponent<StreetSimCar>().speed)*O + (speed*L)*(1f-O);
         float speedDiff = (foundInFront) 
-            ? speed - carRaycastHit.transform.GetComponent<StreetSimCar>().speed 
+            ? Velocity.manualSpeed - carRaycastHit.transform.GetComponent<Velocity>().manualSpeed 
 //            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal)))
             : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go)
-                ? speed
+                ? Velocity.manualSpeed
                 : 0f;
-        
-        spaceOptimal = 
-            (1f-(1f-L)*(1f-O))*(spaceMinimal + speed * timePref) 
-            + 
-            (speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f));
+
+        spaceOptimal = (1f-(1f-L)*(1f-O))*(spaceMinimal + Velocity.manualSpeed * timePref) + (Velocity.manualSpeed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f));
         /*
         spaceOptimal = (foundInFront) 
             ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f))) 
@@ -180,7 +176,7 @@ public class StreetSimCar : MonoBehaviour
                 : 0f;
         */
         accelerationExpected = accelerationMax * (
-            1f - Mathf.Pow((speed/mSpeed),4f) 
+            1f - Mathf.Pow((Velocity.manualSpeed/mSpeed),4f) 
             - Mathf.Pow((spaceOptimal/positionDiff.magnitude),2f)
         );
     }
@@ -208,11 +204,11 @@ public class StreetSimCar : MonoBehaviour
     private void UpdateSequence2() {
         // We know current acceleration `accelerationExpected`
         // We convert that to speed, then to position
-        speed += accelerationExpected * Time.fixedDeltaTime;
-        transform.position = transform.position + transform.forward.normalized * speed * Time.fixedDeltaTime; 
+        Velocity.manualSpeed += accelerationExpected * Time.fixedDeltaTime;
+        transform.position = transform.position + transform.forward.normalized * Velocity.manualSpeed * Time.fixedDeltaTime; 
         // Spin our wheels, if we have any
         if (wheels.Length > 0) {
-            foreach(Transform wheel in wheels) wheel.Rotate(speed,0f,0f,Space.Self);
+            foreach(Transform wheel in wheels) wheel.Rotate(Velocity.manualSpeed,0f,0f,Space.Self);
         }
     }
 

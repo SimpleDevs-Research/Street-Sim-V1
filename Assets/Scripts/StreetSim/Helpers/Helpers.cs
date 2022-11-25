@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -131,5 +132,19 @@ namespace Helpers {
             writer.Close();
             return true;
         }
+        /*
+        public static List<T> ReadCSV<T>(TextAsset asset, int numHeaders) {
+            string[] data = asset.text.Split(new string[] {",","\n"}, StringSplitOptions.None);
+            List<T> dataGazed = new List<T>();
+            
+            int tableSize = data.Length/numHeaders - 1;
+            T[] dataFormatted = new T[tableSize];
+            for(int i = 0; i < tableSize; i++) {
+                dataFormatted[i] = new T(
+                    data[numHeaders*(i+1)]
+                )
+            }
+        }
+        */
     }
 }

@@ -25,6 +25,14 @@ public class StreetSim : MonoBehaviour
     public Transform xrCamera;
     public ExperimentID xrExperimentID;
 
+    [SerializeField] private bool m_startSimulationOnRun = true;
+    public bool startSimulationOnRun { get=>m_startSimulationOnRun; set{} }
+    private bool m_initialized = false;
+    public bool initialized { get=>m_initialized; set{} }
+    private bool m_isRunning = false;
+    public bool isRunning { get=>m_isRunning; set{} }
+    [SerializeField] private bool m_endGameOnSimulationEnd = true; 
+
     [SerializeField] private AudioSource m_successAudioSource;
     [SerializeField] private Transform m_agentParent, m_agentMeshParent;
     public Transform agentParent { get { return m_agentParent; } set{} }
@@ -85,6 +93,9 @@ public class StreetSim : MonoBehaviour
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
 
+    [SerializeField] private TextAsset positionDataCSV;
+    [SerializeField] private List<StreetSimTrackable> positionDataFromCSV = new List<StreetSimTrackable>();
+
     public void GenerateTestGroups() {
         // Generate total list of trials
         //List<StreetSimTrial> roundOne, roundTwo;
@@ -141,7 +152,8 @@ public class StreetSim : MonoBehaviour
                 m_trialQueue.AddFirst(t);
             }
         }
-        StartSimulation();
+        if (m_startSimulationOnRun) StartSimulation();
+        m_initialized = true;
     }
 
     private void InitializeTrial(StreetSimTrial trial) {
@@ -192,6 +204,8 @@ public class StreetSim : MonoBehaviour
         m_simulationStartTime = Time.time;
         // Enable the next cylinder
         m_nextCylinder.gameObject.SetActive(true);
+        // Declare that we're running
+        m_isRunning = true;
         // Start the simulation, starting from the first trial in `m_trialQueue`.
         StartTrial();
     }
@@ -212,10 +226,19 @@ public class StreetSim : MonoBehaviour
             m_simulationDuration = m_simulationEndTime - m_simulationStartTime;
             // Set the next cylinder to be deactivated
             m_nextCylinder.gameObject.SetActive(false);
-            
+            // Indicate that we're ending
+            m_isRunning = false;
             // Save the data
             simulationPayload.duration = m_simulationDuration;
-            SaveSimulationData();
+            if (SaveSimulationData()) {
+                // End the game if we're indicated by our trusty boolean.
+                if (m_endGameOnSimulationEnd) {
+                    Application.Quit();
+                    #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                    #endif
+                }
+            }
         }
     }
     private void StartTrial() {
@@ -495,27 +518,40 @@ public class StreetSim : MonoBehaviour
         yield return null;
     }
 
-    public void SaveSimulationData() {
+    public bool SaveSimulationData() {
         // We can't save if there's no simulation data to begin with...
         if (simulationPayload == null) {
             Debug.Log("[STREET SIM] ERROR: Cannot save if there is no simulation data to begin with.");
-            return;
+            return false;
         }
         // We can't save if we're tracking! Have to end the simulation first
         if (m_streetSimStatus == StreetSimStatus.Tracking) {
             Debug.Log("[STREET SIM] ERROR: Cannot save while in the middle of tracking data.");
-            return;
+            return false;
         }
 
         // We got our payload during the trial - so let's cut our losses here and save now.
         string dataToSave = SaveSystemMethods.ConvertToJSON<SimulationData>(simulationPayload);
         //string dirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
         //if (SaveSystemMethods.CheckOrCreateDirectory(dirToSaveIn)) {
+        if (!SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
+            Debug.Log("[STREET SIM] ERROR: Cannot check if the directory for the simulation data exists or not...");
+            return false;
+        }
+        if (SaveSystemMethods.SaveJSON(simulationDirToSaveIn + "simulationMetadata_" + simulationPayload.simulationGroupNumber, dataToSave)) {
+            Debug.Log("[STREET SIM] Simulation Data Saved inside of " + saveDirectory);
+            return true;
+        } else {
+            Debug.Log("[STREET SIM] ERROR: Could not save simulation data into " + saveDirectory);
+            return false;
+        }
+        /*
         if (SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
             if (SaveSystemMethods.SaveJSON(simulationDirToSaveIn + "simulationMetadata_" + simulationPayload.simulationGroupNumber, dataToSave)) {
                 Debug.Log("[STREET SIM] Simulation Data Saved inside of " + saveDirectory);
             }
         }
+        */
     }
     public bool SaveTrialData(StreetSimTrial trial, Dictionary<ExperimentID,List<TrialAttempt>> attempts) {
         if (simulationPayload == null) return false;
@@ -590,7 +626,7 @@ public class StreetSim : MonoBehaviour
         return true;
     }
     public void LoadSimulationData() {
-
+        //SaveSystemMethods.ReadCSV<string>(positionDataCSV, 10);
     }
 
     public float GetTimeFromStart(float cTime) {

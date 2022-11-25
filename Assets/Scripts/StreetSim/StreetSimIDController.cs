@@ -58,6 +58,27 @@ public class StreetSimTrackable {
         "localRotation_z",
         "localRotation_w",
     };
+    /*
+    public void InitializeValues(string[] data) {
+        int numHeaders = StreetSimTrackable.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            this.id = data[numHeaders * (i+1)];
+            this.frameIndex = Int32.Parse(data[numHeaders * (i+1) + 1]);
+            this.timestamp =  float.Parse(data[numHeaders * (i+1) + 2]);
+            this.localPosition_x = float.Parse(data[numHeaders * (i+1) + 3]);
+            this.localPosition_y = float.Parse((float)data[numHeaders * (i+1) + 4]);
+            this.localPosition_z = float.Parse((float)data[numHeaders * (i+1) + 5]);
+            this.localRotation_x = float.Parse((float)data[numHeaders * (i+1) + 6]);
+            this.localRotation_y = float.Parse((float)data[numHeaders * (i+1) + 7]);
+            this.localRotation_z = float.Parse((float)data[numHeaders * (i+1) + 8]);
+            this.localRotation_w = float.Parse((float)data[numHeaders * (i+1) + 9]);
+
+            this.localPosition = new Vector3(localPosition_x, localPosition_y, localPosition_z);
+            this.localRotation = new Quaternion(localRotation_x, localRotation_y, localRotation_z, localRotation_w);
+        }
+    }
+    */
 }
 
 public class StreetSimIDController : MonoBehaviour
