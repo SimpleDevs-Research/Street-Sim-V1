@@ -24,6 +24,8 @@ public class StreetSim : MonoBehaviour
     public Transform xrTrackingSpace;
     public Transform xrCamera;
     public ExperimentID xrExperimentID;
+    public Transform Cam360;
+    public Transform GazeBox;
 
     [SerializeField] private bool m_startSimulationOnRun = true;
     public bool startSimulationOnRun { get=>m_startSimulationOnRun; set{} }
@@ -92,9 +94,6 @@ public class StreetSim : MonoBehaviour
     // Trial Shenangigans
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
-
-    [SerializeField] private TextAsset positionDataCSV;
-    [SerializeField] private List<StreetSimTrackable> positionDataFromCSV = new List<StreetSimTrackable>();
 
     public void GenerateTestGroups() {
         // Generate total list of trials
@@ -206,6 +205,12 @@ public class StreetSim : MonoBehaviour
         m_nextCylinder.gameObject.SetActive(true);
         // Declare that we're running
         m_isRunning = true;
+        // Reset the gaze box
+        GazeBox.position = new Vector3(0f, -20f + Cam360.position.y, 0f);
+        GazeBox.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+        foreach(Transform child in GazeBox) {
+            child.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+        }
         // Start the simulation, starting from the first trial in `m_trialQueue`.
         StartTrial();
     }
@@ -626,11 +631,18 @@ public class StreetSim : MonoBehaviour
         return true;
     }
     public void LoadSimulationData() {
-        //SaveSystemMethods.ReadCSV<string>(positionDataCSV, 10);
+        StreetSimIDController.ID.LoadData();
     }
 
     public float GetTimeFromStart(float cTime) {
         return cTime - m_currentTrial.startTime;
+    }
+
+    public string GetTrialDir() {
+        return trialDirToSaveIn;
+    }
+    public string GetSimulationDir() {
+        return simulationDirToSaveIn;
     }
 }
 

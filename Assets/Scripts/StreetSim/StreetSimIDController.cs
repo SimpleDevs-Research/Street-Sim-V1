@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,20 @@ public class StreetSimTrackable {
         this.localRotation_z = this.localRotation.z;
         this.localRotation_w = this.localRotation.w;
     }
+    public StreetSimTrackable(string[] data) {
+        this.id = data[0];
+        this.frameIndex = Int32.Parse(data[1]);
+        this.timestamp = float.Parse(data[2]);
+        this.localPosition_x = float.Parse(data[3]);
+        this.localPosition_y = float.Parse(data[4]);
+        this.localPosition_z = float.Parse(data[5]);
+        this.localPosition = new Vector3(this.localPosition_x, this.localPosition_y, this.localPosition_z);
+        this.localRotation_x = float.Parse(data[6]);
+        this.localRotation_y = float.Parse(data[7]);
+        this.localRotation_z = float.Parse(data[8]);
+        this.localRotation_w = float.Parse(data[9]);
+        this.localRotation = new Quaternion(this.localRotation_x, this.localRotation_y, this.localRotation_z, this.localRotation_w);
+    }
     public bool Compare(Transform other) {
         // Returns TRUE if the same or too similar
         return this.localPosition == other.localPosition && this.localRotation == other.localRotation;
@@ -58,27 +73,14 @@ public class StreetSimTrackable {
         "localRotation_z",
         "localRotation_w",
     };
-    /*
-    public void InitializeValues(string[] data) {
-        int numHeaders = StreetSimTrackable.Headers.Count;
-        int tableSize = data.Length/numHeaders - 1;
-        for(int i = 0; i < tableSize; i++) {
-            this.id = data[numHeaders * (i+1)];
-            this.frameIndex = Int32.Parse(data[numHeaders * (i+1) + 1]);
-            this.timestamp =  float.Parse(data[numHeaders * (i+1) + 2]);
-            this.localPosition_x = float.Parse(data[numHeaders * (i+1) + 3]);
-            this.localPosition_y = float.Parse((float)data[numHeaders * (i+1) + 4]);
-            this.localPosition_z = float.Parse((float)data[numHeaders * (i+1) + 5]);
-            this.localRotation_x = float.Parse((float)data[numHeaders * (i+1) + 6]);
-            this.localRotation_y = float.Parse((float)data[numHeaders * (i+1) + 7]);
-            this.localRotation_z = float.Parse((float)data[numHeaders * (i+1) + 8]);
-            this.localRotation_w = float.Parse((float)data[numHeaders * (i+1) + 9]);
-
-            this.localPosition = new Vector3(localPosition_x, localPosition_y, localPosition_z);
-            this.localRotation = new Quaternion(localRotation_x, localRotation_y, localRotation_z, localRotation_w);
-        }
+    public string ToString() {
+        return 
+            this.id.ToString() + "-" + 
+            this.frameIndex.ToString() + "-" +
+            this.timestamp.ToString() + "-" +
+            this.localPosition.ToString() + "-" +
+            this.localRotation.ToString();
     }
-    */
 }
 
 public class StreetSimIDController : MonoBehaviour
@@ -97,8 +99,22 @@ public class StreetSimIDController : MonoBehaviour
     private Dictionary<ExperimentID,List<StreetSimTrackable>> m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     public Dictionary<ExperimentID,List<StreetSimTrackable>> payloads { get=>m_payloads; set{} }
 
+    [SerializeField] private Transform m_raycasterTransform = null;
+    [SerializeField] private TextAsset positionsCSV = null;
+    [SerializeField] private LayerMask replayGazeMask;
+
+    private bool m_initialized = false;
+    public bool initialized { get=>m_initialized; set{} }
+    private IEnumerator replayCoroutine = null;
+    [SerializeField] private GameObject gazePrefab;
+    private List<GameObject> gazeObjects = new List<GameObject>();
+
     private void Awake() {
         ID = this;
+    }
+
+    private void Start() {
+        m_initialized = true;
     }
 
     public bool AddID(ExperimentID toAdd, out string finalID) {
@@ -200,6 +216,17 @@ public class StreetSimIDController : MonoBehaviour
         yield return null;
     }
 
+    public ExperimentID FindIDFromName(string name) {
+        ExperimentID found = null;
+        foreach(ExperimentID possible in ids) {
+            if (possible.id == name) {
+                found = possible;
+                break;
+            }
+        }
+        return found;
+    }
+
     public void ClearTrialTrackables() {
         m_trialTrackables = new List<ExperimentID>();
     }
@@ -209,5 +236,108 @@ public class StreetSimIDController : MonoBehaviour
 
     public void ClearData() {
         m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
+    }
+
+    public void LoadData() {
+        if (!m_initialized || !StreetSim.S.initialized) return;
+        if (positionsCSV == null) {
+            Debug.Log("[ID CONTROLLER] ERROR: Cannot load a data without a CSV file...");
+            return;
+        }
+        string[] loadedPositionsRaw = SaveSystemMethods.ReadCSV(positionsCSV);
+        List<StreetSimTrackable> loadedPositions = ParseLoadedPositionsData(loadedPositionsRaw);
+        m_payloads = new Dictionary<ExperimentID, List<StreetSimTrackable>>();
+        foreach(StreetSimTrackable t in loadedPositions) {
+            // Find the experiment ID that matches
+            ExperimentID id = FindIDFromName(t.id);
+            if (id == null) {
+                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID...");
+                Debug.Log(t.ToString());
+                continue;
+            }
+            if (!m_payloads.ContainsKey(id)) {
+                m_payloads.Add(id, new List<StreetSimTrackable>());
+            }
+            m_payloads[id].Add(t);
+        }
+        Debug.Log("There are currently " + m_payloads.Count.ToString() + " ExperimentIDs whose data was properly loaded.");
+    }
+    private List<StreetSimTrackable> ParseLoadedPositionsData(string[] data){
+        List<StreetSimTrackable> dataFormatted = new List<StreetSimTrackable>();
+        int numHeaders = StreetSimTrackable.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+      
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            dataFormatted.Add(new StreetSimTrackable(row));
+        }
+        return dataFormatted;
+    }
+    
+    public void ReplayRecord(ExperimentID key, bool trackGaze = false) {
+        if (!m_payloads.ContainsKey(key)) {
+            Debug.Log("[ID CONTROLLER] Error: Cannot replay something that doesn't exist in our payloads...");
+            return;
+        }
+        if (replayCoroutine != null) {
+            StopCoroutine(replayCoroutine);
+        }
+        replayCoroutine = Replay(key, trackGaze);
+        StartCoroutine(replayCoroutine);
+    }
+
+    private IEnumerator Replay(ExperimentID key, bool trackGaze) {
+        List<StreetSimTrackable> trackables = m_payloads[key];
+        List<RaycastHitRow> gazes = new List<RaycastHitRow>();
+        while(gazeObjects.Count > 0) {
+            GameObject g = gazeObjects[0];
+            gazeObjects.RemoveAt(0);
+            Destroy(g);
+        }
+        gazeObjects = new List<GameObject>();
+
+        int count = trackables.Count;
+        int index = -1;
+        float prevTimestamp = 0f;
+
+        StreetSim.S.GazeBox.position = StreetSim.S.Cam360.position;
+        StreetSim.S.GazeBox.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        foreach(Transform child in StreetSim.S.GazeBox) {
+            child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        }
+        m_raycasterTransform.gameObject.SetActive(true);
+
+        while (index < count-1) {
+            index++;
+            float waitTime = trackables[index].timestamp - prevTimestamp;
+            yield return new WaitForSeconds(waitTime);
+            m_raycasterTransform.transform.localPosition = trackables[index].localPosition;
+            m_raycasterTransform.transform.localRotation = trackables[index].localRotation;
+            
+            if (trackGaze) {
+                RaycastHitRow row;
+                if (StreetSimRaycaster.R.CheckRaycastManual(m_raycasterTransform, replayGazeMask, trackables[index].frameIndex, trackables[index].timestamp, out row)) {
+                    gazes.Add(row);
+                    GameObject newGazeObject = Instantiate(gazePrefab, StreetSim.S.Cam360, false);
+                    newGazeObject.transform.localPosition = new Vector3(row.localPosition[0],row.localPosition[1],row.localPosition[2]);
+                    newGazeObject.transform.localRotation = Quaternion.identity;
+                    gazeObjects.Add(newGazeObject);
+                }
+            }
+            prevTimestamp = trackables[index].timestamp;
+        }
+
+        if (trackGaze && gazes.Count > 0) {
+            Debug.Log("[ID CONTROLLER] Saving manually-tracked gaze data...");
+            string simulationDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(StreetSim.S.saveDirectory);
+            if (!SaveSystemMethods.CheckOrCreateDirectory(simulationDirToSaveIn)) {
+                Debug.Log("[ID CONTROLLER] ERROR: Cannot check if the directory for the simulation data exists or not...");
+            } else {
+                SaveSystemMethods.SaveCSV<RaycastHitRow>(simulationDirToSaveIn+"gazeManual",RaycastHitRow.Headers,gazes);
+            }
+        }
+
+        m_raycasterTransform.gameObject.SetActive(false);
     }
 }

@@ -37,3 +37,6 @@ https://poly.pizza/m/sxXonOmtct
 https://poly.pizza/m/h7Jaq7bqMq
 https://poly.pizza/m/oB0Q00PidU
 https://poly.pizza/m/Rq572hdKEz
+
+### 360 Camera
+(https://github.com/bodhid/UnityEquiCam)[https://github.com/bodhid/UnityEquiCam]

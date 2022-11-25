@@ -76,7 +76,14 @@ namespace Helpers {
         // Adapted from: https://answers.unity.com/questions/288338/how-do-i-compare-quaternions.html
         public static bool Compare(this Quaternion original, Quaternion other, float acceptableRange) {
             return 1 - Mathf.Abs(Quaternion.Dot(original, other)) < acceptableRange;
-        }   
+        }
+
+        // Adapted from: https://stackoverflow.com/questions/1792470/subset-of-array-in-c-sharp
+        public static T[] RangeSubset<T>(this T[] array, int startIndex, int length) {
+            T[] subset = new T[length];
+            Array.Copy(array, startIndex, subset, 0, length);
+            return subset;
+        }
     }
 
     [System.Serializable]
@@ -132,19 +139,21 @@ namespace Helpers {
             writer.Close();
             return true;
         }
-        /*
-        public static List<T> ReadCSV<T>(TextAsset asset, int numHeaders) {
-            string[] data = asset.text.Split(new string[] {",","\n"}, StringSplitOptions.None);
+        
+        public static string[] ReadCSV(TextAsset asset) {
+            return asset.text.Split(new string[] {",","\n"}, StringSplitOptions.None);
+            /*
             List<T> dataGazed = new List<T>();
-            
+
             int tableSize = data.Length/numHeaders - 1;
-            T[] dataFormatted = new T[tableSize];
+            List<T> dataFormatted = new List<T>();
             for(int i = 0; i < tableSize; i++) {
-                dataFormatted[i] = new T(
-                    data[numHeaders*(i+1)]
-                )
+                int rowKey = numHeaders*(i+1);
+                string[] row = data.RangeSubset(rowKey,numHeaders);
+                dataFormatted.Add(new T(row));
             }
+            return dataFormatted;
+            */
         }
-        */
     }
 }
