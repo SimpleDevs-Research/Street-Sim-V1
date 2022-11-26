@@ -18,12 +18,19 @@ public class StreetSimIDControllerEditor : Editor
 
         foreach(LoadedPositionData data in controller.loadedAssets) {
             if (data.textAsset == null) continue;
+            EditorGUILayout.LabelField(data.trialName, EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(data.idsTracked.Count + " unique IDs");
             GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(data.trialName);
-            if (GUILayout.Button("Load Trial")) {
+            if (GUILayout.Button("Replay")) {
+                controller.ReplayRecord(data);
+            }
+            /*
+            if (GUILayout.Button("Generate GazeMap")) {
                 controller.LoadData(data);
             }
+            */
             GUILayout.EndHorizontal();
+            DrawUILine(Color.grey, 1, 5);
         }
         /*
         foreach(ExperimentID key in controller.payloads.Keys) {

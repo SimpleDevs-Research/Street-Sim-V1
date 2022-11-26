@@ -86,11 +86,70 @@ public class StreetSimTrackable {
 
 [System.Serializable]
 public class LoadedPositionData {
+    [System.Serializable]
+    public class StreetSimTrackableWithID {
+        public ExperimentID experimentID;
+        public StreetSimTrackable trackable;
+        public StreetSimTrackableWithID(ExperimentID experimentID, StreetSimTrackable trackable) {
+            this.experimentID = experimentID;
+            this.trackable = trackable;
+        } 
+    }
     public string trialName;
     public TextAsset textAsset;
-    public LoadedPositionData(string trialName, TextAsset textAsset) {
+    public List<ExperimentID> idsTracked;
+    public Dictionary<int, float> indexTimeMap;
+    //public Dictionary<int, Dictionary<ExperimentID, StreetSimTrackable>> positionDataByFrame;
+    public Dictionary<float, Dictionary<ExperimentID, StreetSimTrackable>> positionDataByTimestamp;
+    /*
+    public Dictionary<ExperimentID, List<StreetSimTrackable>> payloadByID;
+    public Dictionary<float, StreetSimTrackableWithID> payloadByTimestamp;
+    private List<float> payloadByTimestampOrder;
+    */
+    public LoadedPositionData(string trialName, TextAsset textAsset, List<StreetSimTrackable> trackables) {
         this.trialName = trialName;
         this.textAsset = textAsset;
+
+        this.idsTracked = new List<ExperimentID>();
+        this.indexTimeMap = new Dictionary<int, float>();
+        this.positionDataByTimestamp = new Dictionary<float, Dictionary<ExperimentID, StreetSimTrackable>>();
+
+        foreach(StreetSimTrackable trackable in trackables) {
+            // Find the experiment ID that matches
+            ExperimentID id = StreetSimIDController.ID.FindIDFromName(trackable.id);
+            if (id == null) {
+                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID...");
+                Debug.Log(trackable.ToString());
+                continue;
+            }
+            // Add this id to `idsTracked`
+            if (!this.idsTracked.Contains(id)) this.idsTracked.Add(id);
+            // trackable has access to frameIndex + timestamp, Let's add them
+            if (!this.indexTimeMap.ContainsKey(trackable.frameIndex)) this.indexTimeMap.Add(trackable.frameIndex, trackable.timestamp);
+            // Add this to positionDatabyTimestamp
+            if (!this.positionDataByTimestamp.ContainsKey(trackable.timestamp)) this.positionDataByTimestamp.Add(trackable.timestamp, new Dictionary<ExperimentID, StreetSimTrackable>());
+            if (!this.positionDataByTimestamp[trackable.timestamp].ContainsKey(id)) this.positionDataByTimestamp[trackable.timestamp].Add(id,trackable);
+            //Debug.Log("Trial \""+this.trialName+"\": At time " + trackable.timestamp + ", there are " + this.positionDataByTimestamp[trackable.timestamp].Keys.Count + " unique ExperimentIDs");
+        }
+        /*
+        this.payloadByID = new Dictionary<ExperimentID, List<StreetSimTrackable>>();
+        this.payloadByTimestamp = new Dictionary<float, StreetSimTrackableWithID>();
+        payloadByTimestampOrder = new List<float>();
+        foreach(StreetSimTrackable trackable in trackables) {
+            // Find the experiment ID that matches
+            ExperimentID id = StreetSimIDController.ID.FindIDFromName(t.id);
+            if (id == null) {
+                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID...");
+                Debug.Log(t.ToString());
+                continue;
+            }
+            // Add to payloadByID
+            if (!this.payloadByID.ContainsKey(id)) this.payloadByID.Add(id, new List<StreetSimTrackable>());
+            this.payloadByID[id].Add(t);
+            // Add to payloadbyTimestamp
+            float timestamp = trackable.timestamp
+        }
+        */
     }
 }
 
@@ -112,14 +171,16 @@ public class StreetSimIDController : MonoBehaviour
 
     [SerializeField] private List<LoadedPositionData> m_loadedAssets = new List<LoadedPositionData>();
     public List<LoadedPositionData> loadedAssets { get=>m_loadedAssets; set{} }
+    //[SerializeField] private Dictionary<ExperimentID, List<StreetSimTrackable>> m_loadedPayloadByID = new Dictionary<ExperimentID, List<StreetSimtrackable>>();
+    // [SerializeField] private Dictionary<float, List<StreetSimTrackableWithID>> m_loadedPayloadByTime = new Dictionary<float, List<StreetSimTrackable>>();
 
     [SerializeField] private Transform m_raycasterTransform = null;
-    [SerializeField] private TextAsset positionsCSV = null;
     [SerializeField] private LayerMask replayGazeMask;
 
     private bool m_initialized = false;
     public bool initialized { get=>m_initialized; set{} }
     private IEnumerator replayCoroutine = null;
+    private Dictionary<Transform, Vector3> m_replayOriginalPositions = new Dictionary<Transform, Vector3>();
     [SerializeField] private GameObject gazePrefab;
     private List<GameObject> gazeObjects = new List<GameObject>();
 
@@ -252,6 +313,7 @@ public class StreetSimIDController : MonoBehaviour
         m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     }
 
+    /*
     public void LoadData(LoadedPositionData data) {
         if (!m_initialized || !StreetSim.S.initialized) return;
         if (data.textAsset == null) {
@@ -260,6 +322,7 @@ public class StreetSimIDController : MonoBehaviour
         }
         string[] loadedPositionsRaw = SaveSystemMethods.ReadCSV(data.textAsset);
         List<StreetSimTrackable> loadedPositions = ParseLoadedPositionsData(loadedPositionsRaw);
+        
         m_payloads = new Dictionary<ExperimentID, List<StreetSimTrackable>>();
         foreach(StreetSimTrackable t in loadedPositions) {
             // Find the experiment ID that matches
@@ -276,6 +339,8 @@ public class StreetSimIDController : MonoBehaviour
         }
         Debug.Log("There are currently " + m_payloads.Count.ToString() + " ExperimentIDs whose data was properly loaded.");
     }
+    */
+
     public void LoadDataPaths(List<LoadedSimulationDataPerTrial> trialPaths) {
         List<LoadedPositionData> interpretedPaths = new List<LoadedPositionData>();
         foreach(LoadedSimulationDataPerTrial t in trialPaths) {
@@ -285,7 +350,9 @@ public class StreetSimIDController : MonoBehaviour
                 continue;
             }
             TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
-            interpretedPaths.Add(new LoadedPositionData(t.trialName, ta));
+            string[] pr = SaveSystemMethods.ReadCSV(ta);
+            List<StreetSimTrackable> p = ParseLoadedPositionsData(pr);
+            interpretedPaths.Add(new LoadedPositionData(t.trialName, ta, p));
         }
         m_loadedAssets = interpretedPaths;
     }
@@ -303,7 +370,61 @@ public class StreetSimIDController : MonoBehaviour
         }
         return dataFormatted;
     }
+
+    public void ReplayRecord(LoadedPositionData trial) {
+        // trial contains all the data we need. So let's use them.
+        // Firstly, reset the simulation if one replay is already playing
+        if (replayCoroutine != null) {
+            StopCoroutine(replayCoroutine);
+            foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
+                kvp.Key.localPosition = kvp.Value;
+            }
+        }
+        replayCoroutine = Replay(trial);
+        StartCoroutine(replayCoroutine);
+    }
+
+    private IEnumerator Replay(LoadedPositionData trial) {
+        // The data we're looking for is in trial.indexTimeMap and trial.positionDataByTimestamp
+        List<float> order = new List<float>(trial.indexTimeMap.Values);
+        order.Sort((a,b) => a.CompareTo(b));
+        m_replayOriginalPositions = new Dictionary<Transform, Vector3>();
+        foreach(ExperimentID id in trial.idsTracked) {
+            if (id.id != "User") m_replayOriginalPositions.Add(id.transform, id.transform.localPosition);
+        }
+        
+        int count = order.Count;
+        int index = -1;
+        float prevTimestamp = 0f;
+        m_raycasterTransform.gameObject.SetActive(true);
+
+        while(index < count-1) {
+            index++;
+            float waitTime = order[index] - prevTimestamp;
+            yield return new WaitForSeconds(waitTime);
+            
+            foreach(KeyValuePair<ExperimentID, StreetSimTrackable> kvp in trial.positionDataByTimestamp[order[index]]) {
+                if (kvp.Key.id == "User") {
+                    m_raycasterTransform.localPosition = kvp.Value.localPosition;
+                    m_raycasterTransform.localRotation = kvp.Value.localRotation;
+                } else {
+                    kvp.Key.transform.localPosition = kvp.Value.localPosition;
+                    kvp.Key.transform.localRotation = kvp.Value.localRotation;
+                }
+            }
+            
+            prevTimestamp = order[index];
+        }
+
+        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
+            kvp.Key.localPosition = kvp.Value;
+        }
+        m_raycasterTransform.position = Vector3.zero;
+        m_raycasterTransform.gameObject.SetActive(false);
+        yield return null;
+    }
     
+    /*
     public void ReplayRecord(ExperimentID key, bool trackGaze = false) {
         if (!m_payloads.ContainsKey(key)) {
             Debug.Log("[ID CONTROLLER] Error: Cannot replay something that doesn't exist in our payloads...");
@@ -370,4 +491,5 @@ public class StreetSimIDController : MonoBehaviour
 
         m_raycasterTransform.gameObject.SetActive(false);
     }
+    */
 }
