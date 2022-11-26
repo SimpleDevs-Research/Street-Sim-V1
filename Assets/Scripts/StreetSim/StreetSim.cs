@@ -95,6 +95,9 @@ public class StreetSim : MonoBehaviour
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
 
+    // Loading system
+    [SerializeField] private TextAsset simulationRecord = null;
+
     public void GenerateTestGroups() {
         // Generate total list of trials
         //List<StreetSimTrial> roundOne, roundTwo;
@@ -631,7 +634,36 @@ public class StreetSim : MonoBehaviour
         return true;
     }
     public void LoadSimulationData() {
-        StreetSimIDController.ID.LoadData();
+        string p = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
+        if (!SaveSystemMethods.CheckDirectoryExists(p)) {
+            Debug.Log("[STREET SIM] ERROR: Designated simulation folder does not exist.");
+            return;
+        }
+        List<string> trialNames = new List<string>();
+        for(int i = 0; i < m_trialGroups.Count; i++) {
+            string pathToData = p+"simulationMetadata_"+i.ToString()+".json";
+            Debug.Log("[STREET SIM] Attempting to load \""+pathToData+"\"");
+            if (!SaveSystemMethods.CheckFileExists(pathToData)) {
+                pathToData = p+participantName+"/simulationMetadata_"+i.ToString()+".json";
+                Debug.Log("[STREET SIM] Previous datapath failed. Attempting \""+pathToData+"\"");
+                if (!SaveSystemMethods.CheckFileExists(pathToData)) {
+                    Debug.Log("[STREET SIM] ERROR: Simulation Metadata #" + i.ToString() + " does not appear to exist");
+                    continue;
+                }
+            }
+            SimulationData simData;
+            if (!SaveSystemMethods.LoadJSON<SimulationData>(pathToData, out simData)) {
+                Debug.Log("[STREET SIM] ERROR: Unable to read json data of Simulation Metadata #"+i.ToString());
+                continue;
+            }
+            //TextAsset t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_"+i, typeof(TextAsset));
+            Debug.Log("[STREET SIM] Loaded Simulation Data #"+simData.simulationGroupNumber.ToString());
+            trialNames.AddRange(simData.trials);
+        }
+        Debug.Log("We have " + trialNames.Count.ToString() + " trials available for parsing");
+        
+        //Texture2D t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_", typeof(TextAsset));
+        //StreetSimIDController.ID.LoadData();
     }
 
     public float GetTimeFromStart(float cTime) {

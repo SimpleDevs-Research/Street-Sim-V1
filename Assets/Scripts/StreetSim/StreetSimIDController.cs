@@ -335,6 +335,7 @@ public class StreetSimIDController : MonoBehaviour
                 Debug.Log("[ID CONTROLLER] ERROR: Cannot check if the directory for the simulation data exists or not...");
             } else {
                 SaveSystemMethods.SaveCSV<RaycastHitRow>(simulationDirToSaveIn+"gazeManual",RaycastHitRow.Headers,gazes);
+                ScreenCapture.CaptureScreenshot("Test.png");
             }
         }
 
