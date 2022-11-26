@@ -5,6 +5,7 @@ using UnityEngine;
 using Helpers;
 using SerializableTypes;
 using System.Text.RegularExpressions;
+using UnityEditor;
 
 [System.Serializable]
 public class StreetSimTrackable {
@@ -83,6 +84,16 @@ public class StreetSimTrackable {
     }
 }
 
+[System.Serializable]
+public class LoadedPositionData {
+    public string trialName;
+    public TextAsset textAsset;
+    public LoadedPositionData(string trialName, TextAsset textAsset) {
+        this.trialName = trialName;
+        this.textAsset = textAsset;
+    }
+}
+
 public class StreetSimIDController : MonoBehaviour
 {
 
@@ -98,6 +109,9 @@ public class StreetSimIDController : MonoBehaviour
     [SerializeField] private List<ExperimentID> m_trialTrackables = new List<ExperimentID>();
     private Dictionary<ExperimentID,List<StreetSimTrackable>> m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     public Dictionary<ExperimentID,List<StreetSimTrackable>> payloads { get=>m_payloads; set{} }
+
+    [SerializeField] private List<LoadedPositionData> m_loadedAssets = new List<LoadedPositionData>();
+    public List<LoadedPositionData> loadedAssets { get=>m_loadedAssets; set{} }
 
     [SerializeField] private Transform m_raycasterTransform = null;
     [SerializeField] private TextAsset positionsCSV = null;
@@ -238,13 +252,13 @@ public class StreetSimIDController : MonoBehaviour
         m_payloads = new Dictionary<ExperimentID,List<StreetSimTrackable>>();
     }
 
-    public void LoadData() {
+    public void LoadData(LoadedPositionData data) {
         if (!m_initialized || !StreetSim.S.initialized) return;
-        if (positionsCSV == null) {
+        if (data.textAsset == null) {
             Debug.Log("[ID CONTROLLER] ERROR: Cannot load a data without a CSV file...");
             return;
         }
-        string[] loadedPositionsRaw = SaveSystemMethods.ReadCSV(positionsCSV);
+        string[] loadedPositionsRaw = SaveSystemMethods.ReadCSV(data.textAsset);
         List<StreetSimTrackable> loadedPositions = ParseLoadedPositionsData(loadedPositionsRaw);
         m_payloads = new Dictionary<ExperimentID, List<StreetSimTrackable>>();
         foreach(StreetSimTrackable t in loadedPositions) {
@@ -262,6 +276,21 @@ public class StreetSimIDController : MonoBehaviour
         }
         Debug.Log("There are currently " + m_payloads.Count.ToString() + " ExperimentIDs whose data was properly loaded.");
     }
+    public void LoadDataPaths(List<LoadedSimulationDataPerTrial> trialPaths) {
+        List<LoadedPositionData> interpretedPaths = new List<LoadedPositionData>();
+        foreach(LoadedSimulationDataPerTrial t in trialPaths) {
+            string assetPath = t.assetPath+"/positions.csv";
+            if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+                Debug.Log("[STREET SIM] ERROR: Cannot load textasset \""+assetPath+"\"!");
+                continue;
+            }
+            TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+            interpretedPaths.Add(new LoadedPositionData(t.trialName, ta));
+        }
+        m_loadedAssets = interpretedPaths;
+    }
+
+
     private List<StreetSimTrackable> ParseLoadedPositionsData(string[] data){
         List<StreetSimTrackable> dataFormatted = new List<StreetSimTrackable>();
         int numHeaders = StreetSimTrackable.Headers.Count;

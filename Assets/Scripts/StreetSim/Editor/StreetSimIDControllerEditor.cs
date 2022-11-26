@@ -12,9 +12,20 @@ public class StreetSimIDControllerEditor : Editor
         
         DrawDefaultInspector();
 
-        if (controller.payloads.Count == 0) return;
+        if (controller.loadedAssets.Count == 0) return;
 
         DrawUILine(Color.grey, 2, 10);
+
+        foreach(LoadedPositionData data in controller.loadedAssets) {
+            if (data.textAsset == null) continue;
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(data.trialName);
+            if (GUILayout.Button("Load Trial")) {
+                controller.LoadData(data);
+            }
+            GUILayout.EndHorizontal();
+        }
+        /*
         foreach(ExperimentID key in controller.payloads.Keys) {
             if (controller.payloads[key].Count <= 1) continue;
             GUILayout.BeginHorizontal();
@@ -29,6 +40,7 @@ public class StreetSimIDControllerEditor : Editor
             GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
         }
+        */
 
         /*
         if(GUILayout.Button("Start Tracking")) {

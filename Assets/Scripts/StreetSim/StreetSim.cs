@@ -46,6 +46,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private int m_trialGroupToTest = 0;
     public string participantName { get{ return m_participantName; } set{}}
     public string saveDirectory { get{ return m_sourceDirectory + "/" + m_participantName + "/"; } set{} }
+    public string resourcesDirectory { get=>"Resources/"+m_participantName+"/"; set{} }
     private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
 
     [SerializeField] private StreetSimTrial[] m_initialSetups;
@@ -94,9 +95,8 @@ public class StreetSim : MonoBehaviour
     // Trial Shenangigans
     private bool nextTrialTriggered = false;
     private int trialNumber = -1;
-
-    // Loading system
-    [SerializeField] private TextAsset simulationRecord = null;
+    [SerializeField] private List<LoadedSimulationDataPerTrial> m_loadedTrials = new List<LoadedSimulationDataPerTrial>();
+    public List<LoadedSimulationDataPerTrial> loadedTrials { get=>m_loadedTrials; set{} }
 
     public void GenerateTestGroups() {
         // Generate total list of trials
@@ -635,21 +635,23 @@ public class StreetSim : MonoBehaviour
     }
     public void LoadSimulationData() {
         string p = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
+        string ap = "Assets/"+saveDirectory;
+        Debug.Log("Loading from " + p);
         if (!SaveSystemMethods.CheckDirectoryExists(p)) {
             Debug.Log("[STREET SIM] ERROR: Designated simulation folder does not exist.");
             return;
         }
-        List<string> trialNames = new List<string>();
+        if (SaveSystemMethods.CheckDirectoryExists(p+participantName+"/")) {
+            ap = "Assets/"+saveDirectory+m_participantName+"/";
+            p = p+participantName+"/";
+        }
+        List<LoadedSimulationDataPerTrial> trialNames = new List<LoadedSimulationDataPerTrial>();
         for(int i = 0; i < m_trialGroups.Count; i++) {
             string pathToData = p+"simulationMetadata_"+i.ToString()+".json";
             Debug.Log("[STREET SIM] Attempting to load \""+pathToData+"\"");
             if (!SaveSystemMethods.CheckFileExists(pathToData)) {
-                pathToData = p+participantName+"/simulationMetadata_"+i.ToString()+".json";
-                Debug.Log("[STREET SIM] Previous datapath failed. Attempting \""+pathToData+"\"");
-                if (!SaveSystemMethods.CheckFileExists(pathToData)) {
-                    Debug.Log("[STREET SIM] ERROR: Simulation Metadata #" + i.ToString() + " does not appear to exist");
-                    continue;
-                }
+                Debug.Log("[STREET SIM] ERROR: Simulation Metadata #" + i.ToString() + " does not appear to exist");
+                continue;
             }
             SimulationData simData;
             if (!SaveSystemMethods.LoadJSON<SimulationData>(pathToData, out simData)) {
@@ -658,10 +660,13 @@ public class StreetSim : MonoBehaviour
             }
             //TextAsset t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_"+i, typeof(TextAsset));
             Debug.Log("[STREET SIM] Loaded Simulation Data #"+simData.simulationGroupNumber.ToString());
-            trialNames.AddRange(simData.trials);
+            foreach(string trialName in simData.trials) {
+                trialNames.Add(new LoadedSimulationDataPerTrial(trialName, ap+trialName));
+            }
         }
         Debug.Log("We have " + trialNames.Count.ToString() + " trials available for parsing");
-        
+        m_loadedTrials = trialNames;
+        StreetSimIDController.ID.LoadDataPaths(trialNames);
         //Texture2D t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_", typeof(TextAsset));
         //StreetSimIDController.ID.LoadData();
     }
@@ -852,6 +857,15 @@ public class SimulationData {
         this.simulationGroupNumber = simNumber;
         this.startTime = startTime;
         this.trials = new List<string>();
+    }
+}
+[System.Serializable]
+public class LoadedSimulationDataPerTrial {
+    public string trialName;
+    public string assetPath;
+    public LoadedSimulationDataPerTrial(string trialName, string assetPath) {
+        this.trialName = trialName;
+        this.assetPath = assetPath;
     }
 }
 [System.Serializable]
