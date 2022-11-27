@@ -86,15 +86,6 @@ public class StreetSimTrackable {
 
 [System.Serializable]
 public class LoadedPositionData {
-    [System.Serializable]
-    public class StreetSimTrackableWithID {
-        public ExperimentID experimentID;
-        public StreetSimTrackable trackable;
-        public StreetSimTrackableWithID(ExperimentID experimentID, StreetSimTrackable trackable) {
-            this.experimentID = experimentID;
-            this.trackable = trackable;
-        } 
-    }
     public string trialName;
     public TextAsset textAsset;
     public List<ExperimentID> idsTracked;
@@ -103,7 +94,6 @@ public class LoadedPositionData {
     public Dictionary<float, Dictionary<ExperimentID, StreetSimTrackable>> positionDataByTimestamp;
     /*
     public Dictionary<ExperimentID, List<StreetSimTrackable>> payloadByID;
-    public Dictionary<float, StreetSimTrackableWithID> payloadByTimestamp;
     private List<float> payloadByTimestampOrder;
     */
     public LoadedPositionData(string trialName, TextAsset textAsset, List<StreetSimTrackable> trackables) {
@@ -131,25 +121,6 @@ public class LoadedPositionData {
             if (!this.positionDataByTimestamp[trackable.timestamp].ContainsKey(id)) this.positionDataByTimestamp[trackable.timestamp].Add(id,trackable);
             //Debug.Log("Trial \""+this.trialName+"\": At time " + trackable.timestamp + ", there are " + this.positionDataByTimestamp[trackable.timestamp].Keys.Count + " unique ExperimentIDs");
         }
-        /*
-        this.payloadByID = new Dictionary<ExperimentID, List<StreetSimTrackable>>();
-        this.payloadByTimestamp = new Dictionary<float, StreetSimTrackableWithID>();
-        payloadByTimestampOrder = new List<float>();
-        foreach(StreetSimTrackable trackable in trackables) {
-            // Find the experiment ID that matches
-            ExperimentID id = StreetSimIDController.ID.FindIDFromName(t.id);
-            if (id == null) {
-                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID...");
-                Debug.Log(t.ToString());
-                continue;
-            }
-            // Add to payloadByID
-            if (!this.payloadByID.ContainsKey(id)) this.payloadByID.Add(id, new List<StreetSimTrackable>());
-            this.payloadByID[id].Add(t);
-            // Add to payloadbyTimestamp
-            float timestamp = trackable.timestamp
-        }
-        */
     }
 }
 
@@ -171,11 +142,6 @@ public class StreetSimIDController : MonoBehaviour
 
     [SerializeField] private List<LoadedPositionData> m_loadedAssets = new List<LoadedPositionData>();
     public List<LoadedPositionData> loadedAssets { get=>m_loadedAssets; set{} }
-    //[SerializeField] private Dictionary<ExperimentID, List<StreetSimTrackable>> m_loadedPayloadByID = new Dictionary<ExperimentID, List<StreetSimtrackable>>();
-    // [SerializeField] private Dictionary<float, List<StreetSimTrackableWithID>> m_loadedPayloadByTime = new Dictionary<float, List<StreetSimTrackable>>();
-
-    [SerializeField] private Transform m_raycasterTransform = null;
-    [SerializeField] private LayerMask replayGazeMask;
 
     private bool m_initialized = false;
     public bool initialized { get=>m_initialized; set{} }
@@ -356,6 +322,19 @@ public class StreetSimIDController : MonoBehaviour
         }
         m_loadedAssets = interpretedPaths;
     }
+    public bool LoadDataPath(LoadedSimulationDataPerTrial trial, out LoadedPositionData newData) {
+        string assetPath = trial.assetPath+"/positions.csv";
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[STREET SIM] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            newData = default(LoadedPositionData);
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        List<StreetSimTrackable> p = ParseLoadedPositionsData(pr);
+        newData = new LoadedPositionData(trial.trialName, ta, p);
+        return true;
+    }
 
 
     private List<StreetSimTrackable> ParseLoadedPositionsData(string[] data){
@@ -374,12 +353,7 @@ public class StreetSimIDController : MonoBehaviour
     public void ReplayRecord(LoadedPositionData trial) {
         // trial contains all the data we need. So let's use them.
         // Firstly, reset the simulation if one replay is already playing
-        if (replayCoroutine != null) {
-            StopCoroutine(replayCoroutine);
-            foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
-                kvp.Key.localPosition = kvp.Value;
-            }
-        }
+        EndReplay();
         replayCoroutine = Replay(trial);
         StartCoroutine(replayCoroutine);
     }
@@ -396,8 +370,8 @@ public class StreetSimIDController : MonoBehaviour
         int count = order.Count;
         int index = -1;
         float prevTimestamp = 0f;
-        m_raycasterTransform.gameObject.SetActive(true);
-
+        StreetSim.S.replayCamera.gameObject.SetActive(true);
+        
         while(index < count-1) {
             index++;
             float waitTime = order[index] - prevTimestamp;
@@ -405,8 +379,8 @@ public class StreetSimIDController : MonoBehaviour
             
             foreach(KeyValuePair<ExperimentID, StreetSimTrackable> kvp in trial.positionDataByTimestamp[order[index]]) {
                 if (kvp.Key.id == "User") {
-                    m_raycasterTransform.localPosition = kvp.Value.localPosition;
-                    m_raycasterTransform.localRotation = kvp.Value.localRotation;
+                    StreetSim.S.replayCamera.localPosition = kvp.Value.localPosition;
+                    StreetSim.S.replayCamera.localRotation = kvp.Value.localRotation;
                 } else {
                     kvp.Key.transform.localPosition = kvp.Value.localPosition;
                     kvp.Key.transform.localRotation = kvp.Value.localRotation;
@@ -419,9 +393,23 @@ public class StreetSimIDController : MonoBehaviour
         foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
             kvp.Key.localPosition = kvp.Value;
         }
-        m_raycasterTransform.position = Vector3.zero;
-        m_raycasterTransform.gameObject.SetActive(false);
+        StreetSim.S.replayCamera.position = Vector3.zero;
+        StreetSim.S.replayCamera.gameObject.SetActive(false);
+
         yield return null;
+    }
+
+    public void EndReplay() {
+        if (replayCoroutine != null) {
+            StopCoroutine(replayCoroutine);
+            replayCoroutine = null;
+        }
+        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
+            kvp.Key.localPosition = kvp.Value;
+        }
+
+        StreetSim.S.replayCamera.position = Vector3.zero;
+        StreetSim.S.replayCamera.gameObject.SetActive(false);
     }
     
     /*

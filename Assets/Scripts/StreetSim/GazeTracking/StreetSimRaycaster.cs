@@ -83,6 +83,10 @@ public class StreetSimRaycaster : MonoBehaviour
     [SerializeField] private ExperimentID currentTarget;
     [SerializeField] private bool debugIndependently;
 
+    private IEnumerator replayCoroutine = null;
+    private List<GameObject> gazeObjects = new List<GameObject>();
+    [SerializeField] private GameObject gazePrefab;
+
     private void Awake() {
         R = this;
     }
@@ -152,10 +156,10 @@ public class StreetSimRaycaster : MonoBehaviour
         }
     }
 
-    public bool CheckRaycastManual(Transform manualPointer, LayerMask manualLayerMask, int frameIndex, float timestamp, out RaycastHitRow row) {
+    public bool CheckRaycastManual(Vector3 startPos, Vector3 dir, LayerMask manualLayerMask, int frameIndex, float timestamp, out RaycastHitRow row) {
         ExperimentID target, closestTarget, parentTarget;
         RaycastHit hit;
-        if(Physics.Raycast(manualPointer.position, manualPointer.forward, out hit, 100f, manualLayerMask)) {
+        if(Physics.Raycast(startPos, dir, out hit, 100f, manualLayerMask)) {
             if (!HelperMethods.HasComponent<ExperimentID>(hit.transform, out target)) {
                 row = default(RaycastHitRow);
                 return false;
@@ -191,9 +195,9 @@ public class StreetSimRaycaster : MonoBehaviour
                     m_localPosition.z
                 },
                 new float[3]{
-                    manualPointer.transform.forward.x,
-                    manualPointer.transform.forward.y,
-                    manualPointer.transform.forward.z
+                    dir.x,
+                    dir.y,
+                    dir.z
                 }
             );
             return true;
@@ -244,5 +248,90 @@ public class StreetSimRaycaster : MonoBehaviour
 
     public void ClearData() {
         m_hits = new List<RaycastHitRow>();
+    }
+
+    public void ReplayRecord(LoadedSimulationDataPerTrial trial) {
+        if (replayCoroutine != null) {
+            StopCoroutine(replayCoroutine);
+            ResetReplay();
+        }
+        replayCoroutine = Replay(trial);
+        StartCoroutine(replayCoroutine);
+    }
+    public IEnumerator Replay(LoadedSimulationDataPerTrial trial) {
+
+
+        StreetSim.S.GazeBox.position = StreetSim.S.Cam360.position;
+        if (trial.trialData.direction == "NorthToSouth") StreetSim.S.GazeBox.rotation = Quaternion.AngleAxis(180, Vector3.up);
+        //StreetSim.S.GazeBox.rotation = StreetSim.S.Cam360.rotation;
+        StreetSim.S.GazeBox.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        foreach(Transform child in StreetSim.S.GazeBox) {
+            child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        }
+        StreetSim.S.replayCamera.gameObject.SetActive(true);
+        float directionScale = 1f;
+        /*
+        if (trial.trialData.direction == "NorthToSouth") {
+            StreetSim.S.replayCamera.localScale = new Vector3(-1f,1f,-1f);
+            directionScale = -1f;
+        }
+        */
+ 
+        List<int> order = new List<int>(trial.positionData.indexTimeMap.Keys);
+        order.Sort((a,b) => a.CompareTo(b));
+        int count = order.Count;
+        int index = -1;
+        float prevTimestamp = 0f;
+
+        List<RaycastHitRow> gazes = new List<RaycastHitRow>();
+        gazeObjects = new List<GameObject>();
+
+        ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
+        if (userID == null) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot find user's ExperimentID");
+            yield break;
+        }
+
+        /*
+        Vector3 positionScale = (trial.trialData.direction == "NorthToSouth")
+            ? new Vector3(-1f,1f,-1f)
+            : Vector3.one;
+        */
+
+        while(index < count-1) {
+            index++;
+            int frameIndex = order[index];
+            float timestamp = trial.positionData.indexTimeMap[frameIndex];
+            //StreetSim.S.replayCamera.localPosition = Vector3.Scale(trial.positionData.positionDataByTimestamp[timestamp][userID].localPosition, positionScale);
+            StreetSim.S.replayCamera.localPosition = trial.positionData.positionDataByTimestamp[timestamp][userID].localPosition;
+            StreetSim.S.replayCamera.localRotation = trial.positionData.positionDataByTimestamp[timestamp][userID].localRotation;
+            RaycastHitRow row;
+                if (CheckRaycastManual(StreetSim.S.replayCamera.position, StreetSim.S.replayCamera.forward*directionScale, StreetSim.S.replayGazeMask, frameIndex, timestamp, out row)) {
+                    gazes.Add(row);
+                    GameObject newGazeObject = Instantiate(gazePrefab, StreetSim.S.Cam360, false);
+                    newGazeObject.transform.localPosition = new Vector3(row.localPosition[0],row.localPosition[1],row.localPosition[2]);
+                    newGazeObject.transform.localRotation = Quaternion.identity;
+                    gazeObjects.Add(newGazeObject);
+                }
+            yield return null;
+        }
+
+    }
+    public void ResetReplay() {
+        StreetSim.S.GazeBox.position = new Vector3(0f, -18.5f, 0f);
+        StreetSim.S.GazeBox.rotation = Quaternion.identity;
+        StreetSim.S.GazeBox.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        foreach(Transform child in StreetSim.S.GazeBox) {
+            child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        }
+        StreetSim.S.replayCamera.position = StreetSim.S.Cam360.position;
+        //StreetSim.S.replayCamera.localScale = Vector3.one;
+        StreetSim.S.replayCamera.gameObject.SetActive(false);
+        while(gazeObjects.Count > 0) {
+            GameObject g = gazeObjects[0];
+            gazeObjects.RemoveAt(0);
+            Destroy(g);
+        }
+        gazeObjects = new List<GameObject>();
     }
 }

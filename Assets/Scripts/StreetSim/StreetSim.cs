@@ -26,6 +26,8 @@ public class StreetSim : MonoBehaviour
     public ExperimentID xrExperimentID;
     public Transform Cam360;
     public Transform GazeBox;
+    public Transform replayCamera;
+    public LayerMask replayGazeMask;
 
     [SerializeField] private bool m_startSimulationOnRun = true;
     public bool startSimulationOnRun { get=>m_startSimulationOnRun; set{} }
@@ -636,7 +638,7 @@ public class StreetSim : MonoBehaviour
     public void LoadSimulationData() {
         string p = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
         string ap = "Assets/"+saveDirectory;
-        Debug.Log("Loading from " + p);
+        Debug.Log("[STREET SIM] Loading data from: \"" + p + "\"");
         if (!SaveSystemMethods.CheckDirectoryExists(p)) {
             Debug.Log("[STREET SIM] ERROR: Designated simulation folder does not exist.");
             return;
@@ -645,7 +647,7 @@ public class StreetSim : MonoBehaviour
             ap = "Assets/"+saveDirectory+m_participantName+"/";
             p = p+participantName+"/";
         }
-        List<LoadedSimulationDataPerTrial> trialNames = new List<LoadedSimulationDataPerTrial>();
+        List<LoadedSimulationDataPerTrial> tempLoadedTrials = new List<LoadedSimulationDataPerTrial>();
         for(int i = 0; i < m_trialGroups.Count; i++) {
             string pathToData = p+"simulationMetadata_"+i.ToString()+".json";
             Debug.Log("[STREET SIM] Attempting to load \""+pathToData+"\"");
@@ -658,17 +660,35 @@ public class StreetSim : MonoBehaviour
                 Debug.Log("[STREET SIM] ERROR: Unable to read json data of Simulation Metadata #"+i.ToString());
                 continue;
             }
-            //TextAsset t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_"+i, typeof(TextAsset));
             Debug.Log("[STREET SIM] Loaded Simulation Data #"+simData.simulationGroupNumber.ToString());
             foreach(string trialName in simData.trials) {
-                trialNames.Add(new LoadedSimulationDataPerTrial(trialName, ap+trialName));
+                LoadedSimulationDataPerTrial newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, ap+trialName);
+                TrialData trialData;
+                if (LoadTrialData(p+trialName+"/trial.json", out trialData)) {
+                    newLoadedTrial.trialData = trialData;
+                }
+                if (StreetSimIDController.ID.LoadDataPath(newLoadedTrial, out LoadedPositionData newPositionData)) {
+                    newLoadedTrial.positionData = newPositionData;
+                }
+                tempLoadedTrials.Add(newLoadedTrial);
             }
         }
-        Debug.Log("We have " + trialNames.Count.ToString() + " trials available for parsing");
-        m_loadedTrials = trialNames;
-        StreetSimIDController.ID.LoadDataPaths(trialNames);
-        //Texture2D t = (TextAsset)AssetDatabase.LoadAssetAtPath(p+"simulationMetadata_", typeof(TextAsset));
-        //StreetSimIDController.ID.LoadData();
+        Debug.Log("We have " + tempLoadedTrials.Count.ToString() + " trials available for parsing");
+        m_loadedTrials = tempLoadedTrials;
+        //StreetSimIDController.ID.LoadDataPaths(tempLoadedTrials);
+    }
+
+    public bool LoadTrialData(string path, out TrialData trial) {
+        if (!SaveSystemMethods.CheckFileExists(path)) {
+            Debug.Log("[STREET SIM] ERROR: Unable to find trial file \""+path+"\"");
+            trial = default(TrialData);
+            return false;
+        }
+        if (!SaveSystemMethods.LoadJSON<TrialData>(path, out trial)) {
+            Debug.Log("[STREET SIM] ERROR: Unable to load json file \""+path+"\"...");
+            return false;
+        }
+        return true;
     }
 
     public float GetTimeFromStart(float cTime) {
@@ -863,9 +883,29 @@ public class SimulationData {
 public class LoadedSimulationDataPerTrial {
     public string trialName;
     public string assetPath;
+    public TrialData trialData;
+    public Dictionary<int, float> indexTimeMap;
+    [SerializeField] private LoadedPositionData m_positionData;
+    public LoadedPositionData positionData { get=>m_positionData; set {
+        m_positionData = value;
+        CompareIndexTimeMap(value.indexTimeMap);
+    }}
     public LoadedSimulationDataPerTrial(string trialName, string assetPath) {
         this.trialName = trialName;
         this.assetPath = assetPath;
+        indexTimeMap = new Dictionary<int, float>();
+        m_positionData = null;
+    }
+    public void CompareIndexTimeMap(Dictionary<int, float> newMap) {
+        if (this.indexTimeMap.Count == 0) {
+            this.indexTimeMap = newMap;
+            return;
+        }
+        foreach(KeyValuePair<int, float> mapItem in newMap) {
+            if (!this.indexTimeMap.ContainsKey(mapItem.Key)) this.indexTimeMap.Add(mapItem.Key, mapItem.Value);
+        }
+        Debug.Log("[STREET SIM] Comparing mapkey for \""+this.trialName+"\" shows we have "+this.indexTimeMap.Count+" timeframes to consider");
+        return;
     }
 }
 [System.Serializable]

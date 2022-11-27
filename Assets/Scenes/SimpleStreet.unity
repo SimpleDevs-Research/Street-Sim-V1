@@ -24749,9 +24749,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -59433,6 +59441,7 @@ MonoBehaviour:
     m_Bits: 2048
   currentTarget: {fileID: 0}
   debugIndependently: 0
+  gazePrefab: {fileID: 1570155309163710042, guid: 3c34e0cef5b5c5047b3cda80ebf8976e, type: 3}
 --- !u!1 &1431770649
 GameObject:
   m_ObjectHideFlags: 0
@@ -63864,7 +63873,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1631787299}
   - component: {fileID: 1631787298}
-  - component: {fileID: 1631787297}
   m_Layer: 0
   m_Name: PostCamera
   m_TagString: Untagged
@@ -63872,14 +63880,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1631787297
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631787296}
-  m_Enabled: 1
 --- !u!20 &1631787298
 Camera:
   m_ObjectHideFlags: 0
@@ -67298,9 +67298,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -68193,6 +68201,10 @@ MonoBehaviour:
   xrExperimentID: {fileID: 1081477703}
   Cam360: {fileID: 1670399206}
   GazeBox: {fileID: 898814902}
+  replayCamera: {fileID: 2064541858}
+  replayGazeMask:
+    serializedVersion: 2
+    m_Bits: 16384
   m_startSimulationOnRun: 0
   m_endGameOnSimulationEnd: 1
   m_successAudioSource: {fileID: 2043534103}
@@ -72140,10 +72152,6 @@ MonoBehaviour:
   - {fileID: 1988878106}
   m_trialTrackables: []
   m_loadedAssets: []
-  m_raycasterTransform: {fileID: 2064541858}
-  replayGazeMask:
-    serializedVersion: 2
-    m_Bits: 16384
   gazePrefab: {fileID: 1570155309163710042, guid: 3c34e0cef5b5c5047b3cda80ebf8976e, type: 3}
 --- !u!1 &1808766868 stripped
 GameObject:
@@ -79442,6 +79450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8febb860c7ad034cb3c826a18e4a3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RenderResolution: 1024
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -80773,9 +80782,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

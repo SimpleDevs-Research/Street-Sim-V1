@@ -65,6 +65,32 @@ public class StreetSimEditor : Editor
             streetSim.LoadSimulationData();
         }
 
+        if (streetSim.loadedTrials.Count == 0) return;
+
+        DrawPadding(30);
+        EditorGUILayout.LabelField("Loaded Data", EditorStyles.boldLabel);
+        GUIStyle gs = new GUIStyle();
+        gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
+        for(int i = 0; i < streetSim.loadedTrials.Count; i++) {
+            if (i % 2 == 0) {
+                GUILayout.BeginHorizontal(gs);
+            } else {
+                GUILayout.BeginHorizontal();
+            }
+            EditorGUILayout.LabelField(streetSim.loadedTrials[i].trialName);
+            GUILayout.BeginHorizontal();
+            if (streetSim.loadedTrials[i].positionData != null) {
+                if (GUILayout.Button("Replay")) {
+                    StreetSimIDController.ID.ReplayRecord(streetSim.loadedTrials[i].positionData);
+                }
+                if (GUILayout.Button("Gaze Map")) {
+                    StreetSimRaycaster.R.ReplayRecord(streetSim.loadedTrials[i]);
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();
+        }
+
 
         /*
         if(GUILayout.Button("Save Tracking Data")) {
@@ -97,4 +123,23 @@ public class StreetSimEditor : Editor
         EditorGUI.DrawRect(r, color);
     }
 
+    public static void DrawPadding(int padding = 10) {
+        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding));
+        r.height = padding;
+        r.x-=2;
+        r.width += 6;
+        EditorGUI.DrawRect(r,Color.clear);
+    }
+
+    // Code attributed to: https://forum.unity.com/threads/changing-the-background-color-for-beginhorizontal.66015/
+    private Texture2D MakeTex(int width, int height, Color col) {
+        Color[] pix = new Color[width*height];
+        for(int i = 0; i < pix.Length; i++) {
+            pix[i] = col;
+        }
+        Texture2D result = new Texture2D(width, height);
+        result.SetPixels(pix);
+        result.Apply();
+        return result;
+    }
 }
