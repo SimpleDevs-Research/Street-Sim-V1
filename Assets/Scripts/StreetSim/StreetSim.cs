@@ -24,7 +24,6 @@ public class StreetSim : MonoBehaviour
     public Transform xrTrackingSpace;
     public Transform xrCamera;
     public ExperimentID xrExperimentID;
-    public Transform Cam360;
     public Transform GazeBox;
     public Transform replayCamera;
     public LayerMask replayGazeMask;
@@ -140,7 +139,6 @@ public class StreetSim : MonoBehaviour
 
     private void Start() {
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
-        m_initialSetups[0].isFirstTrial = true;
         if (m_trialGroupToTest == 0) trialNumber = 0;
         else {
             trialNumber = 0;
@@ -157,6 +155,7 @@ public class StreetSim : MonoBehaviour
                 m_trialQueue.AddFirst(t);
             }
         }
+        m_trialQueue.First.Value.isFirstTrial = true;
         if (m_startSimulationOnRun) StartSimulation();
         m_initialized = true;
     }
@@ -207,16 +206,18 @@ public class StreetSim : MonoBehaviour
 
         // Set the start time
         m_simulationStartTime = Time.time;
-        // Enable the next cylinder
-        m_nextCylinder.gameObject.SetActive(true);
+        // Enable the next cylinder, but only for this first trial. After that, never use it again.
+        //                                                                                      m_nextCylinder.gameObject.SetActive(true);
         // Declare that we're running
         m_isRunning = true;
         // Reset the gaze box
+        /*
         GazeBox.position = new Vector3(0f, -20f + Cam360.position.y, 0f);
         GazeBox.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
         foreach(Transform child in GazeBox) {
             child.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
         }
+        */
         // Start the simulation, starting from the first trial in `m_trialQueue`.
         StartTrial();
     }
@@ -236,7 +237,7 @@ public class StreetSim : MonoBehaviour
             // Calculate duration
             m_simulationDuration = m_simulationEndTime - m_simulationStartTime;
             // Set the next cylinder to be deactivated
-            m_nextCylinder.gameObject.SetActive(false);
+            //                                                                                  m_nextCylinder.gameObject.SetActive(false);
             // Indicate that we're ending
             m_isRunning = false;
             // Save the data
@@ -264,6 +265,7 @@ public class StreetSim : MonoBehaviour
         // m_trialQueue is a LinkedList, so we just need to pop from the list
         m_currentTrial = m_trialQueue.First.Value;
         m_trialQueue.RemoveFirst();
+        m_nextCylinder.gameObject.SetActive(m_currentTrial.isFirstTrial);
         
         // We don't continue until we create our trial folder
         trialDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory + m_currentTrial.name + "/");
@@ -304,14 +306,14 @@ public class StreetSim : MonoBehaviour
             m_currentTrial.startSidewalk = m_northSidewalk;
             m_currentTrial.endSidewalk = m_southSidewalk;
             m_resetCube.position = m_northResetPoint.position;
-            m_nextCylinder.position = m_southNextPoint.position;
+            //                                                                                                  m_nextCylinder.position = m_southNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.NorthToSouth;
         } else {
             // The player is currently SOUTH. So we switch the destination to North. Direction is [S -> N]
             m_currentTrial.startSidewalk = m_southSidewalk;
             m_currentTrial.endSidewalk = m_northSidewalk;
             m_resetCube.position = m_southResetPoint.position;
-            m_nextCylinder.position = m_northNextPoint.position;
+            //                                                                                                  m_nextCylinder.position = m_northNextPoint.position;
             m_currentTrial.direction = StreetSimTrial.TrialDirection.SouthToNorth;
         }
         // Clear `m_trialTrackables` in StreetSimIDController
@@ -451,6 +453,11 @@ public class StreetSim : MonoBehaviour
         InitializeTrial(m_currentTrial);
         //xrCamera.transform.position = new Vector3(xrCamera.transform.position.x, 0f, xrCamera.transform.position.z);
     }
+    public IEnumerator TriggerNextTrialCoroutine() {
+        nextTrialTriggered = true;
+        yield return new WaitForSeconds(1f);
+        TriggerNextTrial();
+    }
     public void TriggerNextTrial() {
         nextTrialTriggered = true;
         EndTrial();
@@ -507,8 +514,9 @@ public class StreetSim : MonoBehaviour
                     if (m_currentAttempts.ContainsKey(xrExperimentID)) EndAttempt(xrExperimentID,m_trialFrameTimestamp, true, false, "Returned to start sidewalk"); 
                 }
                 else if (hit.transform == m_currentTrial.endSidewalk) {
-                    // We reached the end successfully! Let's add a successful attempt
+                    // We reached the end successfully! Let's add a successful attempt, then Coroutine for 1 second to the next trial
                     if (m_currentAttempts.ContainsKey(xrExperimentID)) EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
+                    if (!nextTrialTriggered) StartCoroutine(TriggerNextTrialCoroutine());
                 }
             }
             //if (m_trialFrameTimestamp - m_prevTrialFrameTimestamp >= m_trialFrameOffset) {
@@ -887,8 +895,13 @@ public class LoadedSimulationDataPerTrial {
     public TrialData trialData;
     public Dictionary<int, float> indexTimeMap;
     [SerializeField] private LoadedPositionData m_positionData;
+    [SerializeField] private LoadedGazeData m_gazeData;
     public LoadedPositionData positionData { get=>m_positionData; set {
         m_positionData = value;
+        CompareIndexTimeMap(value.indexTimeMap);
+    }}
+    public LoadedGazeData gazeData { get=>m_gazeData; set {
+        m_gazeData = value;
         CompareIndexTimeMap(value.indexTimeMap);
     }}
     public LoadedSimulationDataPerTrial(string trialName, string assetPath) {

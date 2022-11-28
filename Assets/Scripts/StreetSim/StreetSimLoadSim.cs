@@ -105,6 +105,9 @@ public class StreetSimLoadSim : MonoBehaviour
                 if (StreetSimIDController.ID.LoadDataPath(newLoadedTrial, out LoadedPositionData newPositionData)) {
                     newLoadedTrial.positionData = newPositionData;
                 }
+                if (StreetSimRaycaster.R.LoadGazePath(newLoadedTrial, out LoadedGazeData newGazeData)) {
+                    newLoadedTrial.gazeData = newGazeData;
+                }
                 trials.Add(newLoadedTrial);
             }
         }

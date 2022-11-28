@@ -12,6 +12,7 @@ public class StreetSimRaycasterEditor : Editor
 
         DrawDefaultInspector();
 
+        if (!controller.initialized) return;
         if (!StreetSim.S.initialized) return;
         if (StreetSimLoadSim.LS.participantData.Count == 0) return;
         if (StreetSimLoadSim.LS.currentParticipant == null || StreetSimLoadSim.LS.currentParticipant.Length == 0) return;

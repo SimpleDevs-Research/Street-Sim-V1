@@ -80,8 +80,11 @@ public class StreetSimLoadSimEditor : Editor
                 if (GUILayout.Button("Replay")) {
                     StreetSimIDController.ID.ReplayRecord(controller.participantData[controller.currentParticipant][i].positionData);
                 }
-                if (GUILayout.Button("Gaze Map")) {
+                if (GUILayout.Button("Fixation Map")) {
                     StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i]);
+                }
+                if (GUILayout.Button("Gaze Hits")) {
+                    StreetSimRaycaster.R.ReplayGazeHits(controller.participantData[controller.currentParticipant][i]);
                 }
             }
             GUILayout.EndHorizontal();

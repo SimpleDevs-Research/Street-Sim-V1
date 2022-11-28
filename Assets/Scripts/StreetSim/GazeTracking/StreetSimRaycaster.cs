@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using SerializableTypes;
+using UnityEditor;
 
 [System.Serializable]
 public class RaycastHitRow {
@@ -42,6 +44,45 @@ public class RaycastHitRow {
         this.raycastDirection_y = this.raycastDirection[1];
         this.raycastDirection_z = this.raycastDirection[2];
     }
+    public RaycastHitRow(string[] data) {
+        this.frameIndex = Int32.Parse(data[0]);
+        this.timestamp = float.Parse(data[1]);
+        this.triangleIndex = Int32.Parse(data[2]);
+        this.hitID = data[3];
+        this.agentID = data[4];
+        this.localPositionOfHitPosition_x = float.Parse(data[5]);
+        this.localPositionOfHitPosition_y = float.Parse(data[6]);
+        this.localPositionOfHitPosition_z = float.Parse(data[7]);
+        this.localPositionOfHitPosition = new float[3]{
+            this.localPositionOfHitPosition_x,
+            this.localPositionOfHitPosition_y,
+            this.localPositionOfHitPosition_z
+        };
+        this.localPositionOfHitTarget_x = float.Parse(data[8]);
+        this.localPositionOfHitTarget_y = float.Parse(data[9]);
+        this.localPositionOfHitTarget_z = float.Parse(data[10]);
+        this.localPositionOfHitTarget = new float[3]{
+            this.localPositionOfHitTarget_x,
+            this.localPositionOfHitTarget_y,
+            this.localPositionOfHitTarget_z
+        };
+        this.localPosition_x = float.Parse(data[11]);
+        this.localPosition_y = float.Parse(data[12]);
+        this.localPosition_z = float.Parse(data[13]);
+        this.localPosition = new float[3]{
+            this.localPosition_x, 
+            this.localPosition_y, 
+            this.localPosition_z
+        };
+        this.raycastDirection_x = float.Parse(data[14]);
+        this.raycastDirection_y = float.Parse(data[15]);
+        this.raycastDirection_z = float.Parse(data[16]);
+        this.raycastDirection = new float[3]{
+            this.raycastDirection_x,
+            this.raycastDirection_y,
+            this.raycastDirection_z
+        };
+    }
     public static List<string> Headers => new List<string> {
         "frameIndex",
         "timestamp",
@@ -61,6 +102,13 @@ public class RaycastHitRow {
         "raycastDirection_y",
         "raycastDirection_z",
     };
+    public string ToString() {
+        return 
+            this.hitID + "-" + 
+            this.frameIndex.ToString() + "-" +
+            this.timestamp.ToString() + "-" +
+            this.localPosition.ToString();
+    }
 }
 
 [System.Serializable]
@@ -86,9 +134,46 @@ public class RaycastHitReplayRow {
     };
 }
 
+[System.Serializable]
+public class LoadedGazeData {
+    public string trialName;
+    public TextAsset textAsset;
+    public Dictionary<int, float> indexTimeMap;
+    public Dictionary<float, List<RaycastHitRow>> gazeDataByTimestamp;
+    public LoadedGazeData(
+        string trialName, 
+        TextAsset textAsset, 
+        List<RaycastHitRow> gazes
+    ) {
+        this.trialName = trialName;
+        this.textAsset = textAsset;
+
+        this.indexTimeMap = new Dictionary<int, float>();
+        this.gazeDataByTimestamp = new Dictionary<float, List<RaycastHitRow>>();
+
+        foreach(RaycastHitRow gaze in gazes) {
+            // Find the experiment ID that matches
+            ExperimentID hitID = StreetSimIDController.ID.FindIDFromName(gaze.hitID);
+            ExperimentID agentID = StreetSimIDController.ID.FindIDFromName(gaze.agentID);
+            if (hitID == null || agentID == null) {
+                Debug.Log("[RAYCASTER] Error: Could not find an ExperimentID that matches either the hitID or agentID...");
+                Debug.Log(gaze.ToString());
+                continue;
+            }
+            // trackable has access to frameIndex + timestamp, Let's add them
+            if (!this.indexTimeMap.ContainsKey(gaze.frameIndex)) this.indexTimeMap.Add(gaze.frameIndex, gaze.timestamp);
+            // Add this to positionDatabyTimestamp
+            if (!this.gazeDataByTimestamp.ContainsKey(gaze.timestamp)) this.gazeDataByTimestamp.Add(gaze.timestamp, new List<RaycastHitRow>());
+            if (!this.gazeDataByTimestamp[gaze.timestamp].Contains(gaze)) this.gazeDataByTimestamp[gaze.timestamp].Add(gaze);
+        }
+    }
+}
+
 public class StreetSimRaycaster : MonoBehaviour
 {
     public static StreetSimRaycaster R;
+    private bool m_initialized = false;
+    public bool initialized { get=>m_initialized; set{} }
 
     [SerializeField] private EVRA_Pointer pointer;
     [SerializeField] private List<RaycastHitRow> m_hits = new List<RaycastHitRow>();
@@ -115,6 +200,8 @@ public class StreetSimRaycaster : MonoBehaviour
     public bool showCubeGaze { get=>m_showCubeGaze; set{} }
     public bool showRectGaze { get=>m_showRectGaze; set{} }
     public bool showSphereGaze { get=>m_showSphereGaze; set{} }
+
+    private List<GazePoint> gazeGazeObjects = new List<GazePoint>();
 
     void OnDrawGizmosSelected() {
         if (cubeGazeObjects.Count > 0 && m_showCubeGaze) {
@@ -148,6 +235,7 @@ public class StreetSimRaycaster : MonoBehaviour
 
     private void Awake() {
         R = this;
+        m_initialized = true;
     }
 
     private void Update() {
@@ -159,7 +247,8 @@ public class StreetSimRaycaster : MonoBehaviour
         if (pointer == null) return;
         // Get pointer data
         ExperimentID target, closestTarget;
-        RaycastHit[] hits = Physics.SphereCastAll(pointer.transform.position, 0.1f, pointer.transform.forward, 100f, layerMask);
+        //RaycastHit[] hits = Physics.SphereCastAll(pointer.transform.position, 0.1f, pointer.transform.forward, 100f, layerMask);
+        RaycastHit[] hits = Physics.RaycastAll(pointer.transform.position, pointer.transform.forward, 100f, layerMask);
         // RaycastHit[] potentials = Physics.SphereCastAll(pointer.transform.position, 1f, pointer.transform.forward, 50f, layerMask);
         //if (potentials.Length > 0 && CalculateClosestTarget(potentials, pointer.transform.position, pointer.transform.forward, out hit, out target)) {
         //RaycastHit hit;
@@ -326,6 +415,34 @@ public class StreetSimRaycaster : MonoBehaviour
     public void ClearData() {
         m_hits = new List<RaycastHitRow>();
     }
+
+
+    public bool LoadGazePath(LoadedSimulationDataPerTrial trial, out LoadedGazeData newData) {
+        string assetPath = trial.assetPath+"/gaze.csv";
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            newData = default(LoadedGazeData);
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        List<RaycastHitRow> p = ParseGazeData(pr);
+        newData = new LoadedGazeData(trial.trialName, ta, p);
+        return true;
+    }
+    private List<RaycastHitRow> ParseGazeData(string[] data){
+        List<RaycastHitRow> dataFormatted = new List<RaycastHitRow>();
+        int numHeaders = RaycastHitRow.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+      
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            dataFormatted.Add(new RaycastHitRow(row));
+        }
+        return dataFormatted;
+    }
+
 
     public void ReplayRecord(LoadedSimulationDataPerTrial trial) {
         if (replayCoroutine != null) {
@@ -538,5 +655,119 @@ public class StreetSimRaycaster : MonoBehaviour
     }
     public float GetDiscretizationFromIndex(int i) {
         return new List<float>(discretizationToggles.Keys)[i];
+    }
+
+
+    public void ReplayGazeHits(LoadedSimulationDataPerTrial trial) {
+        if (trial.gazeData.gazeDataByTimestamp.Count == 0) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot place gaze hits when there aren't any...");
+            return;
+        }
+        // If we had a replay existing, we should clear it.
+        ResetReplay();
+        // Resut us too
+        ResetGazeReplay();
+        // The dreaded directional aspect...
+
+
+        // it's fine to have gaze data. But we need to instantiate the cars and agents that were there at the time too.
+        // Fortunately, we have access to that data via `trial.positionData`, which is of type `LoadedPositionData`
+        // `LoadedPositionData` also has a `positionDataByTimestamp` dictionary. The Key is the timestamp (float). The value is another Dictionary. Key = ExpeirmentID, Value = StreetSimTrackable
+        // Note that StreetSimTrackable has localPosition and localrotation too.
+        float timestamp;
+        Vector3 agentOriginalPosition, hitOriginalPosition;
+        Quaternion agentOriginalRotation, hitOriginalRotation;
+        foreach(KeyValuePair<float, List<RaycastHitRow>> kvp in trial.gazeData.gazeDataByTimestamp) {
+            // Key = timestamp. Value = List of hits
+            timestamp = kvp.Key;
+            foreach(RaycastHitRow row in kvp.Value) {
+                // Note that we have a quandry.
+                // `row` contains a hitID and agentID. There are times whne they're the same and others when they're different.
+                // Furthermore, while we know that both a `hitID` and `agentID` do exist somewhere in the word, they may be static or dynamic objects.
+                // `positionData` only contains dynamic objects - positionData stores the IDs that it tracked inside of `idsTracked`.
+                // If the hitID and/or agentID are not inside `idsTracked`, then it's probably just a static object in the world. Easy-peasy.
+                // Otherwise, that means that either hitID or agentID are dynamic objects. This is an OR and not an AND because of circumstances:
+                //  1. What if hitID is moving but agentID isn't?
+                //  2. What if agentID is moving but hitID isn't?
+                //  3. What if both are moving?
+                //  4. What if neither are moving? Both are moving?
+                
+                // For each row, we grab the agentId. We've verified that this exists.
+                ExperimentID agentID = StreetSimIDController.ID.FindIDFromName(row.agentID);
+                ExperimentID hitID = StreetSimIDController.ID.FindIDFromName(row.hitID);
+                agentOriginalPosition = agentID.transform.position;
+                agentOriginalRotation = agentID.transform.rotation;
+                hitOriginalPosition = hitID.transform.position;
+                hitOriginalRotation = hitID.transform.rotation;
+                // Rmeember, if agentId is not in idsTracked, then it's most likely a static object that isn't tracked at all.
+                if (!trial.positionData.idsTracked.Contains(agentID)) {
+                    // That means that this is an object is static. In this particular simulation, any static parents are probalby not having any moving children. We can assume that the children are static too.
+                    // in this situation, all we really can do is plaster a gaze point local to hitID.
+                    GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
+                    newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
+                    newGazePoint.transform.parent = null;
+                    gazeGazeObjects.Add(newGazePoint);
+                } else {
+                    // We snagged a dynamic object! That means that at some point, this was tracked. It ought to be!
+                    // The next question is if we can position the agent at the position it was at at this timestamp... which is much harder.
+                    // The best thing we can do is iterate from current frameIndex back to 0 to look for the latest change in position.
+                    for(int i = row.frameIndex; i >= 0; i--) {
+                        if (!trial.indexTimeMap.ContainsKey(i)) continue;
+                        float tempTime = trial.indexTimeMap[i];
+                        if (!trial.positionData.positionDataByTimestamp.ContainsKey(tempTime)) continue;
+                        if (!trial.positionData.positionDataByTimestamp[tempTime].ContainsKey(agentID)) continue;
+                        // If we reach this point, we can safely place the agentID because a record exists
+                        agentID.transform.localPosition = trial.positionData.positionDataByTimestamp[tempTime][agentID].localPosition;
+                        agentID.transform.localRotation = trial.positionData.positionDataByTimestamp[tempTime][agentID].localRotation;
+                        break;
+                    }
+                    // Now that the agentID is placed, we need to deal with hitID
+                    // If hitID and agentID are the same value, then we don't need to do any additional work.
+                    if (hitID != agentID) {
+                        // Uh oh, the hitID is not the same as agentID. This means this too is a dynamic object... potentially
+                        if (!trial.positionData.idsTracked.Contains(hitID)) {
+                            // Uh oh, this hitID is not a dynamic object. But that's fine - thta just means we can attach it regradless
+                            GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
+                            newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
+                            newGazePoint.transform.parent = null;
+                            gazeGazeObjects.Add(newGazePoint);
+                        } else {
+                            // This one is also a dynamic object. Time for traversal again.
+                            for(int j = row.frameIndex; j >= 0; j--) {
+                                if (!trial.indexTimeMap.ContainsKey(j)) continue;
+                                float tempTime2 = trial.indexTimeMap[j];
+                                if (!trial.positionData.positionDataByTimestamp.ContainsKey(tempTime2)) continue;
+                                if (!trial.positionData.positionDataByTimestamp[tempTime2].ContainsKey(hitID)) continue;
+                                // If we reach this point, we can safely place the agentID because a record exists
+                                hitID.transform.localPosition = trial.positionData.positionDataByTimestamp[tempTime2][hitID].localPosition;
+                                hitID.transform.localRotation = trial.positionData.positionDataByTimestamp[tempTime2][hitID].localRotation;
+                            }
+                            GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
+                            newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
+                            newGazePoint.transform.parent = null;
+                            gazeGazeObjects.Add(newGazePoint);
+                        }
+                    } else {
+                        // In this scenario, the hitID is the same as the agentID. So we don't need to worry!
+                        GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
+                        newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
+                        newGazePoint.transform.parent = null;
+                        gazeGazeObjects.Add(newGazePoint);
+                    }
+                }
+                agentID.transform.position = agentOriginalPosition;
+                agentID.transform.rotation = agentOriginalRotation;
+                hitID.transform.position = hitOriginalPosition;
+                hitID.transform.rotation = hitOriginalRotation;
+            }
+        }
+    }
+    public void ResetGazeReplay() {
+        while(gazeGazeObjects.Count > 0) {
+            GazePoint point = gazeGazeObjects[0];
+            gazeGazeObjects.RemoveAt(0);
+            Destroy(point.gameObject);
+        }
+        gazeGazeObjects = new List<GazePoint>();
     }
 }
