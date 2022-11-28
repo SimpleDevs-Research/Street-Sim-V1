@@ -72277,6 +72277,8 @@ MonoBehaviour:
     m_Bits: 16384
   participants:
   - Prelim3
+  - Prelim2
+  - Prelim1
 --- !u!1 &1799894685
 GameObject:
   m_ObjectHideFlags: 0
@@ -80191,6 +80193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
+  cubemap: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
