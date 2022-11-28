@@ -45,7 +45,8 @@ public class StreetSimTrackable {
         this.localRotation_w = this.localRotation.w;
     }
     public StreetSimTrackable(string[] data) {
-        this.id = data[0];
+        string[] idRaw = data[0].Split("|-|");
+        this.id = idRaw[idRaw.Length-1];
         this.frameIndex = Int32.Parse(data[1]);
         this.timestamp = float.Parse(data[2]);
         this.localPosition_x = float.Parse(data[3]);
@@ -166,9 +167,11 @@ public class StreetSimIDController : MonoBehaviour
                 parentChildQueue[toAdd.parent].Enqueue(toAdd);
                 finalID = id;
                 return false;
-            } else {
+            } 
+            /*else {
                 id = toAdd.parent.id + "|-|" + id;
             }
+            */
         }
         if (!ids.Contains(toAdd)) {
             while(idNames.Contains(id)) {

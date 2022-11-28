@@ -51,11 +51,13 @@ public class RaycastHitRow {
         this.worldPosition_z = this.worldPosition[2];
     }
     public RaycastHitRow(string[] data) {
-        this.frameIndex = Int32.Parse(data[0]);
+        this.frameIndex = int.Parse(data[0]);
         this.timestamp = float.Parse(data[1]);
         this.triangleIndex = Int32.Parse(data[2]);
-        this.hitID = data[3];
-        this.agentID = data[4];
+        string[] hitIDraw = data[3].Split("|-|");
+        this.hitID = hitIDraw[hitIDraw.Length-1];
+        string[] agentIDraw = data[4].Split("|-|");
+        this.agentID = agentIDraw[agentIDraw.Length-1];
         this.localPositionOfHitPosition_x = float.Parse(data[5]);
         this.localPositionOfHitPosition_y = float.Parse(data[6]);
         this.localPositionOfHitPosition_z = float.Parse(data[7]);
@@ -126,8 +128,7 @@ public class RaycastHitRow {
             this.hitID + "-" + 
             this.frameIndex.ToString() + "-" +
             this.timestamp.ToString() + "-" +
-            this.localPosition.ToString() + "-" +
-            this.worldPosition.ToString();
+            this.localPosition.ToString();
     }
 }
 

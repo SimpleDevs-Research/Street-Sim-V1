@@ -17,6 +17,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public LayerMask gazeMask;
 
     [Header("PARTICIPANTS")]
+    public string sourceDirectory;
     public List<string> participants = new List<string>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>(); 
     private string m_currentParticipant = null;
@@ -35,9 +36,9 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         
         // We first get the absolute path to our save directory
-        string p = SaveSystemMethods.GetSaveLoadDirectory(StreetSim.S.sourceDirectory);
+        string p = SaveSystemMethods.GetSaveLoadDirectory(sourceDirectory);
         // We then get the path to the save directory from "Assets"
-        string ap = "Assets/"+StreetSim.S.sourceDirectory + "/";
+        string ap = "Assets/"+sourceDirectory + "/";
         
         // Confirm that our absolute save directory path exists. If not, we have to exit early
         Debug.Log("[LOAD SIM] Loading data from: \"" + p + "\"");
@@ -97,6 +98,11 @@ public class StreetSimLoadSim : MonoBehaviour
 
             Debug.Log("[LOAD SIM] Loaded Simulation Data #"+simData.simulationGroupNumber.ToString()+" for \""+participantName+"\"");
             foreach(string trialName in simData.trials) {
+                if (trialName.Contains("Initial")) {
+                    Debug.Log("[LOAD SIM] Skipping \""+trialName+"\"");
+                    continue;
+                }
+                Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
                 LoadedSimulationDataPerTrial newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, assetPath+trialName);
                 TrialData trialData;
                 if (LoadTrialData(path+trialName+"/trial.json", out trialData)) {
