@@ -442,8 +442,6 @@ public class StreetSimRaycaster : MonoBehaviour
                 }
             yield return null;
         }
-
-        GetPixels();
     }
     public void ResetReplay() {
 
@@ -520,7 +518,7 @@ public class StreetSimRaycaster : MonoBehaviour
         discretizationToggles[z] = !discretizationToggles[z];
         foreach(KeyValuePair<float, List<GazePoint>> kvp in cubeGazeObjects) {
             foreach(GazePoint p in kvp.Value) {
-                p.gameObject.SetActive(m_showRectGaze && discretizationToggles[kvp.Key]);
+                p.gameObject.SetActive(m_showCubeGaze && discretizationToggles[kvp.Key]);
             }
         }
         foreach(KeyValuePair<float, List<GazePoint>> kvp in rectGazeObjects) {
@@ -540,9 +538,5 @@ public class StreetSimRaycaster : MonoBehaviour
     }
     public float GetDiscretizationFromIndex(int i) {
         return new List<float>(discretizationToggles.Keys)[i];
-    }
-
-    public void GetPixels() {
-        StreetSimLoadSim.LS.cam360.GetComponent<BodhiDonselaar.EquiCam>().ConvertWorldToScreen();
     }
 }

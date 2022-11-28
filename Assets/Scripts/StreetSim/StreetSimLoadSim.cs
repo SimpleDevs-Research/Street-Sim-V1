@@ -35,9 +35,9 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         
         // We first get the absolute path to our save directory
-        string p = SaveSystemMethods.GetSaveLoadDirectory(StreetSim.S.saveDirectory);
+        string p = SaveSystemMethods.GetSaveLoadDirectory(StreetSim.S.sourceDirectory);
         // We then get the path to the save directory from "Assets"
-        string ap = "Assets/"+StreetSim.S.saveDirectory;
+        string ap = "Assets/"+StreetSim.S.sourceDirectory + "/";
         
         // Confirm that our absolute save directory path exists. If not, we have to exit early
         Debug.Log("[LOAD SIM] Loading data from: \"" + p + "\"");
@@ -60,11 +60,15 @@ public class StreetSimLoadSim : MonoBehaviour
     private bool LoadParticipantData(string p, string ap, string participantName, out List<LoadedSimulationDataPerTrial> trials) {
         string path = p;
         string assetPath = ap;
+        if (SaveSystemMethods.CheckDirectoryExists(path+participantName+"/")) {
+            assetPath = assetPath+participantName+"/";
+            path = path+participantName+"/";
+        } 
         // Depending on the way data is saved, sometimes we may have cases where the 
         //      participant's data is nested inside an additional layer. 
         // In such a case, we have to check if this is the case. This additional folder is typically the participant's name
         if (SaveSystemMethods.CheckDirectoryExists(path+participantName+"/")) {
-            assetPath = "Assets/"+StreetSim.S.saveDirectory+participantName+"/";
+            assetPath = assetPath+participantName+"/";
             path = path+participantName+"/";
         }
 
