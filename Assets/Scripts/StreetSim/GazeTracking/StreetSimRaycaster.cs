@@ -21,7 +21,9 @@ public class RaycastHitRow {
     public float localPosition_x, localPosition_y, localPosition_z;
     public float[] raycastDirection;
     public float raycastDirection_x, raycastDirection_y, raycastDirection_z;
-    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] lp, float[] rd) {
+    public float[] worldPosition;
+    public float worldPosition_x, worldPosition_y, worldPosition_z;
+    public RaycastHitRow(int index, float t, int i, string h, string a, float[] lpp, float[] lpt, float[] lp, float[] rd, float[] wp) {
         this.frameIndex = index;
         this.timestamp = t;
         this.triangleIndex = i;
@@ -43,6 +45,10 @@ public class RaycastHitRow {
         this.raycastDirection_x = this.raycastDirection[0];
         this.raycastDirection_y = this.raycastDirection[1];
         this.raycastDirection_z = this.raycastDirection[2];
+        this.worldPosition = wp;
+        this.worldPosition_x = this.worldPosition[0];
+        this.worldPosition_y = this.worldPosition[1];
+        this.worldPosition_z = this.worldPosition[2];
     }
     public RaycastHitRow(string[] data) {
         this.frameIndex = Int32.Parse(data[0]);
@@ -82,6 +88,16 @@ public class RaycastHitRow {
             this.raycastDirection_y,
             this.raycastDirection_z
         };
+        if (data.Length > 17) {
+            this.worldPosition_x = float.Parse(data[17]);
+            this.worldPosition_y = float.Parse(data[18]);
+            this.worldPosition_z = float.Parse(data[19]);
+            this.worldPosition = new float[3]{
+                this.worldPosition_x, 
+                this.worldPosition_y, 
+                this.worldPosition_z
+            };
+        }
     }
     public static List<string> Headers => new List<string> {
         "frameIndex",
@@ -101,13 +117,17 @@ public class RaycastHitRow {
         "raycastDirection_x",
         "raycastDirection_y",
         "raycastDirection_z",
+        "worldPosition_x",
+        "worldPosition_y",
+        "worldPosition_z",
     };
     public string ToString() {
         return 
             this.hitID + "-" + 
             this.frameIndex.ToString() + "-" +
             this.timestamp.ToString() + "-" +
-            this.localPosition.ToString();
+            this.localPosition.ToString() + "-" +
+            this.worldPosition.ToString();
     }
 }
 
@@ -292,6 +312,11 @@ public class StreetSimRaycaster : MonoBehaviour
                                 pointer.transform.forward.x,
                                 pointer.transform.forward.y,
                                 pointer.transform.forward.z
+                            },
+                            new float[3]{
+                                hit.point.x,
+                                hit.point.y+20f,
+                                hit.point.z
                             }
                         )
                     );
@@ -346,6 +371,11 @@ public class StreetSimRaycaster : MonoBehaviour
                     dir.x,
                     dir.y,
                     dir.z
+                },
+                new float[3]{
+                    hit.point.x,
+                    hit.point.y,
+                    hit.point.z
                 }
             );
             return true;

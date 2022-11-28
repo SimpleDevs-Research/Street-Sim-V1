@@ -516,7 +516,7 @@ public class StreetSim : MonoBehaviour
                 else if (hit.transform == m_currentTrial.endSidewalk) {
                     // We reached the end successfully! Let's add a successful attempt, then Coroutine for 1 second to the next trial
                     if (m_currentAttempts.ContainsKey(xrExperimentID)) EndAttempt(xrExperimentID,m_trialFrameTimestamp,true,true,"Reached the other sidewalk successfully");
-                    if (!nextTrialTriggered) StartCoroutine(TriggerNextTrialCoroutine());
+                    if (!nextTrialTriggered && !m_currentTrial.isFirstTrial) StartCoroutine(TriggerNextTrialCoroutine());
                 }
             }
             //if (m_trialFrameTimestamp - m_prevTrialFrameTimestamp >= m_trialFrameOffset) {

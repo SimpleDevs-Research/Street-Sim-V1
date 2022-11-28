@@ -27012,7 +27012,7 @@ GameObject:
   m_Component:
   - component: {fileID: 898814902}
   - component: {fileID: 898814901}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: GazeCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68823,7 +68823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1796700472}
   - component: {fileID: 1796700471}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: GazeRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68901,7 +68901,6 @@ MonoBehaviour:
   xrTrackingSpace: {fileID: 942491262}
   xrCamera: {fileID: 1081477697}
   xrExperimentID: {fileID: 1081477703}
-  Cam360: {fileID: 0}
   GazeBox: {fileID: 898814902}
   replayCamera: {fileID: 2064541858}
   replayGazeMask:
