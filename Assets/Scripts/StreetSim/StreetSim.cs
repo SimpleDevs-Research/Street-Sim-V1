@@ -61,6 +61,7 @@ public class StreetSim : MonoBehaviour
 
     [SerializeField] private int numTrialsPerGroups = 10;
     [SerializeField] private List<StreetSimTrialGroup> m_trialGroups = new List<StreetSimTrialGroup>();
+    public List<StreetSimTrialGroup> trialGroups { get=>m_trialGroups; set{} }
 
     [SerializeField] private StreetSimStatus m_streetSimStatus = StreetSimStatus.Idle;
     public StreetSimStatus streetSimStatus { get { return m_streetSimStatus; } set {} }

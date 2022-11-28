@@ -359,7 +359,16 @@ public class StreetSimIDController : MonoBehaviour
     }
 
     private IEnumerator Replay(LoadedPositionData trial) {
-        // The data we're looking for is in trial.indexTimeMap and trial.positionDataByTimestamp
+        StreetSimLoadSim.LS.gazeCube.position = new Vector3(0f, StreetSimLoadSim.LS.cam360.position.y-20f, 0f);
+        StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
+        StreetSimLoadSim.LS.gazeCube.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+        foreach(Transform child in StreetSimLoadSim.LS.gazeCube) child.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+
+        StreetSimLoadSim.LS.gazeRect.position = new Vector3(0f, StreetSimLoadSim.LS.cam360.position.y-20f, 0f);
+        StreetSimLoadSim.LS.gazeRect.rotation = Quaternion.identity;
+        StreetSimLoadSim.LS.gazeRect.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+        foreach(Transform child in StreetSimLoadSim.LS.gazeRect) child.gameObject.layer = LayerMask.NameToLayer("ExperimentRaycastTarget");
+
         List<float> order = new List<float>(trial.indexTimeMap.Values);
         order.Sort((a,b) => a.CompareTo(b));
         m_replayOriginalPositions = new Dictionary<Transform, Vector3>();
@@ -370,7 +379,7 @@ public class StreetSimIDController : MonoBehaviour
         int count = order.Count;
         int index = -1;
         float prevTimestamp = 0f;
-        StreetSim.S.replayCamera.gameObject.SetActive(true);
+        StreetSimLoadSim.LS.userImitator.gameObject.SetActive(true);
         
         while(index < count-1) {
             index++;
@@ -379,8 +388,8 @@ public class StreetSimIDController : MonoBehaviour
             
             foreach(KeyValuePair<ExperimentID, StreetSimTrackable> kvp in trial.positionDataByTimestamp[order[index]]) {
                 if (kvp.Key.id == "User") {
-                    StreetSim.S.replayCamera.localPosition = kvp.Value.localPosition;
-                    StreetSim.S.replayCamera.localRotation = kvp.Value.localRotation;
+                    StreetSimLoadSim.LS.userImitator.localPosition = kvp.Value.localPosition;
+                    StreetSimLoadSim.LS.userImitator.localRotation = kvp.Value.localRotation;
                 } else {
                     kvp.Key.transform.localPosition = kvp.Value.localPosition;
                     kvp.Key.transform.localRotation = kvp.Value.localRotation;
@@ -390,11 +399,10 @@ public class StreetSimIDController : MonoBehaviour
             prevTimestamp = order[index];
         }
 
-        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
-            kvp.Key.localPosition = kvp.Value;
-        }
-        StreetSim.S.replayCamera.position = Vector3.zero;
-        StreetSim.S.replayCamera.gameObject.SetActive(false);
+        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) kvp.Key.localPosition = kvp.Value;
+        StreetSimLoadSim.LS.userImitator.position = Vector3.zero;
+        StreetSimLoadSim.LS.userImitator.rotation = Quaternion.identity;
+        StreetSimLoadSim.LS.userImitator.gameObject.SetActive(false);
 
         yield return null;
     }
@@ -404,12 +412,10 @@ public class StreetSimIDController : MonoBehaviour
             StopCoroutine(replayCoroutine);
             replayCoroutine = null;
         }
-        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) {
-            kvp.Key.localPosition = kvp.Value;
-        }
-
-        StreetSim.S.replayCamera.position = Vector3.zero;
-        StreetSim.S.replayCamera.gameObject.SetActive(false);
+        foreach(KeyValuePair<Transform, Vector3> kvp in m_replayOriginalPositions) kvp.Key.localPosition = kvp.Value;
+        StreetSimLoadSim.LS.userImitator.position = Vector3.zero;
+        StreetSimLoadSim.LS.userImitator.rotation = Quaternion.identity;
+        StreetSimLoadSim.LS.userImitator.gameObject.SetActive(false);
     }
     
     /*
