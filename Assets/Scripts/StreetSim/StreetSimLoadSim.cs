@@ -294,21 +294,58 @@ public class StreetSimLoadSim : MonoBehaviour
     public void GroundTruthSaliency(bool discretized = false) {
         // Firstly, generate a list of all points
         Dictionary<Vector3, float> gazeFixationsAcrossParticipants = new Dictionary<Vector3, float>();
+        Dictionary<Vector3, bool> gazeFixationsForIthParticipant = new Dictionary<Vector3, bool>();
+        foreach(Vector3 dir in directions) {
+            gazeFixationsAcrossParticipants.Add(dir,0f);
+        }
+        Vector3 origin = new Vector3(0f,1.5f,0f);
         // Secondly, generate a list of directions
         GenerateSphereGrid();
         // Thidly, get list of participant data in List form
-        List<List<LoadedSimulationDataPerTrial>> trials = participantData.Values.ToList();
+        List<List<LoadedSimulationDataPerTrial>> participants = participantData.Values.ToList();
         // Fourthly, start to generate a percentage value that'll be used ubiquitously
         float percentage;
         // Fifthly, start to iterate through participants
-        for(int i = 0; i < trials.Count; i++) {
+        for(int i = 0; i < participants.Count; i++) {
             // The ith user must be left out of this iteration
-            for(int j = 0; j < trials.Count; j++) {
+            for(int j = 0; j < participants.Count; j++) {
                 if (i == j) continue;
                 // For this user, we need to generate the gaze fixations
                 // Whether the gaze fixations are discretized or not is provided as a parameter to this method
-
+                // For each user, for each trial, we can get the gaze points for sphereGaze by calling StreetSimRaycaster.R.ReplayRecord()
+                // ReplayRecord accepts a LoadedSimulationDataPerTrial and a bool
+                foreach(LoadedSimulationDataPerTrial trial in participants[j]) {
+                    if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
+                        // Grab sphere data
+                        List<GazePoint> spherePoints = new List<GazePoint>(sphereGazeObjects.Values);
+                        // For each spherepoint, derive which directions that the GazePoint is closest to
+                        foreach(GazePoint point in spherePoints) {
+                            foreach(Vector3 dir in directions) {
+                                if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
+                                    // Found a fixation
+                                    gazeFixationsAcrossParticipants[dir] += 1f;
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            // Now, we do the replay record for each trial for ith participant
+            foreach(LoadedSimulationDataPerTrial trial in participants[i]) {
+                if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
+                    // Grab sphere data
+                    List<GazePoint> spherePoints = new List<GazePoint>(sphereGazeObjects.Values);
+                    // For each spherepoint, derive which directions that the GazePoint is closest to
+                        foreach(GazePoint point in spherePoints) {
+                            foreach(Vector3 dir in directions) {
+                                if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
+                                    // Found a fixation
+                                    gazeFixationsAcrossParticipants[dir] += 1f;
+                                }
+                            }
+                        }
+                    }
+                }
         }
     }
 
