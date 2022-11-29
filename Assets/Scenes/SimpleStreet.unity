@@ -28263,7 +28263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &898814901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71292,7 +71292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1796700471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74723,12 +74723,15 @@ MonoBehaviour:
     m_Bits: 16384
   sourceDirectory: UserData_ignore
   participants:
-  - PI2
+  - Prelim1
+  - Prelim2
+  - Prelim3
   loadInitials: 0
-  sphereRadius: 1
-  numViewDirections: 300
-  points: []
-  averageDistanceBetweenPoints: 0
+  visualizeSphere: 1
+  sphereRadius: 10
+  numViewDirections: 2048
+  directions: []
+  averageDistanceBetweenPoints: 0.5
 --- !u!1 &1799894685
 GameObject:
   m_ObjectHideFlags: 0
@@ -82955,7 +82958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2020243766
 Transform:
   m_ObjectHideFlags: 0

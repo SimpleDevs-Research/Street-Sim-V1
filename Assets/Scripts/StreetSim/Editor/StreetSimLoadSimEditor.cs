@@ -9,6 +9,8 @@ public class StreetSimLoadSimEditor : Editor
 
     public override void OnInspectorGUI() {
         StreetSimLoadSim controller = (StreetSimLoadSim)target;
+        GUIStyle gs = new GUIStyle();
+        gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
 
         DrawDefaultInspector();
 
@@ -16,14 +18,39 @@ public class StreetSimLoadSimEditor : Editor
         if (!StreetSim.S.initialized) return;
 
         EditorGUILayout.LabelField("Global Controls", EditorStyles.boldLabel);
+
+        float z;
+        string toggleText;
+        for(int i = 0; i < controller.NumDiscretizations; i++) {
+            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
+            else GUILayout.BeginHorizontal();
+                
+            z = controller.GetDiscretizationFromIndex(i);
+            toggleText = (controller.discretizations[z]) ? "Turn off" : "Turn on";
+
+            EditorGUILayout.LabelField("Z: "+z.ToString());   
+            if (GUILayout.Button("Place Cam")) {
+                controller.PlaceCam(z);
+            }             
+            if (GUILayout.Button(toggleText)) {
+                controller.ToggleDiscretization(z);
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
         if (GUILayout.Button("Load")) {
             controller.Load();
         }
-        if (GUILayout.Button("Sphere Grid")) {
+        if (GUILayout.Button("Generate Sphere Grid")) {
             controller.GenerateSphereGrid();
         }
 
         if (controller.participantData.Count == 0) return;
+        
+        if (GUILayout.Button("Calculate Ground Truth ROC")) {
+            controller.GroundTruthSaliency();
+        }
 
         DrawPadding(5);
         
@@ -89,15 +116,17 @@ public class StreetSimLoadSimEditor : Editor
                 if (GUILayout.Button("Replay")) {
                     StreetSimIDController.ID.ReplayRecord(controller.participantData[controller.currentParticipant][i].positionData);
                 }
-                if (GUILayout.Button("Fixation Map")) {
-                    StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i]);
+                if (GUILayout.Button("Av. Fixation Map")) {
+                    StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i], false);
+                }
+                if (GUILayout.Button("Dis. Fixation Map")) {
+                    StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i], true);
                 }
                 if (GUILayout.Button("Gaze Hits")) {
                     StreetSimRaycaster.R.ReplayGazeHits(controller.participantData[controller.currentParticipant][i]);
                 }
             }
             GUILayout.EndHorizontal();
-
             GUILayout.EndVertical();
         }
     }
@@ -134,9 +163,9 @@ public class StreetSimLoadSimEditor : Editor
 
     public void OnSceneGUI ()  {
         StreetSimLoadSim controller = (StreetSimLoadSim)target;
-        if (controller.points.Count == 0) return;
-        foreach(Vector3 point in controller.points) {
-            Vector3 pos = controller.cam360.position + point;
+        if (controller.directions.Count == 0 || !controller.visualizeSphere) return;
+        foreach(Vector3 dir in controller.directions) {
+            Vector3 pos = controller.cam360.position + dir*controller.sphereRadius;
             Handles.color = Color.white;
             Handles.DrawWireDisc(
                 pos,                                      // position

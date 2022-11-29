@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
+using System.Linq;
 
 public class StreetSimLoadSim : MonoBehaviour
 {
@@ -24,13 +25,37 @@ public class StreetSimLoadSim : MonoBehaviour
     private string m_currentParticipant = null;
     public string currentParticipant { get=>m_currentParticipant; set{} }
     public bool loadInitials = false;
+    public Dictionary<float, bool> discretizations = new Dictionary<float,bool>() {
+        {-10f,true},
+        {-9f,true},
+        {-8f,true},
+        {-7f,true},
+        {-6f,true},
+        {-5f,true},
+        {-4f,true},
+        {-3f,true},
+        {-2f,true},
+        {-1f,true},
+        {0f,true},
+        {1f,true},
+        {2f,true},
+        {3f,true},
+        {4f,true},
+        {5f,true},
+        {6f,true},
+        {7f,true},
+        {8f,true},
+        {9f,true},
+        {10f,true}
+    };
+    public int NumDiscretizations { get=>new List<float>(discretizations.Keys).Count; set{} }
 
     [Header("DATA")]
-    
+    public bool visualizeSphere = true;
     public float sphereRadius = 1f;
     //public int sphereAngle = 1; // must be a factor of 180'
     public int numViewDirections = 300;
-    public List<Vector3> points = new List<Vector3>();
+    public List<Vector3> directions = new List<Vector3>();
     public float averageDistanceBetweenPoints = 0f;
     private IEnumerator sphereCoroutine = null;
 
@@ -67,6 +92,10 @@ public class StreetSimLoadSim : MonoBehaviour
                 participantData.Add(participant,trials);
             }
         }
+
+        cam360.gameObject.SetActive(true);
+        gazeCube.gameObject.SetActive(true);
+        gazeRect.gameObject.SetActive(true);
     }
 
     private bool LoadParticipantData(string p, string ap, string participantName, out List<LoadedSimulationDataPerTrial> trials) {
@@ -206,7 +235,7 @@ public class StreetSimLoadSim : MonoBehaviour
 	}
 
     public void GenerateSphereGrid() {
-        points = new List<Vector3>();
+        directions = new List<Vector3>();
 
         float goldenRatio = (1 + Mathf.Sqrt (5)) / 2;
         float angleIncrement = Mathf.PI * 2 * goldenRatio;
@@ -219,7 +248,7 @@ public class StreetSimLoadSim : MonoBehaviour
             float x = Mathf.Sin (inclination) * Mathf.Cos (azimuth);
             float y = Mathf.Sin (inclination) * Mathf.Sin (azimuth);
             float z = Mathf.Cos (inclination);
-            points.Add(new Vector3(x,y,z));
+            directions.Add(new Vector3(x,y,z));
         }
 
         /*
@@ -261,5 +290,37 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         Destroy(rotator);
         */
+    }
+    public void GroundTruthSaliency(bool discretized = false) {
+        // Firstly, generate a list of all points
+        Dictionary<Vector3, float> gazeFixationsAcrossParticipants = new Dictionary<Vector3, float>();
+        // Secondly, generate a list of directions
+        GenerateSphereGrid();
+        // Thidly, get list of participant data in List form
+        List<List<LoadedSimulationDataPerTrial>> trials = participantData.Values.ToList();
+        // Fourthly, start to generate a percentage value that'll be used ubiquitously
+        float percentage;
+        // Fifthly, start to iterate through participants
+        for(int i = 0; i < trials.Count; i++) {
+            // The ith user must be left out of this iteration
+            for(int j = 0; j < trials.Count; j++) {
+                if (i == j) continue;
+                // For this user, we need to generate the gaze fixations
+                // Whether the gaze fixations are discretized or not is provided as a parameter to this method
+
+            }
+        }
+    }
+
+    public float GetDiscretizationFromIndex(int i) {
+        return new List<float>(discretizations.Keys)[i];
+    }
+    public void ToggleDiscretization(float z) {
+        discretizations[z] = !discretizations[z];
+        StreetSimRaycaster.R.ToggleDiscretization(z);
+    }
+
+    public void PlaceCam(float z) {
+        cam360.position = new Vector3(0f,1.5f,z);
     }
 }

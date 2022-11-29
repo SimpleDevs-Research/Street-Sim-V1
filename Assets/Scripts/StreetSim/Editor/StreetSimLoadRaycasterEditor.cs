@@ -30,30 +30,6 @@ public class StreetSimRaycasterEditor : Editor
         if (GUILayout.Button(sphereText)) {
             controller.ToggleSphereGaze();
         }
-
-        if (controller.discretizationToggles.Count > 0) {
-            GUIStyle gs = new GUIStyle();
-            gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
-            float z;
-            string toggleText;
-            for(int i = 0; i < controller.NumDiscretizations(); i++) {
-                if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
-                else GUILayout.BeginHorizontal();
-                
-                z = controller.GetDiscretizationFromIndex(i);
-                toggleText = (controller.discretizationToggles[z]) ? "Turn off" : "Turn on";
-
-                EditorGUILayout.LabelField("Z: "+z.ToString());   
-                if (GUILayout.Button("Place Cam")) {
-                    controller.PlaceCam(z);
-                }             
-                if (GUILayout.Button(toggleText)) {
-                    controller.ToggleDiscretization(z);
-                }
-
-                GUILayout.EndHorizontal();
-            }
-        }
     }
 
     // Code attributed to: https://forum.unity.com/threads/horizontal-line-in-editor-window.520812/

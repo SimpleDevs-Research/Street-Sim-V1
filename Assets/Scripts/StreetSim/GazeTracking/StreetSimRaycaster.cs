@@ -209,10 +209,9 @@ public class StreetSimRaycaster : MonoBehaviour
     [SerializeField] private ExperimentID currentTarget;
     [SerializeField] private bool debugIndependently;
 
-    private IEnumerator replayCoroutine = null;
-    private Dictionary<float, List<GazePoint>> cubeGazeObjects = new Dictionary<float, List<GazePoint>>();
-    private Dictionary<float, List<GazePoint>> rectGazeObjects = new Dictionary<float, List<GazePoint>>();
-    private Dictionary<float, List<GazePoint>> sphereGazeObjects = new Dictionary<float, List<GazePoint>>();
+    public Dictionary<float, List<GazePoint>> cubeGazeObjects = new Dictionary<float, List<GazePoint>>();
+    public Dictionary<float, List<GazePoint>> rectGazeObjects = new Dictionary<float, List<GazePoint>>();
+    public Dictionary<float, List<GazePoint>> sphereGazeObjects = new Dictionary<float, List<GazePoint>>();
     public Dictionary<float, bool> discretizationToggles = new Dictionary<float, bool>();
     private bool m_showCubeGaze = true, m_showRectGaze = true, m_showSphereGaze = true;
     public bool showCubeGaze { get=>m_showCubeGaze; set{} }
@@ -472,15 +471,11 @@ public class StreetSimRaycaster : MonoBehaviour
     }
 
 
-    public void ReplayRecord(LoadedSimulationDataPerTrial trial) {
-        if (replayCoroutine != null) {
-            StopCoroutine(replayCoroutine);
-            ResetReplay();
-        }
-        replayCoroutine = Replay(trial);
-        StartCoroutine(replayCoroutine);
+    public bool ReplayRecord(LoadedSimulationDataPerTrial trial, bool discretization = true) {
+        ResetReplay();
+        return Replay(trial, discretization);
     }
-    public IEnumerator Replay(LoadedSimulationDataPerTrial trial) {
+    public bool Replay(LoadedSimulationDataPerTrial trial, bool discretization = true) {
         StreetSimLoadSim.LS.gazeCube.position = StreetSimLoadSim.LS.cam360.position;
         StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
         StreetSimLoadSim.LS.gazeCube.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
@@ -514,7 +509,7 @@ public class StreetSimRaycaster : MonoBehaviour
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
             Debug.Log("[RAYCASTER] ERROR: Cannot find user's ExperimentID");
-            yield break;
+            return false;
         }
 
         while(index < count-1) {
@@ -529,8 +524,10 @@ public class StreetSimRaycaster : MonoBehaviour
             Vector3 zDiscretizationPosition = StreetSimLoadSim.LS.userImitator.position;
             float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
 
-            StreetSimLoadSim.LS.gazeCube.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
-            StreetSimLoadSim.LS.gazeRect.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
+            if (discretization) {
+                StreetSimLoadSim.LS.gazeCube.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
+                StreetSimLoadSim.LS.gazeRect.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
+            }
 
             zDiscretization *= positionMultiplier.z;
             if (!cubeGazeObjects.ContainsKey(zDiscretization)) {
@@ -542,51 +539,59 @@ public class StreetSimRaycaster : MonoBehaviour
             if (!sphereGazeObjects.ContainsKey(zDiscretization)) {
                 sphereGazeObjects.Add(zDiscretization, new List<GazePoint>());
             }
-            if (!discretizationToggles.ContainsKey(zDiscretization)) {
-                discretizationToggles.Add(zDiscretization, true);
-            }
             
             List<RaycastHitReplayRow> rows;
-                if (CheckRaycastManualAll(StreetSimLoadSim.LS.userImitator.position,StreetSimLoadSim.LS.userImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
-                    GazePoint cubePoint = null;
-                    // Instantiate gaze point for both cube and rect
-                    foreach(RaycastHitReplayRow row in rows) {
-                        GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
+            if (CheckRaycastManualAll(StreetSimLoadSim.LS.userImitator.position,StreetSimLoadSim.LS.userImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
+                GazePoint cubePoint = null;
+                // Instantiate gaze point for both cube and rect
+                foreach(RaycastHitReplayRow row in rows) {
+                    GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
+                    if (discretization) {
                         newGazeObject.originPoint = Vector3.Scale(StreetSimLoadSim.LS.userImitator.position, positionMultiplier);
-                        newGazeObject.transform.position = Vector3.Scale(row.worldPosition,positionMultiplier);
-                        newGazeObject.transform.rotation = Quaternion.identity;
-                        newGazeObject.transform.localScale = Vector3.one * (0.025f *  (newGazeObject.transform.position-StreetSimLoadSim.LS.cam360.position).magnitude);
-                        if (row.agentID == "GazeCube") {
-                            newGazeObject.SetColor(Color.red);
-                            cubeGazeObjects[zDiscretization].Add(newGazeObject);
-                            newGazeObject.gameObject.SetActive(m_showCubeGaze);
-                            cubePoint = newGazeObject;
-                            newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeCube);
-                        } if (row.agentID == "GazeRect") {
-                            newGazeObject.SetColor(Color.blue);
-                            rectGazeObjects[zDiscretization].Add(newGazeObject);
-                            newGazeObject.gameObject.SetActive(m_showRectGaze);
-                            newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeRect);
-                        }
+                    } else {
+                        newGazeObject.originPoint = new Vector3(0f,1.5f,0f);
                     }
-                    // Instantiate gaze point for sphere
-                    if (cubePoint != null) {
-                        GazePoint sphereGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
-                        sphereGazeObject.originPoint = cubePoint.originPoint;
-                        sphereGazeObject.transform.position = cubePoint.transform.position;
-                        sphereGazeObject.transform.rotation = Quaternion.identity;
-                        // alter localposition
-                        Vector3 dir = sphereGazeObject.transform.position - sphereGazeObject.originPoint;
-                        sphereGazeObject.transform.position = sphereGazeObject.originPoint + (dir.normalized * Mathf.Min(10f, dir.magnitude));
-                        sphereGazeObject.transform.localScale = Vector3.one * (0.025f * (sphereGazeObject.transform.position - StreetSimLoadSim.LS.cam360.position).magnitude);
-                        sphereGazeObject.SetColor(Color.yellow);
-                        sphereGazeObjects[zDiscretization].Add(sphereGazeObject);
-                        sphereGazeObject.gameObject.SetActive(m_showSphereGaze);
-                        sphereGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),null);
+                    newGazeObject.transform.position = Vector3.Scale(row.worldPosition,positionMultiplier);
+                    newGazeObject.transform.rotation = Quaternion.identity;
+                    if (discretization) {
+                        newGazeObject.transform.localScale = Vector3.one * (0.025f *  (newGazeObject.transform.position-StreetSimLoadSim.LS.cam360.position).magnitude);
+                    } else {
+                        newGazeObject.transform.localScale = Vector3.one * (0.025f *  newGazeObject.transform.position.magnitude);
+                    }
+                    if (row.agentID == "GazeCube") {
+                        newGazeObject.SetColor(Color.red);
+                        cubeGazeObjects[zDiscretization].Add(newGazeObject);
+                        newGazeObject.gameObject.SetActive(m_showCubeGaze);
+                        cubePoint = newGazeObject;
+                        newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeCube);
+                    } if (row.agentID == "GazeRect") {
+                        newGazeObject.SetColor(Color.blue);
+                        rectGazeObjects[zDiscretization].Add(newGazeObject);
+                        newGazeObject.gameObject.SetActive(m_showRectGaze);
+                        newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeRect);
                     }
                 }
-            yield return null;
+                // Instantiate gaze point for sphere
+                if (cubePoint != null) {
+                    GazePoint sphereGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
+                    sphereGazeObject.originPoint = cubePoint.originPoint;
+                    sphereGazeObject.transform.position = cubePoint.transform.position;
+                    sphereGazeObject.transform.rotation = Quaternion.identity;
+                    Vector3 dir = sphereGazeObject.transform.position - sphereGazeObject.originPoint;
+                    sphereGazeObject.transform.position = sphereGazeObject.originPoint + (dir.normalized * Mathf.Min(10f, dir.magnitude));
+                    if (discretization) {
+                        sphereGazeObject.transform.localScale = Vector3.one * (0.025f * (sphereGazeObject.transform.position - StreetSimLoadSim.LS.cam360.position).magnitude);
+                    } else {
+                        sphereGazeObject.transform.localScale = Vector3.one * (0.025f * sphereGazeObject.transform.position.magnitude);
+                    }
+                    sphereGazeObject.SetColor(Color.yellow);
+                    sphereGazeObjects[zDiscretization].Add(sphereGazeObject);
+                    sphereGazeObject.gameObject.SetActive(m_showSphereGaze);
+                    sphereGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),null);
+                }
+            }
         }
+        return true;
     }
     public void ResetReplay() {
 
@@ -660,29 +665,21 @@ public class StreetSimRaycaster : MonoBehaviour
     }
 
     public void ToggleDiscretization(float z) {
-        discretizationToggles[z] = !discretizationToggles[z];
         foreach(KeyValuePair<float, List<GazePoint>> kvp in cubeGazeObjects) {
             foreach(GazePoint p in kvp.Value) {
-                p.gameObject.SetActive(m_showCubeGaze && discretizationToggles[kvp.Key]);
+                p.gameObject.SetActive(m_showCubeGaze && StreetSimLoadSim.LS.discretizations[kvp.Key]);
             }
         }
         foreach(KeyValuePair<float, List<GazePoint>> kvp in rectGazeObjects) {
             foreach(GazePoint p in kvp.Value) {
-                p.gameObject.SetActive(m_showRectGaze && discretizationToggles[kvp.Key]);
+                p.gameObject.SetActive(m_showRectGaze && StreetSimLoadSim.LS.discretizations[kvp.Key]);
             }
         }
         foreach(KeyValuePair<float, List<GazePoint>> kvp in sphereGazeObjects) {
             foreach(GazePoint p in kvp.Value) {
-                p.gameObject.SetActive(m_showSphereGaze && discretizationToggles[kvp.Key]);
+                p.gameObject.SetActive(m_showSphereGaze && StreetSimLoadSim.LS.discretizations[kvp.Key]);
             } 
         }
-    }
-
-    public int NumDiscretizations() {
-        return new List<float>(discretizationToggles.Keys).Count;
-    }
-    public float GetDiscretizationFromIndex(int i) {
-        return new List<float>(discretizationToggles.Keys)[i];
     }
 
 
@@ -809,9 +806,5 @@ public class StreetSimRaycaster : MonoBehaviour
             Destroy(point.gameObject);
         }
         gazeGazeObjects = new List<GazePoint>();
-    }
-
-    public void PlaceCam(float z) {
-        StreetSimLoadSim.LS.cam360.position = new Vector3(0f,1.5f,z);
     }
 }
