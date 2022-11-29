@@ -70,10 +70,16 @@ public class StreetSimLoadSimEditor : Editor
         gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
 
         for(int i = 0; i < controller.participantData[controller.currentParticipant].Count; i++) {
-            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
-            else GUILayout.BeginHorizontal();
+             if (i % 2 == 0) GUILayout.BeginVertical(gs);
+            else GUILayout.BeginVertical();
 
             EditorGUILayout.LabelField(controller.participantData[controller.currentParticipant][i].trialName);
+            
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Clear Gaze")) {
+                StreetSimRaycaster.R.ResetGazeReplay();
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             if (controller.participantData[controller.currentParticipant][i].positionData != null) {
@@ -89,7 +95,7 @@ public class StreetSimLoadSimEditor : Editor
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
         }
     }
 

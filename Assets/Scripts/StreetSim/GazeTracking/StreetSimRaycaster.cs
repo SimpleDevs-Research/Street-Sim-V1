@@ -708,6 +708,10 @@ public class StreetSimRaycaster : MonoBehaviour
         float timestamp;
         Vector3 agentOriginalPosition, hitOriginalPosition;
         Quaternion agentOriginalRotation, hitOriginalRotation;
+        Vector3 zDiscretizationPositionScale = (trial.trialData.direction == "NorthToSouth") 
+            ? new Vector3(-1f,1f,-1f)
+            : Vector3.one;
+
         foreach(KeyValuePair<float, List<RaycastHitRow>> kvp in trial.gazeData.gazeDataByTimestamp) {
             // Key = timestamp. Value = List of hits
             timestamp = kvp.Key;
@@ -723,6 +727,11 @@ public class StreetSimRaycaster : MonoBehaviour
                 //  3. What if both are moving?
                 //  4. What if neither are moving? Both are moving?
                 
+                GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
+                newGazePoint.transform.position = Vector3.Scale(new Vector3(row.worldPosition[0], row.worldPosition[1], row.worldPosition[2]), zDiscretizationPositionScale);
+                gazeGazeObjects.Add(newGazePoint);
+
+                /*
                 // For each row, we grab the agentId. We've verified that this exists.
                 ExperimentID agentID = StreetSimIDController.ID.FindIDFromName(row.agentID);
                 ExperimentID hitID = StreetSimIDController.ID.FindIDFromName(row.hitID);
@@ -737,6 +746,7 @@ public class StreetSimRaycaster : MonoBehaviour
                     GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
                     newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
                     newGazePoint.transform.parent = null;
+                    newGazePoint.transform.position = Vector3.Scale(newGazePoint.transform.position, zDiscretizationPositionScale);
                     gazeGazeObjects.Add(newGazePoint);
                 } else {
                     // We snagged a dynamic object! That means that at some point, this was tracked. It ought to be!
@@ -761,6 +771,7 @@ public class StreetSimRaycaster : MonoBehaviour
                             GazePoint newGazePoint = Instantiate(StreetSimLoadSim.LS.gazePointPrefab, hitID.transform) as GazePoint;
                             newGazePoint.transform.localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
                             newGazePoint.transform.parent = null;
+
                             gazeGazeObjects.Add(newGazePoint);
                         } else {
                             // This one is also a dynamic object. Time for traversal again.
@@ -790,6 +801,7 @@ public class StreetSimRaycaster : MonoBehaviour
                 agentID.transform.rotation = agentOriginalRotation;
                 hitID.transform.position = hitOriginalPosition;
                 hitID.transform.rotation = hitOriginalRotation;
+                */
             }
         }
     }
@@ -800,5 +812,9 @@ public class StreetSimRaycaster : MonoBehaviour
             Destroy(point.gameObject);
         }
         gazeGazeObjects = new List<GazePoint>();
+    }
+
+    public void PlaceCam(float z) {
+        StreetSimLoadSim.LS.cam360.position = new Vector3(0f,1.5f,z);
     }
 }

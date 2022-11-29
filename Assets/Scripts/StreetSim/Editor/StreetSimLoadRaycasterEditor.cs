@@ -43,7 +43,10 @@ public class StreetSimRaycasterEditor : Editor
                 z = controller.GetDiscretizationFromIndex(i);
                 toggleText = (controller.discretizationToggles[z]) ? "Turn off" : "Turn on";
 
-                EditorGUILayout.LabelField("Z: "+z.ToString());                
+                EditorGUILayout.LabelField("Z: "+z.ToString());   
+                if (GUILayout.Button("Place Cam")) {
+                    controller.PlaceCam(z);
+                }             
                 if (GUILayout.Button(toggleText)) {
                     controller.ToggleDiscretization(z);
                 }

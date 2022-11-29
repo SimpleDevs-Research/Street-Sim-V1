@@ -1,3 +1,4 @@
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>(); 
     private string m_currentParticipant = null;
     public string currentParticipant { get=>m_currentParticipant; set{} }
+    public bool loadInitials = false;
 
     private void Awake() {
         LS = this;
@@ -98,7 +100,7 @@ public class StreetSimLoadSim : MonoBehaviour
 
             Debug.Log("[LOAD SIM] Loaded Simulation Data #"+simData.simulationGroupNumber.ToString()+" for \""+participantName+"\"");
             foreach(string trialName in simData.trials) {
-                if (trialName.Contains("Initial")) {
+                if (!loadInitials && trialName.Contains("Initial")) {
                     Debug.Log("[LOAD SIM] Skipping \""+trialName+"\"");
                     continue;
                 }
@@ -149,4 +151,48 @@ public class StreetSimLoadSim : MonoBehaviour
             ? participantName
             : null;
     }
+
+    public void GetPixels() {
+        /*
+        Cubemap cubemap = cam360.GetComponent<BodhiDonselaar.EquiCam>().cubemap as Cubemap;
+        var tex = new Texture2D(cubemap.width, cubemap.height, TextureFormat.RGB24, false);
+        // Read screen contents into the texture        
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.PositiveX));        
+		// Encode texture into PNG
+		var bytes = tex.EncodeToPNG();      
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name +"_PositiveX.png", bytes);       
+
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.NegativeX));
+		bytes = tex.EncodeToPNG();     
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name +"_NegativeX.png", bytes);       
+
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.PositiveY));
+		bytes = tex.EncodeToPNG();     
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name +"_PositiveY.png", bytes);       
+
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.NegativeY));
+		bytes = tex.EncodeToPNG();     
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name +"_NegativeY.png", bytes);       
+
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.PositiveZ));
+		bytes = tex.EncodeToPNG();     
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name +"_PositiveZ.png", bytes);       
+
+		tex.SetPixels(cubemap.GetPixels(CubemapFace.NegativeZ));
+		bytes = tex.EncodeToPNG();     
+		File.WriteAllBytes(Application.dataPath + "/"  + cubemap.name   +"_NegativeZ.png", bytes);       
+		DestroyImmediate(tex);
+        */
+    }
+    private Texture2D ToTexture2D(RenderTexture rTex) {
+		Texture2D tex = new Texture2D(rTex.width, rTex.height, TextureFormat.ARGB32, false);
+		RenderTexture old_rt = RenderTexture.active;
+		RenderTexture.active = rTex;
+
+		tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+		tex.Apply();
+
+		RenderTexture.active = old_rt;
+		return tex;
+	}
 }
