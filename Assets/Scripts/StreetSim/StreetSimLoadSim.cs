@@ -25,6 +25,15 @@ public class StreetSimLoadSim : MonoBehaviour
     public string currentParticipant { get=>m_currentParticipant; set{} }
     public bool loadInitials = false;
 
+    [Header("DATA")]
+    
+    public float sphereRadius = 1f;
+    //public int sphereAngle = 1; // must be a factor of 180'
+    public int numViewDirections = 300;
+    public List<Vector3> points = new List<Vector3>();
+    public float averageDistanceBetweenPoints = 0f;
+    private IEnumerator sphereCoroutine = null;
+
     private void Awake() {
         LS = this;
         m_initialized = true;
@@ -195,4 +204,90 @@ public class StreetSimLoadSim : MonoBehaviour
 		RenderTexture.active = old_rt;
 		return tex;
 	}
+
+    public void GenerateSphereGrid() {
+        if (sphereCoroutine != null) StopCoroutine(sphereCoroutine);
+        sphereCoroutine = GenerateSphereGridCoroutine();
+        StartCoroutine(sphereCoroutine);
+    }
+    public IEnumerator GenerateSphereGridCoroutine() {
+        points = new List<Vector3>();
+
+        float goldenRatio = (1 + Mathf.Sqrt (5)) / 2;
+        float angleIncrement = Mathf.PI * 2 * goldenRatio;
+
+        for (int i = 0; i < numViewDirections; i++) {
+            float t = (float) i / numViewDirections;
+            float inclination = Mathf.Acos (1 - 2 * t);
+            float azimuth = angleIncrement * i;
+
+            float x = Mathf.Sin (inclination) * Mathf.Cos (azimuth);
+            float y = Mathf.Sin (inclination) * Mathf.Sin (azimuth);
+            float z = Mathf.Cos (inclination);
+            points.Add(new Vector3(x,y,z)*sphereRadius);
+            yield return null;
+        }
+
+        // Calculate average distance between points. We only compare w/ those closest to us.
+        // To get a measure of "closeness", we do a Vector3.Angle with each's normals.
+        // If the angle generated is within 1 degree, then they're "close"
+        float avgDistance = 0f;
+        for(int i = 0; i < points.Count; i++) {
+            int count = 0;
+            float distance = 0f;
+            for(int j = 0; j < points.Count; j++) {
+                if (i == j) continue;
+                float angle = Vector3.Angle(points[i],points[j]);
+                if (angle <= 30f) {
+                    distance += Vector3.Distance(points[i],points[j]);
+                    count++;
+                }
+                yield return null;
+            }
+            avgDistance += distance / (float)count;
+            Debug.Log(avgDistance);
+        }
+        averageDistanceBetweenPoints = avgDistance / (float)points.Count;
+
+
+        /*
+        points = new List<Vector3>();
+        Vector3 destination;
+        GameObject rotator = new GameObject("rotator");
+        rotator.transform.position = Vector3.zero;
+        rotator.transform.rotation = Quaternion.identity;
+        rotator.transform.Rotate(Vector3.right,-90f);
+        for(int x = 0; x < 180/sphereAngle; x++) {
+            for (int y = 0; y < 360/sphereAngle; y++) {
+                destination = rotator.transform.forward * sphereRadius;
+                if (!points.Contains(destination)) points.Add(destination);
+                rotator.transform.Rotate(Vector3.up,(float)sphereAngle);
+                yield return null;
+            }
+            rotator.transform.Rotate(Vector3.right,(float)sphereAngle);
+        }
+        rotator.transform.rotation = Quaternion.identity;
+        rotator.transform.Rotate(Vector3.forward,-90);
+        for(int z = 0; z < 180/sphereAngle; z++) {
+            for(int x = 0; x < 360/sphereAngle; x++) {
+                destination = rotator.transform.forward * sphereRadius;
+                if (!points.Contains(destination)) points.Add(destination);
+                rotator.transform.Rotate(Vector3.right,(float)sphereAngle);
+                yield return null;
+            }
+            rotator.transform.Rotate(Vector3.forward,(float)sphereAngle);
+        }
+        rotator.transform.rotation = Quaternion.identity;
+        for(int y = 0; y < 180/sphereAngle; y++) {
+            for(int z = 0; z < 360/sphereAngle; z++) {
+                destination = rotator.transform.forward * sphereRadius;
+                if (!points.Contains(destination)) points.Add(destination);
+                rotator.transform.Rotate(Vector3.forward,(float)sphereAngle);
+                yield return null;
+            }
+            rotator.transform.Rotate(Vector3.up,(float)sphereAngle);
+        }
+        Destroy(rotator);
+        */
+    }
 }

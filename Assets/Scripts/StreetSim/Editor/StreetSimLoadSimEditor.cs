@@ -19,6 +19,9 @@ public class StreetSimLoadSimEditor : Editor
         if (GUILayout.Button("Load")) {
             controller.Load();
         }
+        if (GUILayout.Button("Sphere Grid")) {
+            controller.GenerateSphereGrid();
+        }
 
         if (controller.participantData.Count == 0) return;
 
@@ -127,5 +130,20 @@ public class StreetSimLoadSimEditor : Editor
         result.SetPixels(pix);
         result.Apply();
         return result;
+    }
+
+    public void OnSceneGUI ()  {
+        StreetSimLoadSim controller = (StreetSimLoadSim)target;
+        if (controller.points.Count == 0) return;
+        foreach(Vector3 point in controller.points) {
+            Vector3 pos = controller.cam360.position + point;
+            Handles.color = Color.white;
+            Handles.DrawWireDisc(
+                pos,                                      // position
+                controller.cam360.position - pos,      // normal
+                controller.averageDistanceBetweenPoints
+                //((2*Mathf.PI*controller.sphereRadius*(float)controller.sphereAngle)/360f)*0.5f*Mathf.Pow(2f,0.5f) // radius
+            );
+        }
     }
 }

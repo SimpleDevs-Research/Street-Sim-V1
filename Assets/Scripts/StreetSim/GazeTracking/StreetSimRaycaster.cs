@@ -119,9 +119,6 @@ public class RaycastHitRow {
         "raycastDirection_x",
         "raycastDirection_y",
         "raycastDirection_z",
-        "worldPosition_x",
-        "worldPosition_y",
-        "worldPosition_z",
     };
     public string ToString() {
         return 
