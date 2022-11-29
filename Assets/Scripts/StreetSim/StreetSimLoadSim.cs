@@ -206,11 +206,6 @@ public class StreetSimLoadSim : MonoBehaviour
 	}
 
     public void GenerateSphereGrid() {
-        if (sphereCoroutine != null) StopCoroutine(sphereCoroutine);
-        sphereCoroutine = GenerateSphereGridCoroutine();
-        StartCoroutine(sphereCoroutine);
-    }
-    public IEnumerator GenerateSphereGridCoroutine() {
         points = new List<Vector3>();
 
         float goldenRatio = (1 + Mathf.Sqrt (5)) / 2;
@@ -224,31 +219,8 @@ public class StreetSimLoadSim : MonoBehaviour
             float x = Mathf.Sin (inclination) * Mathf.Cos (azimuth);
             float y = Mathf.Sin (inclination) * Mathf.Sin (azimuth);
             float z = Mathf.Cos (inclination);
-            points.Add(new Vector3(x,y,z)*sphereRadius);
-            yield return null;
+            points.Add(new Vector3(x,y,z));
         }
-
-        // Calculate average distance between points. We only compare w/ those closest to us.
-        // To get a measure of "closeness", we do a Vector3.Angle with each's normals.
-        // If the angle generated is within 1 degree, then they're "close"
-        float avgDistance = 0f;
-        for(int i = 0; i < points.Count; i++) {
-            int count = 0;
-            float distance = 0f;
-            for(int j = 0; j < points.Count; j++) {
-                if (i == j) continue;
-                float angle = Vector3.Angle(points[i],points[j]);
-                if (angle <= 30f) {
-                    distance += Vector3.Distance(points[i],points[j]);
-                    count++;
-                }
-                yield return null;
-            }
-            avgDistance += distance / (float)count;
-            Debug.Log(avgDistance);
-        }
-        averageDistanceBetweenPoints = avgDistance / (float)points.Count;
-
 
         /*
         points = new List<Vector3>();
