@@ -39,18 +39,20 @@ public class StreetSimLoadSimEditor : Editor
             GUILayout.EndHorizontal();
         }
 
+        if (GUILayout.Button("Test Sphere Grid")) {
+            controller.GenerateSphereGrid();
+        }
         if (GUILayout.Button("Load")) {
             controller.Load();
-        }
-        if (GUILayout.Button("Generate Sphere Grid")) {
-            controller.GenerateSphereGrid();
         }
 
         if (controller.participantData.Count == 0) return;
         
+        /*
         if (GUILayout.Button("Calculate Ground Truth ROC")) {
             controller.GroundTruthSaliency();
         }
+        */
 
         DrawPadding(5);
         
@@ -117,10 +119,10 @@ public class StreetSimLoadSimEditor : Editor
                     StreetSimIDController.ID.ReplayRecord(controller.participantData[controller.currentParticipant][i].positionData);
                 }
                 if (GUILayout.Button("Av. Fixation Map")) {
-                    StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i], false);
+                    controller.ToggleAverageFixationMap(controller.participantData[controller.currentParticipant][i]);
                 }
                 if (GUILayout.Button("Dis. Fixation Map")) {
-                    StreetSimRaycaster.R.ReplayRecord(controller.participantData[controller.currentParticipant][i], true);
+                    controller.ToggleDiscretizedFixationMap(controller.participantData[controller.currentParticipant][i]);
                 }
                 if (GUILayout.Button("Gaze Hits")) {
                     StreetSimRaycaster.R.ReplayGazeHits(controller.participantData[controller.currentParticipant][i]);

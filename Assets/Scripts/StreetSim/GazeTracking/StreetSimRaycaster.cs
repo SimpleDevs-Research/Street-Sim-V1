@@ -225,6 +225,12 @@ public class StreetSimRaycaster : MonoBehaviour
 
     private List<GazePoint> gazeGazeObjects = new List<GazePoint>();
 
+    public bool loadingAverageFixation = false, loadingDiscretizedFixation = false;
+    private List<GazePoint> m_loadedAverageFixations;
+    public List<GazePoint> loadedAverageFixations { get=>m_loadedAverageFixations; set{} }
+    private Dictionary<float, List<GazePoint>> m_loadedDiscretizedFixations;
+    public Dictionary<float, List<GazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
+
     void OnDrawGizmosSelected() {
         if (cubeGazeObjects.Count > 0 && m_showCubeGaze) {
             foreach(List<GazePoint> points in cubeGazeObjects.Values) {
@@ -844,9 +850,13 @@ public class StreetSimRaycaster : MonoBehaviour
         return sPoints;
     }
 
-    public List<GazePoint> GetSpherePointsForTrial (LoadedSimulationDataPerTrial trial) {
+    public IEnumerator GetSpherePointsForTrial () {
+        
+        StreetSimLoadSim.LS.gazeCube.position = new Vector3(0f,1.5f,0f);
+        StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
+
         Vector3 positionMultiplier = Vector3.one;
-        if (trial.trialData.direction == "NorthToSouth") {
+        if (StreetSimLoadSim.LS.newLoadedTrial.trialData.direction == "NorthToSouth") {
             StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.AngleAxis(180, Vector3.up);
             positionMultiplier = new Vector3(-1f,1f,-1f);
         }
@@ -854,7 +864,7 @@ public class StreetSimRaycaster : MonoBehaviour
         Transform thisUserImitator = Instantiate(StreetSimLoadSim.LS.userImitator) as Transform;
         thisUserImitator.gameObject.SetActive(true);
 
-        List<int> order = new List<int>(trial.positionData.indexTimeMap.Keys);
+        List<int> order = new List<int>(StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap.Keys);
         order.Sort((a,b) => a.CompareTo(b));
         int count = order.Count;
         int index = -1;
@@ -865,27 +875,23 @@ public class StreetSimRaycaster : MonoBehaviour
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
             Debug.Log("[RAYCASTER] ERROR: Cannot find user's ExperimentID");
-            return null;
+            loadingAverageFixation = false;
+            yield break;
         }
         StreetSimTrackable prevUserTrackable = default(StreetSimTrackable);
 
         while(index < count-1) {
             index++;
             int frameIndex = order[index];
-            float timestamp = trial.positionData.indexTimeMap[frameIndex];
-            List<ExperimentID> timestampIDs = new List<ExperimentID>(trial.positionData.positionDataByTimestamp[timestamp].Keys);
-            string timestampIDsString = "";
-            foreach(ExperimentID id in timestampIDs) {
-                timestampIDsString += id.id+", ";
-            }
-            Debug.Log(timestampIDsString);
+            float timestamp = StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap[frameIndex];
+            List<ExperimentID> timestampIDs = new List<ExperimentID>(StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].Keys);
             
             StreetSimTrackable userTrackable;
-            if (!trial.positionData.positionDataByTimestamp[timestamp].ContainsKey(userID)) {
+            if (!StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].ContainsKey(userID)) {
                 Debug.Log("Don't have key, must user previous user trackable");
                 userTrackable = prevUserTrackable;
             } else {
-                userTrackable = trial.positionData.positionDataByTimestamp[timestamp][userID];
+                userTrackable = StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp][userID];
             }
             thisUserImitator.localPosition = userTrackable.localPosition;
             thisUserImitator.localRotation = userTrackable.localRotation;
@@ -899,10 +905,8 @@ public class StreetSimRaycaster : MonoBehaviour
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
                 // Instantiate gaze point for both cube and rect
-                Debug.Log(rows.Count);
                 foreach(RaycastHitReplayRow row in rows) {
                     if (row.agentID == "GazeCube") {
-                        Debug.Log("HIT HIT HIT");
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
                         newGazeObject.originPoint = new Vector3(0f,1.5f,0f);
                         Vector3 dir = (row.worldPosition - newGazeObject.originPoint).normalized;
@@ -916,12 +920,102 @@ public class StreetSimRaycaster : MonoBehaviour
                         sphereGazeObjectsList.Add(newGazeObject);
                     }
                 }
-            } else {
-                Debug.Log("NO HITS FOR RAYCAST MANUAL ALL");
             }
+            yield return null;
         }
         Debug.Log("Sphere gaze points count: " + sphereGazeObjectsList.Count.ToString());
-        //Destroy(thisUserImitator.gameObject);
-        return sphereGazeObjectsList;
+        Destroy(thisUserImitator.gameObject);
+        m_loadedAverageFixations = sphereGazeObjectsList;
+        loadingAverageFixation = false;
+        yield return null;
+    }
+    public IEnumerator GetDiscretizedSpherePointsForTrial () {
+        Vector3 positionMultiplier = Vector3.one;
+        if (StreetSimLoadSim.LS.newLoadedTrial.trialData.direction == "NorthToSouth") {
+            StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.AngleAxis(180, Vector3.up);
+            positionMultiplier = new Vector3(-1f,1f,-1f);
+        }
+        
+        Transform thisUserImitator = Instantiate(StreetSimLoadSim.LS.userImitator) as Transform;
+        thisUserImitator.gameObject.SetActive(true);
+
+        List<int> order = new List<int>(StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap.Keys);
+        order.Sort((a,b) => a.CompareTo(b));
+        int count = order.Count;
+        int index = -1;
+        float prevTimestamp = 0f;
+
+        Dictionary<float, List<GazePoint>> sphereGazeObjects = new Dictionary<float, List<GazePoint>>();
+
+        ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
+        if (userID == null) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot find user's ExperimentID");
+            loadingDiscretizedFixation = false;
+            yield break;
+        }
+        StreetSimTrackable prevUserTrackable = default(StreetSimTrackable);
+        int pointCount = 0;
+
+        while(index < count-1) {
+            index++;
+            int frameIndex = order[index];
+            float timestamp = StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap[frameIndex];
+            List<ExperimentID> timestampIDs = new List<ExperimentID>(StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].Keys);
+            
+            StreetSimTrackable userTrackable;
+            if (!StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].ContainsKey(userID)) {
+                Debug.Log("Don't have key, must user previous user trackable");
+                userTrackable = prevUserTrackable;
+            } else {
+                userTrackable = StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp][userID];
+            }
+
+            // thisUserImitator follows how the trial was like in the real experiment.
+            thisUserImitator.localPosition = userTrackable.localPosition;   // localPosition does not consider discretization
+            thisUserImitator.localRotation = userTrackable.localRotation;   // localRotation does not consider discretization
+            prevUserTrackable = userTrackable;
+
+            // We then extract what the discretized value ought to be.
+            // We don't flip it JUST yet, because technically the cube should follow the imitator for realistic raycast
+            //Vector3 zDiscretizationPosition = Vector3.Scale(thisUserImitator.position, positionMultiplier);
+            Vector3 zDiscretizationPosition = thisUserImitator.position;
+            float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            
+            // We move the gazeCube such that it follows the imitator's z discretization position
+            StreetSimLoadSim.LS.gazeCube.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
+            
+            // zDiscretization now takes into account the flipping. zDiscretization now is the true z-position for the data
+            zDiscretization *= positionMultiplier.z;
+            if (!sphereGazeObjects.ContainsKey(zDiscretization)) sphereGazeObjects.Add(zDiscretization, new List<GazePoint>());
+            
+            List<RaycastHitReplayRow> rows;
+            if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
+                // Instantiate gaze point for both cube and rect
+                foreach(RaycastHitReplayRow row in rows) {
+                    if (row.agentID == "GazeCube") {
+                        GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
+                        // The new gaze object's origin point should be the discretized, flipped version of the gazecube's position.
+                        newGazeObject.originPoint = Vector3.Scale(StreetSimLoadSim.LS.gazeCube.position,positionMultiplier);
+                        // The direction should be the ray from the origin point to the hit's world position, flipped if necessary.
+                        Vector3 dir = (Vector3.Scale(row.worldPosition,positionMultiplier) - newGazeObject.originPoint).normalized;
+                        // The gaze point's world position is now properly taking into account discretization and flipping
+                        newGazeObject.transform.position = newGazeObject.originPoint + (dir * StreetSimLoadSim.LS.sphereRadius);
+                        // Miscellaneous stuff
+                        newGazeObject.transform.rotation = Quaternion.identity;
+                        newGazeObject.transform.localScale = Vector3.one * (0.025f *  (newGazeObject.transform.position - newGazeObject.originPoint).magnitude);
+                        newGazeObject.SetColor(Color.yellow);
+                        // Add the gaze object to our discretization dictionary
+                        sphereGazeObjects[zDiscretization].Add(newGazeObject);
+                        pointCount++;
+                    }
+                }
+            }
+            yield return null;
+        }
+        Debug.Log("Sphere gaze points count: " + pointCount.ToString());
+        Destroy(thisUserImitator.gameObject);
+        m_loadedDiscretizedFixations = sphereGazeObjects;
+        loadingDiscretizedFixation = false;
+        yield return null;
     }
 }

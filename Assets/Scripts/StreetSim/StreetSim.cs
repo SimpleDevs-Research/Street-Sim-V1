@@ -889,40 +889,6 @@ public class SimulationData {
     }
 }
 [System.Serializable]
-public class LoadedSimulationDataPerTrial {
-    public string trialName;
-    public string assetPath;
-    public TrialData trialData;
-    public Dictionary<int, float> indexTimeMap;
-    [SerializeField] private LoadedPositionData m_positionData;
-    [SerializeField] private LoadedGazeData m_gazeData;
-    public LoadedPositionData positionData { get=>m_positionData; set {
-        m_positionData = value;
-        CompareIndexTimeMap(value.indexTimeMap);
-    }}
-    public LoadedGazeData gazeData { get=>m_gazeData; set {
-        m_gazeData = value;
-        CompareIndexTimeMap(value.indexTimeMap);
-    }}
-    public LoadedSimulationDataPerTrial(string trialName, string assetPath) {
-        this.trialName = trialName;
-        this.assetPath = assetPath;
-        indexTimeMap = new Dictionary<int, float>();
-        m_positionData = null;
-    }
-    public void CompareIndexTimeMap(Dictionary<int, float> newMap) {
-        if (this.indexTimeMap.Count == 0) {
-            this.indexTimeMap = newMap;
-            return;
-        }
-        foreach(KeyValuePair<int, float> mapItem in newMap) {
-            if (!this.indexTimeMap.ContainsKey(mapItem.Key)) this.indexTimeMap.Add(mapItem.Key, mapItem.Value);
-        }
-        Debug.Log("[STREET SIM] Comparing mapkey for \""+this.trialName+"\" shows we have "+this.indexTimeMap.Count+" timeframes to consider");
-        return;
-    }
-}
-[System.Serializable]
 public class TrialData {
 
     public string name;

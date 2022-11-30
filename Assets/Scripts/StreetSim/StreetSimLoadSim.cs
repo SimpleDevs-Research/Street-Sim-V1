@@ -21,7 +21,11 @@ public class StreetSimLoadSim : MonoBehaviour
     [Header("PARTICIPANTS")]
     public string sourceDirectory;
     public List<string> participants = new List<string>();
-    public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>(); 
+    public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
+    private bool loadingParticipant = false, loadingAverageFixation = false, loadingDiscretizedFixation = false;
+    private LoadedSimulationDataPerTrial m_newLoadedTrial, currentLoadedTrial = null;
+    public LoadedSimulationDataPerTrial newLoadedTrial { get=>m_newLoadedTrial; set{} }
+
     private string m_currentParticipant = null;
     public string currentParticipant { get=>m_currentParticipant; set{} }
     public bool loadInitials = false;
@@ -51,7 +55,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public int NumDiscretizations { get=>new List<float>(discretizations.Keys).Count; set{} }
 
     [Header("DATA")]
-    public bool visualizeSphere = true;
+    public bool visualizeSphere = false;
     public float sphereRadius = 1f;
     //public int sphereAngle = 1; // must be a factor of 180'
     public int numViewDirections = 300;
@@ -65,11 +69,19 @@ public class StreetSimLoadSim : MonoBehaviour
         m_initialized = true;
     }
 
+    public void Start() {
+        GenerateSphereGrid();
+    }
+
     public void Load() {
+        StartCoroutine(LoadCoroutine());
+    }
+
+    public IEnumerator LoadCoroutine() {
         // We can't do anything if our participants list is empty
         if (participants.Count == 0) {
             Debug.Log("[LOAD SIM] ERROR: Cannot parse participants if there aren't any participants...");
-            return;
+            yield break;
         }
         
         // We first get the absolute path to our save directory
@@ -81,17 +93,7 @@ public class StreetSimLoadSim : MonoBehaviour
         Debug.Log("[LOAD SIM] Loading data from: \"" + p + "\"");
         if (!SaveSystemMethods.CheckDirectoryExists(p)) {
             Debug.Log("LOAD SIM] ERROR: Designated simulation folder does not exist.");
-            return;
-        }
-
-        // For each participant in `participants`, we load each of their data.
-        // If our data is successfully loaded, we save that into `participantData`
-        participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
-        foreach(string participant in participants) {
-            List<LoadedSimulationDataPerTrial> trials;
-            if (LoadParticipantData(p,ap,participant,out trials)) {
-                participantData.Add(participant,trials);
-            }
+            yield break;
         }
 
         cam360.gameObject.SetActive(true);
@@ -102,9 +104,21 @@ public class StreetSimLoadSim : MonoBehaviour
         gazeCube.rotation = Quaternion.identity;
         gazeCube.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
         foreach(Transform child in gazeCube) child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+
+        // For each participant in `participants`, we load each of their data.
+        // If our data is successfully loaded, we save that into `participantData`
+        participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
+        Queue<string> participantsQueue = new Queue<string>(participants);
+        while(participantsQueue.Count > 0) {
+            string participant = participantsQueue.Dequeue();
+            List<LoadedSimulationDataPerTrial> trials;
+            loadingParticipant = true;
+            StartCoroutine(LoadParticipantData(p,ap,participant));
+            while(loadingParticipant) yield return null;
+        }
     }
 
-    private bool LoadParticipantData(string p, string ap, string participantName, out List<LoadedSimulationDataPerTrial> trials) {
+    private IEnumerator LoadParticipantData(string p, string ap, string participantName) {
         string path = p;
         string assetPath = ap;
         if (SaveSystemMethods.CheckDirectoryExists(path+participantName+"/")) {
@@ -120,7 +134,7 @@ public class StreetSimLoadSim : MonoBehaviour
         }
 
         // Prepare some things
-        trials = new List<LoadedSimulationDataPerTrial>();
+        List<LoadedSimulationDataPerTrial> trials = new List<LoadedSimulationDataPerTrial>();
         int groupCount = StreetSim.S.trialGroups.Count;
         
         // Loop through number of possible trial groups
@@ -132,6 +146,7 @@ public class StreetSimLoadSim : MonoBehaviour
             // Exit early to next group if we can't find that file
             if (!SaveSystemMethods.CheckFileExists(pathToData)) {
                 Debug.Log("[LOAD SIM] ERROR: metadata #" + i.ToString() + " for \""+participantName+"\" does not appear to exist");
+                yield return null;
                 continue;
             }
 
@@ -139,6 +154,7 @@ public class StreetSimLoadSim : MonoBehaviour
             SimulationData simData;
             if (!SaveSystemMethods.LoadJSON<SimulationData>(pathToData, out simData)) {
                 Debug.Log("[LOAD SIM] ERROR: Unable to read json data of metadata #"+i.ToString()+" for \""+participantName+"\"");
+                yield return null;
                 continue;
             }
 
@@ -146,31 +162,41 @@ public class StreetSimLoadSim : MonoBehaviour
             foreach(string trialName in simData.trials) {
                 if (!loadInitials && trialName.Contains("Initial")) {
                     Debug.Log("[LOAD SIM] Skipping \""+trialName+"\"");
+                    yield return null;
                     continue;
                 }
                 Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
-                LoadedSimulationDataPerTrial newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, assetPath+trialName);
+                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, assetPath+trialName);
                 TrialData trialData;
-                if (LoadTrialData(path+trialName+"/trial.json", out trialData)) {
-                    newLoadedTrial.trialData = trialData;
+                if (LoadTrialData(path+trialName+"/trial.json", out trialData)) m_newLoadedTrial.trialData = trialData;
+                
+                bool positionsLoaded = StreetSimIDController.ID.LoadDataPath(m_newLoadedTrial, out LoadedPositionData newPositionData);
+                if (positionsLoaded) m_newLoadedTrial.positionData = newPositionData;
+                bool gazesLoaded = StreetSimRaycaster.R.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
+                if (gazesLoaded) m_newLoadedTrial.gazeData = newGazeData;
+                if (positionsLoaded && gazesLoaded) {
+                    // We can now generate an averaged and discretized fixation map for this particular trial
+                    // This is the averaged fixation map, regardless of discretization
+                    loadingAverageFixation = true;
+                    StartCoroutine(GenerateFixationMap());
+                    while(loadingAverageFixation) yield return null;
+                    loadingDiscretizedFixation = true;
+                    StartCoroutine(GenerateDiscretizedFixationMap());
+                    while(loadingDiscretizedFixation) yield return null;
                 }
-                if (StreetSimIDController.ID.LoadDataPath(newLoadedTrial, out LoadedPositionData newPositionData)) {
-                    newLoadedTrial.positionData = newPositionData;
-                }
-                if (StreetSimRaycaster.R.LoadGazePath(newLoadedTrial, out LoadedGazeData newGazeData)) {
-                    newLoadedTrial.gazeData = newGazeData;
-                }
-                trials.Add(newLoadedTrial);
+                trials.Add(m_newLoadedTrial);
+                yield return null;
             }
+            yield return null;
         }
 
         // Report our results, return false if trial count is 0.
         Debug.Log("[LOAD SIM] \""+participantName+"\": We have " + trials.Count.ToString() + " trials available for parsing");
-        if (trials.Count == 0) {
-            // We failed! We'll get them next time
-            return false;
+        if (trials.Count > 0) {
+            participantData.Add(participantName,trials);
         }
-        return true;
+        loadingParticipant = false;
+        yield return null;
     }
 
     private bool LoadTrialData(string path, out TrialData trial) {
@@ -194,6 +220,50 @@ public class StreetSimLoadSim : MonoBehaviour
         m_currentParticipant = (participantData.ContainsKey(participantName))
             ? participantName
             : null;
+    }
+    public void ToggleAverageFixationMap(LoadedSimulationDataPerTrial trial) {
+        if (currentLoadedTrial != null) {
+            foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
+                point.gameObject.SetActive(false);
+            }
+            foreach(LoadedFixationData lfd in currentLoadedTrial.discretizedFixations.Values) {
+                foreach(GazePoint point in lfd.gazePoints) {
+                    point.gameObject.SetActive(false);
+                }
+            }
+        }
+        currentLoadedTrial = trial;
+        foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
+            point.gameObject.SetActive(true);
+        }
+        foreach(KeyValuePair<Vector3,int> kvp in currentLoadedTrial.averageFixations.fixations) {
+            if (kvp.Value == 0) continue;
+            Debug.Log("\t"+kvp.Key.ToString() + ": " + kvp.Value);
+        }
+    }
+    public void ToggleDiscretizedFixationMap(LoadedSimulationDataPerTrial trial) {
+        if (currentLoadedTrial != null) {
+            foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
+                point.gameObject.SetActive(false);
+            }
+            foreach(LoadedFixationData lfd in currentLoadedTrial.discretizedFixations.Values) {
+                foreach(GazePoint point in lfd.gazePoints) {
+                    point.gameObject.SetActive(false);
+                }
+            }
+        }
+        currentLoadedTrial = trial;
+        foreach(KeyValuePair<float, LoadedFixationData> kvp in currentLoadedTrial.discretizedFixations) {
+            Debug.Log("At z="+kvp.Key.ToString()+":");
+            foreach(GazePoint point in kvp.Value.gazePoints) {
+                point.gameObject.SetActive(discretizations[kvp.Key]);
+            }
+            Debug.Log("\tPoints: " + kvp.Value.gazePoints.Count.ToString());
+            foreach(KeyValuePair<Vector3,int> kvp2 in kvp.Value.fixations) {
+                if (kvp2.Value == 0) continue;
+                Debug.Log("\t\t- "+kvp2.Key.ToString() + ": " + kvp2.Value);
+            }
+        }
     }
 
     public void GetPixels() {
@@ -304,6 +374,67 @@ public class StreetSimLoadSim : MonoBehaviour
         StartCoroutine(GTSCoroutine)
     }
     */
+
+    public IEnumerator GenerateFixationMap() {
+        Vector3 origin = new Vector3(0f,1.5f,0f);
+        StreetSimRaycaster.R.loadingAverageFixation = true;
+        StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
+        while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
+        List<GazePoint> spherePoints = StreetSimRaycaster.R.loadedAverageFixations;
+        Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
+        foreach(GazePoint point in spherePoints) {
+            Vector3 closestDir = default(Vector3);
+            float closestDistance = Mathf.Infinity;
+            foreach(Vector3 dir in directions) {
+                if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
+                float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
+                    // Found a possible fixation
+                    closestDistance = distance;
+                    closestDir = dir;
+                }
+            }
+            directionFixations[closestDir] += 1;
+            point.gameObject.SetActive(false);
+        }
+        m_newLoadedTrial.averageFixations = new LoadedFixationData(spherePoints, directionFixations);
+        loadingAverageFixation = false;
+        yield return null;
+    }
+    public IEnumerator GenerateDiscretizedFixationMap() {
+        StreetSimRaycaster.R.loadingDiscretizedFixation = true;
+        StartCoroutine(StreetSimRaycaster.R.GetDiscretizedSpherePointsForTrial());
+        while(StreetSimRaycaster.R.loadingDiscretizedFixation) yield return null;
+        Dictionary<float, List<GazePoint>> spherePoints = StreetSimRaycaster.R.loadedDiscretizedFixations;
+        Dictionary<float, LoadedFixationData> discretizedFixations = new Dictionary<float, LoadedFixationData>();
+        foreach(KeyValuePair<float, List<GazePoint>> kvp in spherePoints) {
+            float zIndex = kvp.Key;
+            List<GazePoint> points = new List<GazePoint>(kvp.Value);
+            Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
+            Vector3 origin = new Vector3(0f,1.5f,zIndex);
+            foreach(GazePoint point in points) {
+                Vector3 closestDir = default(Vector3);
+                float closestDistance = Mathf.Infinity;
+                foreach(Vector3 dir in directions) {
+                    if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
+                    float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                    if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
+                        // Found a possible fixation
+                        closestDistance = distance;
+                        closestDir = dir;
+                    }
+                }
+                directionFixations[closestDir] += 1;
+                point.gameObject.SetActive(false);
+            }
+            discretizedFixations.Add(zIndex, new LoadedFixationData(points, directionFixations));
+            yield return null;
+        }
+        m_newLoadedTrial.discretizedFixations = discretizedFixations;
+        loadingDiscretizedFixation = false;
+        yield return null;
+    }
+
     public void GroundTruthSaliency(bool discretized = false) {
 
         // Ground Truth Saliency is effectively all gaze data, from all participants.
@@ -319,6 +450,7 @@ public class StreetSimLoadSim : MonoBehaviour
         // How we're gonna do this is that we're going to generate fixations for each participant.
         // then for each individual participant, we subtract their fixations from the aggregated fixations.
         // The success rate therefore can then be calculated.
+        /*
         GenerateSphereGrid();
         Vector3 origin = new Vector3(0f,1.5f,0f);
         List<string> participantList = new List<string>(participantData.Keys);
@@ -334,13 +466,18 @@ public class StreetSimLoadSim : MonoBehaviour
                 Debug.Log(name + ": " + trial.trialName + ": " + spherePoints.Count.ToString());
                 // For each spherepoint, derive which directions that the GazePoint is closest to
                 foreach(GazePoint point in spherePoints) {
+                    Vector3 closestDir = default(Vector3);
+                    float closestDistance = Mathf.Infinity;
                     foreach(Vector3 dir in directions) {
                         if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
-                        if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
-                            // Found a fixation
-                            directionFixations[dir] += 1;
+                        float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                        if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
+                            // Found a possible fixation
+                            closestDistance = distance;
+                            closestDir = dir;
                         }
                     }
+                    directionFixations[closestDir] += 1;
                 }
             }
             // Aggregate all fixations for this participant
@@ -354,6 +491,11 @@ public class StreetSimLoadSim : MonoBehaviour
                 if (kvp.Value > 0) Debug.Log(kvp.Key.ToString() + ": " + kvp.Value.ToString());
             }
         }
+        */
+
+
+
+
 
         /*
         // Firstly, generate a list of all points
@@ -436,5 +578,57 @@ public class StreetSimLoadSim : MonoBehaviour
 
     public void PlaceCam(float z) {
         cam360.position = new Vector3(0f,1.5f,z);
+    }
+}
+
+[System.Serializable]
+public class LoadedSimulationDataPerTrial {
+    public string trialName;
+    public string assetPath;
+    public TrialData trialData;
+    public Dictionary<int, float> indexTimeMap;
+    [SerializeField] private LoadedPositionData m_positionData;
+    [SerializeField] private LoadedGazeData m_gazeData;
+    public LoadedFixationData averageFixations;
+    public Dictionary<float, LoadedFixationData> discretizedFixations;
+    public LoadedPositionData positionData { get=>m_positionData; set {
+        m_positionData = value;
+        CompareIndexTimeMap(value.indexTimeMap);
+    }}
+    public LoadedGazeData gazeData { get=>m_gazeData; set {
+        m_gazeData = value;
+        CompareIndexTimeMap(value.indexTimeMap);
+    }}
+    public LoadedSimulationDataPerTrial(string trialName, string assetPath) {
+        this.trialName = trialName;
+        this.assetPath = assetPath;
+        indexTimeMap = new Dictionary<int, float>();
+        m_positionData = null;
+        this.discretizedFixations = new Dictionary<float, LoadedFixationData>();
+    }
+    public void CompareIndexTimeMap(Dictionary<int, float> newMap) {
+        if (this.indexTimeMap.Count == 0) {
+            this.indexTimeMap = newMap;
+            return;
+        }
+        foreach(KeyValuePair<int, float> mapItem in newMap) {
+            if (!this.indexTimeMap.ContainsKey(mapItem.Key)) this.indexTimeMap.Add(mapItem.Key, mapItem.Value);
+        }
+        Debug.Log("[STREET SIM] Comparing mapkey for \""+this.trialName+"\" shows we have "+this.indexTimeMap.Count+" timeframes to consider");
+        return;
+    }
+}
+
+[SerializeField]
+public class LoadedFixationData {
+    public List<GazePoint> gazePoints;
+    public Dictionary<Vector3, int> fixations;
+    public LoadedFixationData(List<GazePoint> gazePoints) {
+        this.gazePoints = gazePoints;
+        this.fixations = new Dictionary<Vector3, int>();
+    }
+    public LoadedFixationData(List<GazePoint> gazePoints, Dictionary<Vector3, int> fixations) {
+        this.gazePoints = gazePoints;
+        this.fixations = fixations;
     }
 }
