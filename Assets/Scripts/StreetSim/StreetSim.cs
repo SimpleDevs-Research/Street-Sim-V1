@@ -110,7 +110,7 @@ public class StreetSim : MonoBehaviour
                 //roundTwo = m_trials.Shuffle<StreetSimTrial>();
                 break;
             default:
-                roundOne = m_trials2;
+                roundOne = m_trials2; 
                 //roundTwo = m_trials;
                 break;
         }

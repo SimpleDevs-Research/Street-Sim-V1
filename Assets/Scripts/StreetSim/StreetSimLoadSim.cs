@@ -292,9 +292,10 @@ public class StreetSimLoadSim : MonoBehaviour
         */
     }
     public void GroundTruthSaliency(bool discretized = false) {
+        /*
         // Firstly, generate a list of all points
         Dictionary<Vector3, float> gazeFixationsAcrossParticipants = new Dictionary<Vector3, float>();
-        Dictionary<Vector3, bool> gazeFixationsForIthParticipant = new Dictionary<Vector3, bool>();
+        Dictionary<Vector3, float> gazeFixationsForIthParticipant = new Dictionary<Vector3, float>();
         foreach(Vector3 dir in directions) {
             gazeFixationsAcrossParticipants.Add(dir,0f);
         }
@@ -317,7 +318,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 foreach(LoadedSimulationDataPerTrial trial in participants[j]) {
                     if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
                         // Grab sphere data
-                        List<GazePoint> spherePoints = new List<GazePoint>(sphereGazeObjects.Values);
+                        List<GazePoint> spherePoints = StreetSimRaycaster.R.GetAllSphereGazePoints();
                         // For each spherepoint, derive which directions that the GazePoint is closest to
                         foreach(GazePoint point in spherePoints) {
                             foreach(Vector3 dir in directions) {
@@ -334,19 +335,32 @@ public class StreetSimLoadSim : MonoBehaviour
             foreach(LoadedSimulationDataPerTrial trial in participants[i]) {
                 if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
                     // Grab sphere data
-                    List<GazePoint> spherePoints = new List<GazePoint>(sphereGazeObjects.Values);
+                    List<GazePoint> spherePoints =StreetSimRaycaster.R.GetAllSphereGazePoints();
                     // For each spherepoint, derive which directions that the GazePoint is closest to
-                        foreach(GazePoint point in spherePoints) {
-                            foreach(Vector3 dir in directions) {
-                                if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
-                                    // Found a fixation
-                                    gazeFixationsAcrossParticipants[dir] += 1f;
-                                }
+                    foreach(GazePoint point in spherePoints) {
+                        foreach(Vector3 dir in directions) {
+                            if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
+                                // Found a fixation
+                                gazeFixationsForIthParticipant[dir] += 1f;
                             }
                         }
                     }
                 }
+            }
+            // Now for each direction, we have to judge accuracy.
+            int accurate = 0, inaccurate = 0;
+            foreach(Vector3 dir in directions) {
+                if (gazeFixationsForIthParticipant[dir] > 0 && gazeFixationsAcrossParticipants[dir] > 0) {
+                    // this is a case of accuracy
+                    accurate += 1;
+                } else if (gazeFixationsForIthParticipant[dir] > 0 && gazeFixationsAcrossParticipants[dir] == 0) {
+                    // This is an inaccurate count
+                    inaccurate += 1;
+                }
+            }
+            // Accuracy is measured by 
         }
+        */
     }
 
     public float GetDiscretizationFromIndex(int i) {

@@ -119,6 +119,9 @@ public class RaycastHitRow {
         "raycastDirection_x",
         "raycastDirection_y",
         "raycastDirection_z",
+        "worldPosition_x",
+        "worldPosition_y",
+        "worldPosition_z",
     };
     public string ToString() {
         return 
@@ -806,5 +809,13 @@ public class StreetSimRaycaster : MonoBehaviour
             Destroy(point.gameObject);
         }
         gazeGazeObjects = new List<GazePoint>();
+    }
+
+    public List<GazePoint> GetAllSphereGazePoints() {
+        List<GazePoint> sPoints = new List<GazePoint>();
+        foreach(List<GazePoint> innerList in sphereGazeObjects.Values) {
+            sPoints.AddRange(innerList);
+        }
+        return sPoints;
     }
 }

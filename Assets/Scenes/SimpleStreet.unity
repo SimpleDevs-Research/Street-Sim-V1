@@ -26457,9 +26457,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -28223,7 +28231,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &878611976
 MonoBehaviour:
@@ -66850,7 +66858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1631787298
 Camera:
   m_ObjectHideFlags: 0
@@ -66907,7 +66915,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1631787300
 MonoBehaviour:
@@ -70415,9 +70423,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -71375,7 +71391,7 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: GazeData_ignore
-  m_participantName: Prelim2-2nd
+  m_participantName: Prelim3-2nd
   m_trialGroupToTest: 1
   m_initialSetups:
   - name: Initial_1
@@ -74726,6 +74742,7 @@ MonoBehaviour:
   - Prelim1
   - Prelim2
   - Prelim3
+  - Prelim3-2nd
   loadInitials: 0
   visualizeSphere: 1
   sphereRadius: 10
@@ -82986,6 +83003,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8febb860c7ad034cb3c826a18e4a3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RenderResolution: 1024
+  cubemap: {fileID: 0}
+  postprocessMaterial: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -84317,9 +84337,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

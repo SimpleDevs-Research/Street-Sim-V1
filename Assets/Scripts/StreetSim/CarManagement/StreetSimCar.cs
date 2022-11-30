@@ -75,7 +75,7 @@ public class StreetSimCar : MonoBehaviour
 
         m_hitMid = false;
 
-        maxSpeed = UnityEngine.Random.Range(7.5f,15f);
+        maxSpeed = UnityEngine.Random.Range(5f,15f);
         m_originalMaxSpeed = maxSpeed;
 
         Velocity.manualSpeed = 0f;
@@ -147,7 +147,7 @@ public class StreetSimCar : MonoBehaviour
             ? 1f
             : 0f;
 
-        float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.25f*(1f-O),0f,20f);
+        float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.25f*(1f-O),0f,15f);
         //float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
         positionDiff = (carRaycastHit.point-frontOfCar.position)*O + ((middleTarget.position-frontOfCar.position)*L + new Vector3(spaceOptimal+1f,0f,0f)*(1f-L))*(1f-O);
         /*
