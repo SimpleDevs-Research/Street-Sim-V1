@@ -7911,7 +7911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8753452145167141857, guid: eba0d0f2a19981d4d879e32a4e10733f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8753452145167439809, guid: eba0d0f2a19981d4d879e32a4e10733f, type: 3}
       propertyPath: m_RootOrder
@@ -11032,7 +11032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 463214125921513970, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3795555317629315158, guid: 4ca61a4a3ec8eaf41a23ab009e8d6c70, type: 3}
       propertyPath: endTarget
@@ -12628,7 +12628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3444812996956839605, guid: 0b9e6839198e511448424ceb37e366a0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3444812996956996245, guid: 0b9e6839198e511448424ceb37e366a0, type: 3}
       propertyPath: m_RootOrder
@@ -26457,17 +26457,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -43000,7 +42992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6354789718527154309, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6412369693083081791, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
       propertyPath: m_IsActive
@@ -70423,17 +70415,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -74742,7 +74726,6 @@ MonoBehaviour:
   - Prelim1
   - Prelim2
   - Prelim3
-  - Prelim3-2nd
   loadInitials: 0
   visualizeSphere: 1
   sphereRadius: 10
@@ -82210,7 +82193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 990247511168270553, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5203552045400277414, guid: 177e995e0e7a23748a53e3aad3d2a91c, type: 3}
       propertyPath: m_IsActive
@@ -83004,8 +82987,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
-  cubemap: {fileID: 0}
-  postprocessMaterial: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -84337,17 +84318,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

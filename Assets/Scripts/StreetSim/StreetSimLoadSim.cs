@@ -58,6 +58,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public List<Vector3> directions = new List<Vector3>();
     public float averageDistanceBetweenPoints = 0f;
     private IEnumerator sphereCoroutine = null;
+    private IEnumerator GTSCoroutine = null;
 
     private void Awake() {
         LS = this;
@@ -96,6 +97,11 @@ public class StreetSimLoadSim : MonoBehaviour
         cam360.gameObject.SetActive(true);
         gazeCube.gameObject.SetActive(true);
         gazeRect.gameObject.SetActive(true);
+        
+        gazeCube.position = new Vector3(0f,1.5f,0f);
+        gazeCube.rotation = Quaternion.identity;
+        gazeCube.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
+        foreach(Transform child in gazeCube) child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
     }
 
     private bool LoadParticipantData(string p, string ap, string participantName, out List<LoadedSimulationDataPerTrial> trials) {
@@ -291,7 +297,64 @@ public class StreetSimLoadSim : MonoBehaviour
         Destroy(rotator);
         */
     }
+    /*
+    public void ROC(bool discretized = false) {
+        if (GTSCoroutine != null) StopCoroutine(GTSCoroutine);
+        GTSCoroutine = GroundTruthSaliency(discretization);
+        StartCoroutine(GTSCoroutine)
+    }
+    */
     public void GroundTruthSaliency(bool discretized = false) {
+
+        // Ground Truth Saliency is effectively all gaze data, from all participants.
+        // However, what we're looking for here is not ground truth saliency, but the ROC generated from ground truth saliency.
+        // To achieve this, we need to do the following:
+        //  1. For every i^th user, we aggregate fixation from all participants other than the i^th user
+        //  2. We then collect the fixation from the i^th user
+        //  3. We essentially count the % of fixations that the i^th user matched with the aggregated fixation
+        //      So for example, let's say we have i^th user have a total of 7 fixations. 5 of those fixations match fixations from other participants. This means the succuss hit rate for the i^th user is 5/7
+        //  4. We do this for all participants. We then average the success hit rates by the total number of participants.
+        //  5. We do this for every % of saliency. For example, the top 5% of saliency, then the top 10% of saliency, and so on.
+
+        // How we're gonna do this is that we're going to generate fixations for each participant.
+        // then for each individual participant, we subtract their fixations from the aggregated fixations.
+        // The success rate therefore can then be calculated.
+        GenerateSphereGrid();
+        Vector3 origin = new Vector3(0f,1.5f,0f);
+        List<string> participantList = new List<string>(participantData.Keys);
+        Dictionary<string, Dictionary<Vector3, int>> aggregateFixations = new Dictionary<string, Dictionary<Vector3, int>>();
+        for (int i = 0; i < participantList.Count; i++) {
+            string name = participantList[i];
+            Debug.Log("[LOAD SIM] GTS: PARSING " + name + "'s Data");
+            Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
+            foreach(LoadedSimulationDataPerTrial trial in participantData[name]) {
+                Debug.Log(trial.trialName);
+                // Grab sphere data
+                List<GazePoint> spherePoints = StreetSimRaycaster.R.GetSpherePointsForTrial(trial);
+                Debug.Log(name + ": " + trial.trialName + ": " + spherePoints.Count.ToString());
+                // For each spherepoint, derive which directions that the GazePoint is closest to
+                foreach(GazePoint point in spherePoints) {
+                    foreach(Vector3 dir in directions) {
+                        if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
+                        if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
+                            // Found a fixation
+                            directionFixations[dir] += 1;
+                        }
+                    }
+                }
+            }
+            // Aggregate all fixations for this participant
+            aggregateFixations.Add(name, directionFixations);
+        }
+
+        for(int i = 0; i < participantList.Count; i++) {
+            string name = participantList[i];
+            Debug.Log("[LOAD SIM] Participant \""+name+"\" has these fixations:");
+            foreach(KeyValuePair<Vector3, int> kvp in aggregateFixations[name]) {
+                if (kvp.Value > 0) Debug.Log(kvp.Key.ToString() + ": " + kvp.Value.ToString());
+            }
+        }
+
         /*
         // Firstly, generate a list of all points
         Dictionary<Vector3, float> gazeFixationsAcrossParticipants = new Dictionary<Vector3, float>();
