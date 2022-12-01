@@ -48,8 +48,11 @@ public class StreetSimLoadSimEditor : Editor
 
         if (controller.participantData.Count == 0) return;
         
-        if (GUILayout.Button("Calculate Ground Truth ROC")) {
+        if (GUILayout.Button("Generate Ground Truth Saliency")) {
             controller.GroundTruthSaliency();
+        }
+        if (GUILayout.Button("Calculate Ground Truth ROC")) {
+            controller.GroundTruthROC();
         }
 
         DrawPadding(5);
@@ -161,26 +164,21 @@ public class StreetSimLoadSimEditor : Editor
         return result;
     }
 
+    /*
     public void OnSceneGUI ()  {
         StreetSimLoadSim controller = (StreetSimLoadSim)target;
         if (controller.directions.Count == 0 || !controller.visualizeSphere) return;
         for(int i = 0; i < controller.directions.Count; i++) {
             Vector3 dir = controller.directions[i];
             Vector3 pos = controller.cam360.position + dir*controller.sphereRadius;
-            Handles.color = controller.directionColors[dir];
-            Handles.DrawSolidDisc(
+            Gizmos.color = controller.directionColors[dir];
+            Gizmos.DrawSphere(
                 pos,                                      // position
-                controller.cam360.position - pos,      // normal
-                controller.averageDistanceBetweenPoints
-                //((2*Mathf.PI*controller.sphereRadius*(float)controller.sphereAngle)/360f)*0.5f*Mathf.Pow(2f,0.5f) // radius
-            );
-            Handles.color = Color.white;
-            Handles.DrawWireDisc(
-                pos,                                      // position
-                controller.cam360.position - pos,      // normal
-                controller.averageDistanceBetweenPoints
+                //controller.cam360.position - pos,      // normal
+                controller.visualDistanceBetweenPoints
                 //((2*Mathf.PI*controller.sphereRadius*(float)controller.sphereAngle)/360f)*0.5f*Mathf.Pow(2f,0.5f) // radius
             );
         }
     }
+    */
 }

@@ -62,8 +62,24 @@ public class StreetSimLoadSim : MonoBehaviour
     public List<Vector3> directions = new List<Vector3>();
     public Dictionary<Vector3, Color> directionColors = new Dictionary<Vector3, Color>();
     public float averageDistanceBetweenPoints = 0f;
+    public float visualDistanceBetweenPoints = 0f;
     private IEnumerator sphereCoroutine = null;
     private IEnumerator GTSCoroutine = null;
+
+    void OnDrawGizmosSelected() {
+        if (directions.Count == 0 || !visualizeSphere) return;
+        for(int i = 0; i < directions.Count; i++) {
+            Vector3 dir = directions[i];
+            Vector3 pos = cam360.position + dir*sphereRadius;
+            Gizmos.color = directionColors[dir];
+            Gizmos.DrawSphere(
+                pos,                                      // position
+                //controller.cam360.position - pos,      // normal
+                visualDistanceBetweenPoints
+                //((2*Mathf.PI*controller.sphereRadius*(float)controller.sphereAngle)/360f)*0.5f*Mathf.Pow(2f,0.5f) // radius
+            );
+        }
+    }
 
     private void Awake() {
         LS = this;
@@ -234,14 +250,12 @@ public class StreetSimLoadSim : MonoBehaviour
             }
         }
         currentLoadedTrial = trial;
-        /*
         foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
             point.gameObject.SetActive(true);
         }
-        */
         foreach(KeyValuePair<Vector3,int> kvp in currentLoadedTrial.averageFixations.fixations) {
+            directionColors[kvp.Key] = (kvp.Value > 0) ? new Color(0.9f,0.9f,0.9f,0.2f) : Color.clear;
             if (kvp.Value == 0) continue;
-            directionColors[kvp.Key] = (kvp.Value > 0) ? Color.yellow : new Color(0f,0f,0f,0f);
             Debug.Log("\t"+kvp.Key.ToString() + ": " + kvp.Value);
         }
     }
@@ -446,7 +460,56 @@ public class StreetSimLoadSim : MonoBehaviour
     private float Gaussian3D(Vector3 input, Vector3 mean, float sd) {
         return (1f/(Mathf.Pow(sd,3f)*Mathf.Pow(2*Mathf.PI,1.5f))) * Mathf.Exp(-1f*((Mathf.Pow(input.x-mean.x,2f)+Mathf.Pow(input.y-mean.y,2f)+Mathf.Pow(input.z-mean.z,2f))/(2*Mathf.Pow(sd,2f))));
     }
-    public void GroundTruthSaliency(bool discretized = false) {
+    public void GroundTruthSaliency() {
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+
+        Dictionary<Vector3, int> participantFixations = new Dictionary<Vector3, int>();
+        foreach(Vector3 dir in directions) participantFixations.Add(dir, 0);
+
+        foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> participant in participantData) {            
+            // Now aggregate fixations for both averaged and discretized setups
+            foreach(LoadedSimulationDataPerTrial trial in participant.Value) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
+                    participantFixations[fixations.Key] += fixations.Value;
+                }
+            }
+        }
+
+        // We find the means of x,y,z, as well as standard deviation of 1 degree
+            List<Vector3> fixationsKeys = new List<Vector3>(participantFixations.Keys);
+            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
+            Vector3 mean = fixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)fixationsKeys.Count;
+            // Sort the fixations by count while also averaging
+            List<KeyValuePair<Vector3,float>> sortedFixations = new List<KeyValuePair<Vector3,float>>();
+            foreach(KeyValuePair<Vector3,int> af in participantFixations) {
+                float avg = (float)af.Value / (float)(participantData.Count-1);
+                float s = avg * Gaussian3D(af.Key,mean,sd);
+                sortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+            }
+            sortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+            // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` has he greatest number of fixations
+            float MAX_FIX_NUMBER = sortedFixations[0].Value;
+            for (int i = 0; i < sortedFixations.Count; i++) {
+                sortedFixations[i] = new KeyValuePair<Vector3, float>(sortedFixations[i].Key, sortedFixations[i].Value / MAX_FIX_NUMBER);
+                directionColors[sortedFixations[i].Key] = g.Evaluate(sortedFixations[i].Value);
+            }
+    }
+    public void GroundTruthROC(bool discretized = false) {
 
         // Ground Truth Saliency is effectively all gaze data, from all participants.
         // However, what we're looking for here is not ground truth saliency, but the ROC generated from ground truth saliency.
@@ -472,30 +535,74 @@ public class StreetSimLoadSim : MonoBehaviour
         //          > Calculate ratio: #$hits / #hits+misses
         //          > Store this ratio inside a dictionary that maps saliencies to ratios
 
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+        
         Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
+        /*
+        Dictionary<float, Dictionary<float, List<float>>> ratiosAcrossSalienciesDiscretized = new Dictionary<float, Dictionary<float, List<float>>>();
+        foreach(float z in discretizations.Keys) {
+            ratiosAcrossSalienciesDiscretized.Add(z,new Dictionary<float, List<float>>());
+        }
+        */
+
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
-            // Let's just do the aggregation now for this participant
+            // This tracks ground truth fixations
             Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
+            // This tracks Discretized fixations
+            /*
+            Dictionary<float, Dictionary<Vector3, int>> ithParticipantDiscretizedFixations = new Dictionary<float,Dictionary<Vector3,int>>();
+            */
+            // Add directions to each dictionary
             foreach(Vector3 dir in directions) {
                 ithParticipantFixations.Add(dir, 0);
+                /*
+                foreach(KeyValuePair<float, Dictionary<Vector3,int>> ithD in ithParticipantDiscretizedFixations) {
+                    ithD.Value.Add(dir,0);
+                }
+                */
             }
+            // Now aggregate fixations for both averaged and discretized setups
             foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
                 foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                     ithParticipantFixations[fixations.Key] += fixations.Value;
                 }
+                /*
+                foreach(KeyValuePair<float, LoadedFixationData> discretizedFixations in trial.discretizedFixations) {
+                    foreach(KeyValuePair<Vector3,int> dFixations in discretizedFixations.fixations) {
+                        ithParticipantDiscretizedFixations[discretizedFixations.Key][dFixations.Key] += dFixations.Value;
+                    }
+                }
+                */
             }
-            /*
-            // Sort the participant's fixations by count
-            List<KeyValuePair<Vector3,int>> ithParticipantSortedFixations = new List<KeyValuePair<Vector3,int>>();
-            foreach(KeyValuePair<Vector3,int> ithParticipantFixation in ithParticipantFixations) {
-                ithParticipantSortedFixations.Add(ithParticipantFixation);
-            }
-            ithParticipantSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+
+            // Generate fixations from all observers outside of current observer
+            Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
+            /* 
+            Dictionary<float, Dictionary<Vector3, int>> aggregateDiscretizedFixations = new Dictionary<float,Dictionary<Vector3,int>>();
             */
 
-            Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
             foreach(Vector3 dir in directions) {
                 aggregateFixations.Add(dir, 0);
+                /*
+                foreach(KeyValuePair<float, Dictionary<Vector3,int>> ithD in aggregateDiscretizedFixations) {
+                    ithD.Value.Add(dir,0);
+                }
+                */
             }
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
                 if (kvpInner.Key == kvp.Key) continue;
@@ -503,22 +610,64 @@ public class StreetSimLoadSim : MonoBehaviour
                     foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                         aggregateFixations[fixations.Key] += fixations.Value;
                     }
+                    /*
+                    foreach(KeyValuePair<float, LoadedFixationData> discretizedFixations in trial.discretizedFixations) {
+                        foreach(KeyValuePair<Vector3,int> dFixations in discretizedFixations.fixations) {
+                            aggregateDiscretizedFixations[discretizedFixations.Key][dFixations.Key] += dFixations.Value;
+                        }
+                    }
+                    */
                 }
             }
 
             // We find the means of x,y,z, as well as standard deviation of 1 degree
             List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
+            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
             Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
-            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;
+            /*
+            Dictionary<float, Vector3> discretizedMeans = new Dictionary<float, Vector3>();
+            foreach(KeyValuePair<float, Dictionary<Vector3,int>> dKey in aggregateDiscretizedFixations) {
+                List<Vector3> discretizedFixationsKeys = new List<Vector3>(dKey.Value.Keys);
+                discretizedMeans.Add(dKey.Key, discretizedFixationsKeys.Aggregate(new Vector3(0f,0f,0f),(s,v)=>s+v) / (float)discretizedFixationsKeys.Count);
+            }
+            */
 
-            // Sort the aggregated fixations by count while also averaging
+            // Sort the fixations by count while also averaging
             List<KeyValuePair<Vector3,float>> aggregateSortedFixations = new List<KeyValuePair<Vector3,float>>();
+            /*
+            Dictionary<float, List<KeyValuePair<Vector3,float>>> discretizedSortedFixations = new Dictionary<float, List<KeyValuePair<Vector3,float>>>();
+            */
             foreach(KeyValuePair<Vector3,int> af in aggregateFixations) {
                 float avg = (float)af.Value / (float)(participantData.Count-1);
                 float s = avg * Gaussian3D(af.Key,mean,sd);
                 aggregateSortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
             }
             aggregateSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+            /*
+            foreach(KeyValuePair<float, Dictionary<Vector3,int>> dfGroups in aggregateDiscretizedFixations) {
+                discretizedSortedFixations.Add(dfGroups.Key, new List<KeyValuePair<Vector3,float>>());
+                foreach(KeyValuePair<Vector3,int> df in dfGroups) {
+                    float avg = (float)df.Value / (float)(participantData.Count-1);
+                    float s = avg * Gaussian3D(df.Key,discretizedMeans[dfGroups.Key],sd);
+                    discretizedSortedFixations[dfGroups.Key].Add(new KeyValuePair<Vector3,float>(df.Key,s));
+                }
+            }
+            */
+            // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` hast he greatest number of fixations
+            float MAX_FIX_NUMBER = aggregateSortedFixations[0].Value;
+            for (int i = 0; i < aggregateSortedFixations.Count; i++) {
+                aggregateSortedFixations[i] = new KeyValuePair<Vector3, float>(aggregateSortedFixations[i].Key, aggregateSortedFixations[i].Value / MAX_FIX_NUMBER);
+                directionColors[aggregateSortedFixations[i].Key] = g.Evaluate(aggregateSortedFixations[i].Value);
+            }
+            /*
+            foreach(KeyValuePair<float, List<KeyValuePair<Vector3,float>>> dMaxes in discretizedSortedFixations) {
+                float D_MAX_FIX_NUMBER = dMaxes.Value[0].Value;
+                for(int j = 0; j < dMaxes.Value.Count; j++) {
+                    dMaxes.Value[j] = new KeyValuePair<Vector3,float>(dMaxes.Values[j].Key, dMaxes.Values[j].Value / D_MAX_FIX_NUMBER);
+                    directionColors[dMaxes.Values[j].Key] = g.Evaluate(dMaxes.Values[j].Value);
+                }
+            }
+            */
 
             // Now need to iterate through each saliency
             int maxIndex, hits, total;
@@ -527,7 +676,13 @@ public class StreetSimLoadSim : MonoBehaviour
                 // Remember: starting from index 0, these are fixations sorted in descending order
                 saliencyLevel = (float)System.Math.Round(saliencyLevel,2);
                 if (!ratiosAcrossSaliencies.ContainsKey(saliencyLevel)) ratiosAcrossSaliencies.Add(saliencyLevel, new List<float>());
+                /*
+                foreach(Dictionary<Vector3, List<float>> dGroups in ratiosAcrossSalienciesDiscretized.Values) {
+                    if (!dGroups.ContainsKey(saliencyLevel)) dGroups.Add(saliencyLevel, new List<float>());
+                }
+                */
                 maxIndex = (int)Mathf.Round((float)directions.Count * saliencyLevel);
+                
                 List<KeyValuePair<Vector3,float>> aggregateSubset = aggregateSortedFixations.GetRange(0, maxIndex);
                 Dictionary<Vector3,float> aggregateSubsetDictionary = aggregateSubset.ToDictionary(x=>x.Key,x=>x.Value);
                 /*

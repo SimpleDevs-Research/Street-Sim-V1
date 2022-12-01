@@ -26457,9 +26457,18 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
+  m_forwardRaycastHitTriangleIndex: -1
   m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
+  m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   hitColor: {r: 0, g: 0, b: 1, a: 1}
@@ -29291,12 +29300,12 @@ MonoBehaviour:
   - Prelim2
   - Prelim3
   loadInitials: 0
-  visualizeSphere: 0
+  visualizeSphere: 1
   sphereRadius: 10
-  numViewDirections: 1024
+  numViewDirections: 2048
   directions: []
-  directionColors: []
   averageDistanceBetweenPoints: 1
+  visualDistanceBetweenPoints: 0.25
 --- !u!4 &927031968
 Transform:
   m_ObjectHideFlags: 0
@@ -70480,9 +70489,18 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
+  m_forwardRaycastHitTriangleIndex: -1
   m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
+  m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   hitColor: {r: 0, g: 0, b: 1, a: 1}
@@ -71405,7 +71423,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1797238113}
   - component: {fileID: 1797238112}
-  - component: {fileID: 1797238114}
   m_Layer: 0
   m_Name: StreetSim
   m_TagString: Untagged
@@ -74765,38 +74782,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1797238114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797238111}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 138c4daf3fde7ea47b56168008e1191d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  userImitator: {fileID: 2064541858}
-  gazeCube: {fileID: 898814902}
-  gazeRect: {fileID: 1796700472}
-  gazePointPrefab: {fileID: 6225604311537151835, guid: 3c34e0cef5b5c5047b3cda80ebf8976e, type: 3}
-  cam360: {fileID: 2020243766}
-  gazeMask:
-    serializedVersion: 2
-    m_Bits: 16384
-  sourceDirectory: UserData_ignore
-  participants:
-  - Prelim1
-  - Prelim2
-  - Prelim3
-  loadInitials: 0
-  visualizeSphere: 0
-  sphereRadius: 10
-  numViewDirections: 1024
-  directions: []
-  directionColors: []
-  averageDistanceBetweenPoints: 1
 --- !u!1 &1799894685
 GameObject:
   m_ObjectHideFlags: 0
@@ -83052,6 +83037,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
+  cubemap: {fileID: 0}
+  postprocessMaterial: {fileID: 2100000, guid: 5feb5301549d3fd44910d3a1cee03e1d, type: 2}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -84383,9 +84370,18 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
+  m_forwardRaycastHitTriangleIndex: -1
   m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
+  m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   hitColor: {r: 0, g: 0, b: 1, a: 1}
