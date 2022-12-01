@@ -60,6 +60,7 @@ public class StreetSimLoadSim : MonoBehaviour
     //public int sphereAngle = 1; // must be a factor of 180'
     public int numViewDirections = 300;
     public List<Vector3> directions = new List<Vector3>();
+    public Dictionary<Vector3, Color> directionColors = new Dictionary<Vector3, Color>();
     public float averageDistanceBetweenPoints = 0f;
     private IEnumerator sphereCoroutine = null;
     private IEnumerator GTSCoroutine = null;
@@ -233,11 +234,14 @@ public class StreetSimLoadSim : MonoBehaviour
             }
         }
         currentLoadedTrial = trial;
+        /*
         foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
             point.gameObject.SetActive(true);
         }
+        */
         foreach(KeyValuePair<Vector3,int> kvp in currentLoadedTrial.averageFixations.fixations) {
             if (kvp.Value == 0) continue;
+            directionColors[kvp.Key] = (kvp.Value > 0) ? Color.yellow : new Color(0f,0f,0f,0f);
             Debug.Log("\t"+kvp.Key.ToString() + ": " + kvp.Value);
         }
     }
@@ -324,7 +328,10 @@ public class StreetSimLoadSim : MonoBehaviour
             float x = Mathf.Sin (inclination) * Mathf.Cos (azimuth);
             float y = Mathf.Sin (inclination) * Mathf.Sin (azimuth);
             float z = Mathf.Cos (inclination);
-            directions.Add(new Vector3(x,y,z));
+
+            Vector3 dir = new Vector3(x,y,z);
+            directions.Add(dir);
+            directionColors.Add(dir, new Color(0f,0f,0f,0f));
         }
 
         /*
