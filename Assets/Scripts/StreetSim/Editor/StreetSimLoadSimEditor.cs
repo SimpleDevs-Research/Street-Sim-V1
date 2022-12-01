@@ -48,11 +48,9 @@ public class StreetSimLoadSimEditor : Editor
 
         if (controller.participantData.Count == 0) return;
         
-        /*
         if (GUILayout.Button("Calculate Ground Truth ROC")) {
             controller.GroundTruthSaliency();
         }
-        */
 
         DrawPadding(5);
         

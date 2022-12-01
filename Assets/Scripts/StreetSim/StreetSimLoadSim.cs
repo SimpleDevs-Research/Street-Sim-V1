@@ -435,21 +435,122 @@ public class StreetSimLoadSim : MonoBehaviour
         yield return null;
     }
 
+
+    private float Gaussian3D(Vector3 input, Vector3 mean, float sd) {
+        return (1f/(Mathf.Pow(sd,3f)*Mathf.Pow(2*Mathf.PI,1.5f))) * Mathf.Exp(-1f*((Mathf.Pow(input.x-mean.x,2f)+Mathf.Pow(input.y-mean.y,2f)+Mathf.Pow(input.z-mean.z,2f))/(2*Mathf.Pow(sd,2f))));
+    }
     public void GroundTruthSaliency(bool discretized = false) {
 
         // Ground Truth Saliency is effectively all gaze data, from all participants.
         // However, what we're looking for here is not ground truth saliency, but the ROC generated from ground truth saliency.
         // To achieve this, we need to do the following:
-        //  1. For every i^th user, we aggregate fixation from all participants other than the i^th user
+        //  1. For every i^th user, we aggregate fixation from all participants other than the i^th user, aggregating all scenes.
         //  2. We then collect the fixation from the i^th user
         //  3. We essentially count the % of fixations that the i^th user matched with the aggregated fixation
         //      So for example, let's say we have i^th user have a total of 7 fixations. 5 of those fixations match fixations from other participants. This means the succuss hit rate for the i^th user is 5/7
         //  4. We do this for all participants. We then average the success hit rates by the total number of participants.
         //  5. We do this for every % of saliency. For example, the top 5% of saliency, then the top 10% of saliency, and so on.
 
-        // How we're gonna do this is that we're going to generate fixations for each participant.
-        // then for each individual participant, we subtract their fixations from the aggregated fixations.
-        // The success rate therefore can then be calculated.
+        // To do this, we already have access to all the average and discretized fixation data for each participant for each trial.
+        //  For ground truth, we:
+        //  1. loop through each participant `i`:
+        //      a. Count all aggregates across all trials, not including `i`th participant. Order each direction by their total fixation number
+        //      b. Count all aggregates across all trials, but only for `i`th participant. Order each direction by their total fixation number
+        //      c. For each % of salience [5% - 100%, in 5% increments]:
+        //          > Decide which directions to consider for aggregated total - for example, the top 5% salient directions are the the first 5% of the order of the aggregated directions
+        //          > Decide which directions to cosnider for `i`th participant's total.
+        //          > For every direction for the `i`th participant:
+        //              - If that direction is not present inside the aggregated directions, then it's a miss
+        //              - If that direction IS present inside the aggreagted directions, then it's a hit
+        //          > Calculate ratio: #$hits / #hits+misses
+        //          > Store this ratio inside a dictionary that maps saliencies to ratios
+
+        Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
+        foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
+            // Let's just do the aggregation now for this participant
+            Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
+            foreach(Vector3 dir in directions) {
+                ithParticipantFixations.Add(dir, 0);
+            }
+            foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
+                    ithParticipantFixations[fixations.Key] += fixations.Value;
+                }
+            }
+            /*
+            // Sort the participant's fixations by count
+            List<KeyValuePair<Vector3,int>> ithParticipantSortedFixations = new List<KeyValuePair<Vector3,int>>();
+            foreach(KeyValuePair<Vector3,int> ithParticipantFixation in ithParticipantFixations) {
+                ithParticipantSortedFixations.Add(ithParticipantFixation);
+            }
+            ithParticipantSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+            */
+
+            Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
+            foreach(Vector3 dir in directions) {
+                aggregateFixations.Add(dir, 0);
+            }
+            foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
+                if (kvpInner.Key == kvp.Key) continue;
+                foreach(LoadedSimulationDataPerTrial trial in kvpInner.Value) {
+                    foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
+                        aggregateFixations[fixations.Key] += fixations.Value;
+                    }
+                }
+            }
+
+            // We find the means of x,y,z, as well as standard deviation of 1 degree
+            List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
+            Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
+            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;
+
+            // Sort the aggregated fixations by count while also averaging
+            List<KeyValuePair<Vector3,float>> aggregateSortedFixations = new List<KeyValuePair<Vector3,float>>();
+            foreach(KeyValuePair<Vector3,int> af in aggregateFixations) {
+                float avg = (float)af.Value / (float)(participantData.Count-1);
+                float s = avg * Gaussian3D(af.Key,mean,sd);
+                aggregateSortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+            }
+            aggregateSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+
+            // Now need to iterate through each saliency
+            int maxIndex, hits, total;
+            KeyValuePair<Vector3,int> aggregateFixation;
+            for(float saliencyLevel = 0.05f; saliencyLevel <= 1f; saliencyLevel += 0.05f) {
+                // Remember: starting from index 0, these are fixations sorted in descending order
+                saliencyLevel = (float)System.Math.Round(saliencyLevel,2);
+                if (!ratiosAcrossSaliencies.ContainsKey(saliencyLevel)) ratiosAcrossSaliencies.Add(saliencyLevel, new List<float>());
+                maxIndex = (int)Mathf.Round((float)directions.Count * saliencyLevel);
+                List<KeyValuePair<Vector3,float>> aggregateSubset = aggregateSortedFixations.GetRange(0, maxIndex);
+                Dictionary<Vector3,float> aggregateSubsetDictionary = aggregateSubset.ToDictionary(x=>x.Key,x=>x.Value);
+                /*
+                foreach(Vector3 dir in directions) {
+                    if (!aggregateSubsetDictionary.ContainsKey(dir)) aggregateSubsetDictionary.Add(dir,0f);
+                }
+                */
+                hits = 0;
+                total = 0;
+                foreach(KeyValuePair<Vector3,int> ithKVP in ithParticipantFixations) {
+                    if (ithKVP.Value == 0) continue;
+                    if (ithKVP.Value > 0 && aggregateSubsetDictionary.ContainsKey(ithKVP.Key) && aggregateSubsetDictionary[ithKVP.Key] > 0f) hits += 1;
+                    total += 1;
+                }
+                ratiosAcrossSaliencies[saliencyLevel].Add((float)hits/(float)total);
+            }
+        }
+
+        // We now have, across each saliency, a list of ratios. We can condense this further so that each saliency level has an averaged ratio
+        Debug.Log("[LOAD SIM] PRESENTING GROUND TRUTH SALIENCIES:");
+        Dictionary<float, float> saliencyAverageRatio = new Dictionary<float, float>();
+        foreach(KeyValuePair<float, List<float>> kvp in ratiosAcrossSaliencies) {
+            float total = 0f;
+            foreach(float ratio in kvp.Value) total += ratio;
+            float average = total/(float)kvp.Value.Count;
+            saliencyAverageRatio.Add(kvp.Key, average);
+            Debug.Log("\t"+kvp.Key.ToString()+": " + average + " | " + (average*100f).ToString() + "%");
+        }
+
+
         /*
         GenerateSphereGrid();
         Vector3 origin = new Vector3(0f,1.5f,0f);
@@ -630,5 +731,14 @@ public class LoadedFixationData {
     public LoadedFixationData(List<GazePoint> gazePoints, Dictionary<Vector3, int> fixations) {
         this.gazePoints = gazePoints;
         this.fixations = fixations;
+    }
+}
+[System.Serializable]
+public class DirectionFixationMap {
+    public Vector3 direction;
+    public int fixationCount;
+    public DirectionFixationMap(Vector3 direction, int fixationCount) {
+        this.direction = direction;
+        this.fixationCount = fixationCount;
     }
 }
