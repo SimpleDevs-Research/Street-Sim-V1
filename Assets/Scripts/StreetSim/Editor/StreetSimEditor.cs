@@ -60,10 +60,12 @@ public class StreetSimEditor : Editor
 
         DrawUILine(Color.grey, 2, 10);
 
+        /*
         EditorGUILayout.LabelField("Preprocess Gaze Data", EditorStyles.boldLabel);
         if (GUILayout.Button("Load")) {
             streetSim.LoadSimulationData();
         }
+        */
 
         if (streetSim.loadedTrials.Count == 0) return;
 

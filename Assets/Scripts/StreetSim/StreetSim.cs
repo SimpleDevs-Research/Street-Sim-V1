@@ -19,6 +19,11 @@ public class StreetSim : MonoBehaviour
         Idle,
         Tracking,
     }
+    public enum StreetSimVersion {
+        Version1,
+        Version2,
+        Version3
+    }
 
     // References to the participant's components
     public Transform xrTrackingSpace;
@@ -46,6 +51,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField, Tooltip("The name of the participant. Format doesn't matter, but it must be one single string w/out spaces.")] private string m_participantName;
     [SerializeField] private int m_trialGroupToTest = 0;
     public string participantName { get{ return m_participantName; } set{}}
+    public StreetSimVersion streetSimVersion = StreetSimVersion.Version3;
     public string saveDirectory { get{ return m_sourceDirectory + "/" + m_participantName + "/"; } set{} }
     public string resourcesDirectory { get=>"Resources/"+m_participantName+"/"; set{} }
     private string simulationDirToSaveIn, attemptsDirToSaveIn, positionsDirToSaveIn, trialDirToSaveIn;
@@ -195,7 +201,8 @@ public class StreetSim : MonoBehaviour
         simulationPayload = new SimulationData(
             m_participantName,
             m_trialGroupToTest,
-            DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")
+            DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"),
+            streetSimVersion.ToString()
         );
         // Prepare the save folder for the simulation, and only continue if the folder was created
         simulationDirToSaveIn = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
@@ -645,6 +652,7 @@ public class StreetSim : MonoBehaviour
         */
         return true;
     }
+    /*
     public void LoadSimulationData() {
         string p = SaveSystemMethods.GetSaveLoadDirectory(saveDirectory);
         string ap = "Assets/"+saveDirectory;
@@ -700,6 +708,7 @@ public class StreetSim : MonoBehaviour
         }
         return true;
     }
+    */
 
     public float GetTimeFromStart(float cTime) {
         return cTime - m_currentTrial.startTime;
@@ -878,19 +887,22 @@ public class SimulationData {
     public string startTime;
     public float duration;
     public List<string> trials;
+    public string version;
     
-    public SimulationData(string pname, int simNumber, string startTime, float duration, List<string> trials) {
+    public SimulationData(string pname, int simNumber, string startTime, string version, float duration, List<string> trials) {
         this.participantName = pname;
         this.simulationGroupNumber = simNumber;
         this.startTime = startTime;
         this.duration = duration;
         this.trials = trials;
+        this.version = version;
     }
-    public SimulationData(string pname, int simNumber, string startTime) {
+    public SimulationData(string pname, int simNumber, string startTime, string version) {
         this.participantName = pname;
         this.simulationGroupNumber = simNumber;
         this.startTime = startTime;
         this.trials = new List<string>();
+        this.version = version;
     }
 }
 [System.Serializable]

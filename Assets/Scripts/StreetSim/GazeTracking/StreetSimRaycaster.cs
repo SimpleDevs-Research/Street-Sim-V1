@@ -123,6 +123,25 @@ public class RaycastHitRow {
         "worldPosition_y",
         "worldPosition_z",
     };
+    public static List<string> HeadersOld => new List<string> {
+        "frameIndex",
+        "timestamp",
+        "triangleIndex",
+        "hitID",
+        "agentID",
+        "localPositionOfHitPosition_x",
+        "localPositionOfHitPosition_y",
+        "localPositionOfHitPosition_z",
+        "localPositionOfHitTarget_x",
+        "localPositionOfHitTarget_y",
+        "localPositionOfHitTarget_z",
+        "localPosition_x",
+        "localPosition_y",
+        "localPosition_z",
+        "raycastDirection_x",
+        "raycastDirection_y",
+        "raycastDirection_z",
+    };
     public string ToString() {
         return 
             this.hitID + "-" + 
@@ -465,13 +484,15 @@ public class StreetSimRaycaster : MonoBehaviour
         }
         TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
         string[] pr = SaveSystemMethods.ReadCSV(ta);
-        List<RaycastHitRow> p = ParseGazeData(pr);
+        List<RaycastHitRow> p = ParseGazeData(trial, pr);
         newData = new LoadedGazeData(trial.trialName, ta, p);
         return true;
     }
-    private List<RaycastHitRow> ParseGazeData(string[] data){
+    private List<RaycastHitRow> ParseGazeData(LoadedSimulationDataPerTrial trial, string[] data){
         List<RaycastHitRow> dataFormatted = new List<RaycastHitRow>();
-        int numHeaders = RaycastHitRow.Headers.Count;
+        int numHeaders = (trial.simVersion != "Version3")
+            ? RaycastHitRow.HeadersOld.Count 
+            : RaycastHitRow.Headers.Count;
         int tableSize = data.Length/numHeaders - 1;
       
         for(int i = 0; i < tableSize; i++) {

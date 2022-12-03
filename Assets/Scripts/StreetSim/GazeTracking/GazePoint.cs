@@ -61,10 +61,18 @@ public class GazePoint : MonoBehaviour
 [System.Serializable]
 public class SGazePoint {
     public SVector3 originPoint;
-    public SVector3 worldPosition;
-    public SVector3 postProcessWorldPosition;
     public SVector3 dir;
-    public SGazePoint(Vector3 originPoint) {
+    public SVector3 positionMultiplier;
+    public SVector3 rowWorldPosition;
+    public SGazePoint(Vector3 originPoint,Vector3 dir,Vector3 rowWorldPosition,Vector3 positionMultiplier) {
         this.originPoint = originPoint;
+        this.dir = dir;
+        this.rowWorldPosition = rowWorldPosition;
+        this.positionMultiplier = positionMultiplier;
     }
+    /*
+    public Vector3 GetWorldPosition(Vector3 centerPoint, float sphereRadius) {
+        return Vector3.Scale(centerPoint +  ((this.rowWorldPosition-centerPoint).normalized * sphereRadius),this.positionMultiplier);
+    }
+    */
 }

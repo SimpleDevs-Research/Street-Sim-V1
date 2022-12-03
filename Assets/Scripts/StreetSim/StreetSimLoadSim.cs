@@ -16,7 +16,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public Transform userImitator;
     public Transform gazeCube, gazeRect;
     public GazePoint gazePointPrefab;
-    public Transform cam360;
+    public Transform cam360, xCam, yCam, zCam, xyzCam;
     public LayerMask gazeMask;
 
     [Header("PARTICIPANTS")]
@@ -119,6 +119,11 @@ public class StreetSimLoadSim : MonoBehaviour
             Debug.Log("[LOAD SIM] ERROR: Cannot parse participants if there aren't any participants...");
             yield break;
         }
+
+        xCam.gameObject.SetActive(true);
+        yCam.gameObject.SetActive(true);
+        zCam.gameObject.SetActive(true);
+        xyzCam.gameObject.SetActive(true);
         
         // We first get the absolute path to our save directory
         string p = SaveSystemMethods.GetSaveLoadDirectory(sourceDirectory);
@@ -202,7 +207,7 @@ public class StreetSimLoadSim : MonoBehaviour
                     continue;
                 }
                 Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
-                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, assetPath+trialName);
+                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName);
                 TrialData trialData;
                 if (LoadTrialData(path+trialName+"/trial.json", out trialData)) m_newLoadedTrial.trialData = trialData;
                 
@@ -897,6 +902,7 @@ public class StreetSimLoadSim : MonoBehaviour
 [System.Serializable]
 public class LoadedSimulationDataPerTrial {
     public string trialName;
+    public string simVersion;
     public string assetPath;
     public TrialData trialData;
     public Dictionary<int, float> indexTimeMap;
@@ -912,8 +918,9 @@ public class LoadedSimulationDataPerTrial {
         m_gazeData = value;
         CompareIndexTimeMap(value.indexTimeMap);
     }}
-    public LoadedSimulationDataPerTrial(string trialName, string assetPath) {
+    public LoadedSimulationDataPerTrial(string trialName, string simVersion, string assetPath) {
         this.trialName = trialName;
+        this.simVersion = simVersion;
         this.assetPath = assetPath;
         indexTimeMap = new Dictionary<int, float>();
         m_positionData = null;
