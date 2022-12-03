@@ -240,7 +240,10 @@ public class StreetSimIDController : MonoBehaviour
                 }
                 if (m_trackChildren && id.children.Count > 0) {
                     foreach(ExperimentID child in id.children) {
-                        if (!m_payloads.ContainsKey(child)) {
+                        if (!child.shouldTrack) {
+                            count++;
+                        }
+                        else if (!m_payloads.ContainsKey(child)) {
                             m_payloads.Add(child, new List<StreetSimTrackable>());
                             m_payloads[child].Add(new StreetSimTrackable(child.id,StreetSim.S.trialFrameIndex,StreetSim.S.trialFrameTimestamp,child.transform));
                             count++;

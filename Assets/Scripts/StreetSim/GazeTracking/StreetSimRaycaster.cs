@@ -119,11 +119,9 @@ public class RaycastHitRow {
         "raycastDirection_x",
         "raycastDirection_y",
         "raycastDirection_z",
-        /*
         "worldPosition_x",
         "worldPosition_y",
         "worldPosition_z",
-        */
     };
     public string ToString() {
         return 
@@ -581,7 +579,7 @@ public class StreetSimRaycaster : MonoBehaviour
                     if (discretization) {
                         newGazeObject.originPoint = Vector3.Scale(StreetSimLoadSim.LS.userImitator.position, positionMultiplier);
                     } else {
-                        newGazeObject.originPoint = new Vector3(0f,1.5f,0f);
+                        newGazeObject.originPoint = StreetSimLoadSim.LS.heightRef.position;
                     }
                     newGazeObject.transform.position = Vector3.Scale(row.worldPosition,positionMultiplier);
                     newGazeObject.transform.rotation = Quaternion.identity;
@@ -595,12 +593,12 @@ public class StreetSimRaycaster : MonoBehaviour
                         cubeGazeObjects[zDiscretization].Add(newGazeObject);
                         newGazeObject.gameObject.SetActive(m_showCubeGaze);
                         cubePoint = newGazeObject;
-                        newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeCube);
+                        //newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeCube);
                     } if (row.agentID == "GazeRect") {
                         newGazeObject.SetColor(Color.blue);
                         rectGazeObjects[zDiscretization].Add(newGazeObject);
                         newGazeObject.gameObject.SetActive(m_showRectGaze);
-                        newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeRect);
+                        //newGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),StreetSimLoadSim.LS.gazeRect);
                     }
                 }
                 // Instantiate gaze point for sphere
@@ -619,7 +617,7 @@ public class StreetSimRaycaster : MonoBehaviour
                     sphereGazeObject.SetColor(Color.yellow);
                     sphereGazeObjects[zDiscretization].Add(sphereGazeObject);
                     sphereGazeObject.gameObject.SetActive(m_showSphereGaze);
-                    sphereGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),null);
+                    //sphereGazeObject.CalculateScreenPoint(zDiscretization, StreetSimLoadSim.LS.cam360.GetComponent<Camera>(),null);
                     sphereGazeObjectsList.Add(sphereGazeObject);
                 }
             }
@@ -629,7 +627,7 @@ public class StreetSimRaycaster : MonoBehaviour
     }
     public void ResetReplay() {
 
-        StreetSimLoadSim.LS.cam360.position = new Vector3(0f,1.5f,0f);
+        StreetSimLoadSim.LS.cam360.position = StreetSimLoadSim.LS.heightRef.position;
 
         StreetSimLoadSim.LS.gazeCube.position = new Vector3(0f, StreetSimLoadSim.LS.cam360.position.y - 20f, 0f);
         StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
@@ -852,7 +850,7 @@ public class StreetSimRaycaster : MonoBehaviour
 
     public IEnumerator GetSpherePointsForTrial () {
         
-        StreetSimLoadSim.LS.gazeCube.position = new Vector3(0f,1.5f,0f);
+        StreetSimLoadSim.LS.gazeCube.position = StreetSimLoadSim.LS.heightRef.position;
         StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
 
         Vector3 positionMultiplier = Vector3.one;
@@ -884,6 +882,18 @@ public class StreetSimRaycaster : MonoBehaviour
             index++;
             int frameIndex = order[index];
             float timestamp = StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap[frameIndex];
+
+            // Skip timestep if it's within 0.5sec of beginning or ending of trial
+            if (timestamp < 1f) {
+                prevTimestamp = timestamp;
+                yield return null;
+                continue;
+            }
+            if (timestamp >= StreetSimLoadSim.LS.newLoadedTrial.trialData.duration - 1f) {
+                yield return null;
+                break;
+            }
+
             List<ExperimentID> timestampIDs = new List<ExperimentID>(StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].Keys);
             
             StreetSimTrackable userTrackable;
@@ -908,10 +918,12 @@ public class StreetSimRaycaster : MonoBehaviour
                 foreach(RaycastHitReplayRow row in rows) {
                     if (row.agentID == "GazeCube") {
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
-                        newGazeObject.originPoint = new Vector3(0f,1.5f,0f);
+                        //newGazeObject.originPoint = StreetSimLoadSim.LS.heightRef.position;
+                        newGazeObject.originPoint = Vector3.Scale(thisUserImitator.position,positionMultiplier);
                         Vector3 dir = (row.worldPosition - newGazeObject.originPoint).normalized;
                         newGazeObject.transform.position = Vector3.Scale(
-                            newGazeObject.originPoint + (dir * StreetSimLoadSim.LS.sphereRadius)
+                            //newGazeObject.originPoint + (dir * StreetSimLoadSim.LS.sphereRadius)
+                            StreetSimLoadSim.LS.heightRef.position + ((row.worldPosition-StreetSimLoadSim.LS.heightRef.position).normalized * StreetSimLoadSim.LS.sphereRadius)
                             ,positionMultiplier
                         );
                         newGazeObject.transform.rotation = Quaternion.identity;
@@ -960,6 +972,18 @@ public class StreetSimRaycaster : MonoBehaviour
             index++;
             int frameIndex = order[index];
             float timestamp = StreetSimLoadSim.LS.newLoadedTrial.positionData.indexTimeMap[frameIndex];
+
+            // Skip timestep if it's within 0.5sec of beginning or ending of trial
+            if (timestamp < 1f) {
+                prevTimestamp = timestamp;
+                yield return null;
+                continue;
+            }
+            if (timestamp >= StreetSimLoadSim.LS.newLoadedTrial.trialData.duration - 1f) {
+                yield return null;
+                break;
+            }
+            
             List<ExperimentID> timestampIDs = new List<ExperimentID>(StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].Keys);
             
             StreetSimTrackable userTrackable;

@@ -377,6 +377,7 @@ public class StreetSim : MonoBehaviour
         // Get timings for the trial
         m_currentTrial.endTime = Time.time;
         m_currentTrial.duration = m_currentTrial.endTime - m_currentTrial.startTime;
+        m_currentTrial.numFrames = m_trialFrameIndex;
 
         // End all attempts
         foreach(KeyValuePair<ExperimentID,TrialAttempt> kvp in m_currentAttempts) {
@@ -827,6 +828,9 @@ public class StreetSimTrial {
     [Tooltip("How long did the trial last?")]
     private float m_duration;
     public float duration { get=>m_duration; set{m_duration=value;} }
+    [Tooltip("How many frames does the trial last?")]
+    private int m_numFrames;
+    public int numFrames { get=>m_numFrames; set{m_numFrames=value;} }
     [Tooltip("What timestamps did the player start (or restart) the trial?")]
     private List<float> m_innerStartTimes = new List<float>();
     [Tooltip("The start and ending sidewalks")]
@@ -855,6 +859,7 @@ public class StreetSimTrial {
             m_startTime,
             m_endTime,
             m_duration,
+            m_numFrames,
             m_innerStartTimes,
             m_direction.ToString(),
             modelConfidence.ToString(),
@@ -896,6 +901,7 @@ public class TrialData {
     public float startTime;
     public float endTime;
     public float duration;
+    public int numFrames;
     public string direction;
     public string modelConfidence;
     public string trafficCongestion;
@@ -921,6 +927,7 @@ public class TrialData {
         float startTime,
         float endTime,
         float duration,
+        int numFrames,
         List<float> innerStartTimes,
         string direction,
         string modelConfidence,
@@ -935,6 +942,7 @@ public class TrialData {
         this.startTime = startTime;
         this.endTime = endTime;
         this.duration = duration;
+        this.numFrames = numFrames;
         this.innerStartTimes = innerStartTimes;
 
         this.direction = direction;
@@ -946,66 +954,6 @@ public class TrialData {
         this.modelIDs = modelIDs;
         this.pedestrianWaitTime = pedestrianWaitTime;
     }
-
-    /*
-    public TrialData(
-        string name, 
-        int trialNumber,
-        
-        string modelID, 
-        string modelBehavior, 
-        int modelPathIndex, 
-        string direction, 
-        bool modelStartOnSameSide, 
-        //string modelStartOrientation, 
-        float startTime, 
-        float endTime, 
-        float duration, 
-        List<RaycastHitRow> participantGazeData, 
-        List<StreetSimTrackablePayload> positionData
-    ) {
-        this.name = name;
-        this.trialNumber = trialNumber;
-        this.modelID = modelID;
-        this.modelBehavior = modelBehavior;
-        this.modelPathIndex = modelPathIndex;
-        this.direction = direction;
-        this.modelStartOnSameSide = modelStartOnSameSide;
-        //this.modelStartOrientation = modelStartOrientation;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.duration = duration;
-        this.participantGazeData = participantGazeData;
-        this.positionData = positionData;
-        this.attempts = new List<TrialAttempt>();
-        this.subStartTimes = new List<float>();
-        this.modelAttempts = new List<TrialAttempt>();
-    }
-    public TrialData(
-        string name, 
-        int trialNumber, 
-        string modelID, 
-        string modelBehavior, 
-        int modelPathIndex, 
-        string direction, 
-        bool modelStartOnSameSide 
-        //string modelStartOrientation
-    ) {
-        this.name = name;
-        this.trialNumber = trialNumber;
-        this.modelID = modelID;
-        this.modelBehavior = modelBehavior;
-        this.modelPathIndex = modelPathIndex;
-        this.direction = direction;
-        this.modelStartOnSameSide = modelStartOnSameSide;
-        //this.modelStartOrientation = modelStartOrientation;
-        this.participantGazeData = new List<RaycastHitRow>();
-        this.positionData = new List<StreetSimTrackablePayload>();
-        this.attempts = new List<TrialAttempt>();
-        this.subStartTimes = new List<float>();
-        this.modelAttempts = new List<TrialAttempt>();
-    }
-    */
 }
 
 [System.Serializable]

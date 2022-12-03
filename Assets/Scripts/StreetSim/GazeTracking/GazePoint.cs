@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using SerializableTypes;
 
 [System.Serializable]
 public class GazePointScreenPoint {
@@ -18,22 +20,32 @@ public class GazePoint : MonoBehaviour
     private Renderer renderer;
     public Transform camera;
     public Vector3 originPoint;
-    public List<GazePointScreenPoint> screenPointsByDiscretization = new List<GazePointScreenPoint>();
+    public bool autoScale = true;
+    //public List<GazePointScreenPoint> screenPointsByDiscretization = new List<GazePointScreenPoint>();
 
     private void Awake() {
         renderer = GetComponent<Renderer>();
     }
     private void Update() {
-        transform.localScale = Vector3.one * (0.025f * (transform.position - StreetSimLoadSim.LS.cam360.position).magnitude);
+        if (autoScale) transform.localScale = Vector3.one * (0.025f * (transform.position - StreetSimLoadSim.LS.cam360.position).magnitude);
     }
     public void SetColor(Color color) {
         renderer.material.SetColor("_Color",color);
     }
+    public void SetScale(bool autoScale = true) {
+        this.autoScale = autoScale;
+    }
+    public void SetScale(float radius) {
+        this.autoScale = false;
+        transform.localScale = new Vector3(radius,radius,radius);
+    }
+    /*
     public void CalculateScreenPoint(float z, Camera cam, Transform map) {
         Vector3 screenPos = cam.WorldToViewportPoint(transform.position);
         screenPointsByDiscretization.Add(new GazePointScreenPoint(z,screenPos,map));
         //Debug.Log("target is " + screenPos.x + " pixels from the left");
     }
+    */
     /*    
     public Vector3 ConvertWorldToScreen (Vector3 positionIn) {
         RectTransform rectTrans = this.GetComponentInParent<RectTransform>(); //RenderTextHolder
@@ -44,4 +56,15 @@ public class GazePoint : MonoBehaviour
         return new Vector3 (worldPos.x - rectTrans.sizeDelta.x / scalerRatio, worldPos.y - rectTrans.sizeDelta.y / scalerRatio, 1f);
     }
     */
+}
+
+[System.Serializable]
+public class SGazePoint {
+    public SVector3 originPoint;
+    public SVector3 worldPosition;
+    public SVector3 postProcessWorldPosition;
+    public SVector3 dir;
+    public SGazePoint(Vector3 originPoint) {
+        this.originPoint = originPoint;
+    }
 }

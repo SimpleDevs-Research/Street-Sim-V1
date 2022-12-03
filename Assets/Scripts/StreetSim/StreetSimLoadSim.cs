@@ -12,6 +12,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public bool initialized { get=>m_initialized; set{} }
 
     [Header("REFERENCES")]
+    public Transform heightRef;
     public Transform userImitator;
     public Transform gazeCube, gazeRect;
     public GazePoint gazePointPrefab;
@@ -55,17 +56,34 @@ public class StreetSimLoadSim : MonoBehaviour
     public int NumDiscretizations { get=>new List<float>(discretizations.Keys).Count; set{} }
 
     [Header("DATA")]
-    public bool visualizeSphere = false;
+    [SerializeField] private bool m_generateSphereOnStart = false;
+    [SerializeField] private bool m_visualizeSphere = false;
+    public bool visualizeSphere {
+        get => m_visualizeSphere;
+        set { 
+            m_visualizeSphere = value;
+            ToggleSphereGrid();
+        }
+    }
     public float sphereRadius = 1f;
     //public int sphereAngle = 1; // must be a factor of 180'
     public int numViewDirections = 300;
     public List<Vector3> directions = new List<Vector3>();
     public Dictionary<Vector3, Color> directionColors = new Dictionary<Vector3, Color>();
     public float averageDistanceBetweenPoints = 0f;
-    public float visualDistanceBetweenPoints = 0f;
+    [SerializeField] private float m_visualDistanceBetweenPoints = 0.25f;
+    public float visualDistanceBetweenPoints { 
+        get=>m_visualDistanceBetweenPoints; 
+        set {
+            m_visualDistanceBetweenPoints = value;
+            RescaleSphereGridPoints();
+        }
+    }
     private IEnumerator sphereCoroutine = null;
     private IEnumerator GTSCoroutine = null;
+    private Dictionary<Vector3, GazePoint> directionRefPoints = new Dictionary<Vector3, GazePoint>();
 
+    /*
     void OnDrawGizmosSelected() {
         if (directions.Count == 0 || !visualizeSphere) return;
         for(int i = 0; i < directions.Count; i++) {
@@ -80,6 +98,7 @@ public class StreetSimLoadSim : MonoBehaviour
             );
         }
     }
+    */
 
     private void Awake() {
         LS = this;
@@ -87,7 +106,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
 
     public void Start() {
-        GenerateSphereGrid();
+        if (m_generateSphereOnStart) GenerateSphereGrid();
     }
 
     public void Load() {
@@ -117,7 +136,7 @@ public class StreetSimLoadSim : MonoBehaviour
         gazeCube.gameObject.SetActive(true);
         gazeRect.gameObject.SetActive(true);
         
-        gazeCube.position = new Vector3(0f,1.5f,0f);
+        gazeCube.position = heightRef.position;
         gazeCube.rotation = Quaternion.identity;
         gazeCube.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
         foreach(Transform child in gazeCube) child.gameObject.layer = LayerMask.NameToLayer("PostProcessGaze");
@@ -258,6 +277,7 @@ public class StreetSimLoadSim : MonoBehaviour
             if (kvp.Value == 0) continue;
             Debug.Log("\t"+kvp.Key.ToString() + ": " + kvp.Value);
         }
+        RecolorSphereGrid();
     }
     public void ToggleDiscretizedFixationMap(LoadedSimulationDataPerTrial trial) {
         if (currentLoadedTrial != null) {
@@ -348,6 +368,17 @@ public class StreetSimLoadSim : MonoBehaviour
             directionColors.Add(dir, new Color(0f,0f,0f,0f));
         }
 
+        foreach(GazePoint point in directionRefPoints.Values) {
+            Destroy(point.gameObject);
+        }
+        foreach(Vector3 dir in directions) {
+            GazePoint newDirPoint = Instantiate(gazePointPrefab) as GazePoint;
+            newDirPoint.transform.position = cam360.position + dir*sphereRadius;
+            newDirPoint.SetColor(directionColors[dir]);
+            newDirPoint.SetScale(m_visualDistanceBetweenPoints);
+            directionRefPoints.Add(dir, newDirPoint);
+        }
+
         /*
         points = new List<Vector3>();
         Vector3 destination;
@@ -388,6 +419,23 @@ public class StreetSimLoadSim : MonoBehaviour
         Destroy(rotator);
         */
     }
+    private void ToggleSphereGrid() {
+        foreach(GazePoint point in directionRefPoints.Values) {
+            point.gameObject.SetActive(m_visualizeSphere);
+        }
+    }
+    public void RecolorSphereGrid() {
+        foreach(KeyValuePair<Vector3, GazePoint> kvp in directionRefPoints) {
+            kvp.Value.SetColor(directionColors[kvp.Key]);
+        }
+    }
+    public void RescaleSphereGridPoints() {
+        foreach(GazePoint point in directionRefPoints.Values) {
+            point.SetScale(m_visualDistanceBetweenPoints);
+        }
+    }
+
+
     /*
     public void ROC(bool discretized = false) {
         if (GTSCoroutine != null) StopCoroutine(GTSCoroutine);
@@ -397,7 +445,7 @@ public class StreetSimLoadSim : MonoBehaviour
     */
 
     public IEnumerator GenerateFixationMap() {
-        Vector3 origin = new Vector3(0f,1.5f,0f);
+        Vector3 origin = heightRef.position;
         StreetSimRaycaster.R.loadingAverageFixation = true;
         StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
         while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
@@ -432,7 +480,7 @@ public class StreetSimLoadSim : MonoBehaviour
             float zIndex = kvp.Key;
             List<GazePoint> points = new List<GazePoint>(kvp.Value);
             Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
-            Vector3 origin = new Vector3(0f,1.5f,zIndex);
+            Vector3 origin = new Vector3(0f,heightRef.position.y,zIndex);
             foreach(GazePoint point in points) {
                 Vector3 closestDir = default(Vector3);
                 float closestDistance = Mathf.Infinity;
@@ -491,23 +539,24 @@ public class StreetSimLoadSim : MonoBehaviour
         }
 
         // We find the means of x,y,z, as well as standard deviation of 1 degree
-            List<Vector3> fixationsKeys = new List<Vector3>(participantFixations.Keys);
-            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
-            Vector3 mean = fixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)fixationsKeys.Count;
-            // Sort the fixations by count while also averaging
-            List<KeyValuePair<Vector3,float>> sortedFixations = new List<KeyValuePair<Vector3,float>>();
-            foreach(KeyValuePair<Vector3,int> af in participantFixations) {
-                float avg = (float)af.Value / (float)(participantData.Count-1);
-                float s = avg * Gaussian3D(af.Key,mean,sd);
-                sortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
-            }
-            sortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
-            // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` has he greatest number of fixations
-            float MAX_FIX_NUMBER = sortedFixations[0].Value;
-            for (int i = 0; i < sortedFixations.Count; i++) {
-                sortedFixations[i] = new KeyValuePair<Vector3, float>(sortedFixations[i].Key, sortedFixations[i].Value / MAX_FIX_NUMBER);
-                directionColors[sortedFixations[i].Key] = g.Evaluate(sortedFixations[i].Value);
-            }
+        List<Vector3> fixationsKeys = new List<Vector3>(participantFixations.Keys);
+        float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
+        Vector3 mean = fixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)fixationsKeys.Count;
+        // Sort the fixations by count while also averaging
+        List<KeyValuePair<Vector3,float>> sortedFixations = new List<KeyValuePair<Vector3,float>>();
+        foreach(KeyValuePair<Vector3,int> af in participantFixations) {
+            float avg = (float)af.Value / (float)(participantData.Count-1);
+            float s = avg * Gaussian3D(af.Key,mean,sd);
+            sortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+        }
+        sortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+        // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` has he greatest number of fixations
+        float MAX_FIX_NUMBER = sortedFixations[0].Value;
+        for (int i = 0; i < sortedFixations.Count; i++) {
+            sortedFixations[i] = new KeyValuePair<Vector3, float>(sortedFixations[i].Key, sortedFixations[i].Value / MAX_FIX_NUMBER);
+            directionColors[sortedFixations[i].Key] = g.Evaluate(sortedFixations[i].Value);
+        }
+        RecolorSphereGrid();
     }
     public void GroundTruthROC(bool discretized = false) {
 
@@ -668,6 +717,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
             }
             */
+            RecolorSphereGrid();
 
             // Now need to iterate through each saliency
             int maxIndex, hits, total;
@@ -840,7 +890,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
 
     public void PlaceCam(float z) {
-        cam360.position = new Vector3(0f,1.5f,z);
+        cam360.position = new Vector3(0f,heightRef.position.y,z);
     }
 }
 
