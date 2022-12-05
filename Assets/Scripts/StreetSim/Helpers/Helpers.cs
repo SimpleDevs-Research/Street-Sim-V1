@@ -53,6 +53,15 @@ namespace Helpers {
             }
             return flatten;
         }
+        public static List<T2> Flatten2D<T1,T2>(this Dictionary<T1, List<T2>> dict) {
+            List<T2> flatten = new List<T2>();
+            foreach(KeyValuePair<T1, List<T2>> kvp in dict) {
+                foreach(T2 item in kvp.Value) {
+                    flatten.Add(item);
+                }
+            }
+            return flatten;
+        }
 
         // Adapted from: https://stackoverflow.com/questions/19141259/how-to-enqueue-a-list-of-items-in-c
         public static void AddRange<T>(this Queue<T> queue, IEnumerable<T> enu) {

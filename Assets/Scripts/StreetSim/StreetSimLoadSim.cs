@@ -18,6 +18,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public GazePoint gazePointPrefab;
     public Transform cam360, xCam, yCam, zCam, xyzCam;
     public LayerMask gazeMask;
+    public Transform gazeTrackPlacementPositionRef;
 
     [Header("PARTICIPANTS")]
     public string sourceDirectory;
@@ -29,14 +30,7 @@ public class StreetSimLoadSim : MonoBehaviour
 
     private string m_currentParticipant = null;
     public string currentParticipant { get=>m_currentParticipant; set{} }
-    public bool loadInitials = false;
     public Dictionary<float, bool> discretizations = new Dictionary<float,bool>() {
-        {-10f,true},
-        {-9f,true},
-        {-8f,true},
-        {-7f,true},
-        {-6f,true},
-        {-5f,true},
         {-4f,true},
         {-3f,true},
         {-2f,true},
@@ -46,12 +40,6 @@ public class StreetSimLoadSim : MonoBehaviour
         {2f,true},
         {3f,true},
         {4f,true},
-        {5f,true},
-        {6f,true},
-        {7f,true},
-        {8f,true},
-        {9f,true},
-        {10f,true}
     };
     public int NumDiscretizations { get=>new List<float>(discretizations.Keys).Count; set{} }
 
@@ -83,6 +71,15 @@ public class StreetSimLoadSim : MonoBehaviour
     private IEnumerator GTSCoroutine = null;
     private Dictionary<Vector3, GazePoint> directionRefPoints = new Dictionary<Vector3, GazePoint>();
 
+    [Header("LOADING")]
+    public bool loadInitials = false;
+    [SerializeField] private bool determineFixationsOnLoad = true;
+    private List<GazePoint> activeGazePoints = new List<GazePoint>();
+
+    [Header("GAZE-OBJECT TRACKING")]
+    [SerializeField] private List<ExperimentID> m_gazeObjectTracking = new List<ExperimentID>();
+    public List<ExperimentID> gazeObjectTracking { get=>m_gazeObjectTracking; set{} }
+    private Transform currentGazeObjectTracked = null;
     /*
     void OnDrawGizmosSelected() {
         if (directions.Count == 0 || !visualizeSphere) return;
@@ -215,7 +212,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 if (positionsLoaded) m_newLoadedTrial.positionData = newPositionData;
                 bool gazesLoaded = StreetSimRaycaster.R.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
                 if (gazesLoaded) m_newLoadedTrial.gazeData = newGazeData;
-                if (positionsLoaded && gazesLoaded) {
+                if (positionsLoaded && gazesLoaded && determineFixationsOnLoad) {
                     // We can now generate an averaged and discretized fixation map for this particular trial
                     // This is the averaged fixation map, regardless of discretization
                     loadingAverageFixation = true;
@@ -263,6 +260,12 @@ public class StreetSimLoadSim : MonoBehaviour
             : null;
     }
     public void ToggleAverageFixationMap(LoadedSimulationDataPerTrial trial) {
+        ClearGazePoints();
+        foreach(SGazePoint point in trial.averageFixations.gazePoints) {
+            GazePoint newGazePoint = Instantiate(gazePointPrefab, point.GetWorldPosition(sphereRadius), Quaternion.identity) as GazePoint;
+            activeGazePoints.Add(newGazePoint);
+        }
+        /*
         if (currentLoadedTrial != null) {
             foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
                 point.gameObject.SetActive(false);
@@ -273,11 +276,13 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
             }
         }
+        
         currentLoadedTrial = trial;
         foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
             point.gameObject.SetActive(true);
         }
-        foreach(KeyValuePair<Vector3,int> kvp in currentLoadedTrial.averageFixations.fixations) {
+        */
+        foreach(KeyValuePair<Vector3,int> kvp in trial.averageFixations.fixations) {
             directionColors[kvp.Key] = (kvp.Value > 0) ? new Color(0.9f,0.9f,0.9f,0.2f) : Color.clear;
             if (kvp.Value == 0) continue;
             Debug.Log("\t"+kvp.Key.ToString() + ": " + kvp.Value);
@@ -285,6 +290,21 @@ public class StreetSimLoadSim : MonoBehaviour
         RecolorSphereGrid();
     }
     public void ToggleDiscretizedFixationMap(LoadedSimulationDataPerTrial trial) {
+        ClearGazePoints();
+        foreach(KeyValuePair<float, LoadedFixationData> kvp in trial.discretizedFixations) {
+            Debug.Log("At z="+kvp.Key.ToString()+":");
+            foreach(SGazePoint point in kvp.Value.gazePoints) {
+                GazePoint newGazePoint = Instantiate(gazePointPrefab, point.GetWorldPosition(sphereRadius), Quaternion.identity) as GazePoint;
+                activeGazePoints.Add(newGazePoint);
+            }
+            Debug.Log("\tPoints: " + kvp.Value.gazePoints.Count.ToString());
+            foreach(KeyValuePair<Vector3,int> kvp2 in kvp.Value.fixations) {
+                if (kvp2.Value == 0) continue;
+                Debug.Log("\t\t- "+kvp2.Key.ToString() + ": " + kvp2.Value);
+            }
+        }
+
+        /*
         if (currentLoadedTrial != null) {
             foreach(GazePoint point in currentLoadedTrial.averageFixations.gazePoints) {
                 point.gameObject.SetActive(false);
@@ -307,6 +327,15 @@ public class StreetSimLoadSim : MonoBehaviour
                 Debug.Log("\t\t- "+kvp2.Key.ToString() + ": " + kvp2.Value);
             }
         }
+        */
+    }
+    public void ClearGazePoints() {
+        while(activeGazePoints.Count > 0) {
+            GazePoint curGazePoint = activeGazePoints[0];
+            Destroy(curGazePoint.gameObject);
+            activeGazePoints.RemoveAt(0);
+        }
+        ResetSphereGridColors();
     }
 
     public void GetPixels() {
@@ -429,6 +458,12 @@ public class StreetSimLoadSim : MonoBehaviour
             point.gameObject.SetActive(m_visualizeSphere);
         }
     }
+    public void ResetSphereGridColors() {
+        foreach(Vector3 dir in directions) {
+            directionColors[dir] = new Color(0f,0f,0f,0f);
+        }
+        RecolorSphereGrid();
+    }
     public void RecolorSphereGrid() {
         foreach(KeyValuePair<Vector3, GazePoint> kvp in directionRefPoints) {
             kvp.Value.SetColor(directionColors[kvp.Key]);
@@ -449,19 +484,40 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     */
 
+    public void ManuallyGenerateFixationMap(LoadedSimulationDataPerTrial trial) {
+        if (loadingAverageFixation || loadingDiscretizedFixation) {
+            Debug.Log("[LOAD SIM] ERROR: Currently generating fixations for another trial.");
+            return;
+        }
+        ClearGazePoints();
+        m_newLoadedTrial = trial;
+        loadingAverageFixation = true;
+        StartCoroutine(GenerateFixationMap());
+    }
     public IEnumerator GenerateFixationMap() {
         Vector3 origin = heightRef.position;
-        StreetSimRaycaster.R.loadingAverageFixation = true;
-        StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
-        while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
-        List<GazePoint> spherePoints = StreetSimRaycaster.R.loadedAverageFixations;
+
+        // First attempt to load fixation data, if it exists
+        List<SGazePoint> spherePoints;
+        string assetPath =  m_newLoadedTrial.assetPath+"/averageFixations.csv";
+        if (!StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "averageFixations", out spherePoints)) {
+            StreetSimRaycaster.R.loadingAverageFixation = true;
+            StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
+            while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
+            spherePoints = StreetSimRaycaster.R.loadedAverageFixations;
+
+            // We'll actually be saving this into a separate file called `averageFixations,csv`
+            StreetSimRaycaster.R.SaveFixationsData(m_newLoadedTrial,"averageFixations",spherePoints);
+        }
+
         Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
-        foreach(GazePoint point in spherePoints) {
+        foreach(SGazePoint point in spherePoints) {
             Vector3 closestDir = default(Vector3);
             float closestDistance = Mathf.Infinity;
             foreach(Vector3 dir in directions) {
                 if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
-                float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                //float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                float distance = Vector3.Distance(origin+dir*sphereRadius, point.GetWorldPosition(sphereRadius));
                 if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
                     // Found a possible fixation
                     closestDistance = distance;
@@ -469,29 +525,62 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
             }
             directionFixations[closestDir] += 1;
-            point.gameObject.SetActive(false);
+            //point.gameObject.SetActive(false);
         }
         m_newLoadedTrial.averageFixations = new LoadedFixationData(spherePoints, directionFixations);
         loadingAverageFixation = false;
         yield return null;
     }
+    public void ManuallyGenerateDiscretizedFixationMap(LoadedSimulationDataPerTrial trial) {
+        if (loadingAverageFixation || loadingDiscretizedFixation) {
+            Debug.Log("[LOAD SIM] ERROR: Currently generating fixations for another trial.");
+            return;
+        }
+        ClearGazePoints();
+        m_newLoadedTrial = trial;
+        loadingDiscretizedFixation = true;
+        StartCoroutine(GenerateDiscretizedFixationMap());
+    }
     public IEnumerator GenerateDiscretizedFixationMap() {
-        StreetSimRaycaster.R.loadingDiscretizedFixation = true;
-        StartCoroutine(StreetSimRaycaster.R.GetDiscretizedSpherePointsForTrial());
-        while(StreetSimRaycaster.R.loadingDiscretizedFixation) yield return null;
-        Dictionary<float, List<GazePoint>> spherePoints = StreetSimRaycaster.R.loadedDiscretizedFixations;
+
+        // First attempt to load fixation data, if it exists
+        List<SGazePoint> tempPoints;
+        Dictionary<float, List<SGazePoint>> spherePoints;
+        if (StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "discretizedFixations", out tempPoints)) {
+            spherePoints = new Dictionary<float, List<SGazePoint>>();
+            foreach(SGazePoint point in tempPoints) {
+                if (!spherePoints.ContainsKey(point.zDiscretization)) spherePoints.Add(point.zDiscretization, new List<SGazePoint>());
+                spherePoints[point.zDiscretization].Add(point);
+            }
+        } else {
+            StreetSimRaycaster.R.loadingDiscretizedFixation = true;
+            StartCoroutine(StreetSimRaycaster.R.GetDiscretizedSpherePointsForTrial());
+            while(StreetSimRaycaster.R.loadingDiscretizedFixation) yield return null;
+            spherePoints = StreetSimRaycaster.R.loadedDiscretizedFixations;
+
+            // We'll actually be saving this into a separate file called `discretizedFixations.csv`
+            tempPoints = new List<SGazePoint>();
+            foreach(KeyValuePair<float, List<SGazePoint>> kvp in spherePoints) {
+                foreach(SGazePoint p in kvp.Value) {
+                    tempPoints.Add(p);
+                }
+            }
+            StreetSimRaycaster.R.SaveFixationsData(m_newLoadedTrial,"discretizedFixations",tempPoints);
+        }
+        
         Dictionary<float, LoadedFixationData> discretizedFixations = new Dictionary<float, LoadedFixationData>();
-        foreach(KeyValuePair<float, List<GazePoint>> kvp in spherePoints) {
+        foreach(KeyValuePair<float, List<SGazePoint>> kvp in spherePoints) {
             float zIndex = kvp.Key;
-            List<GazePoint> points = new List<GazePoint>(kvp.Value);
+            List<SGazePoint> points = new List<SGazePoint>(kvp.Value);
             Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
             Vector3 origin = new Vector3(0f,heightRef.position.y,zIndex);
-            foreach(GazePoint point in points) {
+            foreach(SGazePoint point in points) {
                 Vector3 closestDir = default(Vector3);
                 float closestDistance = Mathf.Infinity;
                 foreach(Vector3 dir in directions) {
                     if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
-                    float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                    // float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
+                    float distance = Vector3.Distance(origin+dir*sphereRadius, point.GetWorldPosition(sphereRadius));
                     if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
                         // Found a possible fixation
                         closestDistance = distance;
@@ -499,7 +588,7 @@ public class StreetSimLoadSim : MonoBehaviour
                     }
                 }
                 directionFixations[closestDir] += 1;
-                point.gameObject.SetActive(false);
+                //point.gameObject.SetActive(false);
             }
             discretizedFixations.Add(zIndex, new LoadedFixationData(points, directionFixations));
             yield return null;
@@ -538,6 +627,56 @@ public class StreetSimLoadSim : MonoBehaviour
             // Now aggregate fixations for both averaged and discretized setups
             foreach(LoadedSimulationDataPerTrial trial in participant.Value) {
                 foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
+                    participantFixations[fixations.Key] += fixations.Value;
+                }
+            }
+        }
+
+        // We find the means of x,y,z, as well as standard deviation of 1 degree
+        List<Vector3> fixationsKeys = new List<Vector3>(participantFixations.Keys);
+        float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
+        Vector3 mean = fixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)fixationsKeys.Count;
+        // Sort the fixations by count while also averaging
+        List<KeyValuePair<Vector3,float>> sortedFixations = new List<KeyValuePair<Vector3,float>>();
+        foreach(KeyValuePair<Vector3,int> af in participantFixations) {
+            float avg = (float)af.Value / (float)(participantData.Count-1);
+            float s = avg * Gaussian3D(af.Key,mean,sd);
+            sortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+        }
+        sortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+        // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` has he greatest number of fixations
+        float MAX_FIX_NUMBER = sortedFixations[0].Value;
+        for (int i = 0; i < sortedFixations.Count; i++) {
+            sortedFixations[i] = new KeyValuePair<Vector3, float>(sortedFixations[i].Key, sortedFixations[i].Value / MAX_FIX_NUMBER);
+            directionColors[sortedFixations[i].Key] = g.Evaluate(sortedFixations[i].Value);
+        }
+        RecolorSphereGrid();
+    }
+    public void TruthSaliencyAtZ(float z) {
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+
+        Dictionary<Vector3, int> participantFixations = new Dictionary<Vector3, int>();
+        foreach(Vector3 dir in directions) participantFixations.Add(dir, 0);
+
+        foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> participant in participantData) {            
+            // Now aggregate fixations for discretized setups
+            foreach(LoadedSimulationDataPerTrial trial in participant.Value) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
                     participantFixations[fixations.Key] += fixations.Value;
                 }
             }
@@ -607,56 +746,27 @@ public class StreetSimLoadSim : MonoBehaviour
         g.SetKeys(gck, gak);
         
         Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
-        /*
-        Dictionary<float, Dictionary<float, List<float>>> ratiosAcrossSalienciesDiscretized = new Dictionary<float, Dictionary<float, List<float>>>();
-        foreach(float z in discretizations.Keys) {
-            ratiosAcrossSalienciesDiscretized.Add(z,new Dictionary<float, List<float>>());
-        }
-        */
 
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
             // This tracks ground truth fixations
             Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
             // This tracks Discretized fixations
-            /*
-            Dictionary<float, Dictionary<Vector3, int>> ithParticipantDiscretizedFixations = new Dictionary<float,Dictionary<Vector3,int>>();
-            */
             // Add directions to each dictionary
             foreach(Vector3 dir in directions) {
                 ithParticipantFixations.Add(dir, 0);
-                /*
-                foreach(KeyValuePair<float, Dictionary<Vector3,int>> ithD in ithParticipantDiscretizedFixations) {
-                    ithD.Value.Add(dir,0);
-                }
-                */
             }
             // Now aggregate fixations for both averaged and discretized setups
             foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
                 foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                     ithParticipantFixations[fixations.Key] += fixations.Value;
                 }
-                /*
-                foreach(KeyValuePair<float, LoadedFixationData> discretizedFixations in trial.discretizedFixations) {
-                    foreach(KeyValuePair<Vector3,int> dFixations in discretizedFixations.fixations) {
-                        ithParticipantDiscretizedFixations[discretizedFixations.Key][dFixations.Key] += dFixations.Value;
-                    }
-                }
-                */
             }
 
             // Generate fixations from all observers outside of current observer
             Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
-            /* 
-            Dictionary<float, Dictionary<Vector3, int>> aggregateDiscretizedFixations = new Dictionary<float,Dictionary<Vector3,int>>();
-            */
 
             foreach(Vector3 dir in directions) {
                 aggregateFixations.Add(dir, 0);
-                /*
-                foreach(KeyValuePair<float, Dictionary<Vector3,int>> ithD in aggregateDiscretizedFixations) {
-                    ithD.Value.Add(dir,0);
-                }
-                */
             }
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
                 if (kvpInner.Key == kvp.Key) continue;
@@ -664,13 +774,6 @@ public class StreetSimLoadSim : MonoBehaviour
                     foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                         aggregateFixations[fixations.Key] += fixations.Value;
                     }
-                    /*
-                    foreach(KeyValuePair<float, LoadedFixationData> discretizedFixations in trial.discretizedFixations) {
-                        foreach(KeyValuePair<Vector3,int> dFixations in discretizedFixations.fixations) {
-                            aggregateDiscretizedFixations[discretizedFixations.Key][dFixations.Key] += dFixations.Value;
-                        }
-                    }
-                    */
                 }
             }
 
@@ -678,50 +781,21 @@ public class StreetSimLoadSim : MonoBehaviour
             List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
             float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
             Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
-            /*
-            Dictionary<float, Vector3> discretizedMeans = new Dictionary<float, Vector3>();
-            foreach(KeyValuePair<float, Dictionary<Vector3,int>> dKey in aggregateDiscretizedFixations) {
-                List<Vector3> discretizedFixationsKeys = new List<Vector3>(dKey.Value.Keys);
-                discretizedMeans.Add(dKey.Key, discretizedFixationsKeys.Aggregate(new Vector3(0f,0f,0f),(s,v)=>s+v) / (float)discretizedFixationsKeys.Count);
-            }
-            */
 
             // Sort the fixations by count while also averaging
             List<KeyValuePair<Vector3,float>> aggregateSortedFixations = new List<KeyValuePair<Vector3,float>>();
-            /*
-            Dictionary<float, List<KeyValuePair<Vector3,float>>> discretizedSortedFixations = new Dictionary<float, List<KeyValuePair<Vector3,float>>>();
-            */
             foreach(KeyValuePair<Vector3,int> af in aggregateFixations) {
                 float avg = (float)af.Value / (float)(participantData.Count-1);
                 float s = avg * Gaussian3D(af.Key,mean,sd);
                 aggregateSortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
             }
             aggregateSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
-            /*
-            foreach(KeyValuePair<float, Dictionary<Vector3,int>> dfGroups in aggregateDiscretizedFixations) {
-                discretizedSortedFixations.Add(dfGroups.Key, new List<KeyValuePair<Vector3,float>>());
-                foreach(KeyValuePair<Vector3,int> df in dfGroups) {
-                    float avg = (float)df.Value / (float)(participantData.Count-1);
-                    float s = avg * Gaussian3D(df.Key,discretizedMeans[dfGroups.Key],sd);
-                    discretizedSortedFixations[dfGroups.Key].Add(new KeyValuePair<Vector3,float>(df.Key,s));
-                }
-            }
-            */
             // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` hast he greatest number of fixations
             float MAX_FIX_NUMBER = aggregateSortedFixations[0].Value;
             for (int i = 0; i < aggregateSortedFixations.Count; i++) {
                 aggregateSortedFixations[i] = new KeyValuePair<Vector3, float>(aggregateSortedFixations[i].Key, aggregateSortedFixations[i].Value / MAX_FIX_NUMBER);
                 directionColors[aggregateSortedFixations[i].Key] = g.Evaluate(aggregateSortedFixations[i].Value);
             }
-            /*
-            foreach(KeyValuePair<float, List<KeyValuePair<Vector3,float>>> dMaxes in discretizedSortedFixations) {
-                float D_MAX_FIX_NUMBER = dMaxes.Value[0].Value;
-                for(int j = 0; j < dMaxes.Value.Count; j++) {
-                    dMaxes.Value[j] = new KeyValuePair<Vector3,float>(dMaxes.Values[j].Key, dMaxes.Values[j].Value / D_MAX_FIX_NUMBER);
-                    directionColors[dMaxes.Values[j].Key] = g.Evaluate(dMaxes.Values[j].Value);
-                }
-            }
-            */
             RecolorSphereGrid();
 
             // Now need to iterate through each saliency
@@ -731,20 +805,10 @@ public class StreetSimLoadSim : MonoBehaviour
                 // Remember: starting from index 0, these are fixations sorted in descending order
                 saliencyLevel = (float)System.Math.Round(saliencyLevel,2);
                 if (!ratiosAcrossSaliencies.ContainsKey(saliencyLevel)) ratiosAcrossSaliencies.Add(saliencyLevel, new List<float>());
-                /*
-                foreach(Dictionary<Vector3, List<float>> dGroups in ratiosAcrossSalienciesDiscretized.Values) {
-                    if (!dGroups.ContainsKey(saliencyLevel)) dGroups.Add(saliencyLevel, new List<float>());
-                }
-                */
                 maxIndex = (int)Mathf.Round((float)directions.Count * saliencyLevel);
                 
                 List<KeyValuePair<Vector3,float>> aggregateSubset = aggregateSortedFixations.GetRange(0, maxIndex);
                 Dictionary<Vector3,float> aggregateSubsetDictionary = aggregateSubset.ToDictionary(x=>x.Key,x=>x.Value);
-                /*
-                foreach(Vector3 dir in directions) {
-                    if (!aggregateSubsetDictionary.ContainsKey(dir)) aggregateSubsetDictionary.Add(dir,0f);
-                }
-                */
                 hits = 0;
                 total = 0;
                 foreach(KeyValuePair<Vector3,int> ithKVP in ithParticipantFixations) {
@@ -766,124 +830,110 @@ public class StreetSimLoadSim : MonoBehaviour
             saliencyAverageRatio.Add(kvp.Key, average);
             Debug.Log("\t"+kvp.Key.ToString()+": " + average + " | " + (average*100f).ToString() + "%");
         }
+    }
+    public void ROCAtZ(float z) {
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+        
+        Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
 
-
-        /*
-        GenerateSphereGrid();
-        Vector3 origin = new Vector3(0f,1.5f,0f);
-        List<string> participantList = new List<string>(participantData.Keys);
-        Dictionary<string, Dictionary<Vector3, int>> aggregateFixations = new Dictionary<string, Dictionary<Vector3, int>>();
-        for (int i = 0; i < participantList.Count; i++) {
-            string name = participantList[i];
-            Debug.Log("[LOAD SIM] GTS: PARSING " + name + "'s Data");
-            Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
-            foreach(LoadedSimulationDataPerTrial trial in participantData[name]) {
-                Debug.Log(trial.trialName);
-                // Grab sphere data
-                List<GazePoint> spherePoints = StreetSimRaycaster.R.GetSpherePointsForTrial(trial);
-                Debug.Log(name + ": " + trial.trialName + ": " + spherePoints.Count.ToString());
-                // For each spherepoint, derive which directions that the GazePoint is closest to
-                foreach(GazePoint point in spherePoints) {
-                    Vector3 closestDir = default(Vector3);
-                    float closestDistance = Mathf.Infinity;
-                    foreach(Vector3 dir in directions) {
-                        if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
-                        float distance = Vector3.Distance(origin+dir*sphereRadius, point.transform.position);
-                        if (distance <= averageDistanceBetweenPoints*2f && distance < closestDistance) {
-                            // Found a possible fixation
-                            closestDistance = distance;
-                            closestDir = dir;
-                        }
-                    }
-                    directionFixations[closestDir] += 1;
-                }
-            }
-            // Aggregate all fixations for this participant
-            aggregateFixations.Add(name, directionFixations);
-        }
-
-        for(int i = 0; i < participantList.Count; i++) {
-            string name = participantList[i];
-            Debug.Log("[LOAD SIM] Participant \""+name+"\" has these fixations:");
-            foreach(KeyValuePair<Vector3, int> kvp in aggregateFixations[name]) {
-                if (kvp.Value > 0) Debug.Log(kvp.Key.ToString() + ": " + kvp.Value.ToString());
-            }
-        }
-        */
-
-
-
-
-
-        /*
-        // Firstly, generate a list of all points
-        Dictionary<Vector3, float> gazeFixationsAcrossParticipants = new Dictionary<Vector3, float>();
-        Dictionary<Vector3, float> gazeFixationsForIthParticipant = new Dictionary<Vector3, float>();
-        foreach(Vector3 dir in directions) {
-            gazeFixationsAcrossParticipants.Add(dir,0f);
-        }
-        Vector3 origin = new Vector3(0f,1.5f,0f);
-        // Secondly, generate a list of directions
-        GenerateSphereGrid();
-        // Thidly, get list of participant data in List form
-        List<List<LoadedSimulationDataPerTrial>> participants = participantData.Values.ToList();
-        // Fourthly, start to generate a percentage value that'll be used ubiquitously
-        float percentage;
-        // Fifthly, start to iterate through participants
-        for(int i = 0; i < participants.Count; i++) {
-            // The ith user must be left out of this iteration
-            for(int j = 0; j < participants.Count; j++) {
-                if (i == j) continue;
-                // For this user, we need to generate the gaze fixations
-                // Whether the gaze fixations are discretized or not is provided as a parameter to this method
-                // For each user, for each trial, we can get the gaze points for sphereGaze by calling StreetSimRaycaster.R.ReplayRecord()
-                // ReplayRecord accepts a LoadedSimulationDataPerTrial and a bool
-                foreach(LoadedSimulationDataPerTrial trial in participants[j]) {
-                    if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
-                        // Grab sphere data
-                        List<GazePoint> spherePoints = StreetSimRaycaster.R.GetAllSphereGazePoints();
-                        // For each spherepoint, derive which directions that the GazePoint is closest to
-                        foreach(GazePoint point in spherePoints) {
-                            foreach(Vector3 dir in directions) {
-                                if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
-                                    // Found a fixation
-                                    gazeFixationsAcrossParticipants[dir] += 1f;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            // Now, we do the replay record for each trial for ith participant
-            foreach(LoadedSimulationDataPerTrial trial in participants[i]) {
-                if (StreetSimRaycaster.R.ReplayRecord(trial,false)) {
-                    // Grab sphere data
-                    List<GazePoint> spherePoints =StreetSimRaycaster.R.GetAllSphereGazePoints();
-                    // For each spherepoint, derive which directions that the GazePoint is closest to
-                    foreach(GazePoint point in spherePoints) {
-                        foreach(Vector3 dir in directions) {
-                            if (Vector3.Distance(origin+dir*sphereRadius, point.transform.position) <= averageDistanceBetweenPoints) {
-                                // Found a fixation
-                                gazeFixationsForIthParticipant[dir] += 1f;
-                            }
-                        }
-                    }
-                }
-            }
-            // Now for each direction, we have to judge accuracy.
-            int accurate = 0, inaccurate = 0;
+        foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
+            // This tracks ground truth fixations
+            Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
+            // This tracks Discretized fixations
+            // Add directions to each dictionary
             foreach(Vector3 dir in directions) {
-                if (gazeFixationsForIthParticipant[dir] > 0 && gazeFixationsAcrossParticipants[dir] > 0) {
-                    // this is a case of accuracy
-                    accurate += 1;
-                } else if (gazeFixationsForIthParticipant[dir] > 0 && gazeFixationsAcrossParticipants[dir] == 0) {
-                    // This is an inaccurate count
-                    inaccurate += 1;
+                ithParticipantFixations.Add(dir, 0);
+            }
+            // Now aggregate fixations for both averaged and discretized setups
+            foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
+                    ithParticipantFixations[fixations.Key] += fixations.Value;
                 }
             }
-            // Accuracy is measured by 
+
+            // Generate fixations from all observers outside of current observer
+            Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
+
+            foreach(Vector3 dir in directions) {
+                aggregateFixations.Add(dir, 0);
+            }
+            foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
+                if (kvpInner.Key == kvp.Key) continue;
+                foreach(LoadedSimulationDataPerTrial trial in kvpInner.Value) {
+                    foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
+                        aggregateFixations[fixations.Key] += fixations.Value;
+                    }
+                }
+            }
+
+            // We find the means of x,y,z, as well as standard deviation of 1 degree
+            List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
+            float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
+            Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
+
+            // Sort the fixations by count while also averaging
+            List<KeyValuePair<Vector3,float>> aggregateSortedFixations = new List<KeyValuePair<Vector3,float>>();
+            foreach(KeyValuePair<Vector3,int> af in aggregateFixations) {
+                float avg = (float)af.Value / (float)(participantData.Count-1);
+                float s = avg * Gaussian3D(af.Key,mean,sd);
+                aggregateSortedFixations.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+            }
+            aggregateSortedFixations.Sort((x, y) => y.Value.CompareTo(x.Value));
+            // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` hast he greatest number of fixations
+            float MAX_FIX_NUMBER = aggregateSortedFixations[0].Value;
+            for (int i = 0; i < aggregateSortedFixations.Count; i++) {
+                aggregateSortedFixations[i] = new KeyValuePair<Vector3, float>(aggregateSortedFixations[i].Key, aggregateSortedFixations[i].Value / MAX_FIX_NUMBER);
+                directionColors[aggregateSortedFixations[i].Key] = g.Evaluate(aggregateSortedFixations[i].Value);
+            }
+            RecolorSphereGrid();
+
+            // Now need to iterate through each saliency
+            int maxIndex, hits, total;
+            KeyValuePair<Vector3,int> aggregateFixation;
+            for(float saliencyLevel = 0.05f; saliencyLevel <= 1f; saliencyLevel += 0.05f) {
+                // Remember: starting from index 0, these are fixations sorted in descending order
+                saliencyLevel = (float)System.Math.Round(saliencyLevel,2);
+                if (!ratiosAcrossSaliencies.ContainsKey(saliencyLevel)) ratiosAcrossSaliencies.Add(saliencyLevel, new List<float>());
+                maxIndex = (int)Mathf.Round((float)directions.Count * saliencyLevel);
+                
+                List<KeyValuePair<Vector3,float>> aggregateSubset = aggregateSortedFixations.GetRange(0, maxIndex);
+                Dictionary<Vector3,float> aggregateSubsetDictionary = aggregateSubset.ToDictionary(x=>x.Key,x=>x.Value);
+                hits = 0;
+                total = 0;
+                foreach(KeyValuePair<Vector3,int> ithKVP in ithParticipantFixations) {
+                    if (ithKVP.Value == 0) continue;
+                    if (ithKVP.Value > 0 && aggregateSubsetDictionary.ContainsKey(ithKVP.Key) && aggregateSubsetDictionary[ithKVP.Key] > 0f) hits += 1;
+                    total += 1;
+                }
+                ratiosAcrossSaliencies[saliencyLevel].Add((float)hits/(float)total);
+            }
         }
-        */
+
+        // We now have, across each saliency, a list of ratios. We can condense this further so that each saliency level has an averaged ratio
+        Debug.Log("[LOAD SIM] PRESENTING GROUND TRUTH SALIENCIES:");
+        Dictionary<float, float> saliencyAverageRatio = new Dictionary<float, float>();
+        foreach(KeyValuePair<float, List<float>> kvp in ratiosAcrossSaliencies) {
+            float total = 0f;
+            foreach(float ratio in kvp.Value) total += ratio;
+            float average = total/(float)kvp.Value.Count;
+            saliencyAverageRatio.Add(kvp.Key, average);
+            Debug.Log("\t"+kvp.Key.ToString()+": " + average + " | " + (average*100f).ToString() + "%");
+        }
     }
 
     public float GetDiscretizationFromIndex(int i) {
@@ -896,6 +946,73 @@ public class StreetSimLoadSim : MonoBehaviour
 
     public void PlaceCam(float z) {
         cam360.position = new Vector3(0f,heightRef.position.y,z);
+    }
+
+    public void TrackGazeOnObject(ExperimentID target) {
+        // this target MAY or MAY NOT have any gaze targets on it.
+        // What we need to do is to iterate through all trials.
+        // Specifically, each `LoadedSimulationDataPerTrial` has a `LoadedGazeData` object called `gazeData`.
+        //      This `LoadedGazeData` comes with an `objectsTracked` list that lets us know which objects were tracked in that trial
+        
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+
+        // Delete our existing `currentGazeObjectTracked`
+        if (currentGazeObjectTracked != null) Destroy(currentGazeObjectTracked.gameObject);
+        ClearGazePoints();
+        
+        List<RaycastHitRow> rows = new List<RaycastHitRow>();
+        foreach(List<LoadedSimulationDataPerTrial> trials in participantData.Values) {
+            foreach(LoadedSimulationDataPerTrial trial in trials) {
+                if (trial.gazeData.objectsTracked.Contains(target)) {
+                    List<RaycastHitRow> trialRows = trial.gazeData.gazeDataByTimestamp.Flatten2D<float,RaycastHitRow>();
+                    rows.AddRange(trialRows);
+                }
+            }
+        }
+
+        // If there's more than 0 rows associated with this object, then we need to set up the display
+        if (rows.Count == 0) {
+            Debug.Log("[LOAD SIM] No gaze points found on this object \""+target.id+"\". Unable to bring up render view");
+            return;
+        }
+
+        // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
+        
+        // We get all `ExperimentID`s associated with this object
+        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
+
+        // For each `RaycastHitRow` in `rows`, attach a GazePoint onto it.
+        foreach(RaycastHitRow row in rows) {
+            foreach(ExperimentID id in ids) {
+                if (row.hitID == id.id) {
+                    // If the hitID matches the id, then we attach a new GazePoint to this object
+                    Vector3 localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
+                    GazePoint newPoint = Instantiate(gazePointPrefab, id.transform) as GazePoint;
+                    newPoint.SetScale(0.025f);
+                    newPoint.SetColor(Color.yellow);
+                    newPoint.transform.localPosition = localPosition;
+                    activeGazePoints.Add(newPoint);
+                }
+            }
+        }
+
+        Debug.Log("[LOAD SIM] Found " + rows.Count.ToString() + " RaycastHitRows associated with this object");
     }
 }
 
@@ -941,13 +1058,13 @@ public class LoadedSimulationDataPerTrial {
 
 [SerializeField]
 public class LoadedFixationData {
-    public List<GazePoint> gazePoints;
+    public List<SGazePoint> gazePoints;
     public Dictionary<Vector3, int> fixations;
-    public LoadedFixationData(List<GazePoint> gazePoints) {
+    public LoadedFixationData(List<SGazePoint> gazePoints) {
         this.gazePoints = gazePoints;
         this.fixations = new Dictionary<Vector3, int>();
     }
-    public LoadedFixationData(List<GazePoint> gazePoints, Dictionary<Vector3, int> fixations) {
+    public LoadedFixationData(List<SGazePoint> gazePoints, Dictionary<Vector3, int> fixations) {
         this.gazePoints = gazePoints;
         this.fixations = fixations;
     }

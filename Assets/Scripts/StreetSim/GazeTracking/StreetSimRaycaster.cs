@@ -180,6 +180,7 @@ public class LoadedGazeData {
     public TextAsset textAsset;
     public Dictionary<int, float> indexTimeMap;
     public Dictionary<float, List<RaycastHitRow>> gazeDataByTimestamp;
+    public List<ExperimentID> objectsTracked;
     public LoadedGazeData(
         string trialName, 
         TextAsset textAsset, 
@@ -190,6 +191,7 @@ public class LoadedGazeData {
 
         this.indexTimeMap = new Dictionary<int, float>();
         this.gazeDataByTimestamp = new Dictionary<float, List<RaycastHitRow>>();
+        this.objectsTracked = new List<ExperimentID>();
 
         foreach(RaycastHitRow gaze in gazes) {
             // Find the experiment ID that matches
@@ -205,6 +207,8 @@ public class LoadedGazeData {
             // Add this to positionDatabyTimestamp
             if (!this.gazeDataByTimestamp.ContainsKey(gaze.timestamp)) this.gazeDataByTimestamp.Add(gaze.timestamp, new List<RaycastHitRow>());
             if (!this.gazeDataByTimestamp[gaze.timestamp].Contains(gaze)) this.gazeDataByTimestamp[gaze.timestamp].Add(gaze);
+            // Add this to objectsTracked
+            if (!objectsTracked.Contains(agentID)) objectsTracked.Add(agentID);
         }
     }
 }
@@ -243,10 +247,10 @@ public class StreetSimRaycaster : MonoBehaviour
     private List<GazePoint> gazeGazeObjects = new List<GazePoint>();
 
     public bool loadingAverageFixation = false, loadingDiscretizedFixation = false;
-    private List<GazePoint> m_loadedAverageFixations;
-    public List<GazePoint> loadedAverageFixations { get=>m_loadedAverageFixations; set{} }
-    private Dictionary<float, List<GazePoint>> m_loadedDiscretizedFixations;
-    public Dictionary<float, List<GazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
+    private List<SGazePoint> m_loadedAverageFixations;
+    public List<SGazePoint> loadedAverageFixations { get=>m_loadedAverageFixations; set{} }
+    private Dictionary<float, List<SGazePoint>> m_loadedDiscretizedFixations;
+    public Dictionary<float, List<SGazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
 
     void OnDrawGizmosSelected() {
         if (cubeGazeObjects.Count > 0 && m_showCubeGaze) {
@@ -501,6 +505,33 @@ public class StreetSimRaycaster : MonoBehaviour
             dataFormatted.Add(new RaycastHitRow(row));
         }
         return dataFormatted;
+    }
+    public bool LoadFixationsData(LoadedSimulationDataPerTrial trial, string filename, out List<SGazePoint> points) {
+        points = new List<SGazePoint>();
+        string assetPath =  trial.assetPath+"/"+filename+".csv";
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        points = ParseFixationData(trial, pr);
+        return true;
+    }
+    public List<SGazePoint> ParseFixationData(LoadedSimulationDataPerTrial trial, string[] data) {
+        List<SGazePoint> dataFormatted = new List<SGazePoint>();
+        int numHeaders = SGazePoint.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            dataFormatted.Add(new SGazePoint(row));
+        }
+        return dataFormatted;
+    }
+    public bool SaveFixationsData(LoadedSimulationDataPerTrial trial, string filename, List<SGazePoint> data) {
+        string assetPath = trial.assetPath+"/"+filename+".csv";
+        return SaveSystemMethods.SaveCSV<SGazePoint>(assetPath,SGazePoint.Headers,data);
     }
 
 
@@ -869,7 +900,7 @@ public class StreetSimRaycaster : MonoBehaviour
         return sPoints;
     }
 
-    public IEnumerator GetSpherePointsForTrial () {
+    public IEnumerator GetSpherePointsForTrial() {
         
         StreetSimLoadSim.LS.gazeCube.position = StreetSimLoadSim.LS.heightRef.position;
         StreetSimLoadSim.LS.gazeCube.rotation = Quaternion.identity;
@@ -889,7 +920,7 @@ public class StreetSimRaycaster : MonoBehaviour
         int index = -1;
         float prevTimestamp = 0f;
 
-        List<GazePoint> sphereGazeObjectsList = new List<GazePoint>();
+        List<SGazePoint> sphereGazeObjectsList = new List<SGazePoint>();
 
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
@@ -938,6 +969,26 @@ public class StreetSimRaycaster : MonoBehaviour
                 // Instantiate gaze point for both cube and rect
                 foreach(RaycastHitReplayRow row in rows) {
                     if (row.agentID == "GazeCube") {
+
+                        // Firstly, we generate gazeOrigin based on positionMultiplier
+                        Vector3 gazeOrigin = Vector3.Scale(thisUserImitator.position, positionMultiplier);
+                        // Secondly, we gneerate gazeDir based on the row's worldPosition, scaled to positionMultiplier
+                        Vector3 gazeDir = (Vector3.Scale(row.worldPosition,positionMultiplier)-gazeOrigin).normalized;
+                        // Thirdly, we generate fixationOrigin. 
+                        Vector3 fixationOrigin = StreetSimLoadSim.LS.heightRef.position;
+                        // Fourthly, we generate fixation direction
+                        Vector3 fixationDir = (Vector3.Scale(row.worldPosition,positionMultiplier)-fixationOrigin).normalized;
+                        // Finally, generate a new SGazePoint
+                        SGazePoint newGazePoint = new SGazePoint(
+                            frameIndex,
+                            timestamp,
+                            gazeOrigin,
+                            gazeDir,
+                            fixationOrigin,
+                            fixationDir
+                        );
+                        sphereGazeObjectsList.Add(newGazePoint);
+                        /*
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
                         //newGazeObject.originPoint = StreetSimLoadSim.LS.heightRef.position;
                         newGazeObject.originPoint = Vector3.Scale(thisUserImitator.position,positionMultiplier);
@@ -951,6 +1002,7 @@ public class StreetSimRaycaster : MonoBehaviour
                         newGazeObject.SetColor(Color.yellow);
                         newGazeObject.gameObject.SetActive(m_showSphereGaze);
                         sphereGazeObjectsList.Add(newGazeObject);
+                        */
                     }
                 }
             }
@@ -978,7 +1030,7 @@ public class StreetSimRaycaster : MonoBehaviour
         int index = -1;
         float prevTimestamp = 0f;
 
-        Dictionary<float, List<GazePoint>> sphereGazeObjects = new Dictionary<float, List<GazePoint>>();
+        Dictionary<float, List<SGazePoint>> sphereGazeObjects = new Dictionary<float, List<SGazePoint>>();
 
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
@@ -1031,13 +1083,35 @@ public class StreetSimRaycaster : MonoBehaviour
             
             // zDiscretization now takes into account the flipping. zDiscretization now is the true z-position for the data
             zDiscretization *= positionMultiplier.z;
-            if (!sphereGazeObjects.ContainsKey(zDiscretization)) sphereGazeObjects.Add(zDiscretization, new List<GazePoint>());
+            if (!sphereGazeObjects.ContainsKey(zDiscretization)) sphereGazeObjects.Add(zDiscretization, new List<SGazePoint>());
             
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
                 // Instantiate gaze point for both cube and rect
                 foreach(RaycastHitReplayRow row in rows) {
                     if (row.agentID == "GazeCube") {
+                        
+                        // Firstly, we generate gazeOrigin based on positionMultiplier
+                        Vector3 gazeOrigin = Vector3.Scale(thisUserImitator.position, positionMultiplier);
+                        // Secondly, we gneerate gazeDir based on the row's worldPosition, scaled to positionMultiplier
+                        Vector3 gazeDir = (Vector3.Scale(row.worldPosition,positionMultiplier)-gazeOrigin).normalized;
+                        // Thirdly, we generate fixationOrigin. 
+                        Vector3 fixationOrigin = Vector3.Scale(StreetSimLoadSim.LS.gazeCube.position,positionMultiplier);
+                        // Fourthly, we generate fixation direction
+                        Vector3 fixationDir = (Vector3.Scale(row.worldPosition,positionMultiplier)-fixationOrigin).normalized;
+                        // Finally, generate a new SGazePoint
+                        SGazePoint newGazePoint = new SGazePoint(
+                            frameIndex,
+                            timestamp,
+                            gazeOrigin,
+                            gazeDir,
+                            fixationOrigin,
+                            fixationDir,
+                            zDiscretization
+                        );
+                        sphereGazeObjects[zDiscretization].Add(newGazePoint);
+
+                        /*
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
                         // The new gaze object's origin point should be the discretized, flipped version of the gazecube's position.
                         newGazeObject.originPoint = Vector3.Scale(StreetSimLoadSim.LS.gazeCube.position,positionMultiplier);
@@ -1051,6 +1125,7 @@ public class StreetSimRaycaster : MonoBehaviour
                         newGazeObject.SetColor(Color.yellow);
                         // Add the gaze object to our discretization dictionary
                         sphereGazeObjects[zDiscretization].Add(newGazeObject);
+                        */
                         pointCount++;
                     }
                 }

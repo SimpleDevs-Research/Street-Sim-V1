@@ -19,26 +19,6 @@ public class StreetSimLoadSimEditor : Editor
 
         EditorGUILayout.LabelField("Global Controls", EditorStyles.boldLabel);
 
-        float z;
-        string toggleText;
-        for(int i = 0; i < controller.NumDiscretizations; i++) {
-            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
-            else GUILayout.BeginHorizontal();
-                
-            z = controller.GetDiscretizationFromIndex(i);
-            toggleText = (controller.discretizations[z]) ? "Turn off" : "Turn on";
-
-            EditorGUILayout.LabelField("Z: "+z.ToString());   
-            if (GUILayout.Button("Place Cam")) {
-                controller.PlaceCam(z);
-            }             
-            if (GUILayout.Button(toggleText)) {
-                controller.ToggleDiscretization(z);
-            }
-
-            GUILayout.EndHorizontal();
-        }
-
         if (GUILayout.Button("Test Sphere Grid")) {
             controller.GenerateSphereGrid();
         }
@@ -56,6 +36,52 @@ public class StreetSimLoadSimEditor : Editor
         }
 
         DrawPadding(5);
+
+        float z;
+        string toggleText;
+        for(int i = 0; i < controller.NumDiscretizations; i++) {
+            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
+            else GUILayout.BeginHorizontal();
+            
+            z = controller.GetDiscretizationFromIndex(i);
+            EditorGUILayout.LabelField("Z: "+z.ToString());
+            if(GUILayout.Button("Get Saliency")) {
+                controller.TruthSaliencyAtZ(z);
+            }
+            if(GUILayout.Button("Get ROC")) {
+                controller.ROCAtZ(z);
+            }
+            /*
+            toggleText = (controller.discretizations[z]) ? "Turn off" : "Turn on";
+
+            EditorGUILayout.LabelField("Z: "+z.ToString());   
+            if (GUILayout.Button("Place Cam")) {
+                controller.PlaceCam(z);
+            }             
+            if (GUILayout.Button(toggleText)) {
+                controller.ToggleDiscretization(z);
+            }
+            */
+
+            GUILayout.EndHorizontal();
+        }
+
+        DrawPadding(5);
+
+        for(int i = 0; i < controller.gazeObjectTracking.Count; i++) {
+            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
+            else GUILayout.BeginHorizontal();
+
+            ExperimentID curID = controller.gazeObjectTracking[i];
+            EditorGUILayout.LabelField("\""+curID.id+"\":");
+            if(GUILayout.Button("Track Gaze Hits")) {
+                controller.TrackGazeOnObject(curID);
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        DrawPadding(10);
         
         // At this point, we know we have SOME data to work with
         // What appears will differ based on if controller.currentParticipant != null and controller.participantData[currentParticipant] != null
@@ -102,6 +128,8 @@ public class StreetSimLoadSimEditor : Editor
         GUIStyle gs = new GUIStyle();
         gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
 
+        string buttonLabel;
+
         for(int i = 0; i < controller.participantData[controller.currentParticipant].Count; i++) {
              if (i % 2 == 0) GUILayout.BeginVertical(gs);
             else GUILayout.BeginVertical();
@@ -119,11 +147,23 @@ public class StreetSimLoadSimEditor : Editor
                 if (GUILayout.Button("Replay")) {
                     StreetSimIDController.ID.ReplayRecord(controller.participantData[controller.currentParticipant][i].positionData);
                 }
-                if (GUILayout.Button("Av. Fixation Map")) {
-                    controller.ToggleAverageFixationMap(controller.participantData[controller.currentParticipant][i]);
+                if (controller.participantData[controller.currentParticipant][i].averageFixations == default(LoadedFixationData)) {
+                    if (GUILayout.Button("Get Av. Fix. Map")) {
+                        controller.ManuallyGenerateFixationMap(controller.participantData[controller.currentParticipant][i]);
+                    }
+                } else {
+                    if (GUILayout.Button("Show Av. Fix. Map")) {
+                        controller.ToggleAverageFixationMap(controller.participantData[controller.currentParticipant][i]);
+                    }
                 }
-                if (GUILayout.Button("Dis. Fixation Map")) {
-                    controller.ToggleDiscretizedFixationMap(controller.participantData[controller.currentParticipant][i]);
+                if (controller.participantData[controller.currentParticipant][i].discretizedFixations.Count == 0) {
+                    if (GUILayout.Button("Get Dis. Fix. Map")) {
+                        controller.ManuallyGenerateDiscretizedFixationMap(controller.participantData[controller.currentParticipant][i]);
+                    }
+                } else {
+                    if (GUILayout.Button("Show Dis. Fixation Map")) {
+                        controller.ToggleDiscretizedFixationMap(controller.participantData[controller.currentParticipant][i]);
+                    }
                 }
                 if (GUILayout.Button("Gaze Hits")) {
                     StreetSimRaycaster.R.ReplayGazeHits(controller.participantData[controller.currentParticipant][i]);

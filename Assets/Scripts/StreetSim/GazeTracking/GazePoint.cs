@@ -60,19 +60,111 @@ public class GazePoint : MonoBehaviour
 
 [System.Serializable]
 public class SGazePoint {
-    public SVector3 originPoint;
-    public SVector3 dir;
-    public SVector3 positionMultiplier;
-    public SVector3 rowWorldPosition;
-    public SGazePoint(Vector3 originPoint,Vector3 dir,Vector3 rowWorldPosition,Vector3 positionMultiplier) {
-        this.originPoint = originPoint;
-        this.dir = dir;
-        this.rowWorldPosition = rowWorldPosition;
-        this.positionMultiplier = positionMultiplier;
+
+    public int frameIndex;
+    public float timestamp;
+
+    public float zDiscretization;
+
+    public SVector3 gazeOrigin;
+    public float gazeOrigin_x;
+    public float gazeOrigin_y;
+    public float gazeOrigin_z;
+    public SVector3 gazeDir;
+    public float gazeDir_x;
+    public float gazeDir_y;
+    public float gazeDir_z;
+    public SVector3 fixationOrigin;
+    public float fixationOrigin_x;
+    public float fixationOrigin_y;
+    public float fixationOrigin_z;
+    public SVector3 fixationDir;
+    public float fixationDir_x;
+    public float fixationDir_y;
+    public float fixationDir_z;
+
+    public SGazePoint(int frameIndex, float timestamp, Vector3 gazeOrigin, Vector3 gazeDir, Vector3 fixationOrigin, Vector3 fixationDir) {
+        this.frameIndex = frameIndex;
+        this.timestamp = timestamp;
+        this.gazeOrigin = gazeOrigin;
+        this.gazeOrigin_x = this.gazeOrigin.x;
+        this.gazeOrigin_y = this.gazeOrigin.y;
+        this.gazeOrigin_z = this.gazeOrigin.z;
+        this.gazeDir = gazeDir;
+        this.gazeDir_x = this.gazeDir.x;
+        this.gazeDir_y = this.gazeDir.y;
+        this.gazeDir_z = this.gazeDir.z;
+        this.fixationOrigin = fixationOrigin;
+        this.fixationOrigin_x = this.fixationOrigin.x;
+        this.fixationOrigin_y = this.fixationOrigin.y;
+        this.fixationOrigin_z = this.fixationOrigin.z;
+        this.fixationDir = fixationDir;
+        this.fixationDir_x = this.fixationDir.x;
+        this.fixationDir_y = this.fixationDir.y;
+        this.fixationDir_z = this.fixationDir.z;
+        this.zDiscretization = 0f;
     }
-    /*
-    public Vector3 GetWorldPosition(Vector3 centerPoint, float sphereRadius) {
-        return Vector3.Scale(centerPoint +  ((this.rowWorldPosition-centerPoint).normalized * sphereRadius),this.positionMultiplier);
+    public SGazePoint(int frameIndex, float timestamp, Vector3 gazeOrigin, Vector3 gazeDir, Vector3 fixationOrigin, Vector3 fixationDir, float zDiscretization) {
+        this.frameIndex = frameIndex;
+        this.timestamp = timestamp;
+        this.gazeOrigin = gazeOrigin;
+        this.gazeOrigin_x = this.gazeOrigin.x;
+        this.gazeOrigin_y = this.gazeOrigin.y;
+        this.gazeOrigin_z = this.gazeOrigin.z;
+        this.gazeDir = gazeDir;
+        this.gazeDir_x = this.gazeDir.x;
+        this.gazeDir_y = this.gazeDir.y;
+        this.gazeDir_z = this.gazeDir.z;
+        this.fixationOrigin = fixationOrigin;
+        this.fixationOrigin_x = this.fixationOrigin.x;
+        this.fixationOrigin_y = this.fixationOrigin.y;
+        this.fixationOrigin_z = this.fixationOrigin.z;
+        this.fixationDir = fixationDir;
+        this.fixationDir_x = this.fixationDir.x;
+        this.fixationDir_y = this.fixationDir.y;
+        this.fixationDir_z = this.fixationDir.z;
+        this.zDiscretization = zDiscretization;
     }
-    */
+    public SGazePoint(string[] data) {
+        this.frameIndex = int.Parse(data[0]);
+        this.timestamp = float.Parse(data[1]);
+        this.zDiscretization = float.Parse(data[2]);
+        this.gazeOrigin_x = float.Parse(data[3]);
+        this.gazeOrigin_y = float.Parse(data[4]);
+        this.gazeOrigin_z = float.Parse(data[5]);
+        this.gazeOrigin = new SVector3(this.gazeOrigin_x, this.gazeOrigin_y, this.gazeOrigin_z);
+        this.gazeDir_x = float.Parse(data[6]);
+        this.gazeDir_y = float.Parse(data[7]);
+        this.gazeDir_z = float.Parse(data[8]);
+        this.gazeDir = new SVector3(this.gazeDir_x, this.gazeDir_y, this.gazeDir_z);
+        this.fixationOrigin_x = float.Parse(data[9]);
+        this.fixationOrigin_y = float.Parse(data[10]);
+        this.fixationOrigin_z = float.Parse(data[11]);
+        this.fixationOrigin = new SVector3(this.fixationOrigin_x, this.fixationOrigin_y, this.fixationOrigin_z);
+        this.fixationDir_x = float.Parse(data[12]);
+        this.fixationDir_y = float.Parse(data[13]);
+        this.fixationDir_z = float.Parse(data[14]);
+        this.fixationDir = new SVector3(this.fixationDir_x, this.fixationDir_y, this.fixationDir_z);
+    }
+
+    public Vector3 GetWorldPosition(float sphereRadius) {
+        return (Vector3)fixationOrigin + ((Vector3)fixationDir).normalized*sphereRadius;
+    }
+    public static List<string> Headers => new List<string> {
+        "frameIndex",
+        "timestamp",
+        "zDiscretization",
+        "gazeOrigin_x",
+        "gazeOrigin_y",
+        "gazeOrigin_z",
+        "gazeDir_x",
+        "gazeDir_y",
+        "gazeDir_z",
+        "fixationOrigin_x",
+        "fixationOrigin_y",
+        "fixationOrigin_z",
+        "fixationDir_x",
+        "fixationDir_y",
+        "fixationDir_z"
+    };
 }
