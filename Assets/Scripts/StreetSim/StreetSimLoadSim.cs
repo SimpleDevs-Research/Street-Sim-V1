@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using System.Linq;
+using UnityEditor;
 
 public class StreetSimLoadSim : MonoBehaviour
 {
@@ -953,27 +954,51 @@ public class StreetSimLoadSim : MonoBehaviour
         // What we need to do is to iterate through all trials.
         // Specifically, each `LoadedSimulationDataPerTrial` has a `LoadedGazeData` object called `gazeData`.
         //      This `LoadedGazeData` comes with an `objectsTracked` list that lets us know which objects were tracked in that trial
-        
-        Gradient g = new Gradient();
-        GradientColorKey[] gck = new GradientColorKey[3];
-        GradientAlphaKey[] gak = new GradientAlphaKey[3];
-        gck[0].color = Color.red;
-        gck[0].time = 1f;
-        gck[1].color = Color.yellow;
-        gck[1].time = 0.5f;
-        gck[2].color = Color.blue;
-        gck[2].time = 0f;
-        gak[0].alpha = 1f;
-        gak[0].time = 1f;
-        gak[1].alpha = 1f;
-        gak[1].time = 0.5f;
-        gak[2].alpha = 0f;
-        gak[2].time = 0f;
-        g.SetKeys(gck, gak);
 
         // Delete our existing `currentGazeObjectTracked`
         if (currentGazeObjectTracked != null) Destroy(currentGazeObjectTracked.gameObject);
         ClearGazePoints();
+
+        // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
+        // We get all `ExperimentID`s associated with this object
+        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
+        // We generate a list of `GazeOnObjectTrackable` objects
+        List<GazeOnObjectTrackable> trackables = new List<GazeOnObjectTrackable>();
+
+        string postProcessDir = SaveSystemMethods.GetSaveLoadDirectory("PostProcessData_Ignore");
+        SaveSystemMethods.CheckOrCreateDirectory(postProcessDir);
+        string objectFilename = postProcessDir + target.id + ".csv";
+        Debug.Log("[LOAD SIM] Attempting to load object-gaze map file \""+objectFilename+"\" from memory...");
+
+        if (SaveSystemMethods.CheckFileExists(objectFilename)) {
+            // We know it exists. We now need to convert it into assetPath form
+            string ap = "Assets/PostProcessData_Ignore/"+target.id+".csv";
+            TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(ap, typeof(TextAsset));
+            string[] data = SaveSystemMethods.ReadCSV(ta);
+            trackables = new List<GazeOnObjectTrackable>();
+            int numHeaders = GazeOnObjectTrackable.Headers.Count;
+            int tableSize = data.Length/numHeaders - 1;
+      
+            for(int i = 0; i < tableSize; i++) {
+                int rowKey = numHeaders*(i+1);
+                string[] row = data.RangeSubset(rowKey,numHeaders);
+                trackables.Add(new GazeOnObjectTrackable(row));
+            }
+            
+            foreach(GazeOnObjectTrackable t in trackables) {
+                GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
+                newPoint.SetScale(0.025f);
+                newPoint.SetColor(Color.yellow);
+                newPoint.transform.parent = currentGazeObjectTracked;
+                newPoint.transform.localPosition = new Vector3(t.position_x, t.position_y, t.position_z);
+                activeGazePoints.Add(newPoint);
+            }
+
+            Debug.Log("[LOAD SIM] Found " + trackables.Count.ToString() + " gaze points associated with this object");
+
+            return;
+        } 
         
         List<RaycastHitRow> rows = new List<RaycastHitRow>();
         foreach(List<LoadedSimulationDataPerTrial> trials in participantData.Values) {
@@ -984,18 +1009,13 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
             }
         }
-
         // If there's more than 0 rows associated with this object, then we need to set up the display
         if (rows.Count == 0) {
             Debug.Log("[LOAD SIM] No gaze points found on this object \""+target.id+"\". Unable to bring up render view");
+            Destroy(currentGazeObjectTracked.gameObject);
+            currentGazeObjectTracked = null;
             return;
         }
-
-        // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
-        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
-        
-        // We get all `ExperimentID`s associated with this object
-        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
 
         // For each `RaycastHitRow` in `rows`, attach a GazePoint onto it.
         foreach(RaycastHitRow row in rows) {
@@ -1008,11 +1028,16 @@ public class StreetSimLoadSim : MonoBehaviour
                     newPoint.SetColor(Color.yellow);
                     newPoint.transform.localPosition = localPosition;
                     activeGazePoints.Add(newPoint);
+                    trackables.Add(new GazeOnObjectTrackable(target.id,currentGazeObjectTracked.InverseTransformPoint(newPoint.transform.position)));
                 }
             }
         }
 
-        Debug.Log("[LOAD SIM] Found " + rows.Count.ToString() + " RaycastHitRows associated with this object");
+        // We need to save the data into a new file
+        if (!SaveSystemMethods.SaveCSV<GazeOnObjectTrackable>(objectFilename, GazeOnObjectTrackable.Headers, trackables)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot save object gaze map tracking file \""+objectFilename+"\"");
+        }
+        Debug.Log("[LOAD SIM] Found " + trackables.Count.ToString() + " gaze points associated with this object");
     }
 }
 
@@ -1077,4 +1102,33 @@ public class DirectionFixationMap {
         this.direction = direction;
         this.fixationCount = fixationCount;
     }
+}
+
+[SerializeField]
+public class GazeOnObjectTrackable {
+    public string agentID;
+    public float position_x;
+    public float position_y;
+    public float position_z;
+    public int dbscanID;
+    public GazeOnObjectTrackable(string agentID, Vector3 position) {
+        this.agentID = agentID;
+        this.position_x = position.x;
+        this.position_y = position.y;
+        this.position_z = position.z;
+    }
+    public GazeOnObjectTrackable(string[] data) {
+        this.agentID = data[0];
+        this.position_x = float.Parse(data[1]);
+        this.position_y = float.Parse(data[2]);
+        this.position_z = float.Parse(data[3]);
+        this.dbscanID = int.Parse(data[4]);
+    }
+    public static List<string> Headers => new List<string> {
+        "agentID",
+        "position_x",
+        "position_y",
+        "position_z",
+        "dbscanID"
+    };
 }

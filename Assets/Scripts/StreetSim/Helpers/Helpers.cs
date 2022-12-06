@@ -155,18 +155,6 @@ namespace Helpers {
         
         public static string[] ReadCSV(TextAsset asset) {
             return asset.text.Split(new string[] {",","\n"}, StringSplitOptions.None);
-            /*
-            List<T> dataGazed = new List<T>();
-
-            int tableSize = data.Length/numHeaders - 1;
-            List<T> dataFormatted = new List<T>();
-            for(int i = 0; i < tableSize; i++) {
-                int rowKey = numHeaders*(i+1);
-                string[] row = data.RangeSubset(rowKey,numHeaders);
-                dataFormatted.Add(new T(row));
-            }
-            return dataFormatted;
-            */
         }
     }
 }
