@@ -1039,6 +1039,86 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         Debug.Log("[LOAD SIM] Found " + trackables.Count.ToString() + " gaze points associated with this object");
     }
+    public void TrackGazeGroupsOnObject(ExperimentID target) {
+        // this target MAY or MAY NOT have any gaze targets on it.
+        // What we need to do is to iterate through all trials.
+        // Specifically, each `LoadedSimulationDataPerTrial` has a `LoadedGazeData` object called `gazeData`.
+        //      This `LoadedGazeData` comes with an `objectsTracked` list that lets us know which objects were tracked in that trial
+
+        // Delete our existing `currentGazeObjectTracked`
+        if (currentGazeObjectTracked != null) Destroy(currentGazeObjectTracked.gameObject);
+        ClearGazePoints();
+
+        // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
+        // We get all `ExperimentID`s associated with this object
+        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
+        // We generate a list of `GazeOnObjectTrackable` objects
+        List<GazeOnObjectTrackable> trackables = new List<GazeOnObjectTrackable>();
+
+        string postProcessDir = SaveSystemMethods.GetSaveLoadDirectory("PostProcessData_Ignore");
+        SaveSystemMethods.CheckOrCreateDirectory(postProcessDir);
+        string objectFilename = postProcessDir + target.id + ".csv";
+        Debug.Log("[LOAD SIM] Attempting to load object-gaze map file \""+objectFilename+"\" from memory...");
+
+        if (!SaveSystemMethods.CheckFileExists(objectFilename)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot get gaze groups on target without data file");
+            return;
+        }
+        
+        // We know it exists. We now need to convert it into assetPath form
+        string ap = "Assets/PostProcessData_Ignore/"+target.id+".csv";
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(ap, typeof(TextAsset));
+        string[] data = SaveSystemMethods.ReadCSV(ta);
+        trackables = new List<GazeOnObjectTrackable>();
+        int numHeaders = GazeOnObjectTrackable.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+      
+        Dictionary<int, int> groupCount = new Dictionary<int,int>();
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            GazeOnObjectTrackable newTrackable = new GazeOnObjectTrackable(row);
+            if (!groupCount.ContainsKey(newTrackable.dbscanID)) groupCount.Add(newTrackable.dbscanID,1);
+            else groupCount[newTrackable.dbscanID] += 1;
+            trackables.Add(newTrackable);
+        }
+
+        int biggestGroupIndex = 0;
+        foreach(KeyValuePair<int,int> kvp in groupCount) {
+            if (kvp.Value > groupCount[biggestGroupIndex]) biggestGroupIndex = kvp.Key;
+        }
+        float biggestGroupCount = (float)groupCount[biggestGroupIndex];
+
+        // Color scale
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+            
+        foreach(GazeOnObjectTrackable t in trackables) {
+            GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
+            newPoint.SetScale(0.025f);
+            float groupColorVal = (float)groupCount[t.dbscanID] / biggestGroupCount;
+            newPoint.SetColor(g.Evaluate(groupColorVal));
+            newPoint.transform.parent = currentGazeObjectTracked;
+            newPoint.transform.localPosition = new Vector3(t.position_x, t.position_y, t.position_z);
+            activeGazePoints.Add(newPoint);
+        }
+
+    }
 }
 
 [System.Serializable]
@@ -1116,6 +1196,7 @@ public class GazeOnObjectTrackable {
         this.position_x = position.x;
         this.position_y = position.y;
         this.position_z = position.z;
+        this.dbscanID = -1;
     }
     public GazeOnObjectTrackable(string[] data) {
         this.agentID = data[0];

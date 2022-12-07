@@ -77,6 +77,9 @@ public class StreetSimLoadSimEditor : Editor
             if(GUILayout.Button("Track Gaze Hits")) {
                 controller.TrackGazeOnObject(curID);
             }
+            if(GUILayout.Button("Track Gaze Groups")) {
+                controller.TrackGazeGroupsOnObject(curID);
+            }
 
             GUILayout.EndHorizontal();
         }
