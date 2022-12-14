@@ -81,13 +81,14 @@ public class StreetSimLoadSim : MonoBehaviour
     [SerializeField] private List<ExperimentID> m_gazeObjectTracking = new List<ExperimentID>();
     public List<ExperimentID> gazeObjectTracking { get=>m_gazeObjectTracking; set{} }
     private Transform currentGazeObjectTracked = null;
+    
     /*
     void OnDrawGizmosSelected() {
         if (directions.Count == 0 || !visualizeSphere) return;
         for(int i = 0; i < directions.Count; i++) {
             Vector3 dir = directions[i];
             Vector3 pos = cam360.position + dir*sphereRadius;
-            Gizmos.color = directionColors[dir];
+            Gizmos.color = Color.white;
             Gizmos.DrawSphere(
                 pos,                                      // position
                 //controller.cam360.position - pos,      // normal
@@ -385,6 +386,7 @@ public class StreetSimLoadSim : MonoBehaviour
 
     public void GenerateSphereGrid() {
         directions = new List<Vector3>();
+        directionColors = new Dictionary<Vector3, Color>();
 
         float goldenRatio = (1 + Mathf.Sqrt (5)) / 2;
         float angleIncrement = Mathf.PI * 2 * goldenRatio;
@@ -1074,22 +1076,38 @@ public class StreetSimLoadSim : MonoBehaviour
         int numHeaders = GazeOnObjectTrackable.Headers.Count;
         int tableSize = data.Length/numHeaders - 1;
       
-        Dictionary<int, int> groupCount = new Dictionary<int,int>();
+        Dictionary<int, List<Vector3>> groups = new Dictionary<int,List<Vector3>>();
         for(int i = 0; i < tableSize; i++) {
             int rowKey = numHeaders*(i+1);
             string[] row = data.RangeSubset(rowKey,numHeaders);
             GazeOnObjectTrackable newTrackable = new GazeOnObjectTrackable(row);
-            if (!groupCount.ContainsKey(newTrackable.dbscanID)) groupCount.Add(newTrackable.dbscanID,1);
-            else groupCount[newTrackable.dbscanID] += 1;
+            if (!groups.ContainsKey(newTrackable.dbscanID)) groups.Add(newTrackable.dbscanID,new List<Vector3>());
+            groups[newTrackable.dbscanID].Add(new Vector3(newTrackable.position_x, newTrackable.position_y, newTrackable.position_z));
             trackables.Add(newTrackable);
         }
-
-        int biggestGroupIndex = 0;
-        foreach(KeyValuePair<int,int> kvp in groupCount) {
-            if (kvp.Value > groupCount[biggestGroupIndex]) biggestGroupIndex = kvp.Key;
+        
+        foreach(KeyValuePair<int,List<Vector3>> kvp in groups) {
+            Vector3 avg = Vector3.zero;
+            foreach(Vector3 v in kvp.Value) {
+                avg += v;
+            }
+            Vector3 pos = avg/kvp.Value.Count;
+            Color groupColor = new Color(
+                UnityEngine.Random.Range(0f, 1f), 
+                UnityEngine.Random.Range(0f, 1f), 
+                UnityEngine.Random.Range(0f, 1f),
+                0.25f
+            );
+            float size = (float)kvp.Value.Count;
+            GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
+            newPoint.SetScale(0.02518f * size * 0.1f);
+            newPoint.SetColor(groupColor);
+            newPoint.transform.parent = currentGazeObjectTracked;
+            newPoint.transform.localPosition = pos;
+            activeGazePoints.Add(newPoint);
         }
-        float biggestGroupCount = (float)groupCount[biggestGroupIndex];
 
+        /*
         // Color scale
         Gradient g = new Gradient();
         GradientColorKey[] gck = new GradientColorKey[3];
@@ -1107,7 +1125,7 @@ public class StreetSimLoadSim : MonoBehaviour
         gak[2].alpha = 0f;
         gak[2].time = 0f;
         g.SetKeys(gck, gak);
-            
+
         foreach(GazeOnObjectTrackable t in trackables) {
             GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
             newPoint.SetScale(0.025f);
@@ -1117,7 +1135,7 @@ public class StreetSimLoadSim : MonoBehaviour
             newPoint.transform.localPosition = new Vector3(t.position_x, t.position_y, t.position_z);
             activeGazePoints.Add(newPoint);
         }
-
+        */
     }
 }
 
