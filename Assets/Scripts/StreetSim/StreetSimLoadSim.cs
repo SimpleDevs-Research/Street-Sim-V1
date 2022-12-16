@@ -962,7 +962,7 @@ public class StreetSimLoadSim : MonoBehaviour
         ClearGazePoints();
 
         // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
-        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation, this.transform) as Transform;
         // We get all `ExperimentID`s associated with this object
         ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
         // We generate a list of `GazeOnObjectTrackable` objects
@@ -1052,7 +1052,7 @@ public class StreetSimLoadSim : MonoBehaviour
         ClearGazePoints();
 
         // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
-        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation) as Transform;
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation, this.transform) as Transform;
         // We get all `ExperimentID`s associated with this object
         ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
         // We generate a list of `GazeOnObjectTrackable` objects
@@ -1096,7 +1096,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 UnityEngine.Random.Range(0f, 1f), 
                 UnityEngine.Random.Range(0f, 1f), 
                 UnityEngine.Random.Range(0f, 1f),
-                0.25f
+                0.5f
             );
             float size = (float)kvp.Value.Count;
             GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
