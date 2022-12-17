@@ -53,6 +53,8 @@ public class StreetSimCar : MonoBehaviour
     private float m_distanceTraveled = 0f;
     [SerializeField] private bool passedTraffic = false;
 
+    [SerializeField] private AnimationCurve m_maxSpeedWeight;
+
     private void Awake() {
         if (id == null) id = gameObject.GetComponent<ExperimentID>();
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
@@ -75,7 +77,8 @@ public class StreetSimCar : MonoBehaviour
 
         m_hitMid = false;
 
-        maxSpeed = UnityEngine.Random.Range(5f,15f);
+        //maxSpeed = UnityEngine.Random.Range(5f,15f);
+        maxSpeed = 5f + (CalculateMaxSpeed()/10f);
         m_originalMaxSpeed = maxSpeed;
 
         Velocity.manualSpeed = 0f;
@@ -88,6 +91,28 @@ public class StreetSimCar : MonoBehaviour
         passedTraffic = false;
 
         status = StreetSimCarStatus.Active;
+    }
+
+    private float CalculateMaxSpeed() {
+        float[] indexes = new float[101];
+        float[] weights = new float[101];
+        float weightSum = 0f;
+        for(int i = 0; i <= 100; i++) {
+            float fI = (float)i / 100f;
+            indexes[i] = fI;
+            weights[i] = m_maxSpeedWeight.Evaluate(fI);
+            weightSum += weights[i];
+        }
+        int index = 0;
+        int lastIndex = 100;
+        while(index < lastIndex) {
+            if (Random.Range(0f, weightSum) < weights[index]) {
+                return (float)index;
+            }
+            weightSum -= weights[index];
+            index += 1;
+        }
+        return (float)index;
     }
 
     private void ReturnToIdle() {
@@ -147,7 +172,7 @@ public class StreetSimCar : MonoBehaviour
             ? 1f
             : 0f;
 
-        float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.25f*(1f-O),0f,15f);
+        float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.1f*(1f-O),0f,15f);
         //float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
         positionDiff = (carRaycastHit.point-frontOfCar.position)*O + ((middleTarget.position-frontOfCar.position)*L + new Vector3(spaceOptimal+1f,0f,0f)*(1f-L))*(1f-O);
         /*
