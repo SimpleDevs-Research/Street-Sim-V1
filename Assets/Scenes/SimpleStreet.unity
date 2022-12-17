@@ -26843,17 +26843,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -31390,6 +31382,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+    - target: {fileID: 4451074628707024650, guid: 6a112f14a8811fd43a93785196cbc978, type: 3}
+      propertyPath: m_id
+      value: HighMale3_Head
+      objectReference: {fileID: 0}
     - target: {fileID: 4786211356030233680, guid: 6a112f14a8811fd43a93785196cbc978, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -71865,17 +71861,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -84559,8 +84547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
-  cubemap: {fileID: 0}
-  postprocessMaterial: {fileID: 2100000, guid: 5feb5301549d3fd44910d3a1cee03e1d, type: 2}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -85892,17 +85878,9 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -90125,6 +90103,14 @@ PrefabInstance:
     - target: {fileID: 2545844374534864388, guid: d8cdac488b0d1614b8f5b04fef937dba, type: 3}
       propertyPath: m_Name
       value: HighMale3Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707871398563583676, guid: d8cdac488b0d1614b8f5b04fef937dba, type: 3}
+      propertyPath: m_id
+      value: HighMale3_HeadMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707871398563583676, guid: d8cdac488b0d1614b8f5b04fef937dba, type: 3}
+      propertyPath: m_ref_id
+      value: HighMale3_Head
       objectReference: {fileID: 0}
     - target: {fileID: 8765823681196877592, guid: d8cdac488b0d1614b8f5b04fef937dba, type: 3}
       propertyPath: updateDelay
