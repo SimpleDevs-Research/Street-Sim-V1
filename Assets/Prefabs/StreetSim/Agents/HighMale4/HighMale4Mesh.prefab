@@ -80,6 +80,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HeadMesh
   m_ref_id: HighMale4_Head
+  m_shouldTrack: 1
 --- !u!1 &315318620222486110
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +208,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6278497495432026973}
+  - {fileID: 5344455984495897270}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -272,6 +273,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4Mesh
   m_ref_id: HighMale4
+  m_shouldTrack: 1
 --- !u!1 &881492142505503821
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +325,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HipsMesh
   m_ref_id: HighMale4_Hips
+  m_shouldTrack: 1
 --- !u!1 &885523876042814153
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +439,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftKneeMesh
   m_ref_id: HighMale4_LeftKnee
+  m_shouldTrack: 1
 --- !u!1 &1355261893829016269
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +551,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ElbowLeftMesh
   m_ref_id: HighMale4_ElbowLeft
+  m_shouldTrack: 1
 --- !u!1 &1417074581353329935
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +632,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightKneeMesh
   m_ref_id: HighMale4_RightKnee
+  m_shouldTrack: 1
 --- !u!1 &1870253232377194922
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,6 +714,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightThighMesh
   m_ref_id: HighMale4_RightThigh
+  m_shouldTrack: 1
 --- !u!1 &2363849454591598461
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,6 +796,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftThighMesh
   m_ref_id: HighMale4_LeftThigh
+  m_shouldTrack: 1
 --- !u!1 &2739948994914583589
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,6 +850,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HandLeftMesh
   m_ref_id: HighMale4_HandLeft
+  m_shouldTrack: 1
 --- !u!1 &2957301676167453249
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +900,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ClavicleRightMesh
   m_ref_id: HighMale4_ClavicleRight
+  m_shouldTrack: 1
 --- !u!1 &2986295408446235343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1078,39 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ElbowRightMesh
   m_ref_id: HighMale4_ElbowRight
+  m_shouldTrack: 1
+--- !u!1 &3664764995884166202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5344455984495897270}
+  m_Layer: 11
+  m_Name: scaler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5344455984495897270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3664764995884166202}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6278497495432026973}
+  m_Father: {fileID: 3042421669930632564}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3789129875894261935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1223,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightToesMesh
   m_ref_id: HighMale4_RightToes
+  m_shouldTrack: 1
 --- !u!1 &4732270360235153866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,6 +1304,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ClavicleLeftMesh
   m_ref_id: HighMale4_ClavicleLeft
+  m_shouldTrack: 1
 --- !u!1 &5154231786532765591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1371,6 +1416,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftToesMesh
   m_ref_id: HighMale4_LeftToes
+  m_shouldTrack: 1
 --- !u!1 &5414718702695515041
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,6 +1470,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_HandRightMesh
   m_ref_id: HighMale4_HandRight
+  m_shouldTrack: 1
 --- !u!1 &5470827959232008778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,6 +1551,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_DiaphragmMesh
   m_ref_id: HighMale4_Diaphragm
+  m_shouldTrack: 1
 --- !u!1 &5703128199278247568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,6 +1601,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ShoulderLeftMesh
   m_ref_id: HighMale4_ShoulderLeft
+  m_shouldTrack: 1
 --- !u!1 &6129960387038112548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,6 +1683,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_AbdomenMesh
   m_ref_id: HighMale4_Abdomen
+  m_shouldTrack: 1
 --- !u!1 &6699310523158167739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1765,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_LeftAnkleMesh
   m_ref_id: HighMale4_LeftAnkle
+  m_shouldTrack: 1
 --- !u!1 &6876615937159871102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1828,6 +1879,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_RightAnkleMesh
   m_ref_id: HighMale4_RightAnkle
+  m_shouldTrack: 1
 --- !u!1 &7504377890086917117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,6 +1929,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ShoulderRightMesh
   m_ref_id: HighMale4_ShoulderRight
+  m_shouldTrack: 1
 --- !u!1 &7719333477021777330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2052,6 +2105,7 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_NeckMesh
   m_ref_id: HighMale4_Neck
+  m_shouldTrack: 1
 --- !u!1 &8828647458609382130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,13 +2129,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8828647458609382130}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0714285, y: 1.1, z: 1.1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0714284, y: 1.0999999, z: 1.0999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7008333706591682973}
-  m_Father: {fileID: 3042421669930632564}
+  m_Father: {fileID: 5344455984495897270}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8986760823251561616
@@ -2166,3 +2220,4 @@ MonoBehaviour:
   m_children: []
   m_id: HighMale4_ChestMesh
   m_ref_id: HighMale4_Chest
+  m_shouldTrack: 1

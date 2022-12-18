@@ -21,12 +21,15 @@ public class GazePoint : MonoBehaviour
     public Transform camera;
     public Vector3 originPoint;
     public bool autoScale = true;
+    public Vector3 localPosition;
+    public ExperimentID parent;
     //public List<GazePointScreenPoint> screenPointsByDiscretization = new List<GazePointScreenPoint>();
 
     private void Awake() {
         renderer = GetComponent<Renderer>();
     }
     private void Update() {
+        localPosition = transform.localPosition;
         if (autoScale) transform.localScale = Vector3.one * (0.025f * (transform.position - StreetSimLoadSim.LS.cam360.position).magnitude);
     }
     public void SetColor(Color color) {

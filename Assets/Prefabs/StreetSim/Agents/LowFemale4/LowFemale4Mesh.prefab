@@ -73,6 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6980085169359232610}
   - component: {fileID: 3893284673777443209}
+  - component: {fileID: 7541316986526901574}
   m_Layer: 0
   m_Name: Thigh.L
   m_TagString: Untagged
@@ -112,6 +113,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_LeftThighMesh
   m_ref_id: LowFemale4_LeftThigh
+  m_shouldTrack: 1
+--- !u!114 &7541316986526901574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504831434445051985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &792141600718083727
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8956521309810460067}
   - component: {fileID: 1024559626204282516}
+  - component: {fileID: 7551644478122664937}
   m_Layer: 0
   m_Name: Toe.L
   m_TagString: Untagged
@@ -193,6 +212,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_LeftToesMesh
   m_ref_id: LowFemale4_LeftToes
+  m_shouldTrack: 1
+--- !u!114 &7551644478122664937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931852779614920393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &1019026386868142154
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3054434797905576687}
   - component: {fileID: 6715197410900862987}
+  - component: {fileID: 6135283332165261548}
   m_Layer: 0
   m_Name: Shin.L
   m_TagString: Untagged
@@ -305,6 +342,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_LeftKneeMesh
   m_ref_id: LowFemale4_LeftKnee
+  m_shouldTrack: 1
+--- !u!114 &6135283332165261548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461121909438655558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &1522897823292908448
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2849271483181203362}
   - component: {fileID: 5822598890943544701}
+  - component: {fileID: 5532642823642584725}
   m_Layer: 0
   m_Name: Spine2
   m_TagString: Untagged
@@ -386,6 +441,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_DiaphragmMesh
   m_ref_id: LowFemale4_Diaphragm
+  m_shouldTrack: 1
+--- !u!114 &5532642823642584725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541164665548789389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &1558059090461272958
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6701149387040421330}
   - component: {fileID: 6688318927519247778}
+  - component: {fileID: 7019223074827799262}
   m_Layer: 0
   m_Name: Shoulder.L
   m_TagString: Untagged
@@ -529,6 +602,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ShoulderLeftMesh
   m_ref_id: LowFemale4_ShoulderLeft
+  m_shouldTrack: 1
+--- !u!114 &7019223074827799262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808346231166894296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &1932836125731296892
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 65447534836329311}
   - component: {fileID: 6907027914687315159}
+  - component: {fileID: 1832703804078492812}
   m_Layer: 0
   m_Name: Foot.R
   m_TagString: Untagged
@@ -736,6 +827,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_RightAnkleMesh
   m_ref_id: LowFemale4_RightAnkle
+  m_shouldTrack: 1
+--- !u!114 &1832703804078492812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353935391991896860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &2654831787484929102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3891645336836484458}
   - component: {fileID: 5783580367492880180}
+  - component: {fileID: 4598820232885574428}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -1199,6 +1308,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_HeadMesh
   m_ref_id: LowFemale4_Head
+  m_shouldTrack: 1
+--- !u!114 &4598820232885574428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893478417808136486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &4375857519959925011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5396127327158043795}
   - component: {fileID: 1860022145555088511}
+  - component: {fileID: 231970216316167661}
   m_Layer: 0
   m_Name: Hand.L
   m_TagString: Untagged
@@ -1283,6 +1410,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_HandLeftMesh
   m_ref_id: LowFemale4_HandLeft
+  m_shouldTrack: 1
+--- !u!114 &231970216316167661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575267677575111109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &4714061668523445541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6410109130775731225}
   - component: {fileID: 5991908186690383579}
+  - component: {fileID: 1638521056589336301}
   m_Layer: 0
   m_Name: Shin.R
   m_TagString: Untagged
@@ -1332,6 +1477,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_RightKneeMesh
   m_ref_id: LowFemale4_RightKnee
+  m_shouldTrack: 1
+--- !u!114 &1638521056589336301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4714061668523445541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &4787265549532647313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,6 +1536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3191967024356141691}
   - component: {fileID: 7207653261635819943}
+  - component: {fileID: 7410955662960427473}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -1415,6 +1578,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_HipsMesh
   m_ref_id: LowFemale4_Hips
+  m_shouldTrack: 1
+--- !u!114 &7410955662960427473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813640034133873472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &4839341805189915078
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,6 +1637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7345269020715876807}
   - component: {fileID: 7965922801104439104}
+  - component: {fileID: 1372176089403052496}
   m_Layer: 0
   m_Name: Foot.L
   m_TagString: Untagged
@@ -1496,6 +1677,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_LeftAnkleMesh
   m_ref_id: LowFemale4_LeftAnkle
+  m_shouldTrack: 1
+--- !u!114 &1372176089403052496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5172903086526129055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &5256638430798182534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,6 +1767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7391300518004547476}
   - component: {fileID: 1415132157405347896}
+  - component: {fileID: 5157187914983838404}
   m_Layer: 0
   m_Name: Clavicle.R
   m_TagString: Untagged
@@ -1608,6 +1807,55 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ClavicleRightMesh
   m_ref_id: LowFemale4_ClavicleRight
+  m_shouldTrack: 1
+--- !u!114 &5157187914983838404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5542401056965598706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
+--- !u!1 &5619154815803484082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3894964704393145520}
+  m_Layer: 11
+  m_Name: scaler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3894964704393145520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5619154815803484082}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1925325353489091935}
+  m_Father: {fileID: 61120002303517151}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6033060897447708670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,6 +1898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3923421370801375292}
   - component: {fileID: 8882304639663263104}
+  - component: {fileID: 4094849001115532387}
   m_Layer: 0
   m_Name: Thigh.R
   m_TagString: Untagged
@@ -1689,6 +1938,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_RightThighMesh
   m_ref_id: LowFemale4_RightThigh
+  m_shouldTrack: 1
+--- !u!114 &4094849001115532387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280085544100606929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &6287320527030369343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,6 +2029,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4222599311149547123}
   - component: {fileID: 1696618553075077285}
+  - component: {fileID: 3118981153945263479}
   m_Layer: 0
   m_Name: Toe.R
   m_TagString: Untagged
@@ -1802,6 +2069,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_RightToesMesh
   m_ref_id: LowFemale4_RightToes
+  m_shouldTrack: 1
+--- !u!114 &3118981153945263479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6352831470016598041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &6582112497442880636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,7 +2118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1925325353489091935}
+  - {fileID: 3894964704393145520}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1854,6 +2138,7 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4Mesh
   m_ref_id: LowFemale4
+  m_shouldTrack: 1
 --- !u!114 &2826155010238217763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1909,6 +2194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2717240866962151497}
   - component: {fileID: 5146623128903196356}
+  - component: {fileID: 6777128616021681577}
   m_Layer: 0
   m_Name: Neck
   m_TagString: Untagged
@@ -1948,6 +2234,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_NeckMesh
   m_ref_id: LowFemale4_Neck
+  m_shouldTrack: 1
+--- !u!114 &6777128616021681577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6652926096036390307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &6826421203371944174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,6 +2261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7419277785423285965}
   - component: {fileID: 438321847133718993}
+  - component: {fileID: 3339392203757665509}
   m_Layer: 0
   m_Name: Clavicle.L
   m_TagString: Untagged
@@ -1997,6 +2301,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ClavicleLeftMesh
   m_ref_id: LowFemale4_ClavicleLeft
+  m_shouldTrack: 1
+--- !u!114 &3339392203757665509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6826421203371944174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &7281636173193638187
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,6 +2327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1925325353489091935}
+  - component: {fileID: 3553754304436947401}
   m_Layer: 0
   m_Name: hips
   m_TagString: Untagged
@@ -2020,15 +2342,31 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7281636173193638187}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.97485715, y: 0.9648, z: 0.9648}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3191967024356141691}
-  m_Father: {fileID: 61120002303517151}
+  m_Father: {fileID: 3894964704393145520}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3553754304436947401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281636173193638187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &7358131798745759337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238813491534999672}
   - component: {fileID: 1398698480050321262}
+  - component: {fileID: 1599997871480565542}
   m_Layer: 0
   m_Name: Forearm.R
   m_TagString: Untagged
@@ -2142,6 +2481,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ElbowRightMesh
   m_ref_id: LowFemale4_ElbowRight
+  m_shouldTrack: 1
+--- !u!114 &1599997871480565542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736105626520174495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &7780227020495092053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,6 +2540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7196025717935994558}
   - component: {fileID: 7122832222979925636}
+  - component: {fileID: 2504949938001510306}
   m_Layer: 0
   m_Name: Spine1
   m_TagString: Untagged
@@ -2223,6 +2580,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_AbdomenMesh
   m_ref_id: LowFemale4_Abdomen
+  m_shouldTrack: 1
+--- !u!114 &2504949938001510306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950150925788226150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &7994951640272878339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,6 +2638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8758198907738792329}
   - component: {fileID: 5383994083042138842}
+  - component: {fileID: 8325517525679438853}
   m_Layer: 0
   m_Name: Shoulder.R
   m_TagString: Untagged
@@ -2303,6 +2678,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ShoulderRightMesh
   m_ref_id: LowFemale4_ShoulderRight
+  m_shouldTrack: 1
+--- !u!114 &8325517525679438853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8064065642294053999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &8483835015597435625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,6 +2736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6526876561844580252}
   - component: {fileID: 4345703225583670246}
+  - component: {fileID: 349725390895930421}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -2385,6 +2778,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ChestMesh
   m_ref_id: LowFemale4_Chest
+  m_shouldTrack: 1
+--- !u!114 &349725390895930421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8545404963693282966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &8552427304908635780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,6 +2868,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381000163821301281}
   - component: {fileID: 5141729087702705623}
+  - component: {fileID: 6927261781805056694}
   m_Layer: 0
   m_Name: Hand.R
   m_TagString: Untagged
@@ -2501,6 +2912,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_HandRightMesh
   m_ref_id: LowFemale4_HandRight
+  m_shouldTrack: 1
+--- !u!114 &6927261781805056694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925129638265251181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &9009799314310932139
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,6 +2939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6555760859022489668}
   - component: {fileID: 5091827781275550435}
+  - component: {fileID: 7470530976346269779}
   m_Layer: 0
   m_Name: Forearm.L
   m_TagString: Untagged
@@ -2550,6 +2979,23 @@ MonoBehaviour:
   m_children: []
   m_id: LowFemale4_ElbowLeftMesh
   m_ref_id: LowFemale4_ElbowLeft
+  m_shouldTrack: 1
+--- !u!114 &7470530976346269779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9009799314310932139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a02a700c73424bbb76df56761cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toFollow: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  followType: 1
+  followRotation: 1
 --- !u!1 &9126689840777894608
 GameObject:
   m_ObjectHideFlags: 0

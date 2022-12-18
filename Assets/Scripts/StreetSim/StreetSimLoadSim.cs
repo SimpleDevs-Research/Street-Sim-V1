@@ -989,12 +989,16 @@ public class StreetSimLoadSim : MonoBehaviour
             }
             
             foreach(GazeOnObjectTrackable t in trackables) {
-                GazePoint newPoint = Instantiate(gazePointPrefab) as GazePoint;
-                newPoint.SetScale(0.025f);
-                newPoint.SetColor(Color.yellow);
-                newPoint.transform.parent = currentGazeObjectTracked;
-                newPoint.transform.localPosition = new Vector3(t.position_x, t.position_y, t.position_z);
-                activeGazePoints.Add(newPoint);
+                foreach(ExperimentID id in ids) {
+                    if (t.hitID == id.id) {
+                        GazePoint newPoint = Instantiate(gazePointPrefab, id.transform) as GazePoint;
+                        newPoint.parent = id;
+                        newPoint.SetScale(0.025f);
+                        newPoint.SetColor(Color.yellow);
+                        newPoint.transform.localPosition = new Vector3(t.localPosition_x, t.localPosition_y, t.localPosition_z);
+                        activeGazePoints.Add(newPoint);
+                    }
+                }
             }
 
             Debug.Log("[LOAD SIM] Found " + trackables.Count.ToString() + " gaze points associated with this object");
@@ -1026,11 +1030,13 @@ public class StreetSimLoadSim : MonoBehaviour
                     // If the hitID matches the id, then we attach a new GazePoint to this object
                     Vector3 localPosition = new Vector3(row.localPositionOfHitPosition[0], row.localPositionOfHitPosition[1], row.localPositionOfHitPosition[2]);
                     GazePoint newPoint = Instantiate(gazePointPrefab, id.transform) as GazePoint;
+                    newPoint.parent = id;
                     newPoint.SetScale(0.025f);
                     newPoint.SetColor(Color.yellow);
                     newPoint.transform.localPosition = localPosition;
                     activeGazePoints.Add(newPoint);
-                    trackables.Add(new GazeOnObjectTrackable(target.id,currentGazeObjectTracked.InverseTransformPoint(newPoint.transform.position)));
+                    //trackables.Add(new GazeOnObjectTrackable(target.id,currentGazeObjectTracked.InverseTransformPoint(newPoint.transform.position)));
+                    trackables.Add(new GazeOnObjectTrackable(target.id, id.id, newPoint.transform.localPosition, currentGazeObjectTracked.InverseTransformPoint(newPoint.transform.position)));
                 }
             }
         }
@@ -1205,12 +1211,18 @@ public class DirectionFixationMap {
 [SerializeField]
 public class GazeOnObjectTrackable {
     public string agentID;
+    public string hitID;
+    public float localPosition_x, localPosition_y, localPosition_z;
     public float position_x;
     public float position_y;
     public float position_z;
     public int dbscanID;
-    public GazeOnObjectTrackable(string agentID, Vector3 position) {
+    public GazeOnObjectTrackable(string agentID, string hitID, Vector3 localPosition, Vector3 position) {
         this.agentID = agentID;
+        this.hitID = hitID;
+        this.localPosition_x = localPosition.x;
+        this.localPosition_y = localPosition.y;
+        this.localPosition_z = localPosition.z;
         this.position_x = position.x;
         this.position_y = position.y;
         this.position_z = position.z;
@@ -1218,13 +1230,21 @@ public class GazeOnObjectTrackable {
     }
     public GazeOnObjectTrackable(string[] data) {
         this.agentID = data[0];
-        this.position_x = float.Parse(data[1]);
-        this.position_y = float.Parse(data[2]);
-        this.position_z = float.Parse(data[3]);
-        this.dbscanID = int.Parse(data[4]);
+        this.hitID = data[1];
+        this.localPosition_x = float.Parse(data[2]);
+        this.localPosition_y = float.Parse(data[3]);
+        this.localPosition_z = float.Parse(data[4]);
+        this.position_x = float.Parse(data[5]);
+        this.position_y = float.Parse(data[6]);
+        this.position_z = float.Parse(data[7]);
+        this.dbscanID = int.Parse(data[8]);
     }
     public static List<string> Headers => new List<string> {
         "agentID",
+        "hitID",
+        "localPosition_x",
+        "localPosition_y",
+        "localPosition_z",
         "position_x",
         "position_y",
         "position_z",

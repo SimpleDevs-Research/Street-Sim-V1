@@ -109,7 +109,7 @@ public class LoadedPositionData {
             // Find the experiment ID that matches
             ExperimentID id = StreetSimIDController.ID.FindIDFromName(trackable.id);
             if (id == null) {
-                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID...");
+                Debug.Log("[ID CONTROLLER] Error: Could not find an ExperimentID that matches the found ID: " + trackable.id);
                 Debug.Log(trackable.ToString());
                 continue;
             }

@@ -26,6 +26,15 @@ public class FollowPosition : MonoBehaviour
                 this.transform.localPosition = toFollow.localPosition + offset;
                 break;
         }
-        if (followRotation) this.transform.rotation = toFollow.rotation;
+        if (followRotation) {
+            switch(followType) {
+                case FollowType.World:
+                    this.transform.rotation = toFollow.rotation;
+                    break;
+                case FollowType.Local:
+                    this.transform.localRotation = toFollow.localRotation;
+                    break;
+            }
+        }
     }
 }
