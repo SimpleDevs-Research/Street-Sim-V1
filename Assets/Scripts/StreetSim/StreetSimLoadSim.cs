@@ -20,6 +20,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public Transform cam360, xCam, yCam, zCam, xyzCam;
     public LayerMask gazeMask;
     public Transform gazeTrackPlacementPositionRef;
+    public Material GazeOnObjectMaterial;
 
     [Header("PARTICIPANTS")]
     public string sourceDirectory;
@@ -963,8 +964,151 @@ public class StreetSimLoadSim : MonoBehaviour
 
         // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
         currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation, this.transform) as Transform;
+        // Create a temp gameObject child, set scale to 1.5x the original scale
+        GameObject temp = new GameObject("mesher");
+        temp.transform.parent = currentGazeObjectTracked;
+        temp.transform.localPosition = Vector3.zero;
+        temp.transform.localScale = new Vector3(1f, 1f, 1f);
+        MeshFilter filter = temp.AddComponent<MeshFilter>();
+        MeshRenderer renderer = temp.AddComponent<MeshRenderer>();
+        Material[] matsToSet = new Material[1];
+        matsToSet[0] = GazeOnObjectMaterial;
+        renderer.materials = matsToSet;
+        Mesh mesh = Instantiate(currentGazeObjectTracked.GetComponent<StreetSimAgent>().GetRenderer().sharedMesh);
+        mesh.SetTriangles(mesh.triangles, 0);
+        mesh.subMeshCount = 1;
+        //Mesh[] submeshes = mesh.GetComponentsInChildren<Mesh>();
+        currentGazeObjectTracked.GetComponent<StreetSimAgent>().GetRenderer().enabled = false;
+
         // We get all `ExperimentID`s associated with this object
-        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>(); 
+        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>();
+        string[] idNames = new string[ids.Length];
+        for (int i = 0; i < ids.Length; i++) {
+            idNames[i] = ids[i].id;
+        }
+
+        // We get all rows associated with this target
+        List<RaycastHitRow> rows = new List<RaycastHitRow>();
+        foreach(List<LoadedSimulationDataPerTrial> trials in participantData.Values) {
+            foreach(LoadedSimulationDataPerTrial trial in trials) {
+                if (trial.gazeData.objectsTracked.Contains(target)) {
+                    List<RaycastHitRow> trialRows = trial.gazeData.gazeDataByTimestamp.Flatten2D<float,RaycastHitRow>();
+                    foreach(RaycastHitRow row in trialRows) {
+                        if (idNames.Contains(row.hitID)) {
+                            rows.Add(row);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Color scale
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+
+        // With our list of relevant rows, we now process them
+        
+        // The thing about raycasthitrow is that it stores the triangle index... but this triangle index doesn't take into account submeshes
+        // Here's how we're going ot do this
+        /*
+        Dictionary<int, int[]> submeshCounts = new Dictionary<int, int[]>();
+        Dictionary<int, Vector3[]> submeshVertices = new Dictionary<int, Vector3[]>();
+        for(int i = 0; i < mesh.subMeshCount; i++) {
+            submeshVertices.Add(i, submeshes[i].vertices);
+            submeshCounts.Add(i, new int[submeshes[i].vertices.Length]);
+        }
+
+        foreach(RaycastHitRow row in rows) {
+            int[] triangleIndexLocations = new int[] {
+                row.triangleIndex * 3,
+                row.triangleIndex * 3 + 1,
+                row.triangleIndex * 3 + 2
+            };
+            for (int i = 0; i < mesh.subMeshCount; i++) {
+                int[] subMeshTriangles = mesh.GetTriangles(i);
+                for (int j = 0; j < subMeshTriangles.Length; j += 3) {
+                    if (
+                        subMeshTriangles[j] == triangleIndexLocations[0] &&
+                        subMeshTriangles[j + 1] == triangleIndexLocations[1] &&
+                        subMeshTriangles[j + 2] == triangleIndexLocations[2]
+                    ) { 
+                        // triangle index = row.triangleIndex
+                        // submesh index = i
+                        // submesh triangle index = j/3
+                        submeshCounts[i][j] += 1;
+                        submeshCounts[i][j+1] += 1;
+                        submeshCounts[i][j+2] += 1;
+                    }
+                }
+            }
+        }
+
+        int maxCount = 0;
+        foreach(int[] counts in submeshCounts.Values) {
+            int curMax = counts.Max();
+            if (curMax > maxCount) maxCount = curMax;
+        }
+
+        Dictionary<int, Color[]> submeshColors = new Dictionary<int, Color[]>();
+        for(int i = 0; i < subMeshes.Length; i++) {
+            submeshColors.Add(i, new Color[submeshVertices[i].Length]);
+            for(int j = 0; j < submeshCounts[i].Length; j++) {
+                float normalizedVal = (float)submeshCounts[i][j] / (float)maxCount;
+                Color c = g.Evaluate(normalizedVal);
+                submeshColors[i][j] = c;
+            }
+            submeshes[i].colors = submeshColors[i];
+
+        }
+        */
+
+        Vector3[] allVertices = mesh.vertices;
+        Color[] colors = new Color[allVertices.Length];
+        int[] vertexCounts = new int[allVertices.Length];
+        int[] indices = mesh.GetIndices(0); 
+        // Now, iterate through each row in `rows`
+        foreach(RaycastHitRow row in rows) {
+            // need to get vertices from triangleIndex
+            int firstIndexLocation = row.triangleIndex * 3;
+            int firstIndex = indices[firstIndexLocation];
+            int secondIndex = indices[firstIndexLocation + 1];
+            int thirdIndex = indices[firstIndexLocation + 2]; 
+            vertexCounts[firstIndex] += 1;
+            vertexCounts[secondIndex] += 1;
+            vertexCounts[thirdIndex] += 1;
+        }
+        // Now, iterate through all vertex counts, get the max
+        int maxVertexCount = vertexCounts.Max();
+        //Debug.Log("Max Count: {"+maxVertexCount.ToString()+"}");
+        for(int i = 0; i < vertexCounts.Length; i++) {
+            //Debug.Log("Vertex Count: {"+vertexCounts[i].ToString()+"}");
+            float normalizedCount = (vertexCounts[i] > 0) 
+                ? (float)vertexCounts[i] / (float)maxVertexCount
+                : 0f;
+            //Debug.Log("Normalized Count: {"+normalizedCount.ToString()+"}");
+            colors[i] = g.Evaluate(normalizedCount);
+        }
+
+        // Now, color the mesh
+        mesh.colors = colors;
+        filter.sharedMesh = mesh;
+
+
+        /*
         // We generate a list of `GazeOnObjectTrackable` objects
         List<GazeOnObjectTrackable> trackables = new List<GazeOnObjectTrackable>();
 
@@ -993,10 +1137,10 @@ public class StreetSimLoadSim : MonoBehaviour
                     if (t.hitID == id.id) {
                         GazePoint newPoint = Instantiate(gazePointPrefab, id.transform) as GazePoint;
                         newPoint.parent = id;
-                        newPoint.SetScale(0.025f);
-                        newPoint.SetColor(Color.yellow);
+                newPoint.SetScale(0.025f);
+                newPoint.SetColor(Color.yellow);
                         newPoint.transform.localPosition = new Vector3(t.localPosition_x, t.localPosition_y, t.localPosition_z);
-                        activeGazePoints.Add(newPoint);
+                activeGazePoints.Add(newPoint);
                     }
                 }
             }
@@ -1046,6 +1190,7 @@ public class StreetSimLoadSim : MonoBehaviour
             Debug.Log("[LOAD SIM] ERROR: Cannot save object gaze map tracking file \""+objectFilename+"\"");
         }
         Debug.Log("[LOAD SIM] Found " + trackables.Count.ToString() + " gaze points associated with this object");
+        */
     }
     public void TrackGazeGroupsOnObject(ExperimentID target) {
         // this target MAY or MAY NOT have any gaze targets on it.
@@ -1211,18 +1356,12 @@ public class DirectionFixationMap {
 [SerializeField]
 public class GazeOnObjectTrackable {
     public string agentID;
-    public string hitID;
-    public float localPosition_x, localPosition_y, localPosition_z;
     public float position_x;
     public float position_y;
     public float position_z;
     public int dbscanID;
-    public GazeOnObjectTrackable(string agentID, string hitID, Vector3 localPosition, Vector3 position) {
+    public GazeOnObjectTrackable(string agentID, Vector3 position) {
         this.agentID = agentID;
-        this.hitID = hitID;
-        this.localPosition_x = localPosition.x;
-        this.localPosition_y = localPosition.y;
-        this.localPosition_z = localPosition.z;
         this.position_x = position.x;
         this.position_y = position.y;
         this.position_z = position.z;
@@ -1230,21 +1369,13 @@ public class GazeOnObjectTrackable {
     }
     public GazeOnObjectTrackable(string[] data) {
         this.agentID = data[0];
-        this.hitID = data[1];
-        this.localPosition_x = float.Parse(data[2]);
-        this.localPosition_y = float.Parse(data[3]);
-        this.localPosition_z = float.Parse(data[4]);
-        this.position_x = float.Parse(data[5]);
-        this.position_y = float.Parse(data[6]);
-        this.position_z = float.Parse(data[7]);
-        this.dbscanID = int.Parse(data[8]);
+        this.position_x = float.Parse(data[1]);
+        this.position_y = float.Parse(data[2]);
+        this.position_z = float.Parse(data[3]);
+        this.dbscanID = int.Parse(data[4]);
     }
     public static List<string> Headers => new List<string> {
         "agentID",
-        "hitID",
-        "localPosition_x",
-        "localPosition_y",
-        "localPosition_z",
         "position_x",
         "position_y",
         "position_z",
