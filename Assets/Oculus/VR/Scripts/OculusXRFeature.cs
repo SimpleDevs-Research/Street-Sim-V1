@@ -142,7 +142,7 @@ namespace Oculus.XR
 		/// <inheritdoc />
 		protected override void OnAppSpaceChange(ulong xrSpace)
 		{
-			Debug.Log($"[OculusXRFeature] OnAppSpaceChange: {xrSpace}");
+			//Debug.Log($"[OculusXRFeature] OnAppSpaceChange: {xrSpace}");
 			OVRPlugin.UnityOpenXR.OnAppSpaceChange(xrSpace);
 		}
 
