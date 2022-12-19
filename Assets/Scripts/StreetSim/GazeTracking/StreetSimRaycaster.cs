@@ -152,6 +152,62 @@ public class RaycastHitRow {
 }
 
 [System.Serializable]
+public class RaycastHitDurationRow {
+    public string agentID, hitID;
+    public int triangleIndex;
+    public float startTimestamp, endTimestamp;
+    public int startFrameIndex, endFrameIndex;
+    public string hitType;
+    public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float timestamp, int frameIndex) {
+        this.agentID = agentID;
+        this.hitID = hitID;
+        this.triangleIndex = triangleIndex;
+        this.startTimestamp = timestamp;
+        this.endTimestamp = timestamp;
+        this.startFrameIndex = frameIndex;
+        this.endFrameIndex = frameIndex;
+        this.hitType = "";
+    }
+    public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float startTimestamp, float endTimestamp, int startFrameIndex, int endFrameIndex, string hitType) {
+        this.agentID = agentID;
+        this.hitID = hitID;
+        this.triangleIndex = triangleIndex;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
+        this.startFrameIndex = startFrameIndex;
+        this.endFrameIndex = endFrameIndex;
+        this.hitType = hitType;
+    }
+    public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float startTimestamp, float endTimestamp, int startFrameIndex, int endFrameIndex) {
+        this.agentID = agentID;
+        this.hitID = hitID;
+        this.triangleIndex = triangleIndex;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
+        this.startFrameIndex = startFrameIndex;
+        this.endFrameIndex = endFrameIndex;
+        this.hitType = "";
+    }
+    public RaycastHitDurationRow(string[] data) {
+        this.agentID = data[0];
+        this.hitID = data[1];
+        this.triangleIndex = int.Parse(data[2]);
+        this.startTimestamp = float.Parse(data[3]);
+        this.endTimestamp = float.Parse(data[4]);
+        this.startFrameIndex = int.Parse(data[5]);
+        this.endFrameIndex = int.Parse(data[6]);
+        this.hitType = data[7];
+    }
+    public static List<string> Headers => new List<string> {
+        "agentID", "hitID",
+        "triangleIndex",
+        "startTimestamp", "endTimestamp",
+        "startFrameIndex", "endFrameIndex",
+        "hitType"
+    };
+}
+
+[System.Serializable]
 public class RaycastHitReplayRow {
     public int frameIndex;
     public float timestamp;
@@ -178,6 +234,7 @@ public class RaycastHitReplayRow {
 public class LoadedGazeData {
     public string trialName;
     public TextAsset textAsset;
+    public List<RaycastHitRow> gazes;
     public Dictionary<int, float> indexTimeMap;
     public Dictionary<float, List<RaycastHitRow>> gazeDataByTimestamp;
     public List<ExperimentID> objectsTracked;
@@ -188,6 +245,7 @@ public class LoadedGazeData {
     ) {
         this.trialName = trialName;
         this.textAsset = textAsset;
+        this.gazes = gazes;
 
         this.indexTimeMap = new Dictionary<int, float>();
         this.gazeDataByTimestamp = new Dictionary<float, List<RaycastHitRow>>();
@@ -532,6 +590,33 @@ public class StreetSimRaycaster : MonoBehaviour
     public bool SaveFixationsData(LoadedSimulationDataPerTrial trial, string filename, List<SGazePoint> data) {
         string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<SGazePoint>(assetPath,SGazePoint.Headers,data);
+    }
+    public bool LoadDurationData(LoadedSimulationDataPerTrial trial, out List<RaycastHitDurationRow> rows) {
+        rows = new List<RaycastHitDurationRow>();
+        string assetPath = trial.assetPath+"/gazeDurations.csv";
+        if(!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        rows = ParseDurationData(trial, pr);
+        return true;
+    }
+    public List<RaycastHitDurationRow> ParseDurationData(LoadedSimulationDataPerTrial trial, string[] data) {
+        List<RaycastHitDurationRow> dataFormatted = new List<RaycastHitDurationRow>();
+        int numHeaders = RaycastHitDurationRow.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey, numHeaders);
+            dataFormatted.Add(new RaycastHitDurationRow(row));
+        }
+        return dataFormatted;
+    }
+    public bool SaveDurationData(LoadedSimulationDataPerTrial trial, List<RaycastHitDurationRow> data) {
+        string assetPath = trial.assetPath+"/gazeDurations.csv";
+        return SaveSystemMethods.SaveCSV<RaycastHitDurationRow>(assetPath,RaycastHitDurationRow.Headers,data);
     }
 
 
