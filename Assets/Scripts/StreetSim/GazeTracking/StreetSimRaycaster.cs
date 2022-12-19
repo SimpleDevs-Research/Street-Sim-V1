@@ -157,8 +157,10 @@ public class RaycastHitDurationRow {
     public int triangleIndex;
     public float startTimestamp, endTimestamp;
     public int startFrameIndex, endFrameIndex;
+    public List<int> gazeIndexes;
+    public string gazeIndexesString;
     public string hitType;
-    public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float timestamp, int frameIndex) {
+    public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float timestamp, int frameIndex, int initialIndex) {
         this.agentID = agentID;
         this.hitID = hitID;
         this.triangleIndex = triangleIndex;
@@ -166,8 +168,12 @@ public class RaycastHitDurationRow {
         this.endTimestamp = timestamp;
         this.startFrameIndex = frameIndex;
         this.endFrameIndex = frameIndex;
+        this.gazeIndexesString = "";
+        this.gazeIndexes = new List<int>();
         this.hitType = "";
+        AddIndex(initialIndex);
     }
+    /*
     public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float startTimestamp, float endTimestamp, int startFrameIndex, int endFrameIndex, string hitType) {
         this.agentID = agentID;
         this.hitID = hitID;
@@ -178,6 +184,8 @@ public class RaycastHitDurationRow {
         this.endFrameIndex = endFrameIndex;
         this.hitType = hitType;
     }
+    */
+    /*
     public RaycastHitDurationRow(string agentID, string hitID, int triangleIndex, float startTimestamp, float endTimestamp, int startFrameIndex, int endFrameIndex) {
         this.agentID = agentID;
         this.hitID = hitID;
@@ -188,6 +196,7 @@ public class RaycastHitDurationRow {
         this.endFrameIndex = endFrameIndex;
         this.hitType = "";
     }
+    */
     public RaycastHitDurationRow(string[] data) {
         this.agentID = data[0];
         this.hitID = data[1];
@@ -196,13 +205,30 @@ public class RaycastHitDurationRow {
         this.endTimestamp = float.Parse(data[4]);
         this.startFrameIndex = int.Parse(data[5]);
         this.endFrameIndex = int.Parse(data[6]);
-        this.hitType = data[7];
+        this.gazeIndexesString = data[7];
+        this.hitType = data[8];
+        this.gazeIndexes = new List<int>();
+        string[] splitString = this.gazeIndexesString.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+        foreach (string item in splitString) {
+            try {
+                this.gazeIndexes.Add(int.Parse(item));
+            }
+            catch (System.Exception e) {
+                Debug.LogError("Value \""+item+"\" was not an int.");
+                Debug.LogException(e);
+            }
+        }
+    }
+    public void AddIndex(int newIndex) {
+        if(!gazeIndexes.Contains(newIndex)) gazeIndexes.Add(newIndex);
+        gazeIndexesString = string.Join(" ", gazeIndexes);
     }
     public static List<string> Headers => new List<string> {
         "agentID", "hitID",
         "triangleIndex",
         "startTimestamp", "endTimestamp",
         "startFrameIndex", "endFrameIndex",
+        "gazeIndexesString",
         "hitType"
     };
 }
@@ -591,9 +617,9 @@ public class StreetSimRaycaster : MonoBehaviour
         string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<SGazePoint>(assetPath,SGazePoint.Headers,data);
     }
-    public bool LoadDurationData(LoadedSimulationDataPerTrial trial, out List<RaycastHitDurationRow> rows) {
+    public bool LoadDurationData(LoadedSimulationDataPerTrial trial, string filename, out List<RaycastHitDurationRow> rows) {
         rows = new List<RaycastHitDurationRow>();
-        string assetPath = trial.assetPath+"/gazeDurations.csv";
+        string assetPath = trial.assetPath+"/"+filename+".csv";
         if(!SaveSystemMethods.CheckFileExists(assetPath)) {
             Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
             return false;
@@ -614,8 +640,8 @@ public class StreetSimRaycaster : MonoBehaviour
         }
         return dataFormatted;
     }
-    public bool SaveDurationData(LoadedSimulationDataPerTrial trial, List<RaycastHitDurationRow> data) {
-        string assetPath = trial.assetPath+"/gazeDurations.csv";
+    public bool SaveDurationData(LoadedSimulationDataPerTrial trial, string filename, List<RaycastHitDurationRow> data) {
+        string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<RaycastHitDurationRow>(assetPath,RaycastHitDurationRow.Headers,data);
     }
 

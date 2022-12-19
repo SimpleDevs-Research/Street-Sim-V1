@@ -26,7 +26,12 @@ public class StreetSimLoadSim : MonoBehaviour
     public string sourceDirectory;
     public List<string> participants = new List<string>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
-    private bool loadingParticipant = false, loadingAverageFixation = false, loadingDiscretizedFixation = false, loadingDurations = false;
+    private bool loadingParticipant = false, 
+                    loadingAverageFixation = false, 
+                    loadingDiscretizedFixation = false, 
+                    loadingDurationsByIndex = false, 
+                    loadingDurationsByHit = false,
+                    loadingDurationsByAgent = false;
     private LoadedSimulationDataPerTrial m_newLoadedTrial, currentLoadedTrial = null;
     public LoadedSimulationDataPerTrial newLoadedTrial { get=>m_newLoadedTrial; set{} }
 
@@ -224,9 +229,15 @@ public class StreetSimLoadSim : MonoBehaviour
                     loadingDiscretizedFixation = true;
                     StartCoroutine(GenerateDiscretizedFixationMap());
                     while(loadingDiscretizedFixation) yield return null;
-                    loadingDurations = true;
-                    StartCoroutine(GenerateDurations());
-                    while(loadingDurations) yield return null;
+                    loadingDurationsByIndex = true;
+                    StartCoroutine(GenerateDurationsByTriangleIndex());
+                    while(loadingDurationsByIndex) yield return null;
+                    loadingDurationsByHit = true;
+                    StartCoroutine(GenerateDurationsByHit());
+                    while(loadingDurationsByHit) yield return null;
+                    loadingDurationsByAgent = true;
+                    StartCoroutine(GenerateDurationsByAgent());
+                    while(loadingDurationsByAgent) yield return null;
                 }
                 trials.Add(m_newLoadedTrial);
                 yield return null;
@@ -604,14 +615,14 @@ public class StreetSimLoadSim : MonoBehaviour
         loadingDiscretizedFixation = false;
         yield return null;
     }
-    public IEnumerator GenerateDurations() {
+    public IEnumerator GenerateDurationsByTriangleIndex() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByIndex", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
-            m_newLoadedTrial.gazeDurations = durationRows;
+            m_newLoadedTrial.gazeDurationsByIndex = durationRows;
         }
         else {
-            // In this case, the function `StreetSimRaycaster.R.LoadDurationData` could not find a "durations.csv" file inside the trial.
+            // In this case, the function `StreetSimRaycaster.R.LoadDurationByIndexData` could not find a "durations.csv" file inside the trial.
             // This means we need to generate one ourselves
             List<RaycastHitRow> gazes = m_newLoadedTrial.gazeData.gazes;
             int prevFrameIndex = -1;
@@ -648,13 +659,14 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
                 if (!cached.ContainsKey(row.hitID)) {
                     cached.Add(row.hitID, new Dictionary<int, RaycastHitDurationRow>());
-                    cached[row.hitID].Add(row.triangleIndex, new RaycastHitDurationRow(row.agentID, row.hitID, row.triangleIndex, row.timestamp, row.frameIndex));
+                    cached[row.hitID].Add(row.triangleIndex, new RaycastHitDurationRow(row.agentID, row.hitID, row.triangleIndex, row.timestamp, row.frameIndex, i));
                 } else {
                     if (!cached[row.hitID].ContainsKey(row.triangleIndex)) {
-                        cached[row.hitID].Add(row.triangleIndex, new RaycastHitDurationRow(row.agentID, row.hitID, row.triangleIndex, row.timestamp, row.frameIndex));
+                        cached[row.hitID].Add(row.triangleIndex, new RaycastHitDurationRow(row.agentID, row.hitID, row.triangleIndex, row.timestamp, row.frameIndex, i));
                     } else {
                         cached[row.hitID][row.triangleIndex].endTimestamp = row.timestamp;
                         cached[row.hitID][row.triangleIndex].endFrameIndex = row.frameIndex;
+                        cached[row.hitID][row.triangleIndex].AddIndex(i);
                     }
                 }
                 if(cachedFound.ContainsKey(row.hitID) && cachedFound[row.hitID].ContainsKey(row.triangleIndex)) {
@@ -662,12 +674,150 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
                 yield return null;
             }
+            // Get the last few cached RaycastHitDurationRows
+            foreach(Dictionary<int,RaycastHitDurationRow> rows in cached.Values) {
+                foreach(RaycastHitDurationRow row in rows.Values) {
+                    durationRows.Add(row);
+                }
+            }
             // Need to save results into new `gazeDurations.csv`
-            m_newLoadedTrial.gazeDurations = durationRows;
-            StreetSimRaycaster.R.SaveDurationData(m_newLoadedTrial, durationRows);
+            m_newLoadedTrial.gazeDurationsByIndex = durationRows;
+            StreetSimRaycaster.R.SaveDurationData(m_newLoadedTrial, "gazeDurationsByIndex", durationRows);
         }
         Debug.Log(m_newLoadedTrial.trialName + ":" + durationRows.Count.ToString());
-        loadingDurations = false;
+        loadingDurationsByIndex = false;
+        yield return null;
+    }
+    public IEnumerator GenerateDurationsByHit() {
+        List<RaycastHitDurationRow> durationRows;
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByHit", out durationRows)) {
+            // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
+            m_newLoadedTrial.gazeDurationsByHit = durationRows;
+        }
+        else {
+            // In this case, the function `StreetSimRaycaster.R.LoadDurationByIndexData` could not find a "durations.csv" file inside the trial.
+            // This means we need to generate one ourselves
+            List<RaycastHitRow> gazes = m_newLoadedTrial.gazeData.gazes;
+            int prevFrameIndex = -1;
+            int curFrameIndex = -1;
+            Dictionary<string, Dictionary<string,RaycastHitDurationRow>> cached = new Dictionary<string, Dictionary<string,RaycastHitDurationRow>>();
+            Dictionary<string, Dictionary<string, bool>> cachedFound = new Dictionary<string, Dictionary<string,bool>>();
+            durationRows = new List<RaycastHitDurationRow>();
+            for(int i = 0; i < gazes.Count; i++) {
+                RaycastHitRow row = gazes[i];
+                curFrameIndex = row.frameIndex;
+                if (curFrameIndex != prevFrameIndex) {
+                    if(cachedFound.Count > 0) {
+                        // delete any entries in `cached` whose results in `cachedFound` are false
+                        foreach(KeyValuePair<string,Dictionary<string,bool>> kvp1 in cachedFound) {
+                            if (kvp1.Value.Count == 0) continue;
+                            foreach(KeyValuePair<string,bool> kvp2 in kvp1.Value) {
+                                if (!kvp2.Value) {
+                                    // This is false from our last index. This means that this gaze fixation has ended becaus the previous timestep did not have this hitID recorded
+                                    durationRows.Add(cached[kvp1.Key][kvp2.Key]);
+                                    cached[kvp1.Key].Remove(kvp2.Key);
+                                }
+                            }
+                            if (cached[kvp1.Key].Count == 0) cached.Remove(kvp1.Key);
+                        }
+                    }
+                    cachedFound = new Dictionary<string, Dictionary<string,bool>>();
+                    foreach(string key1 in cached.Keys) { 
+                        cachedFound.Add(key1,new Dictionary<string,bool>()); 
+                        foreach(string key2 in cached[key1].Keys) {
+                            cachedFound[key1][key2] = false;
+                        }
+                    }
+                    prevFrameIndex = curFrameIndex;
+                }
+                if (!cached.ContainsKey(row.agentID)) {
+                    cached.Add(row.agentID, new Dictionary<string, RaycastHitDurationRow>());
+                    cached[row.agentID].Add(row.hitID, new RaycastHitDurationRow(row.agentID, row.hitID, -1, row.timestamp, row.frameIndex, i));
+                } else {
+                    if (!cached[row.agentID].ContainsKey(row.hitID)) {
+                        cached[row.agentID].Add(row.hitID, new RaycastHitDurationRow(row.agentID, row.hitID, -1, row.timestamp, row.frameIndex, i));
+                    } else {
+                        cached[row.agentID][row.hitID].endTimestamp = row.timestamp;
+                        cached[row.agentID][row.hitID].endFrameIndex = row.frameIndex;
+                        cached[row.agentID][row.hitID].AddIndex(i);
+                    }
+                }
+                if(cachedFound.ContainsKey(row.agentID) && cachedFound[row.agentID].ContainsKey(row.hitID)) {
+                    cachedFound[row.agentID][row.hitID] = true;
+                }
+                yield return null;
+            }
+            // Get the last few cached RaycastHitDurationRows
+            foreach(Dictionary<string,RaycastHitDurationRow> rows in cached.Values) {
+                foreach(RaycastHitDurationRow row in rows.Values) {
+                    durationRows.Add(row);
+                }
+            }
+            // Need to save results into new `gazeDurations.csv`
+            m_newLoadedTrial.gazeDurationsByHit = durationRows;
+            StreetSimRaycaster.R.SaveDurationData(m_newLoadedTrial, "gazeDurationsByHit", durationRows);
+        }
+        Debug.Log(m_newLoadedTrial.trialName + ":" + durationRows.Count.ToString());
+        loadingDurationsByHit = false;
+        yield return null;
+    }
+    public IEnumerator GenerateDurationsByAgent() {
+        List<RaycastHitDurationRow> durationRows;
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByAgent", out durationRows)) {
+            // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
+            m_newLoadedTrial.gazeDurationsByAgent = durationRows;
+        }
+        else {
+            // In this case, the function `StreetSimRaycaster.R.LoadDurationData` could not find a "durations.csv" file inside the trial.
+            // This means we need to generate one ourselves
+            List<RaycastHitRow> gazes = m_newLoadedTrial.gazeData.gazes;
+            int prevFrameIndex = -1;
+            int curFrameIndex = -1;
+            Dictionary<string, RaycastHitDurationRow> cached = new Dictionary<string, RaycastHitDurationRow>();
+            Dictionary<string, bool> cachedFound = new Dictionary<string, bool>();
+            durationRows = new List<RaycastHitDurationRow>();
+            for(int i = 0; i < gazes.Count; i++) {
+                RaycastHitRow row = gazes[i];
+                curFrameIndex = row.frameIndex;
+                if (curFrameIndex != prevFrameIndex) {
+                    if(cachedFound.Count > 0) {
+                        // delete any entries in `cached` whose results in `cachedFound` are false
+                        foreach(KeyValuePair<string,bool> kvp in cachedFound) {
+                            if (!kvp.Value) {
+                                // This is false from our last index. This means that this gaze fixation has ended becaus the previous timestep did not have this hitID recorded
+                                durationRows.Add(cached[kvp.Key]);
+                                cached.Remove(kvp.Key);
+                            }
+                        }
+                    }
+                    cachedFound = new Dictionary<string, bool>();
+                    foreach(string key in cached.Keys) { 
+                        cachedFound[key] = false;
+                    }
+                    prevFrameIndex = curFrameIndex;
+                }
+                if (!cached.ContainsKey(row.agentID)) {
+                    cached.Add(row.agentID, new RaycastHitDurationRow(row.agentID, row.agentID, -1, row.timestamp, row.frameIndex, i));
+                } else {
+                    cached[row.agentID].endTimestamp = row.timestamp;
+                    cached[row.agentID].endFrameIndex = row.frameIndex;
+                    cached[row.agentID].AddIndex(i);
+                }
+                if(cachedFound.ContainsKey(row.agentID)) {
+                    cachedFound[row.agentID] = true;
+                }
+                yield return null;
+            }
+            // Get the last few cached RaycastHitDurationRows
+            foreach(RaycastHitDurationRow row in cached.Values) {
+                durationRows.Add(row);
+            }
+            // Need to save results into new `gazeDurations.csv`
+            m_newLoadedTrial.gazeDurationsByAgent = durationRows;
+            StreetSimRaycaster.R.SaveDurationData(m_newLoadedTrial, "gazeDurationsByAgent", durationRows);
+        }
+        Debug.Log(m_newLoadedTrial.trialName + ":" + durationRows.Count.ToString());
+        loadingDurationsByAgent = false;
         yield return null;
     }
 
@@ -1370,7 +1520,9 @@ public class LoadedSimulationDataPerTrial {
     [SerializeField] private LoadedGazeData m_gazeData;
     public LoadedFixationData averageFixations;
     public Dictionary<float, LoadedFixationData> discretizedFixations;
-    public List<RaycastHitDurationRow> gazeDurations;
+    public List<RaycastHitDurationRow> gazeDurationsByIndex;
+    public List<RaycastHitDurationRow> gazeDurationsByHit;
+    public List<RaycastHitDurationRow> gazeDurationsByAgent;
     public LoadedPositionData positionData { get=>m_positionData; set {
         m_positionData = value;
         CompareIndexTimeMap(value.indexTimeMap);
