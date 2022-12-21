@@ -636,6 +636,7 @@ GameObject:
   - component: {fileID: 3880697473800571501}
   - component: {fileID: 3672557991087830273}
   - component: {fileID: 801057640809477775}
+  - component: {fileID: 2841035639816566315}
   m_Layer: 0
   m_Name: LowFemaleMesh
   m_TagString: Untagged
@@ -721,6 +722,22 @@ MonoBehaviour:
   m_id: LowFemMesh
   m_ref_id: LowFem
   m_shouldTrack: 1
+--- !u!114 &2841035639816566315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028990289677733184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de615838c8783b41b77ff988725bfec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaler: {fileID: 6614210178428199684}
+  hips: {fileID: 1602334422996179393}
+  startingPoint: {fileID: 8226681963682208547}
+  GazeOnObjectMaterial: {fileID: 2100000, guid: cd392cb3e0aafee41a841f61931f9733, type: 2}
 --- !u!1 &2058538905536506899
 GameObject:
   m_ObjectHideFlags: 0

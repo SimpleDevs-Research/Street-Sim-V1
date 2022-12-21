@@ -391,7 +391,13 @@ public class StreetSimRaycaster : MonoBehaviour
                 if (HelperMethods.HasComponent<ExperimentID>(hit.transform, out target)) {
                     currentTarget = target;
                     m_triangleIndex = hit.triangleIndex;
-                    m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
+                    MeshManager mm = hit.transform.GetComponent<MeshManager>();
+                    if (mm != null) {
+                        closestTarget = mm.GetClosestFromTriangleIndex(hit.triangleIndex).id;
+                        m_hitID = closestTarget.ref_id;
+                    } else {
+                        m_hitID = GetClosestPoint(hit.point, target, out closestTarget);
+                    }
                     m_agentID = target.ref_id;
                     m_localPositionOfHitPosition = closestTarget.transform.InverseTransformPoint(hit.point);
                     m_localPositionOfHitTarget = (closestTarget.parent != null) ? closestTarget.transform.localPosition : Vector3.zero;
