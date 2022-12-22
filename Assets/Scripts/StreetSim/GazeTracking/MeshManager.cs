@@ -14,7 +14,6 @@ public class TriangleToIdMap {
     }
 }
 
-[ExecuteInEditMode]
 public class MeshManager : MonoBehaviour
 {
     public Transform scaler, hips;

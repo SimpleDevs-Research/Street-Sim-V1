@@ -28,6 +28,8 @@ public class StreetSimAgent : MonoBehaviour
     private int currentTargetIndex = -1;
     private bool shouldLoop, shouldWarpOnLoop;
     [SerializeField] private Collider m_meshCollider;
+    [SerializeField] private GameObject m_meshCopy = null;
+    [SerializeField] private Component[] m_meshFollowers;
 
     private float m_originalSpeed = 0.4f;
     [SerializeField] private float m_crossDelayTime = 5f;
@@ -139,6 +141,14 @@ public class StreetSimAgent : MonoBehaviour
         if (animator == null) animator = GetComponent<Animator>();
         if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
         headTurn = GetComponent<AgentHeadTurn>();
+        if (m_meshCopy != null) {
+            m_meshFollowers = m_meshCopy.GetComponentsInChildren<FollowPosition>();
+            if (m_meshFollowers.Length > 0) {
+                foreach(FollowPosition fp in m_meshFollowers) {
+                    fp.enabled = false;
+                }
+            }
+        }
     }
 
     public void Initialize(
@@ -152,6 +162,11 @@ public class StreetSimAgent : MonoBehaviour
         StreetSimTrial.TrialDirection direction,
         AgentType s_agentType
     ) {
+        if (m_meshFollowers.Length > 0) {
+            foreach(FollowPosition fp in m_meshFollowers) {
+                fp.enabled = true;
+            }
+        }
         targetPositions = targets;
         this.shouldLoop = shouldLoop;
         this.shouldWarpOnLoop = shouldWarpOnLoop;
@@ -460,6 +475,11 @@ public class StreetSimAgent : MonoBehaviour
         m_meshCollider.enabled = false;
         headTurn.currentTargetTransform = null;
         if (m_agentType == AgentType.Model) StreetSim.S.EndAttempt(id, StreetSim.S.trialFrameTimestamp, true);
+        if (m_meshFollowers.Length > 0) {
+            foreach(FollowPosition fp in m_meshFollowers) {
+                fp.enabled = false;
+            }
+        }
     }
 
     public ExperimentID GetID() {

@@ -16423,6 +16423,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 657262737}
     - target: {fileID: 3534336307462596250, guid: b20f8e76d9da0414a84e2091aaf8a872, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 265329093}
+    - target: {fileID: 3534336307462596250, guid: b20f8e76d9da0414a84e2091aaf8a872, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1205578598}
@@ -22746,6 +22750,11 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   followType: 1
   followRotation: 1
+--- !u!1 &639410992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2028990289677733184, guid: 6940b096d285f9e49ad98e4bed3aaf76, type: 3}
+  m_PrefabInstance: {fileID: 1415381792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &641224385 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6354789718526919845, guid: 9d0211019261a3446bdc0fd7f3a0c88e, type: 3}
@@ -23156,6 +23165,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1705357154}
     - target: {fileID: 3578609596477551821, guid: b6a16e95e55bff34abf3edd3a412e0be, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1971322573}
+    - target: {fileID: 3578609596477551821, guid: b6a16e95e55bff34abf3edd3a412e0be, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 663426355}
@@ -23554,6 +23567,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1280400980}
     - target: {fileID: 1464316897629032184, guid: 0838cb6a963e1bd41be52d1f432aafee, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 15372959}
+    - target: {fileID: 1464316897629032184, guid: 0838cb6a963e1bd41be52d1f432aafee, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1978154660}
@@ -23740,6 +23757,10 @@ PrefabInstance:
       propertyPath: renderer
       value: 
       objectReference: {fileID: 1203190490}
+    - target: {fileID: 1684736810701813018, guid: 2705d2e628a6be24ea53c4426227afb9, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 690702388}
     - target: {fileID: 1684736810701813018, guid: 2705d2e628a6be24ea53c4426227afb9, type: 3}
       propertyPath: audioSource
       value: 
@@ -24163,6 +24184,10 @@ PrefabInstance:
       propertyPath: renderer
       value: 
       objectReference: {fileID: 970081611}
+    - target: {fileID: 5962327685182571276, guid: c32e4e7c32fe2e745ae13d2ed2b71a6b, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 693780975}
     - target: {fileID: 5962327685182571276, guid: c32e4e7c32fe2e745ae13d2ed2b71a6b, type: 3}
       propertyPath: audioSource
       value: 
@@ -26683,6 +26708,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1333238557}
     - target: {fileID: 7300072418651853500, guid: d399ea097cbea2a429f5c3f040bc22c5, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1966421284}
+    - target: {fileID: 7300072418651853500, guid: d399ea097cbea2a429f5c3f040bc22c5, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1674518281}
@@ -28979,6 +29008,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 111829792}
     - target: {fileID: 2044826075562929627, guid: 6bddd7121ca20604a9aee5fc47488fb1, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1221850472}
+    - target: {fileID: 2044826075562929627, guid: 6bddd7121ca20604a9aee5fc47488fb1, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1999270043}
@@ -30751,6 +30784,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 90282858}
     - target: {fileID: 6799584640438592685, guid: 47980d96e1bfa1f489e2148ef21680c6, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 639410992}
+    - target: {fileID: 6799584640438592685, guid: 47980d96e1bfa1f489e2148ef21680c6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1205305589}
@@ -31268,6 +31305,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 799674613}
     - target: {fileID: 8739970507347297412, guid: 7453babd318118a4cad18d115b23cffe, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1408011480}
+    - target: {fileID: 8739970507347297412, guid: 7453babd318118a4cad18d115b23cffe, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 998201950}
@@ -31333,12 +31374,7 @@ MonoBehaviour:
   GazeOnObjectMaterial: {fileID: 2100000, guid: cd392cb3e0aafee41a841f61931f9733, type: 2}
   sourceDirectory: UserData_ignore
   participants:
-  - Prelim1
-  - Prelim2
-  - Prelim3
-  - PI
-  - Prelim2-2nd
-  - Prelim3-2nd
+  - Participant1
   m_generateSphereOnStart: 1
   m_visualizeSphere: 1
   sphereRadius: 10
@@ -33065,6 +33101,10 @@ PrefabInstance:
       propertyPath: renderer
       value: 
       objectReference: {fileID: 931031171}
+    - target: {fileID: 3610183539306803258, guid: 6a112f14a8811fd43a93785196cbc978, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 48361291}
     - target: {fileID: 3610183539306803258, guid: 6a112f14a8811fd43a93785196cbc978, type: 3}
       propertyPath: audioSource
       value: 
@@ -48263,6 +48303,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1339748816}
     - target: {fileID: -8473232795863918896, guid: bb31fcfb6bacf5a42bb40d985082fd55, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1634908688}
+    - target: {fileID: -8473232795863918896, guid: bb31fcfb6bacf5a42bb40d985082fd55, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1997342009}
@@ -54938,6 +54982,10 @@ PrefabInstance:
       propertyPath: renderer
       value: 
       objectReference: {fileID: 1551254755}
+    - target: {fileID: 3082177412553533749, guid: ec1578148f4255d4da6c3692965ffef9, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1869205550}
     - target: {fileID: 3082177412553533749, guid: ec1578148f4255d4da6c3692965ffef9, type: 3}
       propertyPath: audioSource
       value: 
@@ -67665,6 +67713,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 979171079}
     - target: {fileID: 8205727622329301336, guid: 4526466ac3639b6449bcd2831de5b07b, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1056152945}
+    - target: {fileID: 8205727622329301336, guid: 4526466ac3639b6449bcd2831de5b07b, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1865933766}
@@ -69169,6 +69221,10 @@ PrefabInstance:
       propertyPath: renderer
       value: 
       objectReference: {fileID: 840146174}
+    - target: {fileID: 7682752188409318285, guid: 29af4681c24020b4bb22adda0b2e7c61, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1389011451}
     - target: {fileID: 7682752188409318285, guid: 29af4681c24020b4bb22adda0b2e7c61, type: 3}
       propertyPath: audioSource
       value: 
@@ -73986,6 +74042,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2132330714}
     - target: {fileID: 4528714472597128754, guid: 9f41b7d35953807488c83b177bfd7c98, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1460762318}
+    - target: {fileID: 4528714472597128754, guid: 9f41b7d35953807488c83b177bfd7c98, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1731427738}
@@ -75797,6 +75857,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1814003079}
     - target: {fileID: 3878825506360636152, guid: fb628d5041b2fc6429e7805b3933a37b, type: 3}
+      propertyPath: m_meshCopy
+      value: 
+      objectReference: {fileID: 1762723042}
+    - target: {fileID: 3878825506360636152, guid: fb628d5041b2fc6429e7805b3933a37b, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1894600305}
@@ -76660,9 +76724,9 @@ MonoBehaviour:
   m_successAudioSource: {fileID: 2043534103}
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
-  m_sourceDirectory: GazeData_ignore
-  m_participantName: TEST_NEW_GAZE_MECHANISM
-  m_trialGroupToTest: 0
+  m_sourceDirectory: ExperimentalData_ignore
+  m_participantName: Participant1
+  m_trialGroupToTest: 1
   streetSimVersion: 2
   m_initialSetups:
   - name: Initial_1
