@@ -13,6 +13,7 @@ public class CarPath {
     public TrafficSignal trafficSignal;
     public RemoteCollider startCollisionDetector;
     public Queue<StreetSimCar> waitingCars = new Queue<StreetSimCar>();
+    public RemoteCollider agentDetector;
 }
 
 // UNKNOWN IF USED, CHEKC BACK LATER
@@ -139,6 +140,7 @@ public class StreetSimCarManager : MonoBehaviour
                         nextCar.middleTarget = path.middleTarget;
                         nextCar.endTarget = path.endTarget;
                         nextCar.trafficSignal = path.trafficSignal;
+                        nextCar.agentDetector = path.agentDetector;
                         nextCar.Initialize();
                         activeCars.Add(nextCar);
                         if (carSpawnCounter < (int)waitValues[status].z) {
@@ -172,6 +174,7 @@ public class StreetSimCarManager : MonoBehaviour
         car.middleTarget = null;
         car.endTarget = null;
         car.trafficSignal = null;
+        car.agentDetector = null;
         car.transform.position = InactiveCarTargetRef.position;
         waitingCars.Enqueue(car);
     }
