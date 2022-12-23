@@ -172,18 +172,25 @@ public class StreetSimCar : MonoBehaviour
         float O = (foundInFront)
             ? 1f
             : 0f;
-        float P = (agentDetector.numColliders > 0)
+        /*
+        float P = (originalSpeedTargeted <= 10f && agentDetector.numColliders > 0)
             ? 1f
             : 0f;
-
+        */
+        
         float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.1f*(1f-O),0f,15f);
+
         //float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
         positionDiff = (carRaycastHit.point-frontOfCar.position)*O + 
             (
-                (middleTarget.position-frontOfCar.position)*L + (
+                (middleTarget.position-frontOfCar.position)*L + 
+                new Vector3(spaceOptimal+1f,0f,0f)*(1f-L)
+                /*
+                (
                     (middleTarget.position-frontOfCar.position) * P +
                     new Vector3(spaceOptimal+1f,0f,0f) * (1f-P)
                 )*(1f-L)
+                */
             )*(1f-O);
         /*
         positionDiff = (foundInFront) 
@@ -198,12 +205,20 @@ public class StreetSimCar : MonoBehaviour
             ? Velocity.manualSpeed - carRaycastHit.transform.GetComponent<Velocity>().manualSpeed 
 //            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal)))
             : (!passedTraffic)
-                ? (trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go || agentDetector.numColliders > 0) 
+                ? (
+                    trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go 
+                    //|| agentDetector.numColliders > 0
+                ) 
                     ? Velocity.manualSpeed
                     : 0f
                 : 0f;
 
-        spaceOptimal = (1f-(1f-L)*(1f-O)*(1f-P))*(spaceMinimal + Velocity.manualSpeed * timePref) + (Velocity.manualSpeed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f));
+        spaceOptimal = (
+            1f-
+            (1f-L)
+            *(1f-O)
+            //*(1f-P)
+        )*(spaceMinimal + Velocity.manualSpeed * timePref) + (Velocity.manualSpeed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f));
         /*
         spaceOptimal = (foundInFront) 
             ? spaceMinimal + speed * timePref + ((speed*speedDiff)/(2*Mathf.Pow(accelerationMax*accelerationPref,0.5f))) 

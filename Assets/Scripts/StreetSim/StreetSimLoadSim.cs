@@ -531,6 +531,7 @@ public class StreetSimLoadSim : MonoBehaviour
         Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
         foreach(SGazePoint point in spherePoints) {
             Vector3 closestDir = default(Vector3);
+            bool closestDirFound = false;
             float closestDistance = Mathf.Infinity;
             foreach(Vector3 dir in directions) {
                 if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
@@ -540,9 +541,10 @@ public class StreetSimLoadSim : MonoBehaviour
                     // Found a possible fixation
                     closestDistance = distance;
                     closestDir = dir;
+                    closestDirFound = true;
                 }
             }
-            directionFixations[closestDir] += 1;
+            if (closestDirFound) directionFixations[closestDir] += 1;
             //point.gameObject.SetActive(false);
         }
         m_newLoadedTrial.averageFixations = new LoadedFixationData(spherePoints, directionFixations);
@@ -594,6 +596,7 @@ public class StreetSimLoadSim : MonoBehaviour
             Vector3 origin = new Vector3(0f,heightRef.position.y,zIndex);
             foreach(SGazePoint point in points) {
                 Vector3 closestDir = default(Vector3);
+                bool closestDirFound = false;
                 float closestDistance = Mathf.Infinity;
                 foreach(Vector3 dir in directions) {
                     if(!directionFixations.ContainsKey(dir)) directionFixations.Add(dir,0);
@@ -603,9 +606,10 @@ public class StreetSimLoadSim : MonoBehaviour
                         // Found a possible fixation
                         closestDistance = distance;
                         closestDir = dir;
+                        closestDirFound = true;
                     }
                 }
-                directionFixations[closestDir] += 1;
+                if (closestDirFound) directionFixations[closestDir] += 1;
                 //point.gameObject.SetActive(false);
             }
             discretizedFixations.Add(zIndex, new LoadedFixationData(points, directionFixations));
