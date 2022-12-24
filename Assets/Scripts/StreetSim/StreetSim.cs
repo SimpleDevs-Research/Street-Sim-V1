@@ -720,6 +720,14 @@ public class StreetSim : MonoBehaviour
     public string GetSimulationDir() {
         return simulationDirToSaveIn;
     }
+
+    public List<string> GetActiveTrialsByName() {
+        List<string> names = new List<string>();
+        foreach(StreetSimTrialGroup group in m_trialGroups) {
+            foreach(StreetSimTrial trial in group.trials) names.Add(trial.name);
+        }
+        return names;
+    }
 }
 
 [System.Serializable]

@@ -929,6 +929,7 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         RecolorSphereGrid();
     }
+
     public void GroundTruthROC(bool discretized = false) {
 
         // Ground Truth Saliency is effectively all gaze data, from all participants.
@@ -972,38 +973,133 @@ public class StreetSimLoadSim : MonoBehaviour
         gak[2].time = 0f;
         g.SetKeys(gck, gak);
         
-        Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
+        // key: saliency level
+        // value: List of ratios
+        Dictionary<string, Dictionary<string, List<float>>> ratiosAcrossSaliencies = new Dictionary<string, Dictionary<string, List<float>>>();
 
+        // Get list of active names
+        List<string> trialNames = StreetSim.S.GetActiveTrialsByName();
+
+        // Save trial names to `ratiosAcrossSaliencies`
+        foreach(string trialName in trialNames) {
+            ratiosAcrossSaliencies.Add(trialName, new Dictionary<string,List<float>>());
+        }
+        ratiosAcrossSaliencies.Add("Average", new Dictionary<string,List<float>>());
+
+        // Global across all scenarios
+        float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;
+        Vector3 mean = directions.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)directions.Count;
+
+        Dictionary<string,float> GenerateSaliencyMaps(Dictionary<Vector3, int> trialFixations, Dictionary<Vector3, int> participantFixations) {
+            //List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
+            List<Vector3> aggregateFixationsKeys = directions;
+            // float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;
+            //Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
+            
+            // Sort the fixations by count while also averaging
+            List<KeyValuePair<Vector3,float>> aggregateSaliencies = new List<KeyValuePair<Vector3,float>>();
+            foreach(KeyValuePair<Vector3,int> af in trialFixations) {
+                float avg = (float)af.Value / (float)(participantData.Count-1);
+                float s = avg * Gaussian3D(af.Key,mean,sd);
+                aggregateSaliencies.Add(new KeyValuePair<Vector3,float>(af.Key, s));
+            }
+            aggregateSaliencies.Sort((x, y) => y.Value.CompareTo(x.Value));
+            
+            // Normalize to between 1 and 0. The first item in `aggregateSortedFixations` hast he greatest number of fixations
+            float MAX_FIX_NUMBER = aggregateSaliencies[0].Value;
+            for (int i = 0; i < aggregateSaliencies.Count; i++) {
+                aggregateSaliencies[i] = new KeyValuePair<Vector3, float>(aggregateSaliencies[i].Key, aggregateSaliencies[i].Value / MAX_FIX_NUMBER);
+            }
+
+            // Now need to iterate through each saliency
+            int maxIndex, hits, total;
+            float saliencyLevelFloat;
+            string saliencyLevelString;
+            KeyValuePair<Vector3,int> aggregateSaliency;
+            Dictionary<string, float> saliencyToRatio = new Dictionary<string, float>();
+            for(int saliencyLevel = 5; saliencyLevel <= 100; saliencyLevel += 5) {
+                // Remember: starting from index 0, these are fixations sorted in descending order
+                saliencyLevelFloat = (float)System.Math.Round((float)saliencyLevel/100f,2);
+                saliencyLevelString = saliencyLevel.ToString();
+                maxIndex = (int)Mathf.Round((float)directions.Count * saliencyLevelFloat);
+                
+                List<KeyValuePair<Vector3,float>> aggregateSubset = aggregateSaliencies.GetRange(0, maxIndex);
+                Dictionary<Vector3,float> aggregateSubsetDictionary = aggregateSubset.ToDictionary(x=>x.Key,x=>x.Value);
+                hits = 0;
+                total = 0;
+                foreach(KeyValuePair<Vector3,int> ithKVP in participantFixations) {
+                    if (ithKVP.Value == 0) continue;
+                    if (ithKVP.Value > 0 && aggregateSubsetDictionary.ContainsKey(ithKVP.Key) && aggregateSubsetDictionary[ithKVP.Key] > 0f) hits += 1;
+                    total += 1;
+                }
+                float r = (hits == 0) ? 0f : (float)hits/(float)total;
+                saliencyToRatio.Add(saliencyLevelString, r);
+            }
+
+            return saliencyToRatio;
+        }
+
+        // Iterate through each participant.
+        // kvp.Key = participantName
+        // kvp.Value = list of trials under participant.
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
             // This tracks ground truth fixations
-            Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
-            // This tracks Discretized fixations
-            // Add directions to each dictionary
-            foreach(Vector3 dir in directions) {
-                ithParticipantFixations.Add(dir, 0);
-            }
-            // Now aggregate fixations for both averaged and discretized setups
-            foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
-                foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
-                    ithParticipantFixations[fixations.Key] += fixations.Value;
+            // Key = direction
+            // Value = total number of fixations in that direction
+            Dictionary<string, Dictionary<Vector3, int>> ithParticipantFixations = new Dictionary<string, Dictionary<Vector3, int>>();
+            Dictionary<string, Dictionary<Vector3, int>> aggregateFixations = new Dictionary<string, Dictionary<Vector3, int>>();
+            foreach(string trialName in trialNames) {
+                ithParticipantFixations.Add(trialName, new Dictionary<Vector3, int>());
+                aggregateFixations.Add(trialName, new Dictionary<Vector3, int>());
+                foreach(Vector3 dir in directions) {
+                    ithParticipantFixations[trialName].Add(dir, 0);
+                    aggregateFixations[trialName].Add(dir, 0);
                 }
             }
-
-            // Generate fixations from all observers outside of current observer
-            Dictionary<Vector3, int> aggregateFixations = new Dictionary<Vector3, int>();
-
+            ithParticipantFixations.Add("Average",new Dictionary<Vector3, int>());
+            aggregateFixations.Add("Average",new Dictionary<Vector3, int>());
             foreach(Vector3 dir in directions) {
-                aggregateFixations.Add(dir, 0);
+                ithParticipantFixations["Average"].Add(dir, 0);
+                aggregateFixations["Average"].Add(dir, 0);
+            }
+            
+            // Now aggregate fixations for the ith partitipant
+            foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
+                    ithParticipantFixations[trial.trialName][fixations.Key] += fixations.Value;
+                    ithParticipantFixations["Average"][fixations.Key] += fixations.Value;
+                }
             }
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
                 if (kvpInner.Key == kvp.Key) continue;
                 foreach(LoadedSimulationDataPerTrial trial in kvpInner.Value) {
                     foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
-                        aggregateFixations[fixations.Key] += fixations.Value;
+                        aggregateFixations[trial.trialName][fixations.Key] += fixations.Value;
+                        aggregateFixations["Average"][fixations.Key] += fixations.Value;
                     }
                 }
             }
 
+            foreach(string trialName in trialNames) {
+                Dictionary<string, float> smaps = GenerateSaliencyMaps(aggregateFixations[trialName], ithParticipantFixations[trialName]);
+                foreach(KeyValuePair<string,float> smap in smaps) {
+                    if (!ratiosAcrossSaliencies[trialName].ContainsKey(smap.Key)) ratiosAcrossSaliencies[trialName].Add(smap.Key, new List<float>());
+                    ratiosAcrossSaliencies[trialName][smap.Key].Add(smap.Value);
+                }
+            }
+            Dictionary<string, float> averagemaps = GenerateSaliencyMaps(aggregateFixations["Average"], ithParticipantFixations["Average"]);
+            foreach(KeyValuePair<string,float> amap in averagemaps) {
+                if (!ratiosAcrossSaliencies["Average"].ContainsKey(amap.Key)) ratiosAcrossSaliencies["Average"].Add(amap.Key, new List<float>());
+                ratiosAcrossSaliencies["Average"][amap.Key].Add(amap.Value);
+            }
+            /*
+            Dictionary<string, float> averagemaps = GenerateSaliencyMaps(aggregateFixations["Average"], ithParticipantFixations["Average"]);
+            foreach(KeyValuePair<string,float> averageMap in averagemaps) {
+                ratiosAcrossSaliencies["Average"].Add(averageMap.Key,averageMap.Value);
+            }
+            */
+
+            /*
             // We find the means of x,y,z, as well as standard deviation of 1 degree
             List<Vector3> aggregateFixationsKeys = new List<Vector3>(aggregateFixations.Keys);
             float sd = (2f*Mathf.PI*Mathf.Pow(sphereRadius,2f))/360f;   // Global across all scenarios
@@ -1045,19 +1141,40 @@ public class StreetSimLoadSim : MonoBehaviour
                 }
                 ratiosAcrossSaliencies[saliencyLevel].Add((float)hits/(float)total);
             }
+            */
         }
 
         // We now have, across each saliency, a list of ratios. We can condense this further so that each saliency level has an averaged ratio
         Debug.Log("[LOAD SIM] PRESENTING GROUND TRUTH SALIENCIES:");
-        Dictionary<float, float> saliencyAverageRatio = new Dictionary<float, float>();
-        foreach(KeyValuePair<float, List<float>> kvp in ratiosAcrossSaliencies) {
-            float total = 0f;
-            foreach(float ratio in kvp.Value) total += ratio;
-            float average = total/(float)kvp.Value.Count;
-            saliencyAverageRatio.Add(kvp.Key, average);
-            Debug.Log("\t"+kvp.Key.ToString()+": " + average + " | " + (average*100f).ToString() + "%");
+        List<ROCRow> rocRows = new List<ROCRow>();
+        Dictionary<string, Dictionary<string, float>> saliencyAverageRatio = new Dictionary<string, Dictionary<string, float>>();
+        foreach(KeyValuePair<string, Dictionary<string,List<float>>> kvp in ratiosAcrossSaliencies) {
+            Debug.Log("CALCULATING ROC FOR TRIAL \""+kvp.Key+"\"");
+            ROCRow row = new ROCRow(kvp.Key);
+            Dictionary<string, float> rowValues = new Dictionary<string, float>();
+            foreach(KeyValuePair<string, List<float>> kvp2 in kvp.Value) {
+                Debug.Log("SALIENCY LEVEL: " + kvp2.Key);
+                float total = 0f;
+                foreach(float ratio in kvp2.Value) total += ratio;
+                Debug.Log("TOTAL: " + total);
+                float average = total/(float)kvp2.Value.Count;
+                //saliencyAverageRatio.Add(kvp2.Key, average);
+                rowValues.Add(kvp2.Key, average);
+                Debug.Log("\t"+kvp2.Key.ToString()+": " + average + " | " + (average*100f).ToString() + "%");
+            }
+            row.SetValues(rowValues);
+            rocRows.Add(row);
         }
+
+        // Save results in CSV
+        string postProcessDir = SaveSystemMethods.GetSaveLoadDirectory("PostProcessData_Ignore");
+        string objectFilename = postProcessDir + "rocs.csv";
+         if (!SaveSystemMethods.SaveCSV<ROCRow>(objectFilename, ROCRow.Headers, rocRows)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot save ROC agreement csv in \""+objectFilename+"\"");
+        }
+
     }
+    
     public void ROCAtZ(float z) {
         Gradient g = new Gradient();
         GradientColorKey[] gck = new GradientColorKey[3];
@@ -1606,5 +1723,82 @@ public class GazeOnObjectTrackable {
         "position_y",
         "position_z",
         "dbscanID"
+    };
+}
+
+[System.Serializable]
+public class ROCRow {
+    public string trialName;
+    public float agree_5, agree_10, agree_15, agree_20, agree_25, agree_30, agree_35, agree_40, agree_45, agree_50, agree_55, agree_60, agree_65, agree_70, agree_75, agree_80, agree_85, agree_90, agree_95, agree_100;
+    public ROCRow(string trialName) {
+        this.trialName = trialName;
+    }
+    public ROCRow(string trialName, Dictionary<string,float> values) {
+        this.trialName = trialName;
+        this.agree_5 = values["5"];
+        this.agree_10 = values["10"];
+        this.agree_15 = values["15"];
+        this.agree_20 = values["20"];
+        this.agree_25 = values["25"];
+        this.agree_30 = values["30"];
+        this.agree_35 = values["35"];
+        this.agree_40 = values["40"];
+        this.agree_45 = values["45"];
+        this.agree_50 = values["50"];
+        this.agree_55 = values["55"];
+        this.agree_60 = values["60"];
+        this.agree_65 = values["65"];
+        this.agree_70 = values["70"];
+        this.agree_75 = values["75"];
+        this.agree_80 = values["80"];
+        this.agree_85 = values["85"];
+        this.agree_90 = values["90"];
+        this.agree_95 = values["95"];
+        this.agree_100 = values["100"];
+    }
+    public void SetValues(Dictionary<string, float> values) {
+        this.agree_5 = values["5"];
+        this.agree_10 = values["10"];
+        this.agree_15 = values["15"];
+        this.agree_20 = values["20"];
+        this.agree_25 = values["25"];
+        this.agree_30 = values["30"];
+        this.agree_35 = values["35"];
+        this.agree_40 = values["40"];
+        this.agree_45 = values["45"];
+        this.agree_50 = values["50"];
+        this.agree_55 = values["55"];
+        this.agree_60 = values["60"];
+        this.agree_65 = values["65"];
+        this.agree_70 = values["70"];
+        this.agree_75 = values["75"];
+        this.agree_80 = values["80"];
+        this.agree_85 = values["85"];
+        this.agree_90 = values["90"];
+        this.agree_95 = values["95"];
+        this.agree_100 = values["100"];
+    }
+    public static List<string> Headers = new List<string> {
+        "trialName",
+        "agree_5", 
+        "agree_10", 
+        "agree_15", 
+        "agree_20", 
+        "agree_25", 
+        "agree_30", 
+        "agree_35", 
+        "agree_40", 
+        "agree_45", 
+        "agree_50", 
+        "agree_55", 
+        "agree_60", 
+        "agree_65", 
+        "agree_70", 
+        "agree_75", 
+        "agree_80", 
+        "agree_85", 
+        "agree_90", 
+        "agree_95", 
+        "agree_100"
     };
 }

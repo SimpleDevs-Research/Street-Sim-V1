@@ -31,6 +31,7 @@ public class StreetSimLoadSimEditor : Editor
         if (GUILayout.Button("Generate Ground Truth Saliency")) {
             controller.GroundTruthSaliency();
         }
+
         if (GUILayout.Button("Calculate Ground Truth ROC")) {
             controller.GroundTruthROC();
         }
