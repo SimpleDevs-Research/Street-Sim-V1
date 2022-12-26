@@ -39,6 +39,7 @@ public class StreetSimCar : MonoBehaviour
 
     private RaycastHit carRaycastHit;
     [SerializeField] private bool foundInFront = false;
+    [SerializeField] private StreetSimCar followingCar = null;
     private bool m_hitMid = false;
 
     private Vector3 prevPos;
@@ -151,6 +152,9 @@ public class StreetSimCar : MonoBehaviour
         //  foundInFront = global variable : boolean
         //  out carRaycastHit = global variable : RaycastHit
         foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, spaceMaximal, StreetSimCarManager.CM.carDetectionLayerMask);
+        followingCar = (foundInFront) 
+            ? carRaycastHit.transform.GetComponent<StreetSimCar>()
+            : null;
         // Calcualte position and velocity changes
         CalculateAcceleration();
         // Check how far we've moved
@@ -166,7 +170,7 @@ public class StreetSimCar : MonoBehaviour
     private void CalculateAcceleration() {
         passedTraffic = Vector3.Dot((middleTarget.position - frontOfCar.position).normalized, frontOfCar.forward) < 0f;
 
-        float L = (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go)
+        float L = (!passedTraffic && trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop)
             ? 1f
             : 0f;
         float O = (foundInFront)
@@ -179,6 +183,9 @@ public class StreetSimCar : MonoBehaviour
         */
         
         float mSpeed = Mathf.Clamp(originalSpeedTargeted+originalSpeedTargeted*0.1f*(1f-O),0f,15f);
+        L = (mSpeed <= 14f)
+            ? L
+            : 0f;
 
         //float mSpeed = (foundInFront) ? originalSpeedTargeted : originalSpeedTargeted * 1.5f;
         positionDiff = (carRaycastHit.point-frontOfCar.position)*O + 
@@ -206,7 +213,7 @@ public class StreetSimCar : MonoBehaviour
 //            : (!passedTraffic && trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go && (speed < 14f || (speed >= 14f && positionDiff.magnitude < spaceMinimal)))
             : (!passedTraffic)
                 ? (
-                    trafficSignal.status != TrafficSignal.TrafficSignalStatus.Go 
+                    trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop 
                     //|| agentDetector.numColliders > 0
                 ) 
                     ? Velocity.manualSpeed

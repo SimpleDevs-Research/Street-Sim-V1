@@ -31,6 +31,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private GameObject m_meshCopy = null;
     [SerializeField] private Component[] m_meshFollowers;
 
+    private bool startingOnSouth = false;
     private float m_originalSpeed = 0.4f;
     [SerializeField] private float m_crossDelayTime = 5f;
     [SerializeField] private float m_canCrossDelayTime = 0f;
@@ -186,6 +187,7 @@ public class StreetSimAgent : MonoBehaviour
         m_meshCollider.enabled = true;
         m_riskyButCrossing = false;
 
+        startingOnSouth = transform.position.z < 0f;
         m_canCross = false;
         m_canCrossDelayTime = (canCrossDelay == 0f) 
             ? UnityEngine.Random.Range(0f , canCrossDelay+0.05f)
@@ -283,7 +285,7 @@ public class StreetSimAgent : MonoBehaviour
                     // If the light is safe, we'll cross no matter what.
                     switch(TrafficSignalController.current.GetFacingWalkingSignal(transform.forward, out angleDiff).status) {
                         case TrafficSignal.TrafficSignalStatus.Go:
-                            if (TrafficSignalController.current.carAtCrosswalkDetector.numColliders > 0) {
+                            if (TrafficSignalController.current.carAtCrosswalkDetector.numColliders > 0 && TrafficSignalController.current.GetSafety(startingOnSouth,agent.speed,0f)) {
                                 character.Move(Vector3.zero,false,false);
                                 agent.isStopped = true;
                             } else {
@@ -308,7 +310,7 @@ public class StreetSimAgent : MonoBehaviour
                                         break;
                                     }
                                     // At this point, we need to start looking left and right
-                                    safe = TrafficSignalController.current.GetSafety(transform.position.z < 0f, agent.speed, m_canCrossDelayTime);
+                                    safe = TrafficSignalController.current.GetSafety(startingOnSouth, agent.speed, m_canCrossDelayTime);
                                     // m_riskyButCrossing becomes and stays true at the moment it calculates that it's safe
                                     m_riskyButCrossing = m_riskyButCrossing || safe;
                                     // If it's NOT riskyButCrossable, we wait still
