@@ -93,6 +93,7 @@ public class LoadedPositionData {
     public Dictionary<int, float> indexTimeMap;
     //public Dictionary<int, Dictionary<ExperimentID, StreetSimTrackable>> positionDataByFrame;
     public Dictionary<float, Dictionary<ExperimentID, StreetSimTrackable>> positionDataByTimestamp;
+    public List<StreetSimTrackable> rawPositionsList;
     /*
     public Dictionary<ExperimentID, List<StreetSimTrackable>> payloadByID;
     private List<float> payloadByTimestampOrder;
@@ -104,6 +105,7 @@ public class LoadedPositionData {
         this.idsTracked = new List<ExperimentID>();
         this.indexTimeMap = new Dictionary<int, float>();
         this.positionDataByTimestamp = new Dictionary<float, Dictionary<ExperimentID, StreetSimTrackable>>();
+        this.rawPositionsList = trackables;
 
         foreach(StreetSimTrackable trackable in trackables) {
             // Find the experiment ID that matches
