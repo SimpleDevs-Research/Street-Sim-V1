@@ -1298,17 +1298,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 1
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -1331,17 +1323,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 1
   m_LineDistance: 0
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
-  m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -2487,6 +2471,8 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   targetPositions: []
   m_meshCollider: {fileID: 0}
+  m_meshCopy: {fileID: 0}
+  m_meshFollowers: []
   m_crossDelayTime: 5
   m_canCrossDelayTime: 0
   m_canCross: 0
@@ -2508,7 +2494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477dc9f890f70eb49a1ce5e25e3e9811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackingType: 1
   m_estimatedVelocity: {x: 0, y: 0, z: 0}
+  manualVelocity: {x: 0, y: 0, z: 0}
+  manualSpeed: 0
 --- !u!1 &6242220329315958023
 GameObject:
   m_ObjectHideFlags: 0
