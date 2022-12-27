@@ -31497,14 +31497,9 @@ MonoBehaviour:
   - Participant3
   - Participant2
   - Participant1
-  - Prelim1
-  - Prelim2
-  - Prelim3
-  - PI
-  - Prelim2-2nd
-  - Prelim3-2nd
   - Participant4
   - Participant5
+  - Participant6
   m_generateSphereOnStart: 1
   m_visualizeSphere: 1
   sphereRadius: 10
@@ -76855,8 +76850,8 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: ExperimentalData_ignore
-  m_participantName: Participant5
-  m_trialGroupToTest: 1
+  m_participantName: Participant7
+  m_trialGroupToTest: 0
   streetSimVersion: 2
   m_initialSetups:
   - name: Initial_1
@@ -80151,6 +80146,7 @@ MonoBehaviour:
   roadTransforms:
   - {fileID: 2030131861}
   - {fileID: 3722539458582114784}
+  - {fileID: 1308694504}
   m_southSidewalk: {fileID: 112212710}
   m_northSidewalk: {fileID: 324449119}
   m_resetCube: {fileID: 489398510}

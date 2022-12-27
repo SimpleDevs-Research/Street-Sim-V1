@@ -99,6 +99,7 @@ public class StreetSim : MonoBehaviour
     [SerializeField] private Transform m_southSidewalk,m_northSidewalk;
     [SerializeField] private Transform m_resetCube, m_nextCylinder;
     [SerializeField] private Transform m_southResetPoint, m_northResetPoint, m_southNextPoint, m_northNextPoint;
+    private int layerCrosswalk;
     
     // Trial Shenangigans
     private bool nextTrialTriggered = false;
@@ -141,8 +142,8 @@ public class StreetSim : MonoBehaviour
         S = this;
         if (m_agentParent == null) m_agentParent = this.transform;
         if (m_agentMeshParent == null) m_agentMeshParent = this.transform;
+        layerCrosswalk = LayerMask.NameToLayer("Crosswalk");
     }
-
     private void Start() {
         m_trialQueue = new LinkedList<StreetSimTrial>(m_trialGroups[m_trialGroupToTest].trials);
         if (m_trialGroupToTest == 0) trialNumber = 0;
@@ -492,6 +493,7 @@ public class StreetSim : MonoBehaviour
     public void StartAttempt(ExperimentID id, float startTime, StreetSimTrial.TrialDirection direction, bool shouldSetStartingAttempt = true) {
         if (m_currentAttempts.ContainsKey(id)) return;
         m_currentAttempts.Add(id, new TrialAttempt(id.id, direction.ToString(), startTime));
+        Debug.Log("STARTING ATTEMPT FOR " + id.id);
     }
     public void EndAttempt(ExperimentID id, float endTime, bool shouldSetEndingAttempt, bool successful = true, string reason = "") {
         if (!m_currentAttempts.ContainsKey(id)) return;
@@ -501,6 +503,7 @@ public class StreetSim : MonoBehaviour
         cAttempt.reason = reason;
         trialAttempts[id].Add(cAttempt);
         if (shouldSetEndingAttempt) m_currentAttempts.Remove(id);
+        Debug.Log("ENDING ATTEMPT FOR " + id.id);
     }
 
     private IEnumerator CustomUpdate() {
@@ -513,7 +516,8 @@ public class StreetSim : MonoBehaviour
             // Check the current attempt
             RaycastHit hit;
             if (Physics.Raycast(xrCamera.position+(Vector3.up*0.1f), -Vector3.up, out hit, 3f, downwardMask)) {
-                if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
+                //if (Array.IndexOf(roadTransforms, hit.transform) > -1) {
+                if (hit.transform.gameObject.layer == layerCrosswalk) {
                     // Create a new attempt if it doesn't exist already
                     if (!m_currentAttempts.ContainsKey(xrExperimentID)) StartAttempt(xrExperimentID, m_trialFrameTimestamp, m_currentTrial.direction);
                 }
@@ -851,7 +855,7 @@ public class StreetSimTrial {
     [Tooltip("What timestamps did the player start (or restart) the trial?")]
     private List<float> m_innerStartTimes = new List<float>();
     [Tooltip("The start and ending sidewalks")]
-    private Transform m_startSidewalk, m_endSidewalk;
+    [SerializeField] private Transform m_startSidewalk, m_endSidewalk;
     public Transform startSidewalk { get=>m_startSidewalk; set{m_startSidewalk=value;} }
     public Transform endSidewalk { get=>m_endSidewalk; set{m_endSidewalk=value;} }
     public float crossWaitTime { get=>carSignalGoTime+carSignalWarningTime; set{} }
