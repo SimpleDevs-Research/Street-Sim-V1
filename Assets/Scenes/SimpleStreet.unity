@@ -28445,9 +28445,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -31494,6 +31502,8 @@ MonoBehaviour:
   - Participant6
   - Participant7
   - Participant8
+  omitsFile: {fileID: 4900000, guid: 52b8240fbb8edf04fb71da06ed3790ec, type: 3}
+  publicParticipantData: []
   m_generateSphereOnStart: 0
   m_visualizeSphere: 1
   sphereRadius: 10
@@ -75714,9 +75724,17 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -89466,6 +89484,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
+  cubemap: {fileID: 0}
+  postprocessMaterial: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -90853,9 +90873,17 @@ MonoBehaviour:
   pointerState: 2
   m_lineType: 0
   m_LineDistance: 100
+  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
+  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_forwardRaycastHitDistance: Infinity
   m_forwardRaycastHitTriangleIndex: -1
+  m_downwardRaycastTarget: {fileID: 0}
+  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
+  m_downwardRaycastHitDistance: Infinity
   m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

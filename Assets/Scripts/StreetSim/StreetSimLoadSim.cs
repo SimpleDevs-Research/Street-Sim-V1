@@ -35,6 +35,8 @@ public class StreetSimLoadSim : MonoBehaviour
     [Header("PARTICIPANTS")]
     public string sourceDirectory;
     public List<string> participants = new List<string>();
+    public TextAsset omitsFile = null;
+    public Dictionary<string, Dictionary<string, List<TrialOmit>>> omits = new Dictionary<string, Dictionary<string, List<TrialOmit>>>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
     public List<ParticipantDataMap> publicParticipantData = new List<ParticipantDataMap>();
     private bool loadingParticipant = false, 
@@ -127,7 +129,32 @@ public class StreetSimLoadSim : MonoBehaviour
     }
 
     public void Load() {
+        if (directions.Count == 0) GenerateSphereGrid();
+        if (omitsFile != null) {
+            Debug.Log("[LOAD SIM] Loading omits data");
+            List<TrialOmit> loadedOmits = LoadOmits();
+            foreach(TrialOmit omit in loadedOmits) {
+                Debug.Log("New Omit: start=" + omit.startTimestamp + "\tend=" + omit.endTimestamp);
+                if (!omits.ContainsKey(omit.participantName)) omits.Add(omit.participantName, new Dictionary<string, List<TrialOmit>>());
+                if (!omits[omit.participantName].ContainsKey(omit.trialName)) omits[omit.participantName].Add(omit.trialName, new List<TrialOmit>());
+                omits[omit.participantName][omit.trialName].Add(omit);
+            }
+            Debug.Log("[LOAD SIM] Loaded Omits: " + loadedOmits.Count.ToString() + "\n# Participants with Omits: " + omits.Count.ToString());
+        }
         StartCoroutine(LoadCoroutine());
+    }
+
+    public List<TrialOmit> LoadOmits() {
+        List<TrialOmit> omits = new List<TrialOmit>();
+        int numHeaders = TrialOmit.Headers.Count;
+        string[] omitsData = SaveSystemMethods.ReadCSV(omitsFile);
+        int tableSize = omitsData.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = omitsData.RangeSubset(rowKey,numHeaders);
+            omits.Add(new TrialOmit(row));
+        }
+        return omits;
     }
 
     public IEnumerator LoadCoroutine() {
@@ -224,7 +251,9 @@ public class StreetSimLoadSim : MonoBehaviour
                     continue;
                 }
                 Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
-                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName);
+                List<TrialOmit> trialOmits = new List<TrialOmit>();
+                if (omits.ContainsKey(participantName) && omits[participantName].ContainsKey(trialName)) trialOmits = omits[participantName][trialName];
+                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName, trialOmits);
                 TrialData trialData;
                 if (LoadTrialData(path+trialName+"/trial.json", out trialData)) m_newLoadedTrial.trialData = trialData;
                 
@@ -1782,6 +1811,7 @@ public class LoadedSimulationDataPerTrial {
     public string simVersion;
     public string assetPath;
     public TrialData trialData;
+    public List<TrialOmit> trialOmits;
     public Dictionary<int, float> indexTimeMap;
     [SerializeField] private LoadedPositionData m_positionData;
     [SerializeField] private LoadedGazeData m_gazeData;
@@ -1798,10 +1828,11 @@ public class LoadedSimulationDataPerTrial {
         m_gazeData = value;
         CompareIndexTimeMap(value.indexTimeMap);
     }}
-    public LoadedSimulationDataPerTrial(string trialName, string simVersion, string assetPath) {
+    public LoadedSimulationDataPerTrial(string trialName, string simVersion, string assetPath, List<TrialOmit> trialOmits) {
         this.trialName = trialName;
         this.simVersion = simVersion;
         this.assetPath = assetPath;
+        this.trialOmits = trialOmits;
         indexTimeMap = new Dictionary<int, float>();
         m_positionData = null;
         this.discretizedFixations = new Dictionary<float, LoadedFixationData>();
@@ -1946,5 +1977,26 @@ public class ROCRow {
         "agree_90", 
         "agree_95", 
         "agree_100"
+    };
+}
+
+[System.Serializable]
+public class TrialOmit {
+    public string participantName, trialName;
+    public int startTimeIndex;
+    public float startTimestamp, endTimestamp;
+    public TrialOmit(string[] data) {
+        this.participantName = data[0];
+        this.trialName = data[1];
+        this.startTimeIndex = int.Parse(data[2]);
+        this.startTimestamp = float.Parse(data[3]);
+        this.endTimestamp = float.Parse(data[4]);
+    }
+    public static List<string> Headers = new List<string> {
+        "participantName", 
+        "trialName",
+        "startTimeIndex",
+        "startTimestamp", 
+        "endTimestamp"
     };
 }

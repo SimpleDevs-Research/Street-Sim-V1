@@ -579,7 +579,25 @@ public class StreetSimRaycaster : MonoBehaviour
         TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
         string[] pr = SaveSystemMethods.ReadCSV(ta);
         List<RaycastHitRow> p = ParseGazeData(trial, pr);
-        newData = new LoadedGazeData(trial.trialName, ta, p);
+        Debug.Log("[RAYCASTER] \""+trial.trialName+"\": Loaded " + p.Count.ToString() + " raw gazes");
+        if (trial.trialOmits.Count == 0) {
+            Debug.Log("[RAYCASTER] \""+trial.trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " gazes");
+            newData = new LoadedGazeData(trial.trialName, ta, p);
+        } else {
+            List<RaycastHitRow> p2 = new List<RaycastHitRow>();
+            foreach(RaycastHitRow rhr in p) {
+                bool validRHR = true;
+                foreach(TrialOmit omit in trial.trialOmits) {
+                    if (rhr.timestamp >= omit.startTimestamp && rhr.timestamp < omit.endTimestamp) {
+                        validRHR = false;
+                        break;
+                    }
+                }
+                if (validRHR) p2.Add(rhr);
+            }
+            Debug.Log("[RAYCASTER] \""+trial.trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " gazes");
+            newData = new LoadedGazeData(trial.trialName, ta, p2);
+        }
         return true;
     }
     private List<RaycastHitRow> ParseGazeData(LoadedSimulationDataPerTrial trial, string[] data){
