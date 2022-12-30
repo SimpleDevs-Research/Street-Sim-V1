@@ -1026,6 +1026,14 @@ public class TrialAttempt {
         this.direction = direction;
         this.startTime = startTime;
     }
+    public TrialAttempt(string[] data) {
+        this.id = data[0];
+        this.direction = data[1];
+        this.startTime = float.Parse(data[2]);
+        this.endTime = float.Parse(data[3]);
+        this.successful = bool.Parse(data[4]);
+        this.reason = data[5];
+    }
     public static List<string> Headers => new List<string> {
         "id",
         "direction",

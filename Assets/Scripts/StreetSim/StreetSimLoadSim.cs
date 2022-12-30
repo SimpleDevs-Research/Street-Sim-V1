@@ -6,6 +6,16 @@ using Helpers;
 using System.Linq;
 using UnityEditor;
 
+[System.Serializable]
+public class ParticipantDataMap {
+    public string participantName;
+    public List<LoadedSimulationDataPerTrial> participantTrials;
+    public ParticipantDataMap(string name, List<LoadedSimulationDataPerTrial> data) {
+        this.participantName = name;
+        this.participantTrials = data;
+    }
+}
+
 public class StreetSimLoadSim : MonoBehaviour
 {
     public static StreetSimLoadSim LS;
@@ -26,6 +36,7 @@ public class StreetSimLoadSim : MonoBehaviour
     public string sourceDirectory;
     public List<string> participants = new List<string>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
+    public List<ParticipantDataMap> publicParticipantData = new List<ParticipantDataMap>();
     private bool loadingParticipant = false, 
                     loadingAverageFixation = false, 
                     loadingDiscretizedFixation = false, 
@@ -253,6 +264,7 @@ public class StreetSimLoadSim : MonoBehaviour
         Debug.Log("[LOAD SIM] \""+participantName+"\": We have " + trials.Count.ToString() + " trials available for parsing");
         if (trials.Count > 0) {
             participantData.Add(participantName,trials);
+            publicParticipantData.Add(new ParticipantDataMap(participantName,trials));
         }
         loadingParticipant = false;
         yield return null;
@@ -829,101 +841,126 @@ public class StreetSimLoadSim : MonoBehaviour
         yield return null;
     }
     public IEnumerator GenerateAssumedAttempts() {
-        string assetPath = m_newLoadedTrial.assetPath+"/assumedAttempts.csv";
-        if (SaveSystemMethods.CheckFileExists(assetPath)) {
+        string originalAttemptsAssetPath = m_newLoadedTrial.assetPath+"/attempts.csv";
+        string newAttemptsAssetPath = m_newLoadedTrial.assetPath+"/assumedAttempts.csv";
+        // First, check if we have  `assumedAttempts.csv` first...
+        if (SaveSystemMethods.CheckFileExists(newAttemptsAssetPath)) {
             Debug.Log("[LOAD SIM] 'assumedAttempts.csv' found for " + m_newLoadedTrial.trialName);
             loadingAssumedAttempts = false;
             yield break;
         } else {
-            Debug.Log("[LOAD SIM] ERROR: Could not find 'assumedAttempts.csv' for " + m_newLoadedTrial.trialName + ". Generating new file...");
-            List<TrialAttempt> allAttempts = new List<TrialAttempt>();
-            Dictionary<string, TrialAttempt> currentAttempts = new Dictionary<string, TrialAttempt>();
-            List<string> modelIDs = m_newLoadedTrial.trialData.modelIDs;
-            modelIDs.Add("User");
-            StreetSimTrackable trackable, prevTrackable;
-            for(int i = 1; i < m_newLoadedTrial.positionData.rawPositionsList.Count; i++) {
-                trackable = m_newLoadedTrial.positionData.rawPositionsList[i];
-                prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[i-1];
-                if (!modelIDs.Contains(trackable.id)) {
-                    yield return null;
-                    continue;
-                }
-                if (Mathf.Abs(trackable.localPosition_z)<2.75f && !currentAttempts.ContainsKey(trackable.id)) {
-                    // This means that the agent has moved onto the crosswalk, yet we don't have an attempt linked to it.
-                    currentAttempts.Add(trackable.id, new TrialAttempt(trackable.id, m_newLoadedTrial.trialData.direction, prevTrackable.timestamp));
-                    yield return null;
-                    continue;
-                }
-                if(m_newLoadedTrial.trialData.direction == "NorthToSouth") {
-                    // Start is when z > 2.25
-                    // End is when z < -2.25f
-                    if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
-                        // In this case, the person returned to the start sidewalk. This is a failed attempt
-                        TrialAttempt cAttempt = currentAttempts[trackable.id];
-                        cAttempt.endTime = prevTrackable.timestamp;
-                        cAttempt.successful = false;
-                        cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
-                        allAttempts.Add(cAttempt);
-                        currentAttempts.Remove(trackable.id);
-                        yield return null;
-                        continue;
-                    }
-                    if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
-                        // In this case, the person got to the other end of the sidewalk. This is a successful attempt
-                        TrialAttempt cAttempt = currentAttempts[trackable.id];
-                        cAttempt.endTime = prevTrackable.timestamp;
-                        cAttempt.successful = true;
-                        cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
-                        allAttempts.Add(cAttempt);
-                        currentAttempts.Remove(trackable.id);
-                        yield return null;
-                        continue;
-                    }
-                } else {
-                    // Start is when z < -2.75
-                    // End is when z > 2.75f
-                    if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
-                        // In this case, the person returned to the start sidewalk. This is a failed attempt
-                        TrialAttempt cAttempt = currentAttempts[trackable.id];
-                        cAttempt.endTime = prevTrackable.timestamp;
-                        cAttempt.successful = false;
-                        cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
-                        allAttempts.Add(cAttempt);
-                        currentAttempts.Remove(trackable.id);
-                        yield return null;
-                        continue;
-                    }
-                    if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
-                        // In this case, the person got to the other end of the sidewalk. This is a successful attempt
-                        TrialAttempt cAttempt = currentAttempts[trackable.id];
-                        cAttempt.endTime = prevTrackable.timestamp;
-                        cAttempt.successful = true;
-                        cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
-                        allAttempts.Add(cAttempt);
-                        currentAttempts.Remove(trackable.id);
-                        yield return null;
-                        continue;
-                    }
-                }
-                yield return null;
-            }
-            // We need to clean up any attempts remaining. We automatically label them as successful
-            prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[m_newLoadedTrial.positionData.rawPositionsList.Count-1];
-            foreach(KeyValuePair<string, TrialAttempt> kvp in currentAttempts) {
-                TrialAttempt cAttempt = kvp.Value;
-                cAttempt.endTime = prevTrackable.timestamp;
-                cAttempt.successful = true;
-                cAttempt.reason = "[ASSUMED] End of Trial";
-                allAttempts.Add(cAttempt);
-                yield return null;
-            }
-            // Now we save the file
-            if (SaveSystemMethods.SaveCSV<TrialAttempt>(assetPath,TrialAttempt.Headers,allAttempts)) {
-                Debug.Log("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Saved Assumed Trial Attempts");
+            // Second, check if we even have a previous `attempts.csv` file
+            if (!SaveSystemMethods.CheckFileExists(originalAttemptsAssetPath)) {
+                Debug.LogError("[LOAD SIM] ERROR: \"attempts.csv\" file not efound for " + m_newLoadedTrial.trialName);
+                loadingAssumedAttempts = false;
+                yield break;
             } else {
-                Debug.LogError("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Could not save Assumed Trial Attempts");
+                // We need to load in our attempts and check if "User" is among them.
+                List<TrialAttempt> allAttempts = new List<TrialAttempt>();
+                TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(originalAttemptsAssetPath, typeof(TextAsset));
+                string[] pr = SaveSystemMethods.ReadCSV(ta);
+                int numHeaders = TrialAttempt.Headers.Count;
+                int tableSize = pr.Length/numHeaders - 1;
+                bool userFound = false;
+                for(int i = 0; i < tableSize; i++) {
+                    int rowKey = numHeaders*(i+1);
+                    string[] row = pr.RangeSubset(rowKey, numHeaders);
+                    TrialAttempt newAttempt = new TrialAttempt(row);
+                    allAttempts.Add(newAttempt);
+                    if (newAttempt.id == "User") userFound = true;
+                }
+                // If "User" is among the ids in our attempts list, we just need to port this data into a new "assumedAttempts.csv" file
+                // However, if "User" is NOT among the ids in our attempts list, we need to interpret them from existing position data
+                if (!userFound) {
+                    Debug.Log("[LOAD SIM] ERROR: Could not find 'assumedAttempts.csv' for " + m_newLoadedTrial.trialName + ". Deriving from positional data...");
+                    Dictionary<string, TrialAttempt> currentAttempts = new Dictionary<string, TrialAttempt>();
+                    StreetSimTrackable trackable, prevTrackable;
+                    for(int i = 1; i < m_newLoadedTrial.positionData.rawPositionsList.Count; i++) {
+                        trackable = m_newLoadedTrial.positionData.rawPositionsList[i];
+                        prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[i-1];
+                        if (trackable.id != "User") {
+                            yield return null;
+                            continue;
+                        }
+                        if (Mathf.Abs(trackable.localPosition_z)<2.75f && !currentAttempts.ContainsKey(trackable.id)) {
+                            // This means that the agent has moved onto the crosswalk, yet we don't have an attempt linked to it.
+                            currentAttempts.Add(trackable.id, new TrialAttempt(trackable.id, m_newLoadedTrial.trialData.direction, prevTrackable.timestamp));
+                            yield return null;
+                            continue;
+                        }
+                        if(m_newLoadedTrial.trialData.direction == "NorthToSouth") {
+                            // Start is when z > 2.25
+                            // End is when z < -2.25f
+                            if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person returned to the start sidewalk. This is a failed attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = false;
+                                cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                            if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person got to the other end of the sidewalk. This is a successful attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = true;
+                                cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                        } else {
+                            // Start is when z < -2.75
+                            // End is when z > 2.75f
+                            if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person returned to the start sidewalk. This is a failed attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = false;
+                                cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                            if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person got to the other end of the sidewalk. This is a successful attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = true;
+                                cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                        }
+                        yield return null;
+                    }
+                    // We need to clean up any attempts remaining. We automatically label them as successful
+                    prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[m_newLoadedTrial.positionData.rawPositionsList.Count-1];
+                    foreach(KeyValuePair<string, TrialAttempt> kvp in currentAttempts) {
+                        TrialAttempt cAttempt = kvp.Value;
+                        cAttempt.endTime = prevTrackable.timestamp;
+                        cAttempt.successful = true;
+                        cAttempt.reason = "[ASSUMED] End of Trial";
+                        allAttempts.Add(cAttempt);
+                        yield return null;
+                    }
+                }
+
+                // Now we save the file
+                if (SaveSystemMethods.SaveCSV<TrialAttempt>(newAttemptsAssetPath,TrialAttempt.Headers,allAttempts)) {
+                    Debug.Log("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Saved Assumed Trial Attempts");
+                } else {
+                    Debug.LogError("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Could not save Assumed Trial Attempts");
+                }
+                loadingAssumedAttempts = false;
             }
-            loadingAssumedAttempts = false;
         }
     }
 
@@ -1099,6 +1136,7 @@ public class StreetSimLoadSim : MonoBehaviour
             //Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
             
             // Sort the fixations by count while also averaging
+            Debug.Log(trialFixations.Count);
             List<KeyValuePair<Vector3,float>> aggregateSaliencies = new List<KeyValuePair<Vector3,float>>();
             foreach(KeyValuePair<Vector3,int> af in trialFixations) {
                 float avg = (float)af.Value / (float)(participantData.Count-1);
@@ -1148,6 +1186,7 @@ public class StreetSimLoadSim : MonoBehaviour
             // This tracks ground truth fixations
             // Key = direction
             // Value = total number of fixations in that direction
+            Debug.Log("[LOAD SIM] ROC Generation: Observing " + kvp.Key);
             Dictionary<string, Dictionary<Vector3, int>> ithParticipantFixations = new Dictionary<string, Dictionary<Vector3, int>>();
             Dictionary<string, Dictionary<Vector3, int>> aggregateFixations = new Dictionary<string, Dictionary<Vector3, int>>();
             foreach(string trialName in trialNames) {
@@ -1166,10 +1205,13 @@ public class StreetSimLoadSim : MonoBehaviour
             }
             
             // Now aggregate fixations for the ith partitipant
+            Debug.Log("[LOAD SIM] Generating fixations for " + kvp.Key);
             foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
+                Debug.Log("[LOAD SIM] Trial: \"" + trial.trialName + "\" - " + trial.averageFixations.fixations.Count.ToString());
                 foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                     ithParticipantFixations[trial.trialName][fixations.Key] += fixations.Value;
                     ithParticipantFixations["Average"][fixations.Key] += fixations.Value;
+                    Debug.Log("[LOAD SIM] Trial \""+trial.trialName+"\": " + fixations.Key + ": " + ithParticipantFixations[trial.trialName][fixations.Key].ToString() + " fixations");
                 }
             }
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
@@ -1298,6 +1340,8 @@ public class StreetSimLoadSim : MonoBehaviour
         Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
 
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
+
+            Debug.Log("[LOAD SIM] ROC Generation: Observing " + kvp.Key);
             // This tracks ground truth fixations
             Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
             // This tracks Discretized fixations
