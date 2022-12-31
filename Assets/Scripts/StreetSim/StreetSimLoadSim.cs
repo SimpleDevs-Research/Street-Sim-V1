@@ -38,7 +38,6 @@ public class StreetSimLoadSim : MonoBehaviour
     public TextAsset omitsFile = null;
     public Dictionary<string, Dictionary<string, List<TrialOmit>>> omits = new Dictionary<string, Dictionary<string, List<TrialOmit>>>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
-    public List<ParticipantDataMap> publicParticipantData = new List<ParticipantDataMap>();
     private bool loadingParticipant = false, 
                     loadingAverageFixation = false, 
                     loadingDiscretizedFixation = false, 
@@ -293,7 +292,6 @@ public class StreetSimLoadSim : MonoBehaviour
         Debug.Log("[LOAD SIM] \""+participantName+"\": We have " + trials.Count.ToString() + " trials available for parsing");
         if (trials.Count > 0) {
             participantData.Add(participantName,trials);
-            publicParticipantData.Add(new ParticipantDataMap(participantName,trials));
         }
         loadingParticipant = false;
         yield return null;
@@ -895,8 +893,23 @@ public class StreetSimLoadSim : MonoBehaviour
                     int rowKey = numHeaders*(i+1);
                     string[] row = pr.RangeSubset(rowKey, numHeaders);
                     TrialAttempt newAttempt = new TrialAttempt(row);
-                    allAttempts.Add(newAttempt);
-                    if (newAttempt.id == "User") userFound = true;
+                    // Filter based on trialOmits
+                    if (m_newLoadedTrial.trialOmits.Count > 0) {
+                        bool isValid = true;
+                        foreach(TrialOmit omit in m_newLoadedTrial.trialOmits) {
+                            if (newAttempt.startTime >= omit.startTimestamp && newAttempt.startTime < omit.endTimestamp) {
+                                isValid = false;
+                                break;
+                            }
+                        }
+                        if (isValid) {
+                            allAttempts.Add(newAttempt);
+                            if (newAttempt.id == "User") userFound = true;
+                        }
+                    } else {
+                        allAttempts.Add(newAttempt);
+                        if (newAttempt.id == "User") userFound = true;
+                    }
                 }
                 // If "User" is among the ids in our attempts list, we just need to port this data into a new "assumedAttempts.csv" file
                 // However, if "User" is NOT among the ids in our attempts list, we need to interpret them from existing position data
@@ -911,6 +924,20 @@ public class StreetSimLoadSim : MonoBehaviour
                             yield return null;
                             continue;
                         }
+                        if (m_newLoadedTrial.trialOmits.Count > 0) {
+                            bool isValid = true;
+                            foreach(TrialOmit omit in m_newLoadedTrial.trialOmits) {
+                                if (prevTrackable.timestamp >= omit.startTimestamp && prevTrackable.timestamp < omit.endTimestamp) {
+                                    isValid = false;
+                                    break;
+                                }
+                            }
+                            if (!isValid) {
+                                yield return null;
+                                continue;
+                            }
+                        }
+
                         if (Mathf.Abs(trackable.localPosition_z)<2.75f && !currentAttempts.ContainsKey(trackable.id)) {
                             // This means that the agent has moved onto the crosswalk, yet we don't have an attempt linked to it.
                             currentAttempts.Add(trackable.id, new TrialAttempt(trackable.id, m_newLoadedTrial.trialData.direction, prevTrackable.timestamp));
