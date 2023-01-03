@@ -250,6 +250,11 @@ public class StreetSimLoadSim : MonoBehaviour
                     continue;
                 }
                 Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
+                // Cut out early if this trial's folder doesn't exist
+                if (!SaveSystemMethods.CheckDirectoryExists(path+trialName+"/")) {
+                    Debug.Log("[LOAD SIM] WARNING: Skipping \""+trialName+"\" - unable to find directory");
+                    continue;
+                }
                 List<TrialOmit> trialOmits = new List<TrialOmit>();
                 if (omits.ContainsKey(participantName) && omits[participantName].ContainsKey(trialName)) trialOmits = omits[participantName][trialName];
                 m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName, trialOmits);
