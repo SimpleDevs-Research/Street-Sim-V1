@@ -6,6 +6,16 @@ using Helpers;
 using System.Linq;
 using UnityEditor;
 
+[System.Serializable]
+public class ParticipantDataMap {
+    public string participantName;
+    public List<LoadedSimulationDataPerTrial> participantTrials;
+    public ParticipantDataMap(string name, List<LoadedSimulationDataPerTrial> data) {
+        this.participantName = name;
+        this.participantTrials = data;
+    }
+}
+
 public class StreetSimLoadSim : MonoBehaviour
 {
     public static StreetSimLoadSim LS;
@@ -25,13 +35,16 @@ public class StreetSimLoadSim : MonoBehaviour
     [Header("PARTICIPANTS")]
     public string sourceDirectory;
     public List<string> participants = new List<string>();
+    public TextAsset omitsFile = null;
+    public Dictionary<string, Dictionary<string, List<TrialOmit>>> omits = new Dictionary<string, Dictionary<string, List<TrialOmit>>>();
     public Dictionary<string, List<LoadedSimulationDataPerTrial>> participantData = new Dictionary<string, List<LoadedSimulationDataPerTrial>>();
     private bool loadingParticipant = false, 
                     loadingAverageFixation = false, 
                     loadingDiscretizedFixation = false, 
                     loadingDurationsByIndex = false, 
                     loadingDurationsByHit = false,
-                    loadingDurationsByAgent = false;
+                    loadingDurationsByAgent = false,
+                    loadingAssumedAttempts = false;
     private LoadedSimulationDataPerTrial m_newLoadedTrial, currentLoadedTrial = null;
     public LoadedSimulationDataPerTrial newLoadedTrial { get=>m_newLoadedTrial; set{} }
 
@@ -115,7 +128,32 @@ public class StreetSimLoadSim : MonoBehaviour
     }
 
     public void Load() {
+        if (directions.Count == 0) GenerateSphereGrid();
+        if (omitsFile != null) {
+            Debug.Log("[LOAD SIM] Loading omits data");
+            List<TrialOmit> loadedOmits = LoadOmits();
+            foreach(TrialOmit omit in loadedOmits) {
+                Debug.Log("New Omit: start=" + omit.startTimestamp + "\tend=" + omit.endTimestamp);
+                if (!omits.ContainsKey(omit.participantName)) omits.Add(omit.participantName, new Dictionary<string, List<TrialOmit>>());
+                if (!omits[omit.participantName].ContainsKey(omit.trialName)) omits[omit.participantName].Add(omit.trialName, new List<TrialOmit>());
+                omits[omit.participantName][omit.trialName].Add(omit);
+            }
+            Debug.Log("[LOAD SIM] Loaded Omits: " + loadedOmits.Count.ToString() + "\n# Participants with Omits: " + omits.Count.ToString());
+        }
         StartCoroutine(LoadCoroutine());
+    }
+
+    public List<TrialOmit> LoadOmits() {
+        List<TrialOmit> omits = new List<TrialOmit>();
+        int numHeaders = TrialOmit.Headers.Count;
+        string[] omitsData = SaveSystemMethods.ReadCSV(omitsFile);
+        int tableSize = omitsData.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = omitsData.RangeSubset(rowKey,numHeaders);
+            omits.Add(new TrialOmit(row));
+        }
+        return omits;
     }
 
     public IEnumerator LoadCoroutine() {
@@ -212,7 +250,14 @@ public class StreetSimLoadSim : MonoBehaviour
                     continue;
                 }
                 Debug.Log("[LOAD SIM] Attempting to load trial \""+trialName+"\"");
-                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName);
+                // Cut out early if this trial's folder doesn't exist
+                if (!SaveSystemMethods.CheckDirectoryExists(path+trialName+"/")) {
+                    Debug.Log("[LOAD SIM] WARNING: Skipping \""+trialName+"\" - unable to find directory");
+                    continue;
+                }
+                List<TrialOmit> trialOmits = new List<TrialOmit>();
+                if (omits.ContainsKey(participantName) && omits[participantName].ContainsKey(trialName)) trialOmits = omits[participantName][trialName];
+                m_newLoadedTrial = new LoadedSimulationDataPerTrial(trialName, simData.version, assetPath+trialName, trialOmits);
                 TrialData trialData;
                 if (LoadTrialData(path+trialName+"/trial.json", out trialData)) m_newLoadedTrial.trialData = trialData;
                 
@@ -238,6 +283,9 @@ public class StreetSimLoadSim : MonoBehaviour
                     loadingDurationsByAgent = true;
                     StartCoroutine(GenerateDurationsByAgent());
                     while(loadingDurationsByAgent) yield return null;
+                    loadingAssumedAttempts = true;
+                    StartCoroutine(GenerateAssumedAttempts());
+                    while(loadingAssumedAttempts) yield return null;
                 }
                 trials.Add(m_newLoadedTrial);
                 yield return null;
@@ -824,6 +872,158 @@ public class StreetSimLoadSim : MonoBehaviour
         loadingDurationsByAgent = false;
         yield return null;
     }
+    public IEnumerator GenerateAssumedAttempts() {
+        string originalAttemptsAssetPath = m_newLoadedTrial.assetPath+"/attempts.csv";
+        string newAttemptsAssetPath = m_newLoadedTrial.assetPath+"/assumedAttempts.csv";
+        // First, check if we have  `assumedAttempts.csv` first...
+        if (SaveSystemMethods.CheckFileExists(newAttemptsAssetPath)) {
+            Debug.Log("[LOAD SIM] 'assumedAttempts.csv' found for " + m_newLoadedTrial.trialName);
+            loadingAssumedAttempts = false;
+            yield break;
+        } else {
+            // Second, check if we even have a previous `attempts.csv` file
+            if (!SaveSystemMethods.CheckFileExists(originalAttemptsAssetPath)) {
+                Debug.LogError("[LOAD SIM] ERROR: \"attempts.csv\" file not efound for " + m_newLoadedTrial.trialName);
+                loadingAssumedAttempts = false;
+                yield break;
+            } else {
+                // We need to load in our attempts and check if "User" is among them.
+                List<TrialAttempt> allAttempts = new List<TrialAttempt>();
+                TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(originalAttemptsAssetPath, typeof(TextAsset));
+                string[] pr = SaveSystemMethods.ReadCSV(ta);
+                int numHeaders = TrialAttempt.Headers.Count;
+                int tableSize = pr.Length/numHeaders - 1;
+                bool userFound = false;
+                for(int i = 0; i < tableSize; i++) {
+                    int rowKey = numHeaders*(i+1);
+                    string[] row = pr.RangeSubset(rowKey, numHeaders);
+                    TrialAttempt newAttempt = new TrialAttempt(row);
+                    // Filter based on trialOmits
+                    if (m_newLoadedTrial.trialOmits.Count > 0) {
+                        bool isValid = true;
+                        foreach(TrialOmit omit in m_newLoadedTrial.trialOmits) {
+                            if (newAttempt.startTime >= omit.startTimestamp && newAttempt.startTime < omit.endTimestamp) {
+                                isValid = false;
+                                break;
+                            }
+                        }
+                        if (isValid) {
+                            allAttempts.Add(newAttempt);
+                            if (newAttempt.id == "User") userFound = true;
+                        }
+                    } else {
+                        allAttempts.Add(newAttempt);
+                        if (newAttempt.id == "User") userFound = true;
+                    }
+                }
+                // If "User" is among the ids in our attempts list, we just need to port this data into a new "assumedAttempts.csv" file
+                // However, if "User" is NOT among the ids in our attempts list, we need to interpret them from existing position data
+                if (!userFound) {
+                    Debug.Log("[LOAD SIM] ERROR: Could not find 'assumedAttempts.csv' for " + m_newLoadedTrial.trialName + ". Deriving from positional data...");
+                    Dictionary<string, TrialAttempt> currentAttempts = new Dictionary<string, TrialAttempt>();
+                    StreetSimTrackable trackable, prevTrackable;
+                    for(int i = 1; i < m_newLoadedTrial.positionData.rawPositionsList.Count; i++) {
+                        trackable = m_newLoadedTrial.positionData.rawPositionsList[i];
+                        prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[i-1];
+                        if (trackable.id != "User") {
+                            yield return null;
+                            continue;
+                        }
+                        if (m_newLoadedTrial.trialOmits.Count > 0) {
+                            bool isValid = true;
+                            foreach(TrialOmit omit in m_newLoadedTrial.trialOmits) {
+                                if (prevTrackable.timestamp >= omit.startTimestamp && prevTrackable.timestamp < omit.endTimestamp) {
+                                    isValid = false;
+                                    break;
+                                }
+                            }
+                            if (!isValid) {
+                                yield return null;
+                                continue;
+                            }
+                        }
+
+                        if (Mathf.Abs(trackable.localPosition_z)<2.75f && !currentAttempts.ContainsKey(trackable.id)) {
+                            // This means that the agent has moved onto the crosswalk, yet we don't have an attempt linked to it.
+                            currentAttempts.Add(trackable.id, new TrialAttempt(trackable.id, m_newLoadedTrial.trialData.direction, prevTrackable.timestamp));
+                            yield return null;
+                            continue;
+                        }
+                        if(m_newLoadedTrial.trialData.direction == "NorthToSouth") {
+                            // Start is when z > 2.25
+                            // End is when z < -2.25f
+                            if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person returned to the start sidewalk. This is a failed attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = false;
+                                cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                            if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person got to the other end of the sidewalk. This is a successful attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = true;
+                                cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                        } else {
+                            // Start is when z < -2.75
+                            // End is when z > 2.75f
+                            if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person returned to the start sidewalk. This is a failed attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = false;
+                                cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                            if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
+                                // In this case, the person got to the other end of the sidewalk. This is a successful attempt
+                                TrialAttempt cAttempt = currentAttempts[trackable.id];
+                                cAttempt.endTime = prevTrackable.timestamp;
+                                cAttempt.successful = true;
+                                cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
+                                allAttempts.Add(cAttempt);
+                                currentAttempts.Remove(trackable.id);
+                                yield return null;
+                                continue;
+                            }
+                        }
+                        yield return null;
+                    }
+                    // We need to clean up any attempts remaining. We automatically label them as successful
+                    prevTrackable = m_newLoadedTrial.positionData.rawPositionsList[m_newLoadedTrial.positionData.rawPositionsList.Count-1];
+                    foreach(KeyValuePair<string, TrialAttempt> kvp in currentAttempts) {
+                        TrialAttempt cAttempt = kvp.Value;
+                        cAttempt.endTime = prevTrackable.timestamp;
+                        cAttempt.successful = true;
+                        cAttempt.reason = "[ASSUMED] End of Trial";
+                        allAttempts.Add(cAttempt);
+                        yield return null;
+                    }
+                }
+
+                // Now we save the file
+                if (SaveSystemMethods.SaveCSV<TrialAttempt>(newAttemptsAssetPath,TrialAttempt.Headers,allAttempts)) {
+                    Debug.Log("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Saved Assumed Trial Attempts");
+                } else {
+                    Debug.LogError("[LOAD SIM] " + m_newLoadedTrial.trialName + ": Could not save Assumed Trial Attempts");
+                }
+                loadingAssumedAttempts = false;
+            }
+        }
+    }
 
 
     private float Gaussian3D(Vector3 input, Vector3 mean, float sd) {
@@ -997,6 +1197,7 @@ public class StreetSimLoadSim : MonoBehaviour
             //Vector3 mean = aggregateFixationsKeys.Aggregate(new Vector3(0f,0f,0f), (s,v) => s + v) / (float)aggregateFixationsKeys.Count;
             
             // Sort the fixations by count while also averaging
+            Debug.Log(trialFixations.Count);
             List<KeyValuePair<Vector3,float>> aggregateSaliencies = new List<KeyValuePair<Vector3,float>>();
             foreach(KeyValuePair<Vector3,int> af in trialFixations) {
                 float avg = (float)af.Value / (float)(participantData.Count-1);
@@ -1046,6 +1247,7 @@ public class StreetSimLoadSim : MonoBehaviour
             // This tracks ground truth fixations
             // Key = direction
             // Value = total number of fixations in that direction
+            Debug.Log("[LOAD SIM] ROC Generation: Observing " + kvp.Key);
             Dictionary<string, Dictionary<Vector3, int>> ithParticipantFixations = new Dictionary<string, Dictionary<Vector3, int>>();
             Dictionary<string, Dictionary<Vector3, int>> aggregateFixations = new Dictionary<string, Dictionary<Vector3, int>>();
             foreach(string trialName in trialNames) {
@@ -1064,10 +1266,13 @@ public class StreetSimLoadSim : MonoBehaviour
             }
             
             // Now aggregate fixations for the ith partitipant
+            Debug.Log("[LOAD SIM] Generating fixations for " + kvp.Key);
             foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
+                Debug.Log("[LOAD SIM] Trial: \"" + trial.trialName + "\" - " + trial.averageFixations.fixations.Count.ToString());
                 foreach(KeyValuePair<Vector3, int> fixations in trial.averageFixations.fixations) {
                     ithParticipantFixations[trial.trialName][fixations.Key] += fixations.Value;
                     ithParticipantFixations["Average"][fixations.Key] += fixations.Value;
+                    Debug.Log("[LOAD SIM] Trial \""+trial.trialName+"\": " + fixations.Key + ": " + ithParticipantFixations[trial.trialName][fixations.Key].ToString() + " fixations");
                 }
             }
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
@@ -1196,6 +1401,8 @@ public class StreetSimLoadSim : MonoBehaviour
         Dictionary<float, List<float>> ratiosAcrossSaliencies = new Dictionary<float, List<float>>();
 
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvp in participantData) {
+
+            Debug.Log("[LOAD SIM] ROC Generation: Observing " + kvp.Key);
             // This tracks ground truth fixations
             Dictionary<Vector3, int> ithParticipantFixations = new Dictionary<Vector3, int>();
             // This tracks Discretized fixations
@@ -1636,6 +1843,7 @@ public class LoadedSimulationDataPerTrial {
     public string simVersion;
     public string assetPath;
     public TrialData trialData;
+    public List<TrialOmit> trialOmits;
     public Dictionary<int, float> indexTimeMap;
     [SerializeField] private LoadedPositionData m_positionData;
     [SerializeField] private LoadedGazeData m_gazeData;
@@ -1652,10 +1860,11 @@ public class LoadedSimulationDataPerTrial {
         m_gazeData = value;
         CompareIndexTimeMap(value.indexTimeMap);
     }}
-    public LoadedSimulationDataPerTrial(string trialName, string simVersion, string assetPath) {
+    public LoadedSimulationDataPerTrial(string trialName, string simVersion, string assetPath, List<TrialOmit> trialOmits) {
         this.trialName = trialName;
         this.simVersion = simVersion;
         this.assetPath = assetPath;
+        this.trialOmits = trialOmits;
         indexTimeMap = new Dictionary<int, float>();
         m_positionData = null;
         this.discretizedFixations = new Dictionary<float, LoadedFixationData>();
@@ -1800,5 +2009,26 @@ public class ROCRow {
         "agree_90", 
         "agree_95", 
         "agree_100"
+    };
+}
+
+[System.Serializable]
+public class TrialOmit {
+    public string participantName, trialName;
+    public int startTimeIndex;
+    public float startTimestamp, endTimestamp;
+    public TrialOmit(string[] data) {
+        this.participantName = data[0];
+        this.trialName = data[1];
+        this.startTimeIndex = int.Parse(data[2]);
+        this.startTimestamp = float.Parse(data[3]);
+        this.endTimestamp = float.Parse(data[4]);
+    }
+    public static List<string> Headers = new List<string> {
+        "participantName", 
+        "trialName",
+        "startTimeIndex",
+        "startTimestamp", 
+        "endTimestamp"
     };
 }

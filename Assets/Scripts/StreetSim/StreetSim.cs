@@ -29,6 +29,7 @@ public class StreetSim : MonoBehaviour
     public Transform xrTrackingSpace;
     public Transform xrCamera;
     public ExperimentID xrExperimentID;
+    public Collider xrCollider;
     public Transform GazeBox;
     public Transform replayCamera;
     public LayerMask replayGazeMask;
@@ -194,6 +195,7 @@ public class StreetSim : MonoBehaviour
     private void PositionPlayerAtStart() {
         xrTrackingSpace.position = Vector3.zero;
         AudioListener.volume = 1;
+        xrCollider.enabled = true;
     }
 
     public void StartSimulation() {
@@ -464,6 +466,7 @@ public class StreetSim : MonoBehaviour
     }
     public IEnumerator TriggerNextTrialCoroutine() {
         nextTrialTriggered = true;
+        xrCollider.enabled = false;
         yield return new WaitForSeconds(1f);
         TriggerNextTrial();
     }
@@ -1025,6 +1028,14 @@ public class TrialAttempt {
         this.id = id;
         this.direction = direction;
         this.startTime = startTime;
+    }
+    public TrialAttempt(string[] data) {
+        this.id = data[0];
+        this.direction = data[1];
+        this.startTime = float.Parse(data[2]);
+        this.endTime = float.Parse(data[3]);
+        this.successful = bool.Parse(data[4]);
+        this.reason = data[5];
     }
     public static List<string> Headers => new List<string> {
         "id",
