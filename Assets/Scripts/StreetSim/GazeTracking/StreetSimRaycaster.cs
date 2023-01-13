@@ -1064,6 +1064,7 @@ public class StreetSimRaycaster : MonoBehaviour
             yield break;
         }
         StreetSimTrackable prevUserTrackable = default(StreetSimTrackable);
+        bool prevUserTrackableFound = false;
 
         while(index < count-1) {
             index++;
@@ -1086,6 +1087,11 @@ public class StreetSimRaycaster : MonoBehaviour
             StreetSimTrackable userTrackable;
             if (!StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].ContainsKey(userID)) {
                 Debug.Log("Don't have key, must user previous user trackable");
+                if (!prevUserTrackableFound) {
+                    // Unfortunately, we don't have a prev trackable in this case. We'll have to skip this timestamp.
+                    yield return null;
+                    continue;
+                }
                 userTrackable = prevUserTrackable;
             } else {
                 userTrackable = StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp][userID];
@@ -1093,6 +1099,7 @@ public class StreetSimRaycaster : MonoBehaviour
             thisUserImitator.localPosition = userTrackable.localPosition;
             thisUserImitator.localRotation = userTrackable.localRotation;
             prevUserTrackable = userTrackable;
+            prevUserTrackableFound = true;
 
             Vector3 zDiscretizationPosition =  thisUserImitator.position;
             float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
@@ -1174,6 +1181,7 @@ public class StreetSimRaycaster : MonoBehaviour
             yield break;
         }
         StreetSimTrackable prevUserTrackable = default(StreetSimTrackable);
+        bool prevUserTrackableFound = false;
         int pointCount = 0;
 
         while(index < count-1) {
@@ -1197,6 +1205,11 @@ public class StreetSimRaycaster : MonoBehaviour
             StreetSimTrackable userTrackable;
             if (!StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp].ContainsKey(userID)) {
                 Debug.Log("Don't have key, must user previous user trackable");
+                if (!prevUserTrackableFound) {
+                    // Unfortunately, have to skip this round
+                    yield return null;
+                    continue;
+                }
                 userTrackable = prevUserTrackable;
             } else {
                 userTrackable = StreetSimLoadSim.LS.newLoadedTrial.positionData.positionDataByTimestamp[timestamp][userID];
@@ -1206,6 +1219,7 @@ public class StreetSimRaycaster : MonoBehaviour
             thisUserImitator.localPosition = userTrackable.localPosition;   // localPosition does not consider discretization
             thisUserImitator.localRotation = userTrackable.localRotation;   // localRotation does not consider discretization
             prevUserTrackable = userTrackable;
+            prevUserTrackableFound = true;
 
             // We then extract what the discretized value ought to be.
             // We don't flip it JUST yet, because technically the cube should follow the imitator for realistic raycast

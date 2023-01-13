@@ -31541,10 +31541,17 @@ MonoBehaviour:
   - Participant9
   - Participant10
   - Participant11
-  - Participant12
   - Participant13
   - Participant14
-  - Participant15
+  - Participant16
+  - Participant17
+  - Participant18
+  - Participant19
+  - Participant20
+  - Participant21
+  - Participant22
+  - Participant23
+  - Participant24
   omitsFile: {fileID: 4900000, guid: 52b8240fbb8edf04fb71da06ed3790ec, type: 3}
   m_generateSphereOnStart: 0
   m_visualizeSphere: 1
@@ -76975,8 +76982,8 @@ MonoBehaviour:
   m_agentParent: {fileID: 1529860833}
   m_agentMeshParent: {fileID: 1763525873}
   m_sourceDirectory: ExperimentalData_ignore
-  m_participantName: Participant16
-  m_trialGroupToTest: 0
+  m_participantName: Participant24
+  m_trialGroupToTest: 1
   streetSimVersion: 2
   m_initialSetups:
   - name: Initial_1
@@ -79494,14 +79501,14 @@ MonoBehaviour:
   m_trialGroups:
   - groupNumber: 0
     trials:
-    - name: 1LF-Safe-LowCongestion
+    - name: 1HM-Safe-LowCongestion
       primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
+        agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1205305574}
+      - agent: {fileID: 1497722905}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
@@ -79513,27 +79520,58 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4MixMale-Mix-LowCongestion
+    - name: 4MixMix-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 2093847510}
+        agent: {fileID: 1205305574}
         modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
       - agent: {fileID: 1455608257}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 1205578590}
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4MixF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1731427730}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
@@ -79575,27 +79613,46 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4LF-Safe-LowCongestion
+    - name: 1LM-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 2093847510}
+        agent: {fileID: 1455608257}
         modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4MixM-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 755445680}
-        modelBehavior: 0
+      - agent: {fileID: 1205578590}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
-      - agent: {fileID: 1999270035}
-        modelBehavior: 0
+      - agent: {fileID: 1140683909}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
@@ -79606,7 +79663,7 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4HMix-Safe-LowCongestion
+    - name: 4MixMale-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
         modelBehavior: 1
@@ -79617,65 +79674,15 @@ MonoBehaviour:
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 998201942}
+      - agent: {fileID: 1205578590}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
       - agent: {fileID: 1140683909}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 1HF-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4HighMale-Mix-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 977170348}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 675436429}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
@@ -79718,10 +79725,10 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4MixMix-Mix-LowCongestion
+    - name: 4HighMix-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 2093847510}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
@@ -79729,47 +79736,16 @@ MonoBehaviour:
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
       - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1455608257}
         modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4MixM-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 1205578590}
+      - agent: {fileID: 998201942}
         modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
       - agent: {fileID: 1140683909}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
@@ -79799,46 +79775,15 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4HM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 977170348}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 675436429}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 1HM-Safe-LowCongestion
+    - name: 1HM-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1497722905}
         modelBehavior: 0
-        startOnSameSideAsPlayer: 1
+        startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
       - agent: {fileID: 1497722905}
-        modelBehavior: 0
+        modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
       modelStartOnSameSide: 0
@@ -79849,14 +79794,14 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4MixFemale-Risky-LowCongestion
+    - name: 4LowMix-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 2093847510}
+        agent: {fileID: 1205305574}
         modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 2093847510}
+      - agent: {fileID: 1455608257}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
@@ -79868,38 +79813,7 @@ MonoBehaviour:
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4HighMix-Mix-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
+      - agent: {fileID: 1205578590}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
@@ -79942,91 +79856,27 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4MixMix-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4MixF-Safe-LowCongestion
+    - name: 4LM-Safe-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
         modelBehavior: 0
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-  - groupNumber: 1
-    trials:
-    - name: 4LowMix-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
       - agent: {fileID: 1455608257}
-        modelBehavior: 1
+        modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1731427730}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
       - agent: {fileID: 1205578590}
-        modelBehavior: 1
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1894600298}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 663426347}
+        modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
       modelStartOnSameSide: 0
@@ -80037,17 +79887,29 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 1LM-Risky-LowCongestion
+    - name: 4HighFemale-Mix-LowCongestion
       primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 0
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
+      - agent: {fileID: 998201942}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1978154652}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 682334164}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
       modelStartOnSameSide: 0
       modelConfidence: 0
       trafficCongestion: 1
@@ -80087,122 +79949,26 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: NoModel-LowCongestion
+    - name: 4MixFemale-Risky-LowCongestion
       primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models: []
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4HighMix-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
+        agent: {fileID: 2093847510}
         modelBehavior: 1
         startOnSameSideAsPlayer: 0
         modelPathIndex: 0
       models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
       - agent: {fileID: 2093847510}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1140683909}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 1LF-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
         modelPathIndex: 0
-      models:
       - agent: {fileID: 1205305574}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4HF-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
+        modelPathIndex: 1
+      - agent: {fileID: 1731427730}
         modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
         startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
+        modelPathIndex: 3
       - agent: {fileID: 998201942}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1978154652}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 682334164}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4LowMale-Mix-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205578590}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1894600298}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 663426347}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
@@ -80245,7 +80011,40 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4MixM-Risky-LowCongestion
+  - groupNumber: 1
+    trials:
+    - name: 4MixMix-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4HighMix-Risky-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
         modelBehavior: 1
@@ -80256,11 +80055,11 @@ MonoBehaviour:
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 0
-      - agent: {fileID: 1455608257}
+      - agent: {fileID: 2093847510}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 1
-      - agent: {fileID: 1205578590}
+      - agent: {fileID: 998201942}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
@@ -80268,6 +80067,75 @@ MonoBehaviour:
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 1LM-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4HM-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1140683909}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 977170348}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 675436429}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 1LF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
       modelStartOnSameSide: 0
       modelConfidence: 0
       trafficCongestion: 1
@@ -80296,6 +80164,245 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
       - agent: {fileID: 1999270035}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4HF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1978154652}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 682334164}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 1HF-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1497722905}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4MixM-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1205578590}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 1LF-Risky-LowCongestion
+      primaryModel:
+        agent: {fileID: 1455608257}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: NoModel-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models: []
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4HMix-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 998201942}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1140683909}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4MixMix-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4LF-Safe-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1731427730}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 755445680}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 1999270035}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4HighMale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 2093847510}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1497722905}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1140683909}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 977170348}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 675436429}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
@@ -80338,137 +80445,6 @@ MonoBehaviour:
       carSignalWarningTime: 3
       m_startSidewalk: {fileID: 0}
       m_endSidewalk: {fileID: 0}
-    - name: 4HighFemale-Mix-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 2093847510}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 998201942}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1978154652}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 682334164}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 1HM-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1497722905}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4MixMix-Risky-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 2093847510}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1205305574}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 1497722905}
-        modelBehavior: 1
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 4LM-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1205305574}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      - agent: {fileID: 1205578590}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 1
-      - agent: {fileID: 1894600298}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 3
-      - agent: {fileID: 663426347}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 4
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
-    - name: 1LM-Safe-LowCongestion
-      primaryModel:
-        agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 0
-        modelPathIndex: 0
-      models:
-      - agent: {fileID: 1455608257}
-        modelBehavior: 0
-        startOnSameSideAsPlayer: 1
-        modelPathIndex: 0
-      modelStartOnSameSide: 0
-      modelConfidence: 0
-      trafficCongestion: 1
-      npcCongestion: 0
-      carSignalGoTime: 30
-      carSignalWarningTime: 3
-      m_startSidewalk: {fileID: 0}
-      m_endSidewalk: {fileID: 0}
     - name: 4LowMix-Mix-LowCongestion
       primaryModel:
         agent: {fileID: 1205305574}
@@ -80489,6 +80465,37 @@ MonoBehaviour:
         startOnSameSideAsPlayer: 1
         modelPathIndex: 3
       - agent: {fileID: 1205578590}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 4
+      modelStartOnSameSide: 0
+      modelConfidence: 0
+      trafficCongestion: 1
+      npcCongestion: 0
+      carSignalGoTime: 30
+      carSignalWarningTime: 3
+      m_startSidewalk: {fileID: 0}
+      m_endSidewalk: {fileID: 0}
+    - name: 4LowMale-Mix-LowCongestion
+      primaryModel:
+        agent: {fileID: 1205305574}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 0
+        modelPathIndex: 0
+      models:
+      - agent: {fileID: 1455608257}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 0
+      - agent: {fileID: 1205578590}
+        modelBehavior: 1
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 1
+      - agent: {fileID: 1894600298}
+        modelBehavior: 0
+        startOnSameSideAsPlayer: 1
+        modelPathIndex: 3
+      - agent: {fileID: 663426347}
         modelBehavior: 1
         startOnSameSideAsPlayer: 1
         modelPathIndex: 4
