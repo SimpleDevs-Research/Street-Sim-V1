@@ -479,6 +479,17 @@ public class StreetSimLoadSim : MonoBehaviour
             directionRefPoints.Add(dir, newDirPoint);
         }
 
+        // Save all directions into csv
+        string postProcessDir = SaveSystemMethods.GetSaveLoadDirectory("PostProcessData_Ignore");
+        string objectFilename = postProcessDir + "sphereGrid.csv";
+        List<SDirection> sDirections = new List<SDirection>();
+        for(int i = 0; i < directions.Count; i++) {
+            sDirections.Add(new SDirection(i,directions[i]));
+        }
+         if (!SaveSystemMethods.SaveCSV<SDirection>(objectFilename, SDirection.Headers, sDirections)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot save ROC agreement csv in \""+objectFilename+"\"");
+        }
+
         /*
         points = new List<Vector3>();
         Vector3 destination;
@@ -596,6 +607,22 @@ public class StreetSimLoadSim : MonoBehaviour
             //point.gameObject.SetActive(false);
         }
         m_newLoadedTrial.averageFixations = new LoadedFixationData(spherePoints, directionFixations);
+
+        // Save into new file, if it doesn't exist yet
+        string mappedAssetPath = m_newLoadedTrial.assetPath+"/fixationsByDirection.csv";
+        if (!SaveSystemMethods.CheckFileExists(mappedAssetPath)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot find asset \""+mappedAssetPath+"\"! Generating new file...");
+            List<SDirectionFixation> toSave = new List<SDirectionFixation>();
+            foreach(KeyValuePair<Vector3, int> kvp in directionFixations) {
+                int i = directions.IndexOf(kvp.Key);
+                if (i > -1) {
+                    toSave.Add(new SDirectionFixation(i, kvp.Key, kvp.Value));
+                }
+            }
+            if (!SaveSystemMethods.SaveCSV<SDirectionFixation>(mappedAssetPath,SDirectionFixation.Headers,toSave)) {
+                Debug.Log("[LOAD SIM] ERROR: Cannot save \"fixationsByDirection.csv\"...");
+            }
+        }
         loadingAverageFixation = false;
         yield return null;
     }
@@ -1894,6 +1921,36 @@ public class LoadedFixationData {
         this.gazePoints = gazePoints;
         this.fixations = fixations;
     }
+}
+[System.Serializable]
+public class SDirection {
+    public int i;
+    public float x, y, z;
+    public SDirection(int i, Vector3 dir) {
+        this.i = i;
+        this.x = dir.x;
+        this.y = dir.y;
+        this.z = dir.z;
+    }
+    public static List<string> Headers => new List<string> {
+        "i","x","y","z"
+    };
+}
+[System.Serializable]
+public class SDirectionFixation {
+    public int i;
+    public float x, y, z;
+    public int fixes;
+    public SDirectionFixation(int i, Vector3 dir, int fixes) {
+        this.i = i;
+        this.x = dir.x;
+        this.y = dir.y;
+        this.z = dir.z;
+        this.fixes = fixes;
+    }
+    public static List<string> Headers => new List<string> {
+        "i","x","y","z","fixes"
+    };
 }
 [System.Serializable]
 public class DirectionFixationMap {
