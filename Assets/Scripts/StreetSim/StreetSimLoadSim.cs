@@ -1526,6 +1526,132 @@ public class StreetSimLoadSim : MonoBehaviour
         cam360.position = new Vector3(0f,heightRef.position.y,z);
     }
 
+    public void TrackGazeOnObjectFromFile(ExperimentID target) {
+
+        // We first check if there's an associated file with this target's name inside of PostProcessData_Ignore
+        string postProcessDir = SaveSystemMethods.GetSaveLoadDirectory("PostProcessData_Ignore");
+        string objectFilename = postProcessDir + target.id + ".csv";
+        if (!SaveSystemMethods.CheckFileExists(objectFilename)) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot find .csv file associated with the target  \""+target.id+"\" inside \"PostProcessData_Ignore\"");
+            return;
+        }
+
+        Dictionary<string, int> numAgentsNormalizationDict = new Dictionary<string,int>() {
+            {"LowFem",14},
+            {"LowFemale2",9},
+            {"LowFemale3",3},
+            {"LowFemale4",3},
+            {"LowMale",14},
+            {"LowMale2",9},
+            {"LowMale3",3},
+            {"LowMale4",3},
+            {"HighFemale",14},
+            {"HighFemale2",9},
+            {"HighFemale3",3},
+            {"HighFemale4",3},
+            {"HighMale",14},
+            {"HighMale2",9},
+            {"HigMale3",3},
+            {"HighMale4",3}
+        };
+        Debug.Log(numAgentsNormalizationDict[target.id]);
+
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/PostProcessData_Ignore/"+target.id+".csv", typeof(TextAsset));
+        string[] s = SaveSystemMethods.ReadCSV(ta);
+        List<RaycastHitRow> rows = new List<RaycastHitRow>();
+        int numHeaders = RaycastHitRow.Headers.Count;
+        int tableSize = s.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = s.RangeSubset(rowKey,numHeaders);
+            rows.Add(new RaycastHitRow(row));
+        }
+        // End early if we don't have any rows...
+        if (rows.Count == 0) {
+            Debug.Log("[LOAD SIM] ERROR: Cannot find any gaze rows associated iwth this object...");
+            return;
+        }
+
+        // With the data collected, we can safely start our process
+        if (currentGazeObjectTracked != null) Destroy(currentGazeObjectTracked.gameObject);
+        ClearGazePoints();
+
+        // We instantiate a copy of the current target and place it at `GazeTrakcPlacementPositionRef` position
+        currentGazeObjectTracked = Instantiate(target.transform, gazeTrackPlacementPositionRef.position, gazeTrackPlacementPositionRef.rotation, this.transform) as Transform;
+        // Create a temp gameObject child, set scale to 1.5x the original scale
+        GameObject temp = new GameObject("mesher");
+        temp.transform.parent = currentGazeObjectTracked;
+        temp.transform.localPosition = Vector3.zero;
+        temp.transform.localScale = new Vector3(1f, 1f, 1f);
+        MeshFilter filter = temp.AddComponent<MeshFilter>();
+        MeshRenderer renderer = temp.AddComponent<MeshRenderer>();
+        Material[] matsToSet = new Material[1];
+        matsToSet[0] = GazeOnObjectMaterial;
+        renderer.materials = matsToSet;
+        Mesh mesh = Instantiate(currentGazeObjectTracked.GetComponent<StreetSimAgent>().GetRenderer().sharedMesh);
+        mesh.SetTriangles(mesh.triangles, 0);
+        mesh.subMeshCount = 1;
+        currentGazeObjectTracked.GetComponent<StreetSimAgent>().GetRenderer().enabled = false;
+
+        // We get all `ExperimentID`s associated with this object
+        ExperimentID[] ids = currentGazeObjectTracked.gameObject.GetComponentsInChildren<ExperimentID>();
+        string[] idNames = new string[ids.Length];
+        for (int i = 0; i < ids.Length; i++) {
+            idNames[i] = ids[i].id;
+        }
+
+        // Color scale
+        Gradient g = new Gradient();
+        GradientColorKey[] gck = new GradientColorKey[3];
+        GradientAlphaKey[] gak = new GradientAlphaKey[3];
+        gck[0].color = Color.red;
+        gck[0].time = 1f;
+        gck[1].color = Color.yellow;
+        gck[1].time = 0.5f;
+        gck[2].color = Color.blue;
+        gck[2].time = 0f;
+        gak[0].alpha = 1f;
+        gak[0].time = 1f;
+        gak[1].alpha = 1f;
+        gak[1].time = 0.5f;
+        gak[2].alpha = 0f;
+        gak[2].time = 0f;
+        g.SetKeys(gck, gak);
+
+        // Color the mesh!
+        Vector3[] allVertices = mesh.vertices;
+        Color[] colors = new Color[allVertices.Length];
+        int[] vertexCounts = new int[allVertices.Length];
+        int[] indices = mesh.GetIndices(0); 
+        // Now, iterate through each row in `rows`
+        foreach(RaycastHitRow row in rows) {
+            // need to get vertices from triangleIndex
+            int firstIndexLocation = row.triangleIndex * 3;
+            int firstIndex = indices[firstIndexLocation];
+            int secondIndex = indices[firstIndexLocation + 1];
+            int thirdIndex = indices[firstIndexLocation + 2]; 
+            vertexCounts[firstIndex] += 1;
+            vertexCounts[secondIndex] += 1;
+            vertexCounts[thirdIndex] += 1;
+        }
+        // Now, iterate through all vertex counts, get the max
+        int maxVertexCount = vertexCounts.Max();
+        int minVertexCount = vertexCounts.Min();
+        //Debug.Log("Max Count: {"+maxVertexCount.ToString()+"}");
+        for(int i = 0; i < vertexCounts.Length; i++) {
+            //Debug.Log("Vertex Count: {"+vertexCounts[i].ToString()+"}");
+            float normalizedCount = (vertexCounts[i] > 0) 
+                ? (float)vertexCounts[i] / (float)maxVertexCount
+                : 0f;
+            //Debug.Log("Normalized Count: {"+normalizedCount.ToString()+"}");
+            colors[i] = g.Evaluate(normalizedCount);
+        }
+
+        // Now, color the mesh
+        mesh.colors = colors;
+        filter.sharedMesh = mesh;
+    }
+
     public void TrackGazeOnObject(ExperimentID target) {
         // this target MAY or MAY NOT have any gaze targets on it.
         // What we need to do is to iterate through all trials.

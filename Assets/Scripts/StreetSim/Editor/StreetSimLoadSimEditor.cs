@@ -14,6 +14,25 @@ public class StreetSimLoadSimEditor : Editor
 
         DrawDefaultInspector();
 
+        for(int i = 0; i < controller.gazeObjectTracking.Count; i++) {
+            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
+            else GUILayout.BeginHorizontal();
+
+            ExperimentID curID = controller.gazeObjectTracking[i];
+            EditorGUILayout.LabelField("\""+curID.id+"\":");
+            if(GUILayout.Button("Gaze Heat Map")) {
+                // controller.TrackGazeOnObject(curID);
+                controller.TrackGazeOnObjectFromFile(curID);
+            }
+            if(GUILayout.Button("Track Gaze Groups")) {
+                controller.TrackGazeGroupsOnObject(curID);
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        DrawPadding(10);
+
         if (!controller.initialized) return;
         if (!StreetSim.S.initialized) return;
 
@@ -63,24 +82,6 @@ public class StreetSimLoadSimEditor : Editor
                 controller.ToggleDiscretization(z);
             }
             */
-
-            GUILayout.EndHorizontal();
-        }
-
-        DrawPadding(5);
-
-        for(int i = 0; i < controller.gazeObjectTracking.Count; i++) {
-            if (i % 2 == 0) GUILayout.BeginHorizontal(gs);
-            else GUILayout.BeginHorizontal();
-
-            ExperimentID curID = controller.gazeObjectTracking[i];
-            EditorGUILayout.LabelField("\""+curID.id+"\":");
-            if(GUILayout.Button("Track Gaze Hits")) {
-                controller.TrackGazeOnObject(curID);
-            }
-            if(GUILayout.Button("Track Gaze Groups")) {
-                controller.TrackGazeGroupsOnObject(curID);
-            }
 
             GUILayout.EndHorizontal();
         }
