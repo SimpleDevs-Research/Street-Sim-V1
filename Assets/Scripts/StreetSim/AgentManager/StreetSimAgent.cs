@@ -42,6 +42,7 @@ public class StreetSimAgent : MonoBehaviour
     [SerializeField] private StreetSimTrial.TrialDirection direction;
     [SerializeField] private StreetSimTrial.ModelConfidence confidence;
 
+    private IEnumerator beCautiousCoroutine = null;
     private IEnumerator checkCarsCoroutine = null;
     public LayerMask carMask;
 
@@ -197,7 +198,8 @@ public class StreetSimAgent : MonoBehaviour
         StartCoroutine(CanCrossCoroutine());
         StartCoroutine(WalkAnimationStepAudio());
         if (this.confidence == StreetSimTrial.ModelConfidence.NotConfident) {
-            StartCoroutine(BeCautious());
+            beCautiousCoroutine = BeCautious();
+            StartCoroutine(beCautiousCoroutine);
         }
         SetNextTarget();
     }
@@ -292,6 +294,11 @@ public class StreetSimAgent : MonoBehaviour
                                 Debug.Log("Going because it's Green");
                                 agent.isStopped = false;
                                 character.Move(agent.desiredVelocity,false,false);
+                                if (beCautiousCoroutine != null) {
+                                    StopCoroutine(beCautiousCoroutine);
+                                    beCautiousCoroutine = null;
+                                }
+                                headTurn.currentTargetTransform = null;
                             };
                             break;
                         case TrafficSignal.TrafficSignalStatus.Warning:
@@ -330,6 +337,11 @@ public class StreetSimAgent : MonoBehaviour
                                     if (m_canCrossDelayDone) {
                                         agent.isStopped = false;
                                         character.Move(agent.desiredVelocity,false,false);
+                                        if (beCautiousCoroutine != null) {
+                                            StopCoroutine(beCautiousCoroutine);
+                                            beCautiousCoroutine = null;
+                                        }
+                                        headTurn.currentTargetTransform = null;
                                         break;
                                     }
                                     character.Move(Vector3.zero,false,false);
