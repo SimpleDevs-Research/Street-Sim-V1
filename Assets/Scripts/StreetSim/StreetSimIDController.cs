@@ -5,7 +5,9 @@ using UnityEngine;
 using Helpers;
 using SerializableTypes;
 using System.Text.RegularExpressions;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [System.Serializable]
 public class StreetSimTrackable {
@@ -315,53 +317,55 @@ public class StreetSimIDController : MonoBehaviour
     }
     */
 
-    public void LoadDataPaths(List<LoadedSimulationDataPerTrial> trialPaths) {
-        List<LoadedPositionData> interpretedPaths = new List<LoadedPositionData>();
-        foreach(LoadedSimulationDataPerTrial t in trialPaths) {
-            string assetPath = t.assetPath+"/positions.csv";
+    #if UNITY_EDITOR
+        public void LoadDataPaths(List<LoadedSimulationDataPerTrial> trialPaths) {
+            List<LoadedPositionData> interpretedPaths = new List<LoadedPositionData>();
+            foreach(LoadedSimulationDataPerTrial t in trialPaths) {
+                string assetPath = t.assetPath+"/positions.csv";
+                if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+                    Debug.LogError("[ID] ERROR: Cannot load textasset \""+assetPath+"\"!");
+                    continue;
+                }
+                TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+                string[] pr = SaveSystemMethods.ReadCSV(ta);
+                List<StreetSimTrackable> p = ParseLoadedPositionsData(pr);
+                interpretedPaths.Add(new LoadedPositionData(t.trialName, ta, p));
+            }
+            m_loadedAssets = interpretedPaths;
+        }
+        public bool LoadDataPath(LoadedSimulationDataPerTrial trial, out LoadedPositionData newData) {
+            string assetPath = trial.assetPath+"/positions.csv";
             if (!SaveSystemMethods.CheckFileExists(assetPath)) {
-                Debug.LogError("[ID] ERROR: Cannot load textasset \""+assetPath+"\"!");
-                continue;
+                Debug.LogError("[STREET SIM] ERROR: Cannot load textasset \""+assetPath+"\"!");
+                newData = default(LoadedPositionData);
+                return false;
             }
             TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
             string[] pr = SaveSystemMethods.ReadCSV(ta);
             List<StreetSimTrackable> p = ParseLoadedPositionsData(pr);
-            interpretedPaths.Add(new LoadedPositionData(t.trialName, ta, p));
-        }
-        m_loadedAssets = interpretedPaths;
-    }
-    public bool LoadDataPath(LoadedSimulationDataPerTrial trial, out LoadedPositionData newData) {
-        string assetPath = trial.assetPath+"/positions.csv";
-        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
-            Debug.LogError("[STREET SIM] ERROR: Cannot load textasset \""+assetPath+"\"!");
-            newData = default(LoadedPositionData);
-            return false;
-        }
-        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
-        string[] pr = SaveSystemMethods.ReadCSV(ta);
-        List<StreetSimTrackable> p = ParseLoadedPositionsData(pr);
-        Debug.Log("[ID] Loaded " + p.Count.ToString() + " raw positions");
-        // Filter out all StreetSimTrackables in `p` that might exist in trial.trialOmits
-        if (trial.trialOmits.Count == 0) {
-            Debug.Log("[ID] \""+trial.trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " positions");
-            newData = new LoadedPositionData(trial.trialName, ta, p);
-        } else {
-            List<StreetSimTrackable> p2 = new List<StreetSimTrackable>();
-            foreach(StreetSimTrackable sst in p) {
-                bool validSST = true;
-                foreach(TrialOmit omit in trial.trialOmits) {
-                    if (sst.timestamp >= omit.startTimestamp && sst.timestamp < omit.endTimestamp) {
-                        validSST = false;
-                        break;
+            Debug.Log("[ID] Loaded " + p.Count.ToString() + " raw positions");
+            // Filter out all StreetSimTrackables in `p` that might exist in trial.trialOmits
+            if (trial.trialOmits.Count == 0) {
+                Debug.Log("[ID] \""+trial.trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " positions");
+                newData = new LoadedPositionData(trial.trialName, ta, p);
+            } else {
+                List<StreetSimTrackable> p2 = new List<StreetSimTrackable>();
+                foreach(StreetSimTrackable sst in p) {
+                    bool validSST = true;
+                    foreach(TrialOmit omit in trial.trialOmits) {
+                        if (sst.timestamp >= omit.startTimestamp && sst.timestamp < omit.endTimestamp) {
+                            validSST = false;
+                            break;
+                        }
                     }
+                    if (validSST) p2.Add(sst);
                 }
-                if (validSST) p2.Add(sst);
+                Debug.Log("[ID] \""+trial.trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " positions");
+                newData = new LoadedPositionData(trial.trialName, ta, p2);
             }
-            Debug.Log("[ID] \""+trial.trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " positions");
-            newData = new LoadedPositionData(trial.trialName, ta, p2);
+            return true;
         }
-        return true;
-    }
+    #endif
 
 
     private List<StreetSimTrackable> ParseLoadedPositionsData(string[] data){
