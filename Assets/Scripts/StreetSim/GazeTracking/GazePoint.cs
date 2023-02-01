@@ -67,6 +67,7 @@ public class SGazePoint {
     public int frameIndex;
     public float timestamp;
 
+    public float xDiscretization;
     public float zDiscretization;
 
     public SVector3 gazeOrigin;
@@ -105,9 +106,10 @@ public class SGazePoint {
         this.fixationDir_x = this.fixationDir.x;
         this.fixationDir_y = this.fixationDir.y;
         this.fixationDir_z = this.fixationDir.z;
+        this.xDiscretization = 0f;
         this.zDiscretization = 0f;
     }
-    public SGazePoint(int frameIndex, float timestamp, Vector3 gazeOrigin, Vector3 gazeDir, Vector3 fixationOrigin, Vector3 fixationDir, float zDiscretization) {
+    public SGazePoint(int frameIndex, float timestamp, Vector3 gazeOrigin, Vector3 gazeDir, Vector3 fixationOrigin, Vector3 fixationDir, Vector2 xzDiscretization) {
         this.frameIndex = frameIndex;
         this.timestamp = timestamp;
         this.gazeOrigin = gazeOrigin;
@@ -126,27 +128,29 @@ public class SGazePoint {
         this.fixationDir_x = this.fixationDir.x;
         this.fixationDir_y = this.fixationDir.y;
         this.fixationDir_z = this.fixationDir.z;
-        this.zDiscretization = zDiscretization;
+        this.xDiscretization = xzDiscretization.x;
+        this.zDiscretization = xzDiscretization.y;
     }
     public SGazePoint(string[] data) {
         this.frameIndex = int.Parse(data[0]);
         this.timestamp = float.Parse(data[1]);
-        this.zDiscretization = float.Parse(data[2]);
-        this.gazeOrigin_x = float.Parse(data[3]);
-        this.gazeOrigin_y = float.Parse(data[4]);
-        this.gazeOrigin_z = float.Parse(data[5]);
+        this.xDiscretization = float.Parse(data[2]);
+        this.zDiscretization = float.Parse(data[3]);
+        this.gazeOrigin_x = float.Parse(data[4]);
+        this.gazeOrigin_y = float.Parse(data[5]);
+        this.gazeOrigin_z = float.Parse(data[6]);
         this.gazeOrigin = new SVector3(this.gazeOrigin_x, this.gazeOrigin_y, this.gazeOrigin_z);
-        this.gazeDir_x = float.Parse(data[6]);
-        this.gazeDir_y = float.Parse(data[7]);
-        this.gazeDir_z = float.Parse(data[8]);
+        this.gazeDir_x = float.Parse(data[7]);
+        this.gazeDir_y = float.Parse(data[8]);
+        this.gazeDir_z = float.Parse(data[9]);
         this.gazeDir = new SVector3(this.gazeDir_x, this.gazeDir_y, this.gazeDir_z);
-        this.fixationOrigin_x = float.Parse(data[9]);
-        this.fixationOrigin_y = float.Parse(data[10]);
-        this.fixationOrigin_z = float.Parse(data[11]);
+        this.fixationOrigin_x = float.Parse(data[10]);
+        this.fixationOrigin_y = float.Parse(data[11]);
+        this.fixationOrigin_z = float.Parse(data[12]);
         this.fixationOrigin = new SVector3(this.fixationOrigin_x, this.fixationOrigin_y, this.fixationOrigin_z);
-        this.fixationDir_x = float.Parse(data[12]);
-        this.fixationDir_y = float.Parse(data[13]);
-        this.fixationDir_z = float.Parse(data[14]);
+        this.fixationDir_x = float.Parse(data[13]);
+        this.fixationDir_y = float.Parse(data[14]);
+        this.fixationDir_z = float.Parse(data[15]);
         this.fixationDir = new SVector3(this.fixationDir_x, this.fixationDir_y, this.fixationDir_z);
     }
 
@@ -156,6 +160,7 @@ public class SGazePoint {
     public static List<string> Headers => new List<string> {
         "frameIndex",
         "timestamp",
+        "xDiscretization",
         "zDiscretization",
         "gazeOrigin_x",
         "gazeOrigin_y",

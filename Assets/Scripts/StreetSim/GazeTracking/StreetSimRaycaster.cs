@@ -333,8 +333,8 @@ public class StreetSimRaycaster : MonoBehaviour
     public bool loadingAverageFixation = false, loadingDiscretizedFixation = false;
     private List<SGazePoint> m_loadedAverageFixations;
     public List<SGazePoint> loadedAverageFixations { get=>m_loadedAverageFixations; set{} }
-    private Dictionary<float, List<SGazePoint>> m_loadedDiscretizedFixations;
-    public Dictionary<float, List<SGazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
+    private Dictionary<Vector2, List<SGazePoint>> m_loadedDiscretizedFixations;
+    public Dictionary<Vector2, List<SGazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
 
     void OnDrawGizmosSelected() {
         if (cubeGazeObjects.Count > 0 && m_showCubeGaze) {
@@ -1102,10 +1102,12 @@ public class StreetSimRaycaster : MonoBehaviour
             prevUserTrackableFound = true;
 
             Vector3 zDiscretizationPosition =  thisUserImitator.position;
-            float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            float zDiscretization = Mathf.Round(zDiscretizationPosition.z*10f)/10f;
+            float xDiscretization = Mathf.Round(zDiscretizationPosition.x*10f)/10f;
 
             zDiscretization *= positionMultiplier.z;
-            
+            xDiscretization *= positionMultiplier.x;
+
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
                 // Instantiate gaze point for both cube and rect
@@ -1172,7 +1174,8 @@ public class StreetSimRaycaster : MonoBehaviour
         int index = -1;
         float prevTimestamp = 0f;
 
-        Dictionary<float, List<SGazePoint>> sphereGazeObjects = new Dictionary<float, List<SGazePoint>>();
+        // Dictionary<float, List<SGazePoint>> sphereGazeObjects = new Dictionary<float, List<SGazePoint>>();
+        Dictionary<Vector2, List<SGazePoint>> sphereGazeObjects = new Dictionary<Vector2, List<SGazePoint>>();
 
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
@@ -1225,14 +1228,18 @@ public class StreetSimRaycaster : MonoBehaviour
             // We don't flip it JUST yet, because technically the cube should follow the imitator for realistic raycast
             //Vector3 zDiscretizationPosition = Vector3.Scale(thisUserImitator.position, positionMultiplier);
             Vector3 zDiscretizationPosition = thisUserImitator.position;
-            float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            // float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            float zDiscretization = Mathf.Round(zDiscretizationPosition.z*10f)/10f;
+            float xDiscretization = Mathf.Round(thisUserImitator.position.x*10f)/10f;
             
             // We move the gazeCube such that it follows the imitator's z discretization position
             StreetSimLoadSim.LS.gazeCube.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
             
             // zDiscretization now takes into account the flipping. zDiscretization now is the true z-position for the data
             zDiscretization *= positionMultiplier.z;
-            if (!sphereGazeObjects.ContainsKey(zDiscretization)) sphereGazeObjects.Add(zDiscretization, new List<SGazePoint>());
+            xDiscretization *= positionMultiplier.x;
+            Vector2 xzDiscretization = new Vector2(xDiscretization,zDiscretization);
+            if (!sphereGazeObjects.ContainsKey(xzDiscretization)) sphereGazeObjects.Add(xzDiscretization, new List<SGazePoint>());
             
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
@@ -1256,9 +1263,9 @@ public class StreetSimRaycaster : MonoBehaviour
                             gazeDir,
                             fixationOrigin,
                             fixationDir,
-                            zDiscretization
+                            xzDiscretization
                         );
-                        sphereGazeObjects[zDiscretization].Add(newGazePoint);
+                        sphereGazeObjects[xzDiscretization].Add(newGazePoint);
 
                         /*
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
