@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using System.Linq;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 [System.Serializable]
 public class ParticipantDataMap {
@@ -72,9 +70,7 @@ public class StreetSimLoadSim : MonoBehaviour
         get => m_visualizeSphere;
         set { 
             m_visualizeSphere = value;
-            #if UNITY_EDITOR
             ToggleSphereGrid();
-            #endif
         }
     }
     public float sphereRadius = 1f;
@@ -88,9 +84,7 @@ public class StreetSimLoadSim : MonoBehaviour
         get=>m_visualDistanceBetweenPoints; 
         set {
             m_visualDistanceBetweenPoints = value;
-            #if UNITY_EDITOR
             RescaleSphereGridPoints();
-            #endif
         }
     }
     private IEnumerator sphereCoroutine = null;
@@ -124,7 +118,6 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     */
 
-    #if UNITY_EDITOR
     private void Awake() {
         LS = this;
         m_initialized = true;
@@ -270,7 +263,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 
                 bool positionsLoaded = StreetSimIDController.ID.LoadDataPath(m_newLoadedTrial, out LoadedPositionData newPositionData);
                 if (positionsLoaded) m_newLoadedTrial.positionData = newPositionData;
-                bool gazesLoaded = StreetSimLoader.loader.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
+                bool gazesLoaded = StreetSimRaycaster.R.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
                 if (gazesLoaded) m_newLoadedTrial.gazeData = newGazeData;
                 if (positionsLoaded && gazesLoaded && determineFixationsOnLoad) {
                     // We can now generate an averaged and discretized fixation map for this particular trial
@@ -584,7 +577,7 @@ public class StreetSimLoadSim : MonoBehaviour
         // First attempt to load fixation data, if it exists
         List<SGazePoint> spherePoints;
         string assetPath =  m_newLoadedTrial.assetPath+"/averageFixations.csv";
-        if (!StreetSimLoader.loader.LoadFixationsData(m_newLoadedTrial, "averageFixations", out spherePoints)) {
+        if (!StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "averageFixations", out spherePoints)) {
             StreetSimRaycaster.R.loadingAverageFixation = true;
             StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
             while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
@@ -648,7 +641,7 @@ public class StreetSimLoadSim : MonoBehaviour
         // First attempt to load fixation data, if it exists
         List<SGazePoint> tempPoints;
         Dictionary<float, List<SGazePoint>> spherePoints;
-        if (StreetSimLoader.loader.LoadFixationsData(m_newLoadedTrial, "discretizedFixations", out tempPoints)) {
+        if (StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "discretizedFixations", out tempPoints)) {
             spherePoints = new Dictionary<float, List<SGazePoint>>();
             foreach(SGazePoint point in tempPoints) {
                 if (!spherePoints.ContainsKey(point.zDiscretization)) spherePoints.Add(point.zDiscretization, new List<SGazePoint>());
@@ -703,7 +696,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByTriangleIndex() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByIndex", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByIndex", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByIndex = durationRows;
         }
@@ -776,7 +769,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByHit() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByHit", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByHit", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByHit = durationRows;
         }
@@ -849,7 +842,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByAgent() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByAgent", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByAgent", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByAgent = durationRows;
         }
@@ -1995,7 +1988,6 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         */
     }
-    #endif
 }
 
 [System.Serializable]
