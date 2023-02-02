@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using System.Linq;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 [System.Serializable]
 public class ParticipantDataMap {
@@ -72,9 +70,7 @@ public class StreetSimLoadSim : MonoBehaviour
         get => m_visualizeSphere;
         set { 
             m_visualizeSphere = value;
-            #if UNITY_EDITOR
             ToggleSphereGrid();
-            #endif
         }
     }
     public float sphereRadius = 1f;
@@ -88,9 +84,7 @@ public class StreetSimLoadSim : MonoBehaviour
         get=>m_visualDistanceBetweenPoints; 
         set {
             m_visualDistanceBetweenPoints = value;
-            #if UNITY_EDITOR
             RescaleSphereGridPoints();
-            #endif
         }
     }
     private IEnumerator sphereCoroutine = null;
@@ -124,7 +118,6 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     */
 
-    #if UNITY_EDITOR
     private void Awake() {
         LS = this;
         m_initialized = true;
@@ -270,7 +263,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 
                 bool positionsLoaded = StreetSimIDController.ID.LoadDataPath(m_newLoadedTrial, out LoadedPositionData newPositionData);
                 if (positionsLoaded) m_newLoadedTrial.positionData = newPositionData;
-                bool gazesLoaded = StreetSimLoader.loader.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
+                bool gazesLoaded = StreetSimRaycaster.R.LoadGazePath(m_newLoadedTrial, out LoadedGazeData newGazeData);
                 if (gazesLoaded) m_newLoadedTrial.gazeData = newGazeData;
                 if (positionsLoaded && gazesLoaded && determineFixationsOnLoad) {
                     // We can now generate an averaged and discretized fixation map for this particular trial
@@ -363,8 +356,8 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public void ToggleDiscretizedFixationMap(LoadedSimulationDataPerTrial trial) {
         ClearGazePoints();
-        foreach(KeyValuePair<float, LoadedFixationData> kvp in trial.discretizedFixations) {
-            Debug.Log("At z="+kvp.Key.ToString()+":");
+        foreach(KeyValuePair<Vector2, LoadedFixationData> kvp in trial.discretizedFixations) {
+            Debug.Log("At position "+kvp.Key.ToString()+":");
             foreach(SGazePoint point in kvp.Value.gazePoints) {
                 GazePoint newGazePoint = Instantiate(gazePointPrefab, point.GetWorldPosition(sphereRadius), Quaternion.identity) as GazePoint;
                 activeGazePoints.Add(newGazePoint);
@@ -584,7 +577,7 @@ public class StreetSimLoadSim : MonoBehaviour
         // First attempt to load fixation data, if it exists
         List<SGazePoint> spherePoints;
         string assetPath =  m_newLoadedTrial.assetPath+"/averageFixations.csv";
-        if (!StreetSimLoader.loader.LoadFixationsData(m_newLoadedTrial, "averageFixations", out spherePoints)) {
+        if (!StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "averageFixations", out spherePoints)) {
             StreetSimRaycaster.R.loadingAverageFixation = true;
             StartCoroutine(StreetSimRaycaster.R.GetSpherePointsForTrial());
             while(StreetSimRaycaster.R.loadingAverageFixation) yield return null;
@@ -647,12 +640,13 @@ public class StreetSimLoadSim : MonoBehaviour
 
         // First attempt to load fixation data, if it exists
         List<SGazePoint> tempPoints;
-        Dictionary<float, List<SGazePoint>> spherePoints;
-        if (StreetSimLoader.loader.LoadFixationsData(m_newLoadedTrial, "discretizedFixations", out tempPoints)) {
-            spherePoints = new Dictionary<float, List<SGazePoint>>();
+        Dictionary<Vector2, List<SGazePoint>> spherePoints;
+        if (StreetSimRaycaster.R.LoadFixationsData(m_newLoadedTrial, "discretizedFixations", out tempPoints)) {
+            spherePoints = new Dictionary<Vector2, List<SGazePoint>>();
             foreach(SGazePoint point in tempPoints) {
-                if (!spherePoints.ContainsKey(point.zDiscretization)) spherePoints.Add(point.zDiscretization, new List<SGazePoint>());
-                spherePoints[point.zDiscretization].Add(point);
+                Vector2 pDiscretization = new Vector2(point.xDiscretization, point.zDiscretization);
+                if (!spherePoints.ContainsKey(pDiscretization)) spherePoints.Add(pDiscretization, new List<SGazePoint>());
+                spherePoints[pDiscretization].Add(point);
             }
         } else {
             StreetSimRaycaster.R.loadingDiscretizedFixation = true;
@@ -662,7 +656,7 @@ public class StreetSimLoadSim : MonoBehaviour
 
             // We'll actually be saving this into a separate file called `discretizedFixations.csv`
             tempPoints = new List<SGazePoint>();
-            foreach(KeyValuePair<float, List<SGazePoint>> kvp in spherePoints) {
+            foreach(KeyValuePair<Vector2, List<SGazePoint>> kvp in spherePoints) {
                 foreach(SGazePoint p in kvp.Value) {
                     tempPoints.Add(p);
                 }
@@ -670,12 +664,12 @@ public class StreetSimLoadSim : MonoBehaviour
             StreetSimRaycaster.R.SaveFixationsData(m_newLoadedTrial,"discretizedFixations",tempPoints);
         }
         
-        Dictionary<float, LoadedFixationData> discretizedFixations = new Dictionary<float, LoadedFixationData>();
-        foreach(KeyValuePair<float, List<SGazePoint>> kvp in spherePoints) {
-            float zIndex = kvp.Key;
+        Dictionary<Vector2, LoadedFixationData> discretizedFixations = new Dictionary<Vector2, LoadedFixationData>();
+        foreach(KeyValuePair<Vector2, List<SGazePoint>> kvp in spherePoints) {
+            Vector2 xzIndex = kvp.Key;
             List<SGazePoint> points = new List<SGazePoint>(kvp.Value);
             Dictionary<Vector3, int> directionFixations = new Dictionary<Vector3, int>();
-            Vector3 origin = new Vector3(0f,heightRef.position.y,zIndex);
+            Vector3 origin = new Vector3(xzIndex.x,heightRef.position.y,xzIndex.y);
             foreach(SGazePoint point in points) {
                 Vector3 closestDir = default(Vector3);
                 bool closestDirFound = false;
@@ -694,7 +688,7 @@ public class StreetSimLoadSim : MonoBehaviour
                 if (closestDirFound) directionFixations[closestDir] += 1;
                 //point.gameObject.SetActive(false);
             }
-            discretizedFixations.Add(zIndex, new LoadedFixationData(points, directionFixations));
+            discretizedFixations.Add(xzIndex, new LoadedFixationData(points, directionFixations));
             yield return null;
         }
         m_newLoadedTrial.discretizedFixations = discretizedFixations;
@@ -703,7 +697,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByTriangleIndex() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByIndex", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByIndex", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByIndex = durationRows;
         }
@@ -776,7 +770,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByHit() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByHit", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByHit", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByHit = durationRows;
         }
@@ -849,7 +843,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     public IEnumerator GenerateDurationsByAgent() {
         List<RaycastHitDurationRow> durationRows;
-        if (StreetSimLoader.loader.LoadDurationData(m_newLoadedTrial, "gazeDurationsByAgent", out durationRows)) {
+        if (StreetSimRaycaster.R.LoadDurationData(m_newLoadedTrial, "gazeDurationsByAgent", out durationRows)) {
             // In this case, the function `StreetSimRaycaster.R.LoadDurationData` DID find a "durations.csv" file inside the trial. The outcome comes in durationRows
             m_newLoadedTrial.gazeDurationsByAgent = durationRows;
         }
@@ -1137,7 +1131,7 @@ public class StreetSimLoadSim : MonoBehaviour
         foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> participant in participantData) {            
             // Now aggregate fixations for discretized setups
             foreach(LoadedSimulationDataPerTrial trial in participant.Value) {
-                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[new Vector2(0f,z)].fixations) {
                     participantFixations[fixations.Key] += fixations.Value;
                 }
             }
@@ -1446,7 +1440,7 @@ public class StreetSimLoadSim : MonoBehaviour
             }
             // Now aggregate fixations for both averaged and discretized setups
             foreach(LoadedSimulationDataPerTrial trial in kvp.Value) {
-                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
+                foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[new Vector2(0f,z)].fixations) {
                     ithParticipantFixations[fixations.Key] += fixations.Value;
                 }
             }
@@ -1460,7 +1454,7 @@ public class StreetSimLoadSim : MonoBehaviour
             foreach(KeyValuePair<string, List<LoadedSimulationDataPerTrial>> kvpInner in participantData) {
                 if (kvpInner.Key == kvp.Key) continue;
                 foreach(LoadedSimulationDataPerTrial trial in kvpInner.Value) {
-                    foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[z].fixations) {
+                    foreach(KeyValuePair<Vector3, int> fixations in trial.discretizedFixations[new Vector2(0f,z)].fixations) {
                         aggregateFixations[fixations.Key] += fixations.Value;
                     }
                 }
@@ -1995,7 +1989,6 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         */
     }
-    #endif
 }
 
 [System.Serializable]
@@ -2009,7 +2002,7 @@ public class LoadedSimulationDataPerTrial {
     [SerializeField] private LoadedPositionData m_positionData;
     [SerializeField] private LoadedGazeData m_gazeData;
     public LoadedFixationData averageFixations;
-    public Dictionary<float, LoadedFixationData> discretizedFixations;
+    public Dictionary<Vector2, LoadedFixationData> discretizedFixations;
     public List<RaycastHitDurationRow> gazeDurationsByIndex;
     public List<RaycastHitDurationRow> gazeDurationsByHit;
     public List<RaycastHitDurationRow> gazeDurationsByAgent;
@@ -2028,7 +2021,7 @@ public class LoadedSimulationDataPerTrial {
         this.trialOmits = trialOmits;
         indexTimeMap = new Dictionary<int, float>();
         m_positionData = null;
-        this.discretizedFixations = new Dictionary<float, LoadedFixationData>();
+        this.discretizedFixations = new Dictionary<Vector2, LoadedFixationData>();
     }
     public void CompareIndexTimeMap(Dictionary<int, float> newMap) {
         if (this.indexTimeMap.Count == 0) {

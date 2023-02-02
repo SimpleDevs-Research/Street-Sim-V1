@@ -333,8 +333,8 @@ public class StreetSimRaycaster : MonoBehaviour
     public bool loadingAverageFixation = false, loadingDiscretizedFixation = false;
     private List<SGazePoint> m_loadedAverageFixations;
     public List<SGazePoint> loadedAverageFixations { get=>m_loadedAverageFixations; set{} }
-    private Dictionary<float, List<SGazePoint>> m_loadedDiscretizedFixations;
-    public Dictionary<float, List<SGazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
+    private Dictionary<Vector2, List<SGazePoint>> m_loadedDiscretizedFixations;
+    public Dictionary<Vector2, List<SGazePoint>> loadedDiscretizedFixations { get=>m_loadedDiscretizedFixations; set{} }
 
     void OnDrawGizmosSelected() {
         if (cubeGazeObjects.Count > 0 && m_showCubeGaze) {
@@ -568,10 +568,102 @@ public class StreetSimRaycaster : MonoBehaviour
         m_hits = new List<RaycastHitRow>();
     }
 
+
+    public bool LoadGazePath(LoadedSimulationDataPerTrial trial, out LoadedGazeData newData) {
+        string assetPath = trial.assetPath+"/gaze.csv";
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            newData = default(LoadedGazeData);
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        List<RaycastHitRow> p = ParseGazeData(trial, pr);
+        Debug.Log("[RAYCASTER] \""+trial.trialName+"\": Loaded " + p.Count.ToString() + " raw gazes");
+        if (trial.trialOmits.Count == 0) {
+            Debug.Log("[RAYCASTER] \""+trial.trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " gazes");
+            newData = new LoadedGazeData(trial.trialName, ta, p);
+        } else {
+            List<RaycastHitRow> p2 = new List<RaycastHitRow>();
+            foreach(RaycastHitRow rhr in p) {
+                bool validRHR = true;
+                foreach(TrialOmit omit in trial.trialOmits) {
+                    if (rhr.timestamp >= omit.startTimestamp && rhr.timestamp < omit.endTimestamp) {
+                        validRHR = false;
+                        break;
+                    }
+                }
+                if (validRHR) p2.Add(rhr);
+            }
+            Debug.Log("[RAYCASTER] \""+trial.trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " gazes");
+            newData = new LoadedGazeData(trial.trialName, ta, p2);
+        }
+        return true;
+    }
+    private List<RaycastHitRow> ParseGazeData(LoadedSimulationDataPerTrial trial, string[] data){
+        List<RaycastHitRow> dataFormatted = new List<RaycastHitRow>();
+        int numHeaders = (trial.simVersion != "Version3")
+            ? RaycastHitRow.HeadersOld.Count 
+            : RaycastHitRow.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+      
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            dataFormatted.Add(new RaycastHitRow(row));
+        }
+        return dataFormatted;
+    }
+    public bool LoadFixationsData(LoadedSimulationDataPerTrial trial, string filename, out List<SGazePoint> points) {
+        points = new List<SGazePoint>();
+        string assetPath =  trial.assetPath+"/"+filename+".csv";
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        points = ParseFixationData(trial, pr);
+        return true;
+    }
+    public List<SGazePoint> ParseFixationData(LoadedSimulationDataPerTrial trial, string[] data) {
+        List<SGazePoint> dataFormatted = new List<SGazePoint>();
+        int numHeaders = SGazePoint.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey,numHeaders);
+            dataFormatted.Add(new SGazePoint(row));
+        }
+        return dataFormatted;
+    }
     public bool SaveFixationsData(LoadedSimulationDataPerTrial trial, string filename, List<SGazePoint> data) {
         string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<SGazePoint>(assetPath,SGazePoint.Headers,data);
-    }    
+    }
+    public bool LoadDurationData(LoadedSimulationDataPerTrial trial, string filename, out List<RaycastHitDurationRow> rows) {
+        rows = new List<RaycastHitDurationRow>();
+        string assetPath = trial.assetPath+"/"+filename+".csv";
+        if(!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.Log("[RAYCASTER] ERROR: Cannot load textasset \""+assetPath+"\"!");
+            return false;
+        }
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        rows = ParseDurationData(trial, pr);
+        return true;
+    }
+    public List<RaycastHitDurationRow> ParseDurationData(LoadedSimulationDataPerTrial trial, string[] data) {
+        List<RaycastHitDurationRow> dataFormatted = new List<RaycastHitDurationRow>();
+        int numHeaders = RaycastHitDurationRow.Headers.Count;
+        int tableSize = data.Length/numHeaders - 1;
+        for(int i = 0; i < tableSize; i++) {
+            int rowKey = numHeaders*(i+1);
+            string[] row = data.RangeSubset(rowKey, numHeaders);
+            dataFormatted.Add(new RaycastHitDurationRow(row));
+        }
+        return dataFormatted;
+    }
     public bool SaveDurationData(LoadedSimulationDataPerTrial trial, string filename, List<RaycastHitDurationRow> data) {
         string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<RaycastHitDurationRow>(assetPath,RaycastHitDurationRow.Headers,data);
@@ -1010,10 +1102,12 @@ public class StreetSimRaycaster : MonoBehaviour
             prevUserTrackableFound = true;
 
             Vector3 zDiscretizationPosition =  thisUserImitator.position;
-            float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            float zDiscretization = Mathf.Round(zDiscretizationPosition.z*10f)/10f;
+            float xDiscretization = Mathf.Round(zDiscretizationPosition.x*10f)/10f;
 
             zDiscretization *= positionMultiplier.z;
-            
+            xDiscretization *= positionMultiplier.x;
+
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
                 // Instantiate gaze point for both cube and rect
@@ -1080,7 +1174,8 @@ public class StreetSimRaycaster : MonoBehaviour
         int index = -1;
         float prevTimestamp = 0f;
 
-        Dictionary<float, List<SGazePoint>> sphereGazeObjects = new Dictionary<float, List<SGazePoint>>();
+        // Dictionary<float, List<SGazePoint>> sphereGazeObjects = new Dictionary<float, List<SGazePoint>>();
+        Dictionary<Vector2, List<SGazePoint>> sphereGazeObjects = new Dictionary<Vector2, List<SGazePoint>>();
 
         ExperimentID userID = StreetSimIDController.ID.FindIDFromName("User");
         if (userID == null) {
@@ -1133,14 +1228,18 @@ public class StreetSimRaycaster : MonoBehaviour
             // We don't flip it JUST yet, because technically the cube should follow the imitator for realistic raycast
             //Vector3 zDiscretizationPosition = Vector3.Scale(thisUserImitator.position, positionMultiplier);
             Vector3 zDiscretizationPosition = thisUserImitator.position;
-            float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            // float zDiscretization = Mathf.Round(zDiscretizationPosition.z);
+            float zDiscretization = Mathf.Round(zDiscretizationPosition.z*10f)/10f;
+            float xDiscretization = Mathf.Round(thisUserImitator.position.x*10f)/10f;
             
             // We move the gazeCube such that it follows the imitator's z discretization position
             StreetSimLoadSim.LS.gazeCube.position = new Vector3(StreetSimLoadSim.LS.cam360.position.x, StreetSimLoadSim.LS.cam360.position.y, zDiscretization);
             
             // zDiscretization now takes into account the flipping. zDiscretization now is the true z-position for the data
             zDiscretization *= positionMultiplier.z;
-            if (!sphereGazeObjects.ContainsKey(zDiscretization)) sphereGazeObjects.Add(zDiscretization, new List<SGazePoint>());
+            xDiscretization *= positionMultiplier.x;
+            Vector2 xzDiscretization = new Vector2(xDiscretization,zDiscretization);
+            if (!sphereGazeObjects.ContainsKey(xzDiscretization)) sphereGazeObjects.Add(xzDiscretization, new List<SGazePoint>());
             
             List<RaycastHitReplayRow> rows;
             if (CheckRaycastManualAll(thisUserImitator.position,thisUserImitator.forward, StreetSimLoadSim.LS.gazeMask, frameIndex, timestamp, out rows)) {
@@ -1164,9 +1263,9 @@ public class StreetSimRaycaster : MonoBehaviour
                             gazeDir,
                             fixationOrigin,
                             fixationDir,
-                            zDiscretization
+                            xzDiscretization
                         );
-                        sphereGazeObjects[zDiscretization].Add(newGazePoint);
+                        sphereGazeObjects[xzDiscretization].Add(newGazePoint);
 
                         /*
                         GazePoint newGazeObject = Instantiate(StreetSimLoadSim.LS.gazePointPrefab) as GazePoint;
