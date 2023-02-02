@@ -34,28 +34,31 @@ public class UserFolder {
 
             UserTrial newTrial = new UserTrial(trialName, trialPath, trialOmits);
             this.folderTrials.Add(newTrial);
-            tempAllValid = tempAllValid && newTrial.allValid;
+            tempAllValid = tempAllValid && newTrial.isValid;
         }
 
         this.allValid = tempAllValid;
         this.showFolders = false;
     }
 
-    public void ProcessOffline() {
+    public void ProcessOffline(List<ExperimentID> ids) {
         foreach(UserTrial trial in folderTrials) {
-            trial.ProcessOffline();
+            trial.ProcessOffline(ids);
         }
     }
 }
 
 [System.Serializable]
 public class UserTrial {
+    // Basic Info
     public string trialName;
     public string pathToTrial;
     TrialData trialData;
+    
+    // File Integrity
     public Dictionary<string,bool> fileIntegrityDict;
     public List<string> foundFiles;
-    public bool allValid;
+    public bool isValid, filesValid;
     public List<TrialOmit> omits;
 
     public UserTrial(string trialName, string pathToTrial, List<TrialOmit> omits) {
@@ -63,8 +66,9 @@ public class UserTrial {
         this.trialName = trialName;
         this.pathToTrial = pathToTrial;
         this.omits = omits;
-        this.allValid = false;
-        if (!GetTrialData(out trialData)) {
+        this.filesValid = false;
+        this.isValid = GetTrialData(out trialData);
+        if (!this.isValid) {
             Debug.LogError("COULD NOT LOAD TRIAL \"" + this.trialName + "\"");
             return;
         }
@@ -81,6 +85,7 @@ public class UserTrial {
 
         bool tempAllValid = true;
 
+        // Even if a trial is "valid", it does not mean that all the post-processed files are there.
         // For now, know that a properly-loaded and processed user trial SHOULD have the following new files:
         // - "correctedAttempts.csv" - Offline
         tempAllValid = tempAllValid && CheckFile("correctedAttempts.csv");
@@ -98,7 +103,7 @@ public class UserTrial {
         tempAllValid = tempAllValid && CheckFile("gazeDurationsByIndex.csv");
 
         // If any of these files are missing, they must be processed
-        this.allValid = tempAllValid;
+        this.filesValid = tempAllValid;
     }
 
     public bool CheckFile(string filename) {
@@ -108,11 +113,9 @@ public class UserTrial {
         return valid;
     }
 
-
-    public void ProcessOffline() {
-        ProcessAttempts();
+    public void ProcessOffline(List<ExperimentID> ids) {
+        ProcessAttempts(ids);
     }
-
 
     public bool GetTrialData(out TrialData trial) {
         trial = null;
@@ -127,7 +130,7 @@ public class UserTrial {
         }
         return true;
     }
-    public bool GetPositionsData(out LoadedPositionData positions) {
+    public bool GetPositionsData(out List<StreetSimTrackable> positions) {
         
         // Inner Function Declaration
         List<StreetSimTrackable> ParseData(string[] data){
@@ -162,7 +165,7 @@ public class UserTrial {
         // Filter out all StreetSimTrackables in `p` that might exist in trial.trialOmits
         if (omits.Count == 0) {
             Debug.Log("\""+trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " positions");
-            positions = new LoadedPositionData(trialName, ta, p);
+            positions = p;
         } else {
             List<StreetSimTrackable> p2 = new List<StreetSimTrackable>();
             foreach(StreetSimTrackable sst in p) {
@@ -176,7 +179,7 @@ public class UserTrial {
                 if (validSST) p2.Add(sst);
             }
             Debug.Log("[\""+trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " positions");
-            positions = new LoadedPositionData(trialName, ta, p2);
+            positions = p2;
         }
         return true;
     }
@@ -219,20 +222,19 @@ public class UserTrial {
                 attempts.Add(newAttempt);
                 if (newAttempt.id == "User") userFound = true;
             }
-            attempts.Add(newAttempt);
-            if (newAttempt.id == "User") userFound = true;
         }
 
         return true;
     }
 
-    public void ProcessAttempts() {
+    public void ProcessAttempts(List<ExperimentID> ids) {
 
         // Confirm that we have 1) positions.csv data, and 2) attempts.csv data
-        LoadedPositionData positions;
-        List<TrialAttempt> attempts;
-        string newAttemptsPath = Path.Combine(pathToTrial,"correctedAttempts.csv");   
-        bool userFound = false;     
+        List<StreetSimTrackable> positions;
+        List<TrialAttempt> attempts;  
+        List<TrialAttempt> newAttempts;
+        bool userFound = false;
+        string newAttemptsPath = Path.Combine(pathToTrial,"correctedAttempts.csv");      
 
         if (!GetPositionsData(out positions)) {
             Debug.LogError("Could not load positions data for \"" + trialName + "\"");
@@ -243,26 +245,29 @@ public class UserTrial {
             Debug.LogError("Could not load original attempts for \"" + trialName + "\"");
             return;
         }
+
+        Debug.Log("Original Attempts Size: " + attempts.Count.ToString());
         
         // If "User" is among the ids in our attempts list, we just need to port this data into a new "assumedAttempts.csv" file
         // However, if "User" is NOT among the ids in our attempts list, we need to interpret them from existing position data
         if (!userFound) {
             Debug.LogError("Could not find a User inside attempts for " + trialName + ". Deriving from positional data...");
             Dictionary<string, TrialAttempt> currentAttempts = new Dictionary<string, TrialAttempt>();
+            newAttempts = attempts;
             StreetSimTrackable trackable, prevTrackable;
-            for(int i = 1; i < positions.rawPositionsList.Count; i++) {
-                trackable = positions.rawPositionsList[i];
-                prevTrackable = positions.rawPositionsList[i-1];
+            for(int i = 1; i < positions.Count; i++) {
+                trackable = positions[i];
+                prevTrackable = positions[i-1];
                 if (trackable.id != "User") continue;
                 if (omits.Count > 0) {
-                    bool isValid = true;
+                    bool trackableIsValid = true;
                     foreach(TrialOmit omit in omits) {
                         if (prevTrackable.timestamp >= omit.startTimestamp && prevTrackable.timestamp < omit.endTimestamp) {
-                            isValid = false;
+                            trackableIsValid = false;
                             break;
                         }
                     }
-                    if (!isValid) continue;
+                    if (!trackableIsValid) continue;
                 }
                 if (Mathf.Abs(trackable.localPosition_z)<2.75f && !currentAttempts.ContainsKey(trackable.id)) {
                     // This means that the agent has moved onto the crosswalk, yet we don't have an attempt linked to it.
@@ -278,8 +283,10 @@ public class UserTrial {
                         cAttempt.endTime = prevTrackable.timestamp;
                         cAttempt.successful = false;
                         cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
-                        attempts.Add(cAttempt);
+                        newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
+                        Debug.Log(newAttempts.Count.ToString());
+                        Debug.Log(cAttempt.id);
                         continue;
                     }
                     if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
@@ -288,8 +295,10 @@ public class UserTrial {
                         cAttempt.endTime = prevTrackable.timestamp;
                         cAttempt.successful = true;
                         cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
-                        attempts.Add(cAttempt);
+                        newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
+                        Debug.Log(newAttempts.Count.ToString());
+                        Debug.Log(cAttempt.id);
                         continue;
                     }
                 } else {
@@ -301,8 +310,10 @@ public class UserTrial {
                         cAttempt.endTime = prevTrackable.timestamp;
                         cAttempt.successful = false;
                         cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
-                        attempts.Add(cAttempt);
+                        newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
+                        Debug.Log(newAttempts.Count.ToString());
+                        Debug.Log(cAttempt.id);
                         continue;
                     }
                     if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
@@ -311,30 +322,41 @@ public class UserTrial {
                         cAttempt.endTime = prevTrackable.timestamp;
                         cAttempt.successful = true;
                         cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
-                        attempts.Add(cAttempt);
+                        newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
+                        Debug.Log(newAttempts.Count.ToString());
+                        Debug.Log(cAttempt.id);
                         continue;
                     }
                 }
-                return;
             }
             // We need to clean up any attempts remaining. We automatically label them as successful
-            prevTrackable = positions.rawPositionsList[positions.rawPositionsList.Count-1];
+            prevTrackable = positions[positions.Count-1];
             foreach(KeyValuePair<string, TrialAttempt> kvp in currentAttempts) {
                 TrialAttempt cAttempt = kvp.Value;
                 cAttempt.endTime = prevTrackable.timestamp;
                 cAttempt.successful = true;
                 cAttempt.reason = "[ASSUMED] End of Trial";
-                attempts.Add(cAttempt);
+                newAttempts.Add(cAttempt);
+                Debug.Log(newAttempts.Count.ToString());
+                Debug.Log(cAttempt.id);
             }
+        } else {
+            Debug.Log("User found inside attempts for " + trialName + ".");
+            newAttempts = attempts;
         }
 
+        Debug.Log("New Corrected Attempts Count: " + newAttempts.Count.ToString());
+
         // Now we save the file
-        if (SaveSystemMethods.SaveCSV<TrialAttempt>(newAttemptsPath,TrialAttempt.Headers,attempts)) {
+        if (SaveSystemMethods.SaveCSV<TrialAttempt>(newAttemptsPath,TrialAttempt.Headers,newAttempts)) {
             Debug.Log(trialName + ": Saved Assumed Trial Attempts");
         } else {
             Debug.LogError(trialName + ": Could not save Assumed Trial Attempts");
         }
+
+        // Recheck file integrity
+        CheckFileIntegrity();
     }
 }
 
@@ -348,6 +370,9 @@ public class TempEditorWindow : EditorWindow
     float myFloat = 1.23f;
 
     Vector2 scrollPos;
+    bool idsScanned = false;
+
+    List<ExperimentID> ids;
 
     // Add menu item named "My Window" into the `Window` menu in the inspector
     [MenuItem ("Window/My Window")]
@@ -363,8 +388,9 @@ public class TempEditorWindow : EditorWindow
         userDataDirectory = EditorGUILayout.TextField("Load From:", userDataDirectory);
 
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Scan for Folders")) userFolders = ScanForFolders(userDataDirectory);
-        if (GUILayout.Button("Empty Cache")) userFolders = new List<UserFolder>();
+        if (GUILayout.Button("Generate IDs Database")) ScanForIDs(out ids);
+        if (GUILayout.Button("Scan for User Folders")) userFolders = ScanForFolders(userDataDirectory);
+        if (GUILayout.Button("Empty User Folder Cache")) userFolders = new List<UserFolder>();
         GUILayout.EndHorizontal();
 
         DrawPadding(10);
@@ -385,13 +411,13 @@ public class TempEditorWindow : EditorWindow
                             userFolders[i].showFolders = !userFolders[i].showFolders;
                         }
                         if (GUILayout.Button("Offline Process")) {
-                            userFolders[i].ProcessOffline();
+                            userFolders[i].ProcessOffline(ids);
                         }
                         GUILayout.EndHorizontal();
                         
                         if (userFolders[i].showFolders) {
                             foreach(UserTrial userTrial in userFolders[i].folderTrials) {
-                                if (userTrial.allValid) {
+                                if (userTrial.filesValid) {
                                     GUILayout.BeginHorizontal();
                                     EditorGUILayout.LabelField(userTrial.trialName);
                                     EditorGUILayout.LabelField("All files found!");
@@ -438,6 +464,12 @@ public class TempEditorWindow : EditorWindow
         */
     }
 
+    private void ScanForIDs(out List<ExperimentID> activeIDs) {
+        // We want to scan the hierarchy for `ExperimentID` components that are active
+        activeIDs = new List<ExperimentID>(FindObjectsOfType<ExperimentID>()).Where(f=>f.gameObject.activeInHierarchy).ToList();
+        Debug.Log("Active ExperimentIDs found: " + activeIDs.Count);
+    }
+
     private List<UserFolder> ScanForFolders(string dir) {
         // Initialize the path to the user data
         string readFromDirectory = Path.Combine("Assets",dir);
@@ -468,7 +500,8 @@ public class TempEditorWindow : EditorWindow
             if (omits.ContainsKey(participantName)) participantOmits = omits[participantName];
 
             UserFolder tempUserFolder = new UserFolder(participantName, folder, Directory.GetDirectories(folder), participantOmits);
-            newUserFolders.Add(tempUserFolder);
+            // We only add those whose data are valid
+            if (tempUserFolder.allValid) newUserFolders.Add(tempUserFolder);
         }
         return newUserFolders;
     }
