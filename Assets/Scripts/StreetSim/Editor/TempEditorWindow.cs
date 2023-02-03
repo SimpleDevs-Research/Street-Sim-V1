@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,11 +19,18 @@ public class UserFolder {
     public bool allValid;
     public bool showFolders;
 
+    public SimulationData simData;
+
     public UserFolder(string folderName, string folderPath, string[] trials, Dictionary<string, List<TrialOmit>> omits) {
         this.folderName = folderName;
         this.folderPath = folderPath;
         this.omits = omits;
         this.isActive = true;
+
+        if (!GetSimulationMetadata()) {
+            this.allValid = false;
+            return;
+        }
 
         this.folderTrials = new List<UserTrial>();
         bool tempAllValid = true;
@@ -32,7 +40,7 @@ public class UserFolder {
             List<TrialOmit> trialOmits = new List<TrialOmit>();
             if (omits.ContainsKey(trialName)) trialOmits = this.omits[trialName];
 
-            UserTrial newTrial = new UserTrial(trialName, trialPath, trialOmits);
+            UserTrial newTrial = new UserTrial(trialName, trialPath, trialOmits, this.simData);
             this.folderTrials.Add(newTrial);
             tempAllValid = tempAllValid && newTrial.isValid;
         }
@@ -41,9 +49,45 @@ public class UserFolder {
         this.showFolders = false;
     }
 
+    public bool GetSimulationMetadata() {
+        // Find files that follow the pattern "simulationMetadata_#"\
+        List<string> pathsToMetadata = new List<string>(Directory.GetFiles(folderPath)).Where(f=>Path.GetFileName(f).StartsWith("simulationMetadata_") && f.Substring(f.LastIndexOf(".")+1) != "meta").ToList();
+
+        this.simData = new SimulationData(this.folderName, -1, "", "");
+        SimulationData tempSimData = new SimulationData(this.folderName, -1, "", "");
+
+        foreach(string metadataPath in pathsToMetadata) {
+            if (!SaveSystemMethods.CheckFileExists(metadataPath)) {
+                Debug.LogError("Cannot load simulation metadata \""+metadataPath+"\"!");
+                continue;
+            }
+            if (!SaveSystemMethods.LoadJSON<SimulationData>(metadataPath, out tempSimData)) {
+                Debug.LogError("Unable to load json file \""+metadataPath+"\"...");
+                continue;
+            }
+
+            this.simData.duration += tempSimData.duration;
+            this.simData.trials = this.simData.trials.Concat(tempSimData.trials).ToList();
+            this.simData.version = tempSimData.version;
+        }
+
+        return this.simData.duration > 0f && this.simData.trials.Count > 0;
+    }
+
     public void ProcessOffline(List<ExperimentID> ids) {
         foreach(UserTrial trial in folderTrials) {
             trial.ProcessOffline(ids);
+        }
+    }
+    public void ProcessOnline(List<ExperimentID> ids) {
+        /*
+        if (StreetSimLoadSim.LS == null) {
+            Debug.LogError("Make sure that the scene is running first!");
+            return;
+        }
+        */
+        foreach(UserTrial trial in folderTrials) {
+            trial.ProcessOnline(ids);
         }
     }
 }
@@ -53,6 +97,7 @@ public class UserTrial {
     // Basic Info
     public string trialName;
     public string pathToTrial;
+    public string simVersion;
     TrialData trialData;
     
     // File Integrity
@@ -61,12 +106,17 @@ public class UserTrial {
     public bool isValid, filesValid;
     public List<TrialOmit> omits;
 
-    public UserTrial(string trialName, string pathToTrial, List<TrialOmit> omits) {
+    public bool firstSet;
+    public Vector3 firstOrigin, firstDirTo, firstPos, firstGazeDir, firstTargetPos;
+
+    public UserTrial(string trialName, string pathToTrial, List<TrialOmit> omits, SimulationData simData) {
         // Save a reference to this file
         this.trialName = trialName;
         this.pathToTrial = pathToTrial;
         this.omits = omits;
         this.filesValid = false;
+        this.firstSet = false;
+        this.simVersion = simData.version;
         this.isValid = GetTrialData(out trialData);
         if (!this.isValid) {
             Debug.LogError("COULD NOT LOAD TRIAL \"" + this.trialName + "\"");
@@ -80,41 +130,49 @@ public class UserTrial {
     public void CheckFileIntegrity() {
         // Load ALL files (excluding META files, since we don't care about those)
         this.foundFiles = new List<string>(Directory.GetFiles(this.pathToTrial)).Select(f=>Path.GetFileName(f)).Where(f=>f.Substring(f.LastIndexOf('.')+1)!="meta").ToList();
-        // Reset fileIntegrityDict
-        this.fileIntegrityDict = new Dictionary<string,bool>();
-
-        bool tempAllValid = true;
 
         // Even if a trial is "valid", it does not mean that all the post-processed files are there.
         // For now, know that a properly-loaded and processed user trial SHOULD have the following new files:
         // - "correctedAttempts.csv" - Offline
-        tempAllValid = tempAllValid && CheckFile("correctedAttempts.csv");
         // - "averageFixations.csv" - ONLINE
-        tempAllValid = tempAllValid && CheckFile("averageFixations.csv");
         // - "discretizedFixations.csv" - ONLINE
-        tempAllValid = tempAllValid && CheckFile("discretizedFixations.csv");
         // - "fixationsByDirection.csv" - offline (but needs 'averageFixations.csv')
-        tempAllValid = tempAllValid && CheckFile("fixationsByDirection.csv");
         // - "gazeDurationsByAgent.csv" - offline
-        tempAllValid = tempAllValid && CheckFile("gazeDurationsByAgent.csv");
         // - "gazeDurationsByHit.csv" - offline
-        tempAllValid = tempAllValid && CheckFile("gazeDurationsByHit.csv");
         // - "gazeDurationsByIndex.csv" - offline
-        tempAllValid = tempAllValid && CheckFile("gazeDurationsByIndex.csv");
+
+        List<string> filesToCheck = new List<string>{
+            "correctedAttempts.csv",
+            "averageFixations.csv",
+            "discretizedFixations.csv",
+            "fixationsByDirection.csv",
+            "gazeDurationsByAgent.csv",
+            "gazeDurationsByHit.csv",
+            "gazeDurationsByIndex.csv"
+        };
+        this.fileIntegrityDict = new Dictionary<string,bool>();
+        bool tempAllValid = true;
+        foreach(string fileToCheck in filesToCheck) {
+            bool thisFileIsValid = CheckFile(fileToCheck, this.foundFiles);
+            this.fileIntegrityDict.Add(fileToCheck, thisFileIsValid);
+            tempAllValid = tempAllValid && thisFileIsValid;
+        }
 
         // If any of these files are missing, they must be processed
         this.filesValid = tempAllValid;
     }
 
-    public bool CheckFile(string filename) {
-        bool valid = this.foundFiles.IndexOf(filename) > -1;
-        if (this.fileIntegrityDict.ContainsKey(filename)) this.fileIntegrityDict[filename] = valid;
-        else this.fileIntegrityDict.Add(filename, valid);
-        return valid;
+    public bool CheckFile(string filename, List<string> files) {
+        return files.IndexOf(filename) > -1;
     }
 
     public void ProcessOffline(List<ExperimentID> ids) {
         ProcessAttempts(ids);
+        ProcessGazeDurationsByHit();
+    }
+    public void ProcessOnline(List<ExperimentID> ids) {
+        // We can check if the scene is running if there is a `StreetSimLoadSim.LS` that is not 
+        ProcessDiscretizedFixations();
     }
 
     public bool GetTrialData(out TrialData trial) {
@@ -160,11 +218,11 @@ public class UserTrial {
         TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(positionsPath, typeof(TextAsset));
         string[] pr = SaveSystemMethods.ReadCSV(ta);
         List<StreetSimTrackable> p = ParseData(pr);
-        Debug.Log("Loaded " + p.Count.ToString() + " raw positions");
+        //Debug.Log("Loaded " + p.Count.ToString() + " raw positions");
         
         // Filter out all StreetSimTrackables in `p` that might exist in trial.trialOmits
         if (omits.Count == 0) {
-            Debug.Log("\""+trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " positions");
+            //Debug.Log("\""+trialName+"\": No omits detected, current positions count to " + p.Count.ToString() + " positions");
             positions = p;
         } else {
             List<StreetSimTrackable> p2 = new List<StreetSimTrackable>();
@@ -178,12 +236,11 @@ public class UserTrial {
                 }
                 if (validSST) p2.Add(sst);
             }
-            Debug.Log("[\""+trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " positions");
+            //Debug.Log("[\""+trialName+"\": After omits, current positions count to " + p2.Count.ToString() + " positions");
             positions = p2;
         }
         return true;
     }
-
     public bool GetAttemptsData(out List<TrialAttempt> attempts, out bool userFound) {
 
         // Variable initialization
@@ -226,9 +283,55 @@ public class UserTrial {
 
         return true;
     }
+    public bool GetGazeData(out List<RaycastHitRow> gazes) {
+
+        List<RaycastHitRow> ParseGazeData(string[] data){
+            List<RaycastHitRow> dataFormatted = new List<RaycastHitRow>();
+            int numHeaders = (this.simVersion != "Version3")
+                ? RaycastHitRow.HeadersOld.Count 
+                : RaycastHitRow.Headers.Count;
+            int tableSize = data.Length/numHeaders - 1;
+            for(int i = 0; i < tableSize; i++) {
+                int rowKey = numHeaders*(i+1);
+                string[] row = data.RangeSubset(rowKey,numHeaders);
+                dataFormatted.Add(new RaycastHitRow(row));
+            }
+            return dataFormatted;
+        }
+
+        string assetPath = Path.Combine(pathToTrial,"gaze.csv");
+        gazes = null;
+        if (!SaveSystemMethods.CheckFileExists(assetPath)) {
+            Debug.LogError("Cannot load gaze data from \""+assetPath+"\"!");
+            return false;
+        }
+
+        TextAsset ta = (TextAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(TextAsset));
+        string[] pr = SaveSystemMethods.ReadCSV(ta);
+        List<RaycastHitRow> p = ParseGazeData(pr);
+        //Debug.Log("\""+trialName+"\": Loaded " + p.Count.ToString() + " raw gazes");
+
+        if (omits.Count == 0) {
+            gazes = p;
+        } else {
+            List<RaycastHitRow> p2 = new List<RaycastHitRow>();
+            foreach(RaycastHitRow rhr in p) {
+                bool validRHR = true;
+                foreach(TrialOmit omit in omits) {
+                    if (rhr.timestamp >= omit.startTimestamp && rhr.timestamp < omit.endTimestamp) {
+                        validRHR = false;
+                        break;
+                    }
+                }
+                if (validRHR) p2.Add(rhr);
+            }
+            gazes = p2;
+        }
+        //Debug.Log("\""+trialName+"\": gaze points count to " + gazes.Count.ToString() + " / " + p.Count.ToString() + " rows");
+        return true;
+    }
 
     public void ProcessAttempts(List<ExperimentID> ids) {
-
         // Confirm that we have 1) positions.csv data, and 2) attempts.csv data
         List<StreetSimTrackable> positions;
         List<TrialAttempt> attempts;  
@@ -285,8 +388,6 @@ public class UserTrial {
                         cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
                         newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
-                        Debug.Log(newAttempts.Count.ToString());
-                        Debug.Log(cAttempt.id);
                         continue;
                     }
                     if (trackable.localPosition_z <= -2.75f && currentAttempts.ContainsKey(trackable.id)) {
@@ -297,8 +398,6 @@ public class UserTrial {
                         cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
                         newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
-                        Debug.Log(newAttempts.Count.ToString());
-                        Debug.Log(cAttempt.id);
                         continue;
                     }
                 } else {
@@ -312,8 +411,6 @@ public class UserTrial {
                         cAttempt.reason = "[ASSUMED] Returned to start sidewalk";
                         newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
-                        Debug.Log(newAttempts.Count.ToString());
-                        Debug.Log(cAttempt.id);
                         continue;
                     }
                     if (trackable.localPosition_z >= 2.75f && currentAttempts.ContainsKey(trackable.id)) {
@@ -324,8 +421,6 @@ public class UserTrial {
                         cAttempt.reason = "[ASSUMED] Successfully reached the destination sidewalk";
                         newAttempts.Add(cAttempt);
                         currentAttempts.Remove(trackable.id);
-                        Debug.Log(newAttempts.Count.ToString());
-                        Debug.Log(cAttempt.id);
                         continue;
                     }
                 }
@@ -338,8 +433,6 @@ public class UserTrial {
                 cAttempt.successful = true;
                 cAttempt.reason = "[ASSUMED] End of Trial";
                 newAttempts.Add(cAttempt);
-                Debug.Log(newAttempts.Count.ToString());
-                Debug.Log(cAttempt.id);
             }
         } else {
             Debug.Log("User found inside attempts for " + trialName + ".");
@@ -358,6 +451,202 @@ public class UserTrial {
         // Recheck file integrity
         CheckFileIntegrity();
     }
+    public void ProcessGazeDurationsByHit() {
+
+        int prevFrameIndex = -1;
+        int curFrameIndex = -1;
+        List<RaycastHitRow> gazes;
+        Dictionary<string, Dictionary<string,RaycastHitDurationRow>> cached = new Dictionary<string, Dictionary<string,RaycastHitDurationRow>>();
+        Dictionary<string, Dictionary<string, bool>> cachedFound = new Dictionary<string, Dictionary<string,bool>>();
+        List<RaycastHitDurationRow> durationRows = new List<RaycastHitDurationRow>();
+
+        if (!GetGazeData(out gazes)) {
+            Debug.LogError("Could not load gaze data for \"" + trialName + "\"");
+            return;
+        }
+
+        for(int i = 0; i < gazes.Count; i++) {
+            RaycastHitRow row = gazes[i];
+            curFrameIndex = row.frameIndex;
+            if (curFrameIndex != prevFrameIndex) {
+                if (cachedFound.Count > 0) {
+                    // delete any entries in `cached` whose results in `cachedFound` are false
+                    foreach(KeyValuePair<string,Dictionary<string,bool>> kvp1 in cachedFound) {
+                        if (kvp1.Value.Count == 0) continue;
+                        foreach(KeyValuePair<string,bool> kvp2 in kvp1.Value) {
+                            if (!kvp2.Value) {
+                                // This is false from our last index. This means that this gaze fixation has ended becaus the previous timestep did not have this hitID recorded
+                                durationRows.Add(cached[kvp1.Key][kvp2.Key]);
+                                cached[kvp1.Key].Remove(kvp2.Key);
+                            }
+                        }
+                        if (cached[kvp1.Key].Count == 0) cached.Remove(kvp1.Key);
+                    }
+                }
+                cachedFound = new Dictionary<string, Dictionary<string,bool>>();
+                foreach(string key1 in cached.Keys) { 
+                    cachedFound.Add(key1,new Dictionary<string,bool>()); 
+                    foreach(string key2 in cached[key1].Keys) {
+                        cachedFound[key1][key2] = false;
+                    }
+                }
+                prevFrameIndex = curFrameIndex;
+            }
+            if (!cached.ContainsKey(row.agentID)) {
+                cached.Add(row.agentID, new Dictionary<string, RaycastHitDurationRow>());
+                cached[row.agentID].Add(row.hitID, new RaycastHitDurationRow(row.agentID, row.hitID, -1, row.timestamp, row.frameIndex, i));
+            } else {
+                if (!cached[row.agentID].ContainsKey(row.hitID)) {
+                    cached[row.agentID].Add(row.hitID, new RaycastHitDurationRow(row.agentID, row.hitID, -1, row.timestamp, row.frameIndex, i));
+                } else {
+                    cached[row.agentID][row.hitID].endTimestamp = row.timestamp;
+                    cached[row.agentID][row.hitID].endFrameIndex = row.frameIndex;
+                    cached[row.agentID][row.hitID].AddIndex(i);
+                }
+            }
+            if(cachedFound.ContainsKey(row.agentID) && cachedFound[row.agentID].ContainsKey(row.hitID)) {
+                cachedFound[row.agentID][row.hitID] = true;
+            }
+            
+        }
+        // Get the last few cached RaycastHitDurationRows
+        foreach(Dictionary<string,RaycastHitDurationRow> rows in cached.Values) {
+            foreach(RaycastHitDurationRow row in rows.Values) {
+                durationRows.Add(row);
+            }
+        }
+
+        // Now we save the file
+        string gazeDurationsByHitPath = Path.Combine(pathToTrial,"gazeDurationsByHit.csv");
+        if (SaveSystemMethods.SaveCSV<RaycastHitDurationRow>(gazeDurationsByHitPath,RaycastHitDurationRow.Headers,durationRows)) {
+            Debug.Log(trialName + ": Saved gaze durations by hit");
+        } else {
+            Debug.LogError(trialName + ": Could not save gaze durations by hit...");
+        }
+
+        // Recheck file integrity
+        CheckFileIntegrity();
+    }
+    public void ProcessDiscretizedFixations() {
+        Vector3 GetClosestPointToLine(Vector3 origin, Vector3 direction, Vector3 point, out float dist) {
+            Vector3 lhs = point - origin;
+            float dotP = Vector3.Dot(lhs, direction);
+            Vector3 closestPoint = origin + direction * dotP;
+            dist = (closestPoint-point).magnitude;
+            return closestPoint;
+        }
+        bool PointOnSphere(Vector3 participantPos, Vector3 origin, Vector3 gazeDir, float radius, out Vector3 estimatedPointOnSphere) {
+
+            //Debug.Log(participantPos.ToString() + " | " + origin.ToString() + " | " + gazeDir.ToString());
+            estimatedPointOnSphere = participantPos;
+            float intersectionDistance;
+            Vector3 intersectionDotPoint = GetClosestPointToLine(participantPos, gazeDir, origin, out intersectionDistance);
+            estimatedPointOnSphere = intersectionDotPoint;
+
+            /*
+            // There are some assumptions we are running with. Namely that the participant is INSIDE the sphere.
+            Debug.Log(radius.ToString() + " | " + intersectionDistance.ToString());
+            float x1_before = Mathf.Pow(radius,2f) - Mathf.Pow(intersectionDistance,2f);
+            if (x1_before < 0f) {
+                Debug.LogError("\"x1_before\": " + x1_before.ToString() + " cannot be negative!");
+                return false;
+            }
+            float x1 = Mathf.Sqrt(x1_before);
+
+            float distanceBetweenParticipantAndOrigin = Vector3.Distance(participantPos, origin);
+            float x2_before = Mathf.Pow(distanceBetweenParticipantAndOrigin,2f) - Mathf.Pow(intersectionDistance,2f);
+            if (x2_before < 0f) {
+                Debug.LogError("\"x2_before\": " + x2_before.ToString() + " cannot be negative!");
+                return false;
+            }
+            float x2 = Mathf.Sqrt(x2_before);
+
+            float totalDistance = x1+x2;
+
+            estimatedPointOnSphere = participantPos + gazeDir.normalized * totalDistance;
+            */
+            return true;
+        }
+
+        List<RaycastHitRow> gazes;
+        if (!GetGazeData(out gazes)) {
+            Debug.LogError("\""+trialName+"\": Could not get gaze data when calculating discretized fixations");
+            return;
+        }
+
+        // Because I was a dingus, we didn't store the position of the user at the moment of the gaze. HOWEVER, we can solve that by getting the user's position from `GetPositionsData()`.
+        List<StreetSimTrackable> allPositions;
+        if (!GetPositionsData(out allPositions)) {
+            Debug.LogError("\""+trialName+"\": Could not get positions data when calculating discretized fixations");
+            return;
+        }
+        List<StreetSimTrackable> playerPositions = allPositions.Where(p=>p.id == "User").ToList();
+        if (playerPositions.Count == 0) {
+            Debug.LogError("\""+trialName+"\": No positiosn attributed to the user themselves was found among position data");
+            return;
+        }
+
+        // Let's get a dictionary that finds the player's position relative to a frame index
+        Dictionary<int, StreetSimTrackable> playerPositionsByFrameIndex = new Dictionary<int, StreetSimTrackable>();
+        foreach(StreetSimTrackable trackable in playerPositions) {
+            if (!playerPositionsByFrameIndex.ContainsKey(trackable.frameIndex)) playerPositionsByFrameIndex.Add(trackable.frameIndex, trackable);
+            else {
+                Debug.LogError("FOUND A DUPLICATE POSITION > OVERWRITING...");
+                playerPositionsByFrameIndex[trackable.frameIndex] = trackable;
+            }
+        }
+
+        Vector3 positionMultiplier = Vector3.one;
+        if (this.trialData.direction == "NorthToSouth") {
+            // We flip everything around
+            positionMultiplier = new Vector3(-1f,1f-1f);
+        }
+        float radius = Mathf.Sqrt(Mathf.Pow(0.5f,2f) + Mathf.Pow(0.5f,2f));
+
+        Vector3 estimatedOrigin = Vector3.zero;
+        Vector3 estimatedDir = Vector3.zero;
+        Vector3 estimatedPos = Vector3.zero;
+        Vector3 estimatedGazeDir = Vector3.zero;
+        Vector3 estimatedTargetPos = Vector3.zero;
+
+        for (int i = 0; i < gazes.Count; i++) {
+            // For now, let's just focus on the first valid gaze point
+            RaycastHitRow first = gazes[i];
+            // Find associated player position at this gaze's frameIndex.
+            if (!playerPositionsByFrameIndex.ContainsKey(first.frameIndex)) {
+                continue;
+            }
+            StreetSimTrackable firstPos = playerPositionsByFrameIndex[first.frameIndex];
+            // Since we want orientations to always be in the SouthToNorth orientation, if the trial is set to NorthToSouth, then we rotate everything.
+            Vector3 participantPos = Vector3.Scale(firstPos.localPosition, positionMultiplier);
+            Vector3 gazeDir = new Vector3(first.raycastDirection_x * positionMultiplier.x, first.raycastDirection_y, first.raycastDirection_z * positionMultiplier.z);
+            // Discretization
+            Vector3 origin = new Vector3(
+                Mathf.Round(participantPos.x),
+                1f,
+                Mathf.Round(participantPos.z)
+            );
+            // Do the calculation
+            Vector3 targetPos;
+            if (PointOnSphere(participantPos, origin, gazeDir, radius, out targetPos)) {
+                Debug.Log("BLKASJGLJKSHFGJKLSHKLGHNSFLJKGFSDLK");
+                estimatedOrigin = origin;
+                estimatedDir = (targetPos - origin).normalized;
+                estimatedPos = participantPos;
+                estimatedGazeDir = gazeDir;
+                estimatedTargetPos = targetPos;
+                break;
+            }
+        }
+
+        this.firstOrigin = estimatedOrigin;
+        this.firstDirTo = estimatedDir;
+        this.firstPos = estimatedPos;
+        this.firstGazeDir = estimatedGazeDir;
+        this.firstTargetPos = estimatedTargetPos;
+        this.firstSet = true;
+        Debug.Log(this.firstOrigin.ToString());
+    }
 }
 
 public class TempEditorWindow : EditorWindow
@@ -374,12 +663,50 @@ public class TempEditorWindow : EditorWindow
 
     List<ExperimentID> ids;
 
+    void OnEnable() {
+        // Remove delegate listener if it has previously
+        // been assigned.
+        SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+        // Add (or re-add) the delegate.
+        SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+    }
+    void OnDisable() {
+        // When the window is destroyed, remove the delegate
+        // so that it will no longer do any drawing.
+        SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+    }
+
+    public void OnSceneGUI(SceneView sceneView) {
+        Handles.BeginGUI();
+        if (userFolders.Count > 0) {
+            for(int i = 0; i < userFolders.Count; i++) {
+                if (userFolders[i].isActive) {
+                        foreach(UserTrial userTrial in userFolders[i].folderTrials) {
+                            if (userTrial.filesValid) {
+                                if (userTrial.firstSet) {
+                                    Handles.color = Color.red;
+                                    Handles.DrawSolidDisc(userTrial.firstOrigin, Vector3.up, 1f);
+                                    //Handles.DrawLine(userTrial.firstPos, userTrial.firstTargetPos, 1f);
+                                    /*
+                                    Handles.color = Color.blue;
+                                    Handles.DrawLine(userTrial.firstOrigin, userTrial.firstTargetPos, 1f);
+                                    */
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        Handles.EndGUI();
+    }
+
     // Add menu item named "My Window" into the `Window` menu in the inspector
     [MenuItem ("Window/My Window")]
 
     public static void ShowWindow() {
         EditorWindow.GetWindow(typeof(TempEditorWindow));
     }
+
     void OnGUI() {
         GUIStyle gs = new GUIStyle();
         gs.normal.background = MakeTex(600, 1, new Color(1.0f, 1.0f, 1.0f, 0.1f));
@@ -413,16 +740,19 @@ public class TempEditorWindow : EditorWindow
                         if (GUILayout.Button("Offline Process")) {
                             userFolders[i].ProcessOffline(ids);
                         }
+                        if (GUILayout.Button("Online Process")) {
+                            userFolders[i].ProcessOnline(ids);
+                        }
                         GUILayout.EndHorizontal();
                         
-                        if (userFolders[i].showFolders) {
-                            foreach(UserTrial userTrial in userFolders[i].folderTrials) {
+                        foreach(UserTrial userTrial in userFolders[i].folderTrials) {
+                            if (userFolders[i].showFolders) {
                                 if (userTrial.filesValid) {
                                     GUILayout.BeginHorizontal();
                                     EditorGUILayout.LabelField(userTrial.trialName);
                                     EditorGUILayout.LabelField("All files found!");
                                     GUILayout.EndHorizontal();
-                                    continue;
+                                    continue; 
                                 }
                                 EditorGUILayout.LabelField(userTrial.trialName);
                                 foreach(KeyValuePair<string,bool> kvp in userTrial.fileIntegrityDict) {
@@ -434,6 +764,7 @@ public class TempEditorWindow : EditorWindow
                                     }
                                 }
                             }
+                            if (userTrial.firstSet) Debug.Log("GHA:KJD");
                         }
                     }
                     /*
