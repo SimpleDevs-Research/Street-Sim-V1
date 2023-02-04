@@ -18,7 +18,7 @@ public class ParticipantDataMap {
 
 public class StreetSimLoadSim : MonoBehaviour
 {
-    public static StreetSimLoadSim LS;
+    public static StreetSimLoadSim LS = null;
     private bool m_initialized = false;
     public bool initialized { get=>m_initialized; set{} }
 
