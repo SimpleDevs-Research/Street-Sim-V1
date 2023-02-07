@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [System.Serializable]
 public class ParticipantDataMap {
@@ -122,6 +124,8 @@ public class StreetSimLoadSim : MonoBehaviour
         LS = this;
         m_initialized = true;
     }
+
+    #if UNITY_EDITOR
 
     public void Start() {
         if (m_generateSphereOnStart) GenerateSphereGrid();
@@ -447,6 +451,8 @@ public class StreetSimLoadSim : MonoBehaviour
 		return tex;
 	}
 
+    #endif
+
     public void GenerateSphereGrid() {
         directions = new List<Vector3>();
         directionColors = new Dictionary<Vector3, Color>();
@@ -530,11 +536,13 @@ public class StreetSimLoadSim : MonoBehaviour
         Destroy(rotator);
         */
     }
+
     private void ToggleSphereGrid() {
         foreach(GazePoint point in directionRefPoints.Values) {
             point.gameObject.SetActive(m_visualizeSphere);
         }
     }
+
     public void ResetSphereGridColors() {
         foreach(Vector3 dir in directions) {
             directionColors[dir] = new Color(0f,0f,0f,0f);
@@ -561,6 +569,7 @@ public class StreetSimLoadSim : MonoBehaviour
     }
     */
 
+    #if UNITY_EDITOR
     public void ManuallyGenerateFixationMap(LoadedSimulationDataPerTrial trial) {
         if (loadingAverageFixation || loadingDiscretizedFixation) {
             Debug.Log("[LOAD SIM] ERROR: Currently generating fixations for another trial.");
@@ -1989,6 +1998,7 @@ public class StreetSimLoadSim : MonoBehaviour
         }
         */
     }
+    #endif
 }
 
 [System.Serializable]
