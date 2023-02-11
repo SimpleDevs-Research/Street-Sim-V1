@@ -90819,8 +90819,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046131986}
-  m_LocalRotation: {x: 0.061628457, y: 0.70441604, z: -0.70441604, w: 0.061628457}
-  m_LocalPosition: {x: 0, y: 159.7, z: -7.6}
+  m_LocalRotation: {x: -0.000000030908623, y: 0.7071068, z: -0.7071068, w: -0.000000030908623}
+  m_LocalPosition: {x: 113973, y: 114132.7, z: 113965.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -92025,6 +92025,7 @@ MonoBehaviour:
   directionLight: {fileID: 2046131987}
   preset: {fileID: 11400000, guid: c04e70020aebdd04f9543438d87ec82f, type: 2}
   timeOfDay: 12
+  latitude: 0.5
 --- !u!4 &2088000275
 Transform:
   m_ObjectHideFlags: 0

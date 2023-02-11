@@ -1,40 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [ExecuteAlways]
-public class LightManager : MonoBehaviour
+class LightManager : MonoBehaviour
 {
-    [SerializeField] private Light directionLight;
-    [SerializeField] private LightPreset preset;
-    [SerializeField, Range(0, 24)] private float timeOfDay = 12.0f;
+    [SerializeField] Light directionLight;
+    [SerializeField] LightPreset preset;
+    [SerializeField, Range(0, 24)] float timeOfDay = 12;
+    [SerializeField, Range(0, 1)] float latitude = 0.5f;
 
-    public void Update()
+    void Update()
     {
         if(!preset) return;
+        float time = timeOfDay / 24;
         if(Application.isPlaying)
         {
             timeOfDay += Time.deltaTime;
             timeOfDay %= 24;
-            updateLight(timeOfDay / 24f);
+            updateLight(time);
         }
         else
-            updateLight(timeOfDay / 24f);
+            updateLight(time);
     }
 
-    private void updateLight(float timePercent)
+    void updateLight(float time)
     {
-        RenderSettings.ambientLight = preset.ambientColor.Evaluate(timePercent);
-        RenderSettings.fogColor = preset.fogColor.Evaluate(timePercent);
+        RenderSettings.ambientLight = preset.ambientColor.Evaluate(time);
+        RenderSettings.fogColor = preset.fogColor.Evaluate(time);
 
         if(directionLight)
         {
-            directionLight.color = preset.directionColor.Evaluate(timePercent);
-            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(360f * timePercent - 90f, 170f, 0));
+            directionLight.color = preset.directionColor.Evaluate(time);
+            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(360f * (time + latitude) - 270f, latitude * 360f, 0));
         }
     }
 
-    private void OnValidate()
+    void OnValidate()
     {
         if(directionLight)
             return;
