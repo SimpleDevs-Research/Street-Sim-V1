@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.019649595, g: 0.026991498, b: 0.048993997, a: 1}
+  m_IndirectSpecularColor: {r: 0.019649537, g: 0.02699141, b: 0.04899385, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -191,6 +191,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &14508567
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &40359598
 Transform:
   m_ObjectHideFlags: 0
@@ -419,6 +420,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &45238834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -647,6 +649,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &206678510
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -825,6 +828,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!114 &218441056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,6 +1187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EVRA_Hand-Left
       objectReference: {fileID: 0}
+    - target: {fileID: 4742838085962933503, guid: 4a7a8c0cfdd664ef2ad748d0f93a06f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5300981581593927108, guid: 4a7a8c0cfdd664ef2ad748d0f93a06f3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1261,6 +1269,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &456915232
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1380,7 +1389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &592326874
 Transform:
   m_ObjectHideFlags: 0
@@ -1477,7 +1486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &612080884
 Transform:
   m_ObjectHideFlags: 0
@@ -1624,6 +1633,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &636707247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1705,7 +1715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &643390111
 Transform:
   m_ObjectHideFlags: 0
@@ -1784,6 +1794,80 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643390110}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &704158528
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1741571873}
+    m_Modifications:
+    - target: {fileID: 2141594020562477779, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_Name
+      value: XYZ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+--- !u!4 &704158529 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6410228057157688876, guid: eb621bc112eda49e6b7e8d585ea3e88e, type: 3}
+  m_PrefabInstance: {fileID: 704158528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &755221374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,6 +1936,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &755221378
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1983,6 +2068,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &817874039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2064,7 +2150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &861191201
 Transform:
   m_ObjectHideFlags: 0
@@ -2161,7 +2247,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &917145410
 Transform:
   m_ObjectHideFlags: 0
@@ -2452,7 +2538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &951672035
 Transform:
   m_ObjectHideFlags: 0
@@ -2549,7 +2635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &997996929
 Transform:
   m_ObjectHideFlags: 0
@@ -2895,7 +2981,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1209709253
 Transform:
   m_ObjectHideFlags: 0
@@ -2992,7 +3078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1300935699
 Transform:
   m_ObjectHideFlags: 0
@@ -3141,7 +3227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340610160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.937712, y: 0.43036312, z: 1.9019586}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3183,6 +3269,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   resultColor: {r: 0, g: 0, b: 1, a: 1}
+  participantName: WoojinKo
+  loadedFile: {fileID: 4900000, guid: 44b69b9745cc045e6b000253843b7af5, type: 3}
 --- !u!114 &1340610164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,11 +3278,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340610160}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 069b704f350f0074caaed5eea375d5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionType: 2
   cam: {fileID: 1867666045}
   layerMask:
     serializedVersion: 2
@@ -3218,7 +3307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1345766723
 Transform:
   m_ObjectHideFlags: 0
@@ -3401,6 +3490,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &1406212138
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3479,7 +3569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1504394408
 Transform:
   m_ObjectHideFlags: 0
@@ -3734,6 +3824,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &1675586964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3815,7 +3906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1688011690
 Transform:
   m_ObjectHideFlags: 0
@@ -3946,6 +4037,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &1712035599
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4055,7 +4147,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 704158529}
   m_Father: {fileID: 1580638423}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4177,7 +4270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1746895429
 Transform:
   m_ObjectHideFlags: 0
@@ -4324,6 +4417,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &1771335061
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4518,6 +4612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EVRA_Hand-Right
       objectReference: {fileID: 0}
+    - target: {fileID: 4742838085962933503, guid: 4a7a8c0cfdd664ef2ad748d0f93a06f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5300981581593927108, guid: 4a7a8c0cfdd664ef2ad748d0f93a06f3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4596,6 +4694,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &1829880346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4679,18 +4778,9 @@ MonoBehaviour:
   pointerState: 1
   m_lineType: 0
   m_LineDistance: 10
-  m_lineWidth: 0.02
   numPositions: 2
   m_forwardRaycastTarget: {fileID: 0}
-  m_forwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_forwardRaycastHitDistance: Infinity
-  m_forwardRaycastHitTriangleIndex: -1
   m_downwardRaycastTarget: {fileID: 0}
-  m_downwardRaycastHitPosition: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitNormal: {x: 0, y: 0, z: 0}
-  m_downwardRaycastHitDistance: Infinity
-  m_downwardRaycastHitTriangleIndex: -1
   m_alwaysShow: 1
   defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   hitColor: {r: 0, g: 0, b: 1, a: 1}
@@ -4819,7 +4909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1910550706
 Transform:
   m_ObjectHideFlags: 0
@@ -4916,7 +5006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2090376417
 Transform:
   m_ObjectHideFlags: 0
@@ -5063,6 +5153,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &2127457315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5194,6 +5285,7 @@ MonoBehaviour:
   m_children: []
   m_id: TESTCUBE
   m_ref_id: 
+  m_shouldTrack: 1
 --- !u!65 &2140798128
 BoxCollider:
   m_ObjectHideFlags: 0

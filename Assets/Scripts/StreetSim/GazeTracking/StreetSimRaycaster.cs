@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 using SerializableTypes;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [System.Serializable]
 public class RaycastHitRow {
@@ -568,7 +570,7 @@ public class StreetSimRaycaster : MonoBehaviour
         m_hits = new List<RaycastHitRow>();
     }
 
-
+    #if UNITY_EDITOR
     public bool LoadGazePath(LoadedSimulationDataPerTrial trial, out LoadedGazeData newData) {
         string assetPath = trial.assetPath+"/gaze.csv";
         if (!SaveSystemMethods.CheckFileExists(assetPath)) {
@@ -668,7 +670,7 @@ public class StreetSimRaycaster : MonoBehaviour
         string assetPath = trial.assetPath+"/"+filename+".csv";
         return SaveSystemMethods.SaveCSV<RaycastHitDurationRow>(assetPath,RaycastHitDurationRow.Headers,data);
     }
-
+    #endif
 
     public void ReplayRecord(LoadedSimulationDataPerTrial trial, bool discretization = true) {
         ResetReplay();
