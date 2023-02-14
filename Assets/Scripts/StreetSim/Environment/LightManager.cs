@@ -13,13 +13,6 @@ class LightManager : MonoBehaviour
     {
         if(!preset) return;
         float time = timeOfDay / 24;
-        if(Application.isPlaying)
-        {
-            timeOfDay += Time.deltaTime;
-            timeOfDay %= 24;
-            updateLight(time);
-        }
-        else
             updateLight(time);
     }
 
@@ -31,7 +24,7 @@ class LightManager : MonoBehaviour
         if(directionLight)
         {
             directionLight.color = preset.directionColor.Evaluate(time);
-            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(360f * (time + latitude) - 270f, latitude * 360f, 0));
+            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(360f * time - 90f, latitude * 360f, 0));
         }
     }
 
