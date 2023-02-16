@@ -4,16 +4,17 @@ using UnityEngine;
 [ExecuteAlways]
 class LightManager : MonoBehaviour
 {
+    [SerializeField] Transform sunParent;
     [SerializeField] Light directionLight;
     [SerializeField] LightPreset preset;
     [SerializeField, Range(0, 24)] float timeOfDay = 12;
-    [SerializeField, Range(0, 1)] float latitude = 0.5f;
+    [SerializeField, Range(-90, 90)] float latitude = 0f;
 
     void Update()
     {
         if(!preset) return;
         float time = timeOfDay / 24;
-            updateLight(time);
+        updateLight(time);
     }
 
     void updateLight(float time)
@@ -24,7 +25,12 @@ class LightManager : MonoBehaviour
         if(directionLight)
         {
             directionLight.color = preset.directionColor.Evaluate(time);
-            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(360f * time - 90f, latitude * 360f, 0));
+            // Set the time of day rotation of `sunParent`
+            sunParent.localRotation = Quaternion.Euler(new Vector3(0f,0f,360f * time));
+            // Set the latitude of the `Sun`.
+            // At greater latitudes (i.e. lat > 0), sun will appear to be coming in from the south. 
+            // In lower latitudes (i.e. lat < 0), the sun will be appearing to come from the north.
+            directionLight.transform.localRotation = Quaternion.Euler(new Vector3(latitude-90f,0f,0f));
         }
     }
 
