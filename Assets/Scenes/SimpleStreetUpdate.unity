@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
-  m_FogColor: {r: 0.9198113, g: 0.90634567, b: 0.8188189, a: 1}
+  m_Fog: 0
+  m_FogColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -13539,7 +13539,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 4
+  m_RenderMode: 1
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -13757,9 +13757,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.4774831, g: 0.50692815, b: 0.5471698, a: 1}
+      minMaxState: 2
+      minColor: {r: 0.68529725, g: 0.78529274, b: 0.8301887, a: 0.5176471}
+      maxColor: {r: 0.91237986, g: 0.92811054, b: 0.9528302, a: 0.50980395}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -98921,7 +98921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1553612521
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -98964,7 +98964,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 4
+  m_RenderMode: 1
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -99130,8 +99130,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
-      minScalar: 0
+      scalar: 0.5
+      minScalar: -0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -99182,9 +99182,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.46333218, g: 0.5619735, b: 0.7169812, a: 1}
+      minMaxState: 2
+      minColor: {r: 0.59131366, g: 0.75202, b: 0.8301887, a: 0.13333334}
+      maxColor: {r: 0.86743504, g: 0.90027934, b: 0.9528302, a: 0.16862746}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -99246,8 +99246,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 20
-      minScalar: 8
+      scalar: 25
+      minScalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -99565,7 +99565,7 @@ ParticleSystem:
     maxNumParticles: 700
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
-    rotation3D: 1
+    rotation3D: 0
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
@@ -100096,7 +100096,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -100266,9 +100266,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.047169805, g: 0.044671748, b: 0.042942323, a: 1}
+        key0: {r: 0.9433962, g: 0.93004626, b: 0.93004626, a: 1}
         key1: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -100283,8 +100283,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 13493
+        atime2: 46838
         atime3: 0
         atime4: 0
         atime5: 0
@@ -100292,7 +100292,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 3
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -100447,7 +100447,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -128480,8 +128480,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
-  cubemap: {fileID: 0}
-  postprocessMaterial: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
@@ -130686,7 +130684,7 @@ MonoBehaviour:
   rainSystem: {fileID: 1099019732}
   snowSystem: {fileID: 1533521146}
   weatherMode: 0
-  fogOn: 1
+  fogOn: 0
   fogColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   fogMode: 1
   fogDistances: {x: 0, y: 300}
