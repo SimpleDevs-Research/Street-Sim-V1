@@ -16,6 +16,7 @@ public class StreetSimCar : MonoBehaviour
     public TrafficSignal trafficSignal;
     public Transform startTarget, middleTarget, endTarget;
     public RemoteCollider agentDetector;
+    public TestTurret testTurret = null;
     [SerializeField] private Collider[] gazeColliders;
     [SerializeField] private Velocity Velocity;
 
@@ -56,11 +57,13 @@ public class StreetSimCar : MonoBehaviour
     [SerializeField] private bool passedTraffic = false;
 
     [SerializeField] private AnimationCurve m_maxSpeedWeight;
+    [SerializeField] private Vector2 minMaxViewAngles = new Vector2(80f,20f);
 
     private void Awake() {
         if (id == null) id = gameObject.GetComponent<ExperimentID>();
         m_lengthOfCar = GetComponent<BoxCollider>().size.z * transform.localScale.z;
         Velocity = GetComponent<Velocity>();
+        if (testTurret == null) testTurret = GetComponent<TestTurret>();
         m_originalDeceleration = deceleration;
     }
 
@@ -148,10 +151,19 @@ public class StreetSimCar : MonoBehaviour
     private void Update() {
         // Don't do anything if we're idle
         if (status == StreetSimCarStatus.Idle) return;
+        // update testTurrret with most recent list of active entities
+        List<Transform> agentTargets = new List<Transform>();
+        List<StreetSimAgent> activeModels = StreetSimAgentManager.AM.GetActiveAgents();
+        foreach(StreetSimAgent agent in activeModels) {
+            agentTargets.Add(agent.transform);
+        }
+        agentTargets.Add(StreetSim.S.xrCamera);
+        testTurret.SetObjects(agentTargets);
         // Check if there's a car in front of us.
         //  foundInFront = global variable : boolean
         //  out carRaycastHit = global variable : RaycastHit
         foundInFront = Physics.Raycast(frontOfCar.position,frontOfCar.forward, out carRaycastHit, spaceMaximal, StreetSimCarManager.CM.carDetectionLayerMask);
+        // also found in front if there is any targets found by testTurret
         followingCar = (foundInFront) 
             ? carRaycastHit.transform.GetComponent<StreetSimCar>()
             : null;
@@ -170,7 +182,7 @@ public class StreetSimCar : MonoBehaviour
     private void CalculateAcceleration() {
         passedTraffic = Vector3.Dot((middleTarget.position - frontOfCar.position).normalized, frontOfCar.forward) < 0f;
 
-        float L = (!passedTraffic && trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop)
+        float L = (!passedTraffic && (trafficSignal.status == TrafficSignal.TrafficSignalStatus.Stop || testTurret.AnyInRange()) )
             ? 1f
             : 0f;
         float O = (foundInFront)
@@ -264,11 +276,17 @@ public class StreetSimCar : MonoBehaviour
         // We know current acceleration `accelerationExpected`
         // We convert that to speed, then to position
         Velocity.manualSpeed += accelerationExpected * Time.fixedDeltaTime;
+        Velocity.manualSpeed = Mathf.Max(Velocity.manualSpeed, 0f);
         transform.position = transform.position + transform.forward.normalized * Velocity.manualSpeed * Time.fixedDeltaTime; 
         // Spin our wheels, if we have any
         if (wheels.Length > 0) {
             foreach(Transform wheel in wheels) wheel.Rotate(Velocity.manualSpeed,0f,0f,Space.Self);
         }
+        // There is a raatio between manualSpeed and speedTargeted
+        //float speedRatio = Mathf.Min(Velocity.manualSpeed / originalSpeedTargeted, 1.0f);
+        //float angleDiff = Mathf.Min( speedRatio * (minMaxViewAngles.x - minMaxViewAngles.y) * 1.5f, minMaxViewAngles.x - minMaxViewAngles.y);
+        //float newAngle = minMaxViewAngles.x - angleDiff;
+        //testTurret.SetAngle(newAngle);
     }
 
     private void UpdateSequence1() {

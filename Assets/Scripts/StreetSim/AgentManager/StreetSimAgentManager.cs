@@ -286,4 +286,8 @@ public class StreetSimAgentManager : MonoBehaviour
         int index = UnityEngine.Random.Range(0,footstepAudio.Length);
         return footstepAudio[index];
     }
+
+    public List<StreetSimAgent> GetActiveAgents() {
+        return m_currentModels;
+    }
 }

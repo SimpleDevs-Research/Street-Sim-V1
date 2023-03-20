@@ -9,6 +9,7 @@ public class TestTurret : MonoBehaviour
 
     [SerializeField]
     private Vector2 angles = new Vector2(-90f,90f);
+    private Vector2 originalAngles;
     private Vector2 adjustedAngles;
 
     [SerializeField]
@@ -18,6 +19,10 @@ public class TestTurret : MonoBehaviour
     private List<Transform> inRange = new List<Transform>();
 
     public List<Transform> testObjects = new List<Transform>();
+
+    private void Awake() {
+        originalAngles = angles;
+    }
 
     public Plane MinPlane() {
         Vector3 position = transform.position;
@@ -81,7 +86,7 @@ public class TestTurret : MonoBehaviour
             Plane maxP = MaxPlane();
             Vector3 direction = point - position;
  
-            if(Vector3.Dot(minP.normal, direction) > 0 || Vector3.Dot(maxP.normal, direction) > 0) {
+            if(Vector3.Dot(minP.normal, direction) > 0 && Vector3.Dot(maxP.normal, direction) > 0) {
                 return true;
             }
         }
@@ -106,5 +111,18 @@ public class TestTurret : MonoBehaviour
                 inRange.Add(test);
             }
         }
+    }
+
+    public void SetObjects(List<Transform> newObjects) {
+        testObjects = newObjects;
+    }
+    public bool AnyInRange() {
+        return inRange.Count > 0;
+    }
+    public void SetAngle(float newAngle) {
+        angles = new Vector2(-newAngle, newAngle);
+    }
+    public void ResetAngles() {
+        angles = originalAngles;
     }
 }
