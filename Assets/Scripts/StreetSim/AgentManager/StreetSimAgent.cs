@@ -24,7 +24,7 @@ public class StreetSimAgent : MonoBehaviour
     private AgentHeadTurn headTurn;
     [SerializeField] private EVRA_Pointer forwardPointer, downwardPointer;
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private Transform[] targetPositions; // note that the 1st position is the starting position
+    [SerializeField] private Vector3[] targetPositions; // note that the 1st position is the starting position
     private int currentTargetIndex = -1;
     private bool shouldLoop, shouldWarpOnLoop;
     [SerializeField] private Collider m_meshCollider;
@@ -153,8 +153,16 @@ public class StreetSimAgent : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmosSelected() {
+        if (targetPositions.Length == 0) return;
+        Gizmos.color = Color.blue;
+        for(int i = 1; i < targetPositions.Length; i++) {
+            Gizmos.DrawLine(targetPositions[i-1], targetPositions[i]);
+        }
+    }
+
     public void Initialize(
-        Transform[] targets, 
+        Vector3[] targets, 
         StreetSimTrial.ModelBehavior behavior, 
         StreetSimTrial.ModelConfidence confidence,
         float speed,
@@ -185,6 +193,7 @@ public class StreetSimAgent : MonoBehaviour
         animator.enabled = true;
         agent.isStopped = false;
         currentTargetIndex = -1;
+        //currentTargetIndex = targetPositions.Length - 2;
         m_meshCollider.enabled = true;
         m_riskyButCrossing = false;
 
@@ -455,9 +464,9 @@ public class StreetSimAgent : MonoBehaviour
         if (currentTargetIndex == targetPositions.Length - 1) {
             // Reached the end, warp back to beginning and loop
             if (shouldLoop) {
-                if (shouldWarpOnLoop) agent.Warp(targetPositions[0].position);
+                if (shouldWarpOnLoop) agent.Warp(targetPositions[0]);
                 currentTargetIndex = 0;
-                agent.SetDestination(targetPositions[currentTargetIndex].position);
+                agent.SetDestination(targetPositions[currentTargetIndex]);
             } else {
                 // Tell StreetSim to destroy this agent
                 character.Move(Vector3.zero,false,false);
@@ -466,12 +475,12 @@ public class StreetSimAgent : MonoBehaviour
             }
         } else {
             currentTargetIndex += 1;
-            agent.SetDestination(targetPositions[currentTargetIndex].position);
+            agent.SetDestination(targetPositions[currentTargetIndex]);
         }
     }
 
     private bool CheckDistanceToCurrentTarget(out float distance) {
-        distance = Vector3.Distance(transform.position,targetPositions[currentTargetIndex].position);
+        distance = Vector3.Distance(transform.position,targetPositions[currentTargetIndex]);
         return distance <= agent.stoppingDistance;
     }
 
@@ -480,7 +489,7 @@ public class StreetSimAgent : MonoBehaviour
     }
 
     public void DeactiveAgentManually() {
-        targetPositions = new Transform[0];
+        targetPositions = new Vector3[0];
         agent.enabled = false;
         character.enabled = false;
         animator.enabled = false;

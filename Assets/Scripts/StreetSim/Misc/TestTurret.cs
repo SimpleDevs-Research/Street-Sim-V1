@@ -14,7 +14,10 @@ public class TestTurret : MonoBehaviour
     [SerializeField]
     private float range = 10f;
 
-    public Transform test;
+    [SerializeField]
+    private List<Transform> inRange = new List<Transform>();
+
+    public List<Transform> testObjects = new List<Transform>();
 
     public Plane MinPlane() {
         Vector3 position = transform.position;
@@ -94,10 +97,14 @@ public class TestTurret : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+        inRange = new List<Transform>();
         if (debug) Debug.Log(transform.eulerAngles.y);
         adjustedAngles = AdjustAngle(transform.forward);
-        if(IsInRange(test.position)) {
-            Debug.DrawLine(transform.position, test.position, Color.cyan);
+        foreach(Transform test in testObjects) {
+            if(IsInRange(test.position)) {
+                Debug.DrawLine(transform.position, test.position, Color.cyan);
+                inRange.Add(test);
+            }
         }
     }
 }

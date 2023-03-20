@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Helpers;
 
 public class StreetSimAgentManager : MonoBehaviour
@@ -45,6 +46,12 @@ public class StreetSimAgentManager : MonoBehaviour
 
     [SerializeField] private AudioClip[] footstepAudio;
     public LayerMask carDetectionLayerMask;
+
+    [SerializeField] private List<Collider> southStartColliders = new List<Collider>();
+    [SerializeField] private List<Collider> northStartColliders = new List<Collider>();
+
+    [SerializeField] private List<Collider> southEndColliders = new List<Collider>();
+    [SerializeField] private List<Collider> northEndColliders = new List<Collider>();
 
     private void Awake() {
         AM = this;
@@ -130,9 +137,51 @@ public class StreetSimAgentManager : MonoBehaviour
         StreetSimTrial.TrialDirection direction = StreetSimTrial.TrialDirection.NorthToSouth,
         StreetSimAgent.AgentType agentType = StreetSimAgent.AgentType.NPC
     ) {
-        agent.transform.position = path[0].position;
-        agent.transform.rotation = path[0].rotation;
-        agent.Initialize(path, behavior, confidence, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
+        int upperBound = 3;
+        int startIndex = 0;
+        int endIndex = 0;
+        Vector3 startPosition = path[0].position;
+        Vector3 endPosition = path[path.Length-1].position;
+        switch(direction) {
+            case StreetSimTrial.TrialDirection.SouthToNorth:
+                startIndex = Random.Range(0,southStartColliders.Count);
+                startPosition = RandomPointInBounds(southStartColliders[startIndex].bounds);
+                startPosition = new Vector3(startPosition.x, 0f, startPosition.z);
+                endIndex = Random.Range(0,northEndColliders.Count);
+                endPosition = RandomPointInBounds(northEndColliders[endIndex].bounds);
+                break;
+            default:
+                startIndex = Random.Range(0,northStartColliders.Count);
+                startPosition = RandomPointInBounds(northStartColliders[startIndex].bounds);
+                endIndex = Random.Range(0,southEndColliders.Count);
+                endPosition = RandomPointInBounds(southEndColliders[endIndex].bounds);
+                break;
+        }
+        startPosition = new Vector3(startPosition.x, 0f, startPosition.z);
+        endPosition = new Vector3(endPosition.x, 0f, endPosition.z);
+        NavMeshPath tempPath = new NavMeshPath();
+        NavMesh.CalculatePath(startPosition, endPosition, NavMesh.AllAreas, tempPath);
+        Vector3[] newPath = new Vector3[tempPath.corners.Length];
+        newPath[0] = startPosition;
+        newPath[tempPath.corners.Length-1] = endPosition;
+        for(int i = 1; i < tempPath.corners.Length-1; i++) {
+            // randomize point
+            Vector3 randomPoint;
+            bool newPointFound = false;
+            NavMeshHit hit;
+            Vector3 dir = (tempPath.corners[i]-tempPath.corners[i-1]).normalized;
+            do {
+                randomPoint = tempPath.corners[i] + Random.insideUnitSphere * 1f;
+                if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
+                    // test direction. Must be in same or similar direction to original dir
+                    newPointFound = Vector3.Dot(dir, (hit.position-tempPath.corners[i]).normalized) > 0;
+                }
+            } while(!newPointFound);
+            newPath[i] = new Vector3(hit.position.x, 0f, hit.position.z);
+        }
+        agent.transform.position = newPath[0];
+        //agent.transform.rotation = path[0].rotation;
+        agent.Initialize(newPath, behavior, confidence, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
     public void DestroyAgent(StreetSimAgent agent) {
@@ -142,6 +191,15 @@ public class StreetSimAgentManager : MonoBehaviour
         }
         agent.transform.position = idleTargetRef.position;
     }
+
+    public Vector3 RandomPointInBounds(Bounds bounds) {
+        return new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y),
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
+    }
+
 
 
     /*
