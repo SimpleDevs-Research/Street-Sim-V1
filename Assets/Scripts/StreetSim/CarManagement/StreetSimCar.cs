@@ -79,6 +79,7 @@ public class StreetSimCar : MonoBehaviour
         prevTargetPos = endTarget.position;
         
         m_audioSource.enabled = true;
+        testTurret.enabled = true;
 
         m_hitMid = false;
 
@@ -123,6 +124,8 @@ public class StreetSimCar : MonoBehaviour
     private void ReturnToIdle() {
         StreetSimCarManager.CM.SetCarToIdle(this);
         m_audioSource.enabled = false;
+        testTurret.SetObjects(new List<Transform>());
+        testTurret.enabled = false;
         foreach(Collider col in gazeColliders) col.enabled = false;
         Velocity.manualSpeed = 0f;
     }
