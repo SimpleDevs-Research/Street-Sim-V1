@@ -180,7 +180,8 @@ public class StreetSimAgentManager : MonoBehaviour
             newPath[i] = new Vector3(hit.position.x, 0f, hit.position.z);
         }
         agent.transform.position = newPath[0];
-        //agent.transform.rotation = path[0].rotation;
+        Quaternion rotation = Quaternion.LookRotation((newPath[1]-newPath[0]).normalized, Vector3.up);
+        agent.transform.rotation = rotation;
         agent.Initialize(newPath, behavior, confidence, speed, canCrossDelay, shouldLoop, shouldWarpOnLoop, direction, agentType);
         if (shouldAddToActive) m_activeAgents.Add(agent);
     }
