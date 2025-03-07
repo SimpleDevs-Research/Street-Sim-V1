@@ -1,5 +1,15 @@
 # Street-Sim
 
+## How to Set Up
+
+Make sure you clone the repo properly with submodules:
+
+```bash
+git clone 
+```
+
+If you get here but do not see an `EasierVRAssets` folder inside of the `Assets` folder, then you must separately clone it from here: https://github.com/kimryan0416/EasierVRAssets.git. Make sure that you check out the correct branch - in this case, `street-sim_ver`. 
+
 ## Asset References
 
 ### Tools
