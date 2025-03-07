@@ -17765,7 +17765,6 @@ GameObject:
   m_Component:
   - component: {fileID: 354879469}
   - component: {fileID: 354879468}
-  - component: {fileID: 354879467}
   - component: {fileID: 354879466}
   m_Layer: 30
   m_Name: VIDEO_CAMERA
@@ -17790,14 +17789,6 @@ MonoBehaviour:
   offset: {x: 30, y: 2, z: 0}
   followType: 0
   followRotation: 0
---- !u!81 &354879467
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354879465}
-  m_Enabled: 1
 --- !u!20 &354879468
 Camera:
   m_ObjectHideFlags: 0
@@ -34587,7 +34578,7 @@ MonoBehaviour:
   gazeCube: {fileID: 898814902}
   gazeRect: {fileID: 1796700472}
   gazePointPrefab: {fileID: 6225604311537151835, guid: 3c34e0cef5b5c5047b3cda80ebf8976e, type: 3}
-  cam360: {fileID: 0}
+  cam360: {fileID: 1397704024}
   xCam: {fileID: 1331524899}
   yCam: {fileID: 98009616}
   zCam: {fileID: 2135887800}
@@ -87479,7 +87470,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1821550725}
   - component: {fileID: 1821550724}
-  - component: {fileID: 1821550723}
   - component: {fileID: 1821550722}
   m_Layer: 30
   m_Name: VIDEO_CAMERA 2
@@ -87504,14 +87494,6 @@ MonoBehaviour:
   offset: {x: 30, y: 2, z: 0}
   followType: 0
   followRotation: 0
---- !u!81 &1821550723
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1821550721}
-  m_Enabled: 1
 --- !u!20 &1821550724
 Camera:
   m_ObjectHideFlags: 0
