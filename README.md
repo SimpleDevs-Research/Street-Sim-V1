@@ -8,7 +8,25 @@ Make sure you clone the repo properly with submodules:
 git clone 
 ```
 
-If you get here but do not see an `EasierVRAssets` folder inside of the `Assets` folder, then you must separately clone it from here: https://github.com/kimryan0416/EasierVRAssets.git. Make sure that you check out the correct branch - in this case, `street-sim_ver`. 
+This repo uses the following submodules:
+
+* `EasierVRAssets` : https://github.com/kimryan0416/EasierVRAssets.git / **Branch `street-sim_ver`**
+* `Unity EquiCam` : https://github.com/bodhid/UnityEquiCam / **Branch `master`**
+
+If you get here but do not see either the `EasierVRAssets` or the `UnityEquiCam` folders inside of the `Assets` directory, then you must separately clone them from their respective URLs above. Make sure that you check out the correct branch of both.
+
+## Active Branches to Use
+
+The finalized branches you will want to use are the following:
+
+* `main` : the most up-to-date version
+* `03.06.25-backup` : A backup version, in case shit happens with the `main` branch.
+
+All the other branches are deprecated and not useful - they're just kept for posterity.
+
+## Active Scenes to Use
+
+All scenes are located in the `Scenes/` directory. The latest you want to access is `StreetSimUpdate.unity`. The original scene,  `StreetSim.unity`, was an older version used during SIGGRAPH 2023 and SIGSIM PADS '24. 
 
 ## Asset References
 
