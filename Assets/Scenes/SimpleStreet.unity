@@ -78664,7 +78664,7 @@ MonoBehaviour:
   replayGazeMask:
     serializedVersion: 2
     m_Bits: 16384
-  m_startSimulationOnRun: 0
+  m_startSimulationOnRun: 1
   m_endGameOnSimulationEnd: 1
   m_successAudioSource: {fileID: 2043534103}
   m_agentParent: {fileID: 1529860833}
@@ -92339,8 +92339,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderResolution: 1024
-  cubemap: {fileID: 0}
-  postprocessMaterial: {fileID: 0}
 --- !u!20 &2020243768
 Camera:
   m_ObjectHideFlags: 0
